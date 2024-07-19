@@ -3,6 +3,9 @@ import React from 'react';
 import logo from '../Images/OIP.jpeg'; // Ensure the path to your image is correct
 import homePic from '../Images/food.jpg';
 import NavigationBar from './NavigationBar'; // Import the NavigationBar component
+import food from '../Images/Biriyani.jpg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCartPlus } from '@fortawesome/free-solid-svg-icons';
 
 const UserHome = () => {
   return (
@@ -13,27 +16,87 @@ const UserHome = () => {
       <div className="flex justify-center mt-10 w-full h-full">
         <img src={homePic} alt="Home" className="w-full h-auto rounded opacity-50"style={{ filter: 'blur(1px)' }} /> 
         <div className='absolute text-white w-[40rem] left-20 hidden md:inline text-7xl pt-32 font-spartan'>Experience the Authentic Sri Lankan Foods</div>
-        <div className='absolute text-white hidden -bottom-40 md:inline text-2xl bg-custom-black p-4 opacity-70'>
+        <div className='absolute text-white -bottom-32 hidden custom-md:inline text-2xl bg-custom-black p-4 opacity-70'>
           <div className='opacity-100 font-spartan font-thin'>Order Now ↓</div>
         </div>
       </div>
 
       <div className='text-white pt-10 font-spartan font-thin'>Today's Special</div>
 
-      <div className="flex flex-col md:flex-row md:space-x-2 items-center justify-center min-h-2 pt-10 pb-10">
+      <div className="flex flex-wrap md:gap-6 pt-10 pb-10 justify-center">
 
-        <div className="bg-white p-6 rounded shadow-md w-full max-w-md mb-4 md:mb-0">
-          <h1 className="text-3xl font-bold mb-4 text-center">Welcome to User Home</h1>
-          <p className="text-center">This is the user home page.</p>
-          <p className="text-center">This is the user home page.</p>
+        <div className="bg-custom-gray h-[28rem] p-6 rounded shadow-md w-[20rem] max-w-md mb-4 md:mb-0">
+          <img src={food} alt="food" className='w-full h-auto rounded' />
+          <div className="text-center text-white font-spartan font-thin m-4">Chicken Biriyani</div>
+          <div className="text-center text-white font-spartan font-thin">Rs.1700/-</div>
+
+          <button type="submit" className='flex items-center justify-center w-full py-1 mt-4 bg-custom-light text-white hover:bg-gray-700'>
+            <FontAwesomeIcon icon={faCartPlus} className='mr-2' /> Add to Cart
+          </button>
         </div>
 
-        <div className="bg-white p-6 rounded shadow-md w-full max-w-md">
-          <h1 className="text-3xl font-bold mb-4 text-center">Welcome to User Home</h1>
-          <p className="text-center">This is the user home page.</p>
-          <p className="text-center">This is the user home page.</p>
+        <div className="bg-custom-gray h-[28rem] p-6 rounded shadow-md w-[20rem] max-w-md mb-4 md:mb-0">
+          <img src={food} alt="food" className='w-full h-auto rounded' />
+          <div className="text-center text-white font-spartan font-thin m-4">Chicken Biriyani</div>
+          <div className="text-center text-white font-spartan font-thin">Rs.1700/-</div>
+
+          <button type="submit" className='flex items-center justify-center w-full py-1 mt-4 bg-custom-light text-white hover:bg-gray-700'>
+            <FontAwesomeIcon icon={faCartPlus} className='mr-2' /> Add to Cart
+          </button>
         </div>
+
+        <div className="bg-custom-gray h-[28rem] p-6 rounded shadow-md w-[20rem] max-w-md mb-4 md:mb-0">
+          <img src={food} alt="food" className='w-full h-auto rounded' />
+          <div className="text-center text-white font-spartan font-thin m-4">Chicken Biriyani</div>
+          <div className="text-center text-white font-spartan font-thin">Rs.1700/-</div>
+
+          <button type="submit" className='flex items-center justify-center w-full py-1 mt-4 bg-custom-light text-white hover:bg-gray-700'>
+            <FontAwesomeIcon icon={faCartPlus} className='mr-2' /> Add to Cart
+          </button>
+        </div>
+
+        <div className="bg-custom-gray h-[28rem] p-6 rounded shadow-md w-[20rem] max-w-md mb-4 md:mb-0">
+          <img src={food} alt="food" className='w-full h-auto rounded' />
+          <div className="text-center text-white font-spartan font-thin m-4">Chicken Biriyani</div>
+          <div className="text-center text-white font-spartan font-thin">Rs.1700/-</div>
+
+          <button type="submit" className='flex items-center justify-center w-full py-1 mt-4 bg-custom-light text-white hover:bg-gray-700'>
+            <FontAwesomeIcon icon={faCartPlus} className='mr-2' /> Add to Cart
+          </button>
+        </div>
+
+        <div className="bg-custom-gray h-[28rem] p-6 rounded shadow-md w-[20rem] max-w-md mb-4 md:mb-0">
+          <img src={food} alt="food" className='w-full h-auto rounded' />
+          <div className="text-center text-white font-spartan font-thin m-4">Chicken Biriyani</div>
+          <div className="text-center text-white font-spartan font-thin">Rs.1700/-</div>
+
+          <button type="submit" className='flex items-center justify-center w-full py-1 mt-4 bg-custom-light text-white hover:bg-gray-700'>
+            <FontAwesomeIcon icon={faCartPlus} className='mr-2' /> Add to Cart
+          </button>
+        </div>
+
+        <div className="bg-custom-gray h-[28rem] p-6 rounded shadow-md w-[20rem] max-w-md mb-4 md:mb-0">
+          <img src={food} alt="food" className='w-full h-auto rounded' />
+          <div className="text-center text-white font-spartan font-thin m-4">Chicken Biriyani</div>
+          <div className="text-center text-white font-spartan font-thin">Rs.1700/-</div>
+
+          <button type="submit" className='flex items-center justify-center w-full py-1 mt-4 bg-custom-light text-white hover:bg-gray-700'>
+            <FontAwesomeIcon icon={faCartPlus} className='mr-2' /> Add to Cart
+          </button>
+        </div>
+
+        <div className="bg-custom-gray h-[28rem] p-6 rounded shadow-md w-[20rem] max-w-md mb-4 md:mb-0">
+          <img src={food} alt="food" className='w-full h-auto rounded' />
+          <div className="text-center text-white font-spartan font-thin m-4">Chicken Biriyani</div>
+          <div className="text-center text-white font-spartan font-thin">Rs.1700/-</div>
+
+          <button type="submit" className='flex items-center justify-center w-full py-1 mt-4 bg-custom-light text-white hover:bg-gray-700'>
+            <FontAwesomeIcon icon={faCartPlus} className='mr-2' /> Add to Cart
+          </button>
+        </div>
+
       </div>
+      
     </div>
   );
 };
