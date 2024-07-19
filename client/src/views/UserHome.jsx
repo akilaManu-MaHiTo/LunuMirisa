@@ -12,13 +12,13 @@ const UserHome = () => {
 
       <div className="flex justify-center mt-10 w-full h-full">
         <img src={homePic} alt="Home" className="w-full h-auto rounded opacity-50"style={{ filter: 'blur(1px)' }} /> 
-        <div className='absolute text-white w-[49rem] left-20 hidden md:inline text-7xl pt-32'>Experience the Authentic Sri Lankan Foods</div>
+        <div className='absolute text-white w-[40rem] left-20 hidden md:inline text-7xl pt-32 font-spartan'>Experience the Authentic Sri Lankan Foods</div>
         <div className='absolute text-white hidden -bottom-40 md:inline text-2xl bg-custom-black p-4 opacity-70'>
-          <div className='opacity-100'>Order Now ↓</div>
+          <div className='opacity-100 font-spartan font-thin'>Order Now ↓</div>
         </div>
       </div>
 
-      <div className='text-white pt-10'>Today's Special</div>
+      <div className='text-white pt-10 font-spartan font-thin'>Today's Special</div>
 
       <div className="flex flex-col md:flex-row md:space-x-2 items-center justify-center min-h-2 pt-10 pb-10">
 

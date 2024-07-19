@@ -12,6 +12,9 @@ export default {
         'custom-white': '#fafafa',
         'custom-gray': '#191919'
       },
+      fontFamily: {
+        'spartan': ['League Spartan', 'sans-serif'],
+      },
     },
   },
   plugins: [],

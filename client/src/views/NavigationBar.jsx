@@ -47,11 +47,11 @@ const NavigationBar = ({ logo }) => {
           <img src={logo} alt="Logo" className="h-10 w-20 md:h-16 md:w-16" />
         </div>
         <ul className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 self-center">
-          <li><Link to="/" className="text-white">Home</Link></li>
-          <li className="text-white hidden md:inline">&nbsp;|&nbsp;</li>
-          <li><Link to="/" className="text-white">Menu</Link></li>
-          <li className="text-white hidden md:inline">&nbsp;|&nbsp;</li>
-          <li><Link to="/" className="text-white">Offers</Link></li>
+          <li><Link to="/" className="text-white font-spartan font-thin">Home</Link></li>
+          <li className="text-white hidden md:inline font-spartan font-thin">&nbsp;|&nbsp;</li>
+          <li><Link to="/" className="text-white font-spartan font-thin">Menu</Link></li>
+          <li className="text-white hidden md:inline font-spartan font-thin">&nbsp;|&nbsp;</li>
+          <li><Link to="/" className="text-white font-spartan font-thin">Offers</Link></li>
         </ul>
         <div className="flex items-center space-x-4">
           <FontAwesomeIcon icon={faSearch} className="text-white cursor-pointer hidden md:inline" onClick={toggleSearchBar} />
