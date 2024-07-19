@@ -48,8 +48,7 @@ router.post('/loginUser', (req, res) => {
             if (user) {
               console.log('User found:', user);
               if (user.password === password) {
-                //req.session.userId = user._id; // Store user ID in session
-                return res.status(200).json({ message: 'Login successful', user });
+                return res.status(200).json({ message: 'Login successful', user, userId: user._id });               
               } else {
                 console.log('Invalid credentials for user');
                 return res.status(400).json({ message: 'Invalid credentials' });

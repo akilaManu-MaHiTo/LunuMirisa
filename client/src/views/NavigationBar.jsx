@@ -2,12 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faShoppingCart, faUser } from '@fortawesome/free-solid-svg-icons';
+import { useParams } from 'react-router-dom';
 
 const NavigationBar = ({ logo }) => {
   const [showSearchBar, setShowSearchBar] = useState(false);
   const [showUserOption, setShowUserOption] = useState(false);
   const searchRef = useRef(null);
   const userRef = useRef(null);
+  const { userId } = useParams(); // Extract userId from URL
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -67,7 +69,7 @@ const NavigationBar = ({ logo }) => {
         {showUserOption && (
           <div ref={userRef} className="absolute top-10 right-16 mt-2 mr-4 p-2 rounded-none bg-gray-800">
             <ul>
-              <li className='text-white'>User Profile</li>
+              <Link to={`/UserProfile/${userId}`}><button>Profile Settings</button></Link>
               <li className='text-red-800'>Logout</li>
             </ul>
           </div>
