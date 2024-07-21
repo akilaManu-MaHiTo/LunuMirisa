@@ -11,7 +11,7 @@ const UserHome = () => {
   const { userId } = useParams(); // Extract userId from URL
 
   return (
-    <div className="bg-custom-black min-h-screen ml-14 mr-16">
+    <div className="bg-custom-black min-h-screen ml-0 mr-0 ">
       <NavigationBar logo={logo} /> 
 
       <div className="flex justify-center mt-10 w-full h-full">
@@ -24,9 +24,9 @@ const UserHome = () => {
 
       <div className='text-white pt-10 font-spartan font-thin'>Today's Special</div>
 
-      <div className="flex flex-wrap md:gap-6 pt-10 pb-10 justify-center">
-        {[...Array(8)].map((_, index) => (
-          <div key={index} className="bg-custom-gray h-[28rem] p-6 rounded shadow-md w-[20rem] max-w-md mb-4 md:mb-0">
+      <div className="flex overflow-x-auto space-x-6 pt-10 pb-10 px-4">
+
+          <div className="bg-custom-gray flex-shrink-0 h-[28rem] p-6 rounded shadow-md w-[15rem] max-w-md mb-4 md:mb-0">
             <img src={food} alt="food" className='w-full h-auto rounded' />
             <div className="text-center text-white font-spartan font-thin m-4">Chicken Biriyani</div>
             <div className="text-center text-white font-spartan font-thin">Rs.1700/-</div>
@@ -34,7 +34,164 @@ const UserHome = () => {
               <FontAwesomeIcon icon={faCartPlus} className='mr-2' /> Add to Cart
             </button>
           </div>
-        ))}
+
+          <div className="bg-custom-gray flex-shrink-0 h-[28rem] p-6 rounded shadow-md w-[15rem] max-w-md mb-4 md:mb-0">
+            <img src={food} alt="food" className='w-full h-auto rounded' />
+            <div className="text-center text-white font-spartan font-thin m-4">Chicken Biriyani</div>
+            <div className="text-center text-white font-spartan font-thin">Rs.1700/-</div>
+            <button type="submit" className='flex items-center justify-center w-full py-1 mt-4 bg-custom-light text-white hover:bg-gray-700'>
+              <FontAwesomeIcon icon={faCartPlus} className='mr-2' /> Add to Cart
+            </button>
+          </div>
+
+          <div className="bg-custom-gray flex-shrink-0 h-[28rem] p-6 rounded shadow-md w-[15rem] max-w-md mb-4 md:mb-0">
+            <img src={food} alt="food" className='w-full h-auto rounded' />
+            <div className="text-center text-white font-spartan font-thin m-4">Chicken Biriyani</div>
+            <div className="text-center text-white font-spartan font-thin">Rs.1700/-</div>
+            <button type="submit" className='flex items-center justify-center w-full py-1 mt-4 bg-custom-light text-white hover:bg-gray-700'>
+              <FontAwesomeIcon icon={faCartPlus} className='mr-2' /> Add to Cart
+            </button>
+          </div>
+
+          <div className="bg-custom-gray flex-shrink-0 h-[28rem] p-6 rounded shadow-md w-[15rem] max-w-md mb-4 md:mb-0">
+            <img src={food} alt="food" className='w-full h-auto rounded' />
+            <div className="text-center text-white font-spartan font-thin m-4">Chicken Biriyani</div>
+            <div className="text-center text-white font-spartan font-thin">Rs.1700/-</div>
+            <button type="submit" className='flex items-center justify-center w-full py-1 mt-4 bg-custom-light text-white hover:bg-gray-700'>
+              <FontAwesomeIcon icon={faCartPlus} className='mr-2' /> Add to Cart
+            </button>
+          </div>
+
+          <div className="bg-custom-gray flex-shrink-0 h-[28rem] p-6 rounded shadow-md w-[15rem] max-w-md mb-4 md:mb-0">
+            <img src={food} alt="food" className='w-full h-auto rounded' />
+            <div className="text-center text-white font-spartan font-thin m-4">Chicken Biriyani</div>
+            <div className="text-center text-white font-spartan font-thin">Rs.1700/-</div>
+            <button type="submit" className='flex items-center justify-center w-full py-1 mt-4 bg-custom-light text-white hover:bg-gray-700'>
+              <FontAwesomeIcon icon={faCartPlus} className='mr-2' /> Add to Cart
+            </button>
+          </div>
+
+          <div className="bg-custom-gray flex-shrink-0 h-[28rem] p-6 rounded shadow-md w-[15rem] max-w-md mb-4 md:mb-0">
+            <img src={food} alt="food" className='w-full h-auto rounded' />
+            <div className="text-center text-white font-spartan font-thin m-4">Chicken Biriyani</div>
+            <div className="text-center text-white font-spartan font-thin">Rs.1700/-</div>
+            <button type="submit" className='flex items-center justify-center w-full py-1 mt-4 bg-custom-light text-white hover:bg-gray-700'>
+              <FontAwesomeIcon icon={faCartPlus} className='mr-2' /> Add to Cart
+            </button>
+          </div>
+
+          <div className="bg-custom-gray flex-shrink-0 h-[28rem] p-6 rounded shadow-md w-[15rem] max-w-md mb-4 md:mb-0">
+            <img src={food} alt="food" className='w-full h-auto rounded' />
+            <div className="text-center text-white font-spartan font-thin m-4">Chicken Biriyani</div>
+            <div className="text-center text-white font-spartan font-thin">Rs.1700/-</div>
+            <button type="submit" className='flex items-center justify-center w-full py-1 mt-4 bg-custom-light text-white hover:bg-gray-700'>
+              <FontAwesomeIcon icon={faCartPlus} className='mr-2' /> Add to Cart
+            </button>
+          </div>
+
+          <div className="bg-custom-gray flex-shrink-0 h-[28rem] p-6 rounded shadow-md w-[15rem] max-w-md mb-4 md:mb-0">
+            <img src={food} alt="food" className='w-full h-auto rounded' />
+            <div className="text-center text-white font-spartan font-thin m-4">Chicken Biriyani</div>
+            <div className="text-center text-white font-spartan font-thin">Rs.1700/-</div>
+            <button type="submit" className='flex items-center justify-center w-full py-1 mt-4 bg-custom-light text-white hover:bg-gray-700'>
+              <FontAwesomeIcon icon={faCartPlus} className='mr-2' /> Add to Cart
+            </button>
+          </div>
+
+          <div className="bg-custom-gray flex-shrink-0 h-[28rem] p-6 rounded shadow-md w-[15rem] max-w-md mb-4 md:mb-0">
+            <img src={food} alt="food" className='w-full h-auto rounded' />
+            <div className="text-center text-white font-spartan font-thin m-4">Chicken Biriyani</div>
+            <div className="text-center text-white font-spartan font-thin">Rs.1700/-</div>
+            <button type="submit" className='flex items-center justify-center w-full py-1 mt-4 bg-custom-light text-white hover:bg-gray-700'>
+              <FontAwesomeIcon icon={faCartPlus} className='mr-2' /> Add to Cart
+            </button>
+          </div>
+        
+      </div>
+
+      <div className="flex overflow-x-auto space-x-6 pt-10 pb-10 px-4">
+
+          <div className="bg-custom-gray flex-shrink-0 h-[28rem] p-6 rounded shadow-md w-[20rem] max-w-md mb-4 md:mb-0">
+            <img src={food} alt="food" className='w-full h-auto rounded' />
+            <div className="text-center text-white font-spartan font-thin m-4">Chicken Biriyani</div>
+            <div className="text-center text-white font-spartan font-thin">Rs.1700/-</div>
+            <button type="submit" className='flex items-center justify-center w-full py-1 mt-4 bg-custom-light text-white hover:bg-gray-700'>
+              <FontAwesomeIcon icon={faCartPlus} className='mr-2' /> Add to Cart
+            </button>
+          </div>
+
+          <div className="bg-custom-gray flex-shrink-0 h-[28rem] p-6 rounded shadow-md w-[20rem] max-w-md mb-4 md:mb-0">
+            <img src={food} alt="food" className='w-full h-auto rounded' />
+            <div className="text-center text-white font-spartan font-thin m-4">Chicken Biriyani</div>
+            <div className="text-center text-white font-spartan font-thin">Rs.1700/-</div>
+            <button type="submit" className='flex items-center justify-center w-full py-1 mt-4 bg-custom-light text-white hover:bg-gray-700'>
+              <FontAwesomeIcon icon={faCartPlus} className='mr-2' /> Add to Cart
+            </button>
+          </div>
+
+          <div className="bg-custom-gray flex-shrink-0 h-[28rem] p-6 rounded shadow-md w-[20rem] max-w-md mb-4 md:mb-0">
+            <img src={food} alt="food" className='w-full h-auto rounded' />
+            <div className="text-center text-white font-spartan font-thin m-4">Chicken Biriyani</div>
+            <div className="text-center text-white font-spartan font-thin">Rs.1700/-</div>
+            <button type="submit" className='flex items-center justify-center w-full py-1 mt-4 bg-custom-light text-white hover:bg-gray-700'>
+              <FontAwesomeIcon icon={faCartPlus} className='mr-2' /> Add to Cart
+            </button>
+          </div>
+
+          <div className="bg-custom-gray flex-shrink-0 h-[28rem] p-6 rounded shadow-md w-[20rem] max-w-md mb-4 md:mb-0">
+            <img src={food} alt="food" className='w-full h-auto rounded' />
+            <div className="text-center text-white font-spartan font-thin m-4">Chicken Biriyani</div>
+            <div className="text-center text-white font-spartan font-thin">Rs.1700/-</div>
+            <button type="submit" className='flex items-center justify-center w-full py-1 mt-4 bg-custom-light text-white hover:bg-gray-700'>
+              <FontAwesomeIcon icon={faCartPlus} className='mr-2' /> Add to Cart
+            </button>
+          </div>
+
+          <div className="bg-custom-gray flex-shrink-0 h-[28rem] p-6 rounded shadow-md w-[20rem] max-w-md mb-4 md:mb-0">
+            <img src={food} alt="food" className='w-full h-auto rounded' />
+            <div className="text-center text-white font-spartan font-thin m-4">Chicken Biriyani</div>
+            <div className="text-center text-white font-spartan font-thin">Rs.1700/-</div>
+            <button type="submit" className='flex items-center justify-center w-full py-1 mt-4 bg-custom-light text-white hover:bg-gray-700'>
+              <FontAwesomeIcon icon={faCartPlus} className='mr-2' /> Add to Cart
+            </button>
+          </div>
+
+          <div className="bg-custom-gray flex-shrink-0 h-[28rem] p-6 rounded shadow-md w-[20rem] max-w-md mb-4 md:mb-0">
+            <img src={food} alt="food" className='w-full h-auto rounded' />
+            <div className="text-center text-white font-spartan font-thin m-4">Chicken Biriyani</div>
+            <div className="text-center text-white font-spartan font-thin">Rs.1700/-</div>
+            <button type="submit" className='flex items-center justify-center w-full py-1 mt-4 bg-custom-light text-white hover:bg-gray-700'>
+              <FontAwesomeIcon icon={faCartPlus} className='mr-2' /> Add to Cart
+            </button>
+          </div>
+
+          <div className="bg-custom-gray flex-shrink-0 h-[28rem] p-6 rounded shadow-md w-[20rem] max-w-md mb-4 md:mb-0">
+            <img src={food} alt="food" className='w-full h-auto rounded' />
+            <div className="text-center text-white font-spartan font-thin m-4">Chicken Biriyani</div>
+            <div className="text-center text-white font-spartan font-thin">Rs.1700/-</div>
+            <button type="submit" className='flex items-center justify-center w-full py-1 mt-4 bg-custom-light text-white hover:bg-gray-700'>
+              <FontAwesomeIcon icon={faCartPlus} className='mr-2' /> Add to Cart
+            </button>
+          </div>
+
+          <div className="bg-custom-gray flex-shrink-0 h-[28rem] p-6 rounded shadow-md w-[20rem] max-w-md mb-4 md:mb-0">
+            <img src={food} alt="food" className='w-full h-auto rounded' />
+            <div className="text-center text-white font-spartan font-thin m-4">Chicken Biriyani</div>
+            <div className="text-center text-white font-spartan font-thin">Rs.1700/-</div>
+            <button type="submit" className='flex items-center justify-center w-full py-1 mt-4 bg-custom-light text-white hover:bg-gray-700'>
+              <FontAwesomeIcon icon={faCartPlus} className='mr-2' /> Add to Cart
+            </button>
+          </div>
+
+          <div className="bg-custom-gray flex-shrink-0 h-[28rem] p-6 rounded shadow-md w-[20rem] max-w-md mb-4 md:mb-0">
+            <img src={food} alt="food" className='w-full h-auto rounded' />
+            <div className="text-center text-white font-spartan font-thin m-4">Chicken Biriyani</div>
+            <div className="text-center text-white font-spartan font-thin">Rs.1700/-</div>
+            <button type="submit" className='flex items-center justify-center w-full py-1 mt-4 bg-custom-light text-white hover:bg-gray-700'>
+              <FontAwesomeIcon icon={faCartPlus} className='mr-2' /> Add to Cart
+            </button>
+          </div>
+        
       </div>
     
       <div className="text-white text-center mt-4">

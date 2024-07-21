@@ -11,14 +11,19 @@ const LoginUser = () => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:3001/loginUser', { email, password });
+
       if (response.status === 200) {
         const userId = response.data.userId;
         navigate(`/UserHome/${userId}`); // Pass userId in the URL
+
       } else if (response.status === 201) {
-        navigate('/AdminPage');
+        const userId = response.data.emId;
+        navigate(`/AdminPage/${userId}`);
+
       } else if (response.status === 202 || response.status === 203 || response.status === 204) {
         alert('Employee login successful');
       }
+
     } catch (error) {
       console.error('Error:', error);
       if (error.response && error.response.data) {

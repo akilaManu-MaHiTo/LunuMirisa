@@ -24,8 +24,8 @@ function App() {
         <Route path='/addImage' element={<AddImage />} />
         <Route path='/showImages' element={<ShowImage />} />
         <Route path='/login' element={<LoginUser />} />
-        <Route path='/UserHome/:userId' element={<UserHome />} /> {/* Add :userId */}
-        <Route path='/AdminPage' element={<AdminPage />} />
+        <Route path='/UserHome' element={<UserHome />} /> {/* Add :userId */}
+        <Route path='/AdminPage/:userId' element={<AdminPage />} />
         <Route path='/Session' element={<Session />} />
         <Route path='/UserProfile/:userId' element={<Profile />} />
       </Routes>

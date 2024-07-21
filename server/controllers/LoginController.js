@@ -19,22 +19,22 @@ router.post('/loginUser', (req, res) => {
           if (employee.EmType === 'Manager') {
 
             console.log('Employee login successful:', employee);
-            return res.status(201).json({ message: 'Login successful', user: employee });
+            return res.status(201).json({ message: 'Login successful', employee, emId: employee._id });
 
           } else if (employee.EmType === 'Viator') {
 
             console.log('Employee login successful:', employee);
-            return res.status(202).json({ message: 'Login successful', user: employee });
+            return res.status(202).json({ message: 'Login successful', employee, emId: employee._id });
 
           } else if (employee.EmType === 'Cashier') {
 
             console.log('Employee login successful:', employee);
-            return res.status(203).json({ message: 'Login successful', user: employee });
+            return res.status(203).json({ message: 'Login successful', employee, emId: employee._id });
 
           } else {
 
             console.log('Employee login successful:', employee);
-            return res.status(204).json({ message: 'Login successful', user: employee });
+            return res.status(204).json({ message: 'Login successful', employee, emId: employee._id });
 
           }
 
