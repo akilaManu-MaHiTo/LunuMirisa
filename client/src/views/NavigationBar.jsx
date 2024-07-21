@@ -46,7 +46,7 @@ const NavigationBar = ({ logo }) => {
     <div className='pr-[10rem] pl-[10rem] bg-custom-gray'>
       <nav className="flex items-center justify-between px-4">
       <div className="flex items-center h-36 w-32">
-        <img src={logo} alt="Logo" className="h-36 w-48 md:h-24 md:w-32" />
+        <img src={logo} alt="Logo" className="h-auto w-48 md:h-24 md:w-32" />
       </div>
 
         <ul className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 self-center">
