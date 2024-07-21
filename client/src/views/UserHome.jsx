@@ -24,17 +24,19 @@ const UserHome = () => {
 
       <div className='text-white pt-10 font-spartan font-thin'>Today's Special</div>
 
-      <div className="flex flex-wrap md:gap-6 pt-10 pb-10 justify-center">
-        {[...Array(8)].map((_, index) => (
-          <div key={index} className="bg-custom-gray h-[28rem] p-6 rounded shadow-md w-[20rem] max-w-md mb-4 md:mb-0">
-            <img src={food} alt="food" className='w-full h-auto rounded' />
-            <div className="text-center text-white font-spartan font-thin m-4">Chicken Biriyani</div>
-            <div className="text-center text-white font-spartan font-thin">Rs.1700/-</div>
-            <button type="submit" className='flex items-center justify-center w-full py-1 mt-4 bg-custom-light text-white hover:bg-gray-700'>
-              <FontAwesomeIcon icon={faCartPlus} className='mr-2' /> Add to Cart
-            </button>
-          </div>
-        ))}
+      <div className='flex justify-center gap-y-8'>
+        <div className="flex flex-wrap md:gap-6 pt-10 pb-10 justify-center w-[80rem]">
+          {[...Array(6)].map((_, index) => (
+            <div key={index} className="bg-custom-gray h-[40rem] p-6 rounded shadow-md w-[40rem] max-w-md mb-4 md:mb-0">
+              <img src={food} alt="food" className='w-full h-auto rounded' />
+              <div className="text-center text-white font-spartan font-thin m-4">Chicken Biriyani</div>
+              <div className="text-center text-white font-spartan font-thin">Rs.1700/-</div>
+              <button type="submit" className='flex items-center justify-center w-full py-1 mt-4 bg-custom-light text-white hover:bg-gray-700'>
+                <FontAwesomeIcon icon={faCartPlus} className='mr-2' /> Add to Cart
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
     
       <div className="text-white text-center mt-4">
