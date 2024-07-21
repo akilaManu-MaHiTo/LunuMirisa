@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import logo from '../Images/OIP.jpeg'; 
+import logo from '../Images/Logo.png'; 
 import homePic from '../Images/food.jpg';
 import NavigationBar from './NavigationBar'; 
 import food from '../Images/Biriyani.jpg';
@@ -11,21 +11,24 @@ const UserHome = () => {
   const { userId } = useParams(); // Extract userId from URL
 
   return (
-    <div className="bg-custom-black min-h-screen ml-14 mr-16">
+    <div className="bg-custom-black min-h-screen">
+     
       <NavigationBar logo={logo} /> 
 
-      <div className="flex justify-center mt-10 w-full h-full">
+      <div className="flex  w-full h-full">
         <img src={homePic} alt="Home" className="w-full h-auto rounded opacity-50" style={{ filter: 'blur(1px)' }} /> 
-        <div className='absolute text-white w-[40rem] left-20 hidden md:inline text-7xl pt-32 font-spartan'>Experience the Authentic Sri Lankan Foods</div>
-        <div className='absolute text-white -bottom-32 hidden custom-md:inline text-2xl bg-custom-black p-4 opacity-70'>
-          <div className='opacity-100 font-spartan font-thin'>Order Now ↓</div>
+        <div className='absolute text-white w-[50rem] pl-[10rem] hidden md:inline text-7xl pt-32 font-spartan'>Experience the Authentic Sri Lankan Foods</div>
+        <div className='absolute text-white hidden custom-md:flex justify-center text-2xl w-full mt-[50rem]'>
+          <div className='font-spartan font-thin bg-custom-black p-4 opacity-70 '>Order Now ↓</div>
         </div>
+
+        
       </div>
 
       <div className='text-white pt-10 font-spartan font-thin'>Today's Special</div>
 
       <div className='flex justify-center gap-y-8'>
-        <div className="flex flex-wrap md:gap-6 pt-10 pb-10 justify-center w-[80rem]">
+        <div className="flex flex-wrap gap-x-16 gap-y-8 pt-10 pb-10 justify-center w-[80rem]">
           {[...Array(6)].map((_, index) => (
             <div key={index} className="bg-custom-gray h-[40rem] p-6 rounded shadow-md w-[40rem] max-w-md mb-4 md:mb-0">
               <img src={food} alt="food" className='w-full h-auto rounded' />
@@ -38,6 +41,7 @@ const UserHome = () => {
           ))}
         </div>
       </div>
+
     
       <div className="text-white text-center mt-4">
         <p>User ID: {userId}</p>

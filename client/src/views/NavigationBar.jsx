@@ -43,22 +43,23 @@ const NavigationBar = ({ logo }) => {
   };
 
   return (
-    <div>
-      <nav className="bg-custom-black flex items-center justify-between px-4">
-        <div className="flex items-center">
-          <img src={logo} alt="Logo" className="h-10 w-20 md:h-16 md:w-16" />
-        </div>
+    <div className='pr-[10rem] pl-[10rem] bg-custom-gray'>
+      <nav className="flex items-center justify-between px-4">
+      <div className="flex items-center h-36 w-32">
+        <img src={logo} alt="Logo" className="h-36 w-48 md:h-24 md:w-32" />
+      </div>
+
         <ul className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 self-center">
-          <li><Link to="/" className="text-white font-spartan font-thin">Home</Link></li>
-          <li className="text-white hidden md:inline font-spartan font-thin">&nbsp;|&nbsp;</li>
-          <li><Link to="/" className="text-white font-spartan font-thin">Menu</Link></li>
-          <li className="text-white hidden md:inline font-spartan font-thin">&nbsp;|&nbsp;</li>
-          <li><Link to="/" className="text-white font-spartan font-thin">Offers</Link></li>
+          <li><Link to="/" className="text-white font-spartan font-thin text-2xl">Home</Link></li>
+          <li className="text-white hidden md:inline font-spartan font-thin text-2xl">&nbsp;|&nbsp;</li>
+          <li><Link to="/" className="text-white font-spartan font-thin text-2xl">Menu</Link></li>
+          <li className="text-white hidden md:inline font-spartan font-thin text-2xl">&nbsp;|&nbsp;</li>
+          <li><Link to="/" className="text-white font-spartan font-thin text-2xl">Offers</Link></li>
         </ul>
         <div className="flex items-center space-x-4">
-          <FontAwesomeIcon icon={faSearch} className="text-white cursor-pointer hidden md:inline" onClick={toggleSearchBar} />
-          <FontAwesomeIcon icon={faShoppingCart} className="text-white cursor-pointer hidden md:inline" />
-          <FontAwesomeIcon icon={faUser} className="text-white cursor-pointer" onClick={toggleUserOption} />
+          <FontAwesomeIcon icon={faSearch} className="text-white cursor-pointer hidden md:inline text-2xl p-3" onClick={toggleSearchBar} />
+          <FontAwesomeIcon icon={faShoppingCart} className="text-white cursor-pointer hidden md:inline text-2xl p-3" />
+          <FontAwesomeIcon icon={faUser} className="text-white cursor-pointer text-2xl p-3" onClick={toggleUserOption} />
         </div>
         {showSearchBar && (
           <div ref={searchRef} className="absolute top-0.5 right-60 mt-2 mr-4 p-2 rounded-md shadow-lg hidden md:inline h-15.5" style={{ maxWidth: '600px' }}>
