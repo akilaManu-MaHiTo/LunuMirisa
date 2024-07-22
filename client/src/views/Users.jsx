@@ -80,6 +80,12 @@ function Users() {
                     Login
                 </button>
             </Link>
+
+            <Link to="/UserHome">
+                <button className='bg-slate-500 hover:bg-black hover:text-white hover:cursor-pointer mt-4' style={{ width: '400px' }}>
+                    Home
+                </button>
+            </Link>
         </div>
     );
 }
