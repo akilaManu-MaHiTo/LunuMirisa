@@ -11,8 +11,9 @@ import LoginUser from './views/login'; // Ensure the path is correct
 import UserHome from './views/UserHome';
 import AdminPage from './views/AdminPage';
 import Session from './views/Session';
-import Profile from './views/UserProfile'
- 
+import Profile from './views/UserProfile';
+import AddMenuList from './views/AddMenuList';
+import ShowMenuList from './views/ShowMenuList';
 function App() {
   return (
     <BrowserRouter>
@@ -28,6 +29,8 @@ function App() {
         <Route path='/AdminPage' element={<AdminPage />} />
         <Route path='/Session' element={<Session />} />
         <Route path='/UserProfile/:userId' element={<Profile />} />
+        <Route path='/AddMenuList' element={<AddMenuList />} />
+        <Route path='/ShowMenuList' element={<ShowMenuList />} />
       </Routes>
     </BrowserRouter>
   );

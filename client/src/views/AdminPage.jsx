@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const AdminPage = () => {
   return (
@@ -7,6 +8,8 @@ const AdminPage = () => {
         <h1 className="text-3xl font-bold mb-4 text-center">Welcome to Admin</h1>
         <p className="text-center">This is the user Admin page.</p>
       </div>
+
+      <Link to="/AddMenuList"><button>Menu List</button></Link>
     </div>
   );
 };
