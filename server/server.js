@@ -8,6 +8,7 @@ const USER = require('./controllers/UserController')
 const EMPLOYEE = require('./controllers/EmployeeController')
 const IMAGE = require ('./controllers/ImageController')
 const LOGIN = require ('./controllers/LoginController')
+const MENU = require ('./controllers/AddMenuController')
 
 const app = express();
 app.use(cors());
@@ -18,6 +19,7 @@ app.use('/',USER)
 app.use('/',EMPLOYEE)
 app.use('/',IMAGE)
 app.use('/',LOGIN)
+app.use('/',MENU)
 
 conDatabase()
     .then(data => {

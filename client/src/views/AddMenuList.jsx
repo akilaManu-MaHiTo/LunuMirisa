@@ -1,25 +1,23 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const AddMenuList = () => {
+  const [title, setTitle] = useState('');
   const [price, setPrice] = useState('');
   const [image, setImage] = useState('');
   const [type, setType] = useState('');
   const [category, setCategory] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-      e.preventDefault();
-      axios.post("http://localhost:3001/createAddMenuList",{price,Image,type,category})
-      .then(result =>{ 
-
-        console.log(result)
-        Navigate('/')
+    axios.post("http://localhost:3001/createAddMenuList", { title, price, image, type, category })
+      .then(result => {
+        console.log(result);
+        navigate('/AdminPage');
       })
-      .catch(err => console.log(err))
-
-    
+      .catch(err => console.log(err));
   };
 
   return (
@@ -28,12 +26,26 @@ const AddMenuList = () => {
         <h2 className="text-2xl font-bold mb-4">Add Menu Item</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
+            <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+              Title
+            </label>
+            <input
+              type="text"
+              id="title"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              placeholder="Enter title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </div>
+          <div className="mb-4">
             <label htmlFor="price" className="block text-sm font-medium text-gray-700">
               Price
             </label>
             <input
-              type="text"
+              type="number"
               id="price"
+              step="0.01"
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               placeholder="Enter price"
               value={price}
