@@ -34,10 +34,6 @@ const Footer = () => {
                 <FontAwesomeIcon icon={faInstagram} className="text-2xl transition-transform duration-300 ease-in-out transform hover:scale-125" />
 
                 </div>
-
-                <div className="flex ml-40 lg:ml-[10rem] pt-10">
-                    <img src={logo} alt="Logo" className="w-24 h-auto" />
-                </div>
             </div>
 
             <div className="font-spartan flex-1">
@@ -63,15 +59,21 @@ const Footer = () => {
                     </div>
                 </div>
 
-                <div>
-                    <div className="text-white text-2xl pt-2 font-spartan font-thin pl-10 lg:pl-40 mt-2">News Letter</div>
-                    <input type="text" className="border-white bg-custom-light w-[15rem] h-12 ml-[10rem]" />
-                    <button className="bg-custom-gray ml-4 h-12 w-20">Send</button>
+                <div class="items-center p-2 lg:pl-40">
+                    <div class="text-white text-2xl pt-2 font-spartan font-thin pl-10 lg:pl-0 mt-2">Newsletter</div>
+                    <input type="text" class=" p-3 bg-custom-light w-[15rem] h-12 ml-1 focus:bg-custom-light-hover focus:transition duration-300 ease-in-out mt-3 placeholder:text-gray-400 placeholder:font-thin" placeholder="Enter your email" />
+                    <button class="bg-custom-dark ml-4 h-12 w-20 hover:bg-custom-light hover:scale-105 transition duration-300 ease-in-out">Send</button>
                 </div>
+
+
             </div>
         </div>
 
-        <div className="mt-10 text-center font-thin text-xs select-none">
+        <div className="flex ml-40 lg:ml-[10rem]">
+                    <img src={logo} alt="Logo" className="w-24 h-auto" />
+        </div>
+
+        <div className="mt-1 text-center font-thin text-xs select-none text-white">
             Privacy Policy | Terms of Service © 2024 Lunumirisa. All Rights Reserved.
         </div>
 
