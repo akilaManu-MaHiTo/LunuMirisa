@@ -59,10 +59,10 @@ const Footer = () => {
                     </div>
                 </div>
 
-                <div class="items-center p-2 lg:pl-40">
-                    <div class="text-white text-2xl pt-2 font-spartan font-thin pl-10 lg:pl-0 mt-2">Newsletter</div>
+                <div className="items-center p-2 lg:pl-40">
+                    <div className="text-white text-2xl pt-2 font-spartan font-thin pl-10 lg:pl-0 mt-2">Newsletter</div>
                     <input type="text" class=" p-3 bg-custom-light w-[15rem] h-12 ml-1 focus:bg-custom-light-hover focus:transition duration-300 ease-in-out mt-3 placeholder:text-gray-400 placeholder:font-thin" placeholder="Enter your email" />
-                    <button class="bg-custom-dark ml-4 h-12 w-20 hover:bg-custom-light hover:scale-105 transition duration-300 ease-in-out">Send</button>
+                    <button className="bg-custom-dark ml-4 h-12 w-20 hover:bg-custom-light hover:scale-105 transition duration-300 ease-in-out">Send</button>
                 </div>
 
 
