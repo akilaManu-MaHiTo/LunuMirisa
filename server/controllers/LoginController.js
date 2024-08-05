@@ -21,7 +21,7 @@ router.post('/loginUser', (req, res) => {
             console.log('Employee login successful:', employee);
             return res.status(201).json({ message: 'Login successful', user: employee });
 
-          } else if (employee.EmType === 'Viator') {
+          } else if (employee.EmType === 'Waitor') {
 
             console.log('Employee login successful:', employee);
             return res.status(202).json({ message: 'Login successful', user: employee });
