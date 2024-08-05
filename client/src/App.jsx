@@ -14,6 +14,8 @@ import Session from './views/Session';
 import Profile from './views/UserProfile';
 import AddMenuList from './views/AddMenuList';
 import ShowMenuList from './views/ShowMenuList';
+import Inventory from './views/Inventory';
+import ShowInventory from './views/ShowInventory';
 function App() {
   return (
     <BrowserRouter>
@@ -25,12 +27,14 @@ function App() {
         <Route path='/addImage' element={<AddImage />} />
         <Route path='/showImages' element={<ShowImage />} />
         <Route path='/login' element={<LoginUser />} />
-        <Route path='/UserHome' element={<UserHome />} /> {/* Add :userId */}
+        <Route path='/UserHome/:userId' element={<UserHome />} /> {/* Add :userId */}
         <Route path='/AdminPage' element={<AdminPage />} />
         <Route path='/Session' element={<Session />} />
         <Route path='/UserProfile/:userId' element={<Profile />} />
         <Route path='/AddMenuList' element={<AddMenuList />} />
-        <Route path='/ShowMenuList' element={<ShowMenuList />} />
+        <Route path='/ShowMenuList/:userId' element={<ShowMenuList />} />
+        <Route path='/Inventory' element={<Inventory />} />
+        <Route path='/ShowInventory' element={<ShowInventory />} />
       </Routes>
     </BrowserRouter>
   );

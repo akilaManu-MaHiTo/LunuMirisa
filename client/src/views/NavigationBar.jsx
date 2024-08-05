@@ -52,7 +52,7 @@ const NavigationBar = ({ logo }) => {
         <ul className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 self-center">
           <li><Link to="/" className="text-white font-spartan font-thin text-2xl ">Home</Link></li>
           <li className="text-white hidden md:inline font-spartan font-thin text-2xl">&nbsp;|&nbsp;</li>
-          <li><Link to="/showMenuList" className="text-white font-spartan font-thin text-2xl">Menu</Link></li>
+          <li><Link to={`/ShowMenuList/${userId}`} className="text-white font-spartan font-thin text-2xl">Menu</Link></li>
           <li className="text-white hidden md:inline font-spartan font-thin text-2xl">&nbsp;|&nbsp;</li>
           <li><Link to="/" className="text-white font-spartan font-thin text-2xl">Offers</Link></li>
         </ul>

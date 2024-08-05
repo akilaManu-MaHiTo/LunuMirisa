@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const ShowMenuList = () => {
   const [menuItems, setMenuItems] = useState([]);
   const [error, setError] = useState('');
+  const { userId } = useParams();
 
   useEffect(() => {
     axios.get("http://localhost:3001/ShowMenuList")
@@ -17,8 +19,9 @@ const ShowMenuList = () => {
   }, []);
 
   const handleAddToCart = (item) => {
-    
+    console.log("Adding to cart:", userId, item._id, item.category, item.type, item.price);
     axios.post("http://localhost:3001/Addtocart", {
+      userId,
       itemId: item._id,
       category: item.category,
       type: item.type,
@@ -43,12 +46,12 @@ const ShowMenuList = () => {
               <div key={item._id} className="bg-custom-black p-6 rounded shadow-md">
                 <div className="bg-custom-gray h-[34rem] p-6 rounded shadow-md w-[22rem] max-w-md mb-4 md:mb-0 flex flex-col items-center">
                   <form
-                    className="katha akila"
                     onSubmit={(e) => {
                       e.preventDefault();
                       handleAddToCart(item);
                     }}
                   >
+                    <input type='text' value={userId} readOnly /><br />
                     <label>Menu list Id</label><br />
                     <input type='text' value={item._id} readOnly /><br />
                     <label>Category</label><br />
