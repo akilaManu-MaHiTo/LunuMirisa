@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams,Link } from 'react-router-dom';
 import axios from 'axios';
 
 const ShowMenuList = () => {
@@ -35,6 +35,17 @@ const ShowMenuList = () => {
     });
   };
 
+  const handleDelete = (id) => {
+
+    axios.delete('http://localhost:3001/deleteMenuList/'+id)
+    .then(res => {console.log(res)
+
+      window.location.reload()
+
+    })
+    .catch(err => console.log(err))
+  }
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-black">
       <div className="bg-black p-8 lg shadow-md w-full h-full max-w-4xl">
@@ -52,17 +63,23 @@ const ShowMenuList = () => {
                     }}
                   >
                     <input type='text' value={userId} readOnly /><br />
-                    <label>Menu list Id</label><br />
+                    <label className='text-white'>Menu list Id</label><br />
                     <input type='text' value={item._id} readOnly /><br />
-                    <label>Category</label><br />
+                    <label className='text-white'>Category</label><br />
                     <input type='text' value={item.category} readOnly /><br />
-                    <label>Food name</label><br />
+                    <label className='text-white'>Food name</label><br />
                     <input type='text' value={item.type} readOnly /><br />
-                    <label>Price</label><br />
+                    <label className='text-white'>Price</label><br />
                     <input type='text' value={item.price} readOnly /><br />
-                    <button type='submit'>Add to cart</button>
+                    
                   </form>
+
                 </div>
+                
+                <Link to={`/UpdateMenuList/${item._id}`}><button className='text-white'>Update</button></Link>
+                <td><button onClick={(e) => handleDelete(item._id)}>Delete</button></td>
+                
+
                 <div className="text-white font-spartan font-thin w-[19rem] h-auto rounded mx-auto mt-2">Rs.{item.price}/-</div>
                 <div className="text-center text-white font-spartan font-thin mt-8 text-3xl">{item.type}</div>
                 <div className="text-center text-white font-spartan font-thin text-2xl mt-2">{item.category}</div>
