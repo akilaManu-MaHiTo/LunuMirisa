@@ -33,7 +33,7 @@ router.post("/createUser", async (req, res) => {
     }
 });
 
-router.get("/:id/verify/:token", async (req, res) => {
+router.get("/users/:id/verify/:token", async (req, res) => {
     try {
         const user = await UserModel.findOne({ _id: req.params.id });
         if (!user) return res.status(400).send({ message: "Invalid link" });
@@ -45,7 +45,7 @@ router.get("/:id/verify/:token", async (req, res) => {
         if (!token) return res.status(400).send({ message: "Invalid link" });
 
         await UserModel.updateOne({ _id: user._id }, { verified: true });
-        await token.remove();
+        await Token.deleteOne({ _id: token._id }); // Updated to use deleteOne()
 
         res.status(200).send({ message: "Email verified successfully" });
     } catch (error) {

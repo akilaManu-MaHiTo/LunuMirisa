@@ -18,6 +18,7 @@ import ShowInventory from './views/ShowInventory';
 import ManagerMenuList from './views/ManagerMenuList';
 import UpdateMenuList from './views/UpdateMenuList';
 import ShowMenuLists from './views/ShowMenuLists';
+import EmailVerify from "./views/E-mailVerify";
 
 function App() {
   return (
@@ -40,6 +41,8 @@ function App() {
         <Route path='/ShowInventory' element={<ShowInventory />} />
         <Route path='/ManagerMenuList' element={<ManagerMenuList />} />
         <Route path='/UpdateMenuList/:id' element={<UpdateMenuList />} />
+        <Route path="/users/:id/verify/:token" element={<EmailVerify />} />
+
       </Routes>
     </BrowserRouter>
   );
