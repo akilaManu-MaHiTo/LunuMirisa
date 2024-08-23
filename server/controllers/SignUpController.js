@@ -4,6 +4,7 @@ const Token = require("../models/Token"); // Ensure correct path
 const crypto = require("crypto");
 const sendEmail = require("../util/Email");
 const bcrypt = require("bcrypt");
+require('dotenv').config();
 
 router.post("/createUser", async (req, res) => {
     try {
