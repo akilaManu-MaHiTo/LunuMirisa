@@ -6,6 +6,7 @@ const sendEmail = require("../util/Email");
 const bcrypt = require("bcrypt");
 require('dotenv').config();
 
+// Route to create a user
 router.post("/createUser", async (req, res) => {
     try {
         const { error } = validate(req.body);
@@ -23,6 +24,7 @@ router.post("/createUser", async (req, res) => {
             userId: user._id,
             token: crypto.randomBytes(32).toString("hex"),
         }).save();
+
         const url = `${process.env.BASE_URL}users/${user.id}/verify/${token.token}`;
         await sendEmail(user.email, "Verify Email", url);
 
@@ -33,19 +35,30 @@ router.post("/createUser", async (req, res) => {
     }
 });
 
+// Route to verify email
 router.get("/users/:id/verify/:token", async (req, res) => {
     try {
-        const user = await UserModel.findOne({ _id: req.params.id });
+        const { id, token } = req.params;
+
+        // Find user by userId
+        const user = await UserModel.findOne({ _id: id });
         if (!user) return res.status(400).send({ message: "Invalid link" });
 
-        const token = await Token.findOne({
+        // Find token by userId and token
+        const tokenRecord = await Token.findOne({
             userId: user._id,
-            token: req.params.token,
+            token: token
         });
-        if (!token) return res.status(400).send({ message: "Invalid link" });
+        if (!tokenRecord) return res.status(401).send({ message: "Invalid link" });
 
+        // Check if the userId in the token matches the userId in the URL
+        if (user._id.toString() !== tokenRecord.userId.toString()) {
+            return res.status(401).send({ message: "Invalid link" });
+        }
+
+        // Verify the user and delete the token
         await UserModel.updateOne({ _id: user._id }, { verified: true });
-        await Token.deleteOne({ _id: token._id }); // Updated to use deleteOne()
+        await Token.deleteOne({ _id: tokenRecord._id });
 
         res.status(200).send({ message: "Email verified successfully" });
     } catch (error) {
