@@ -15,6 +15,7 @@ import Profile from './views/UserProfile';
 import AddMenuList from './views/AddMenuList';
 import Inventory from './views/Inventory';
 import ShowInventory from './views/ShowInventory';
+import AddTables from './views/AddTables';
 import  ShowSupplier  from './views/ShowSupplierOrder';
 import CreateSupplier from './views/SupplierOrder';
 import UpdateSupplier from './views/UpdateSupplierOrder';
@@ -42,6 +43,7 @@ function App() {
         <Route path='/ShowMenuList/:userId' element={<ShowMenuLists />} />
         <Route path='/Inventory' element={<Inventory />} />
         <Route path='/ShowInventory' element={<ShowInventory />} />
+        <Route path='/AddTables' element={<AddTables />} />
         <Route path='/ShowSupplierOrder' element={<ShowSupplier />} />
         <Route path='/SupplierOrder' element={<CreateSupplier />} />
         <Route path='/UpdateSupplierOrder/:id' element={<UpdateSupplier />} />

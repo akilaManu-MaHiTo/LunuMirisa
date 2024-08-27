@@ -20,7 +20,7 @@ const ShowMenuLists = () => {
 
   const handleAddToCart = (item) => {
     console.log("Adding to cart:", userId, item._id, item.category, item.type, item.price);
-    axios.post("http://localhost:3001/Addtocart", {
+    axios.post("http://localhost:3001/Addtocarts", {
       userId,
       itemId: item._id,
       category: item.category,
