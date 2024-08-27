@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 
 const AddMenuList = () => {
   const [title, setTitle] = useState('');
@@ -26,7 +26,7 @@ const AddMenuList = () => {
         <h2 className="text-2xl font-bold mb-4">Add Menu Item</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="title" className="block text-sm font-medium text-white">
               Title
             </label>
             <input
@@ -97,6 +97,9 @@ const AddMenuList = () => {
           >
             Add Menu Item
           </button>
+
+          <Link to="/ManagerMenuList"><button>Menu List</button></Link>
+
         </form>
       </div>
     </div>
