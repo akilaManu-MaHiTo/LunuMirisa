@@ -68,7 +68,8 @@ const createEmployees = () => {
                         <option value="Manager">Manager</option>
                         <option value="Cashier">Cashier</option>
                         <option value="Viator">Viator</option>
-                        <option value="Cheff">Cheff</option>                      
+                        <option value="Cheff">Cheff</option> 
+                        <option value="Supplier">Supplier</option>                 
                     </select>
                 </div>
 

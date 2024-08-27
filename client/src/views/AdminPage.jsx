@@ -11,6 +11,12 @@ const AdminPage = () => {
 
       <Link to="/AddMenuList"><button>Menu List</button></Link>
       <Link to="/ShowInventory"><button>Inventory</button></Link>
+      <Link to="/ShowSupplierOrder"><button>Supplier Orders</button></Link>
+
+
+
+
+
     </div>
   );
 };

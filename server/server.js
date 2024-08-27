@@ -11,6 +11,7 @@ const LOGIN = require ('./controllers/LoginController')
 const MENU = require ('./controllers/AddMenuController')
 const CART = require ('./controllers/CartController')
 const INVENTORY = require ('./controllers/InventoryController')
+const SUPPLIERORDER = require ('./controllers/SupplierOrderController')
 const SIGN = require ('./controllers/SignUpController')
 
 const app = express();
@@ -25,7 +26,9 @@ app.use('/',LOGIN)
 app.use('/',MENU)
 app.use('/',CART)
 app.use('/',INVENTORY)
+app.use('/',SUPPLIERORDER)
 app.use('/',SIGN)
+
 
 
 conDatabase()
