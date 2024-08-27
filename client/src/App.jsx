@@ -13,10 +13,17 @@ import AdminPage from './views/AdminPage';
 import Session from './views/Session';
 import Profile from './views/UserProfile';
 import AddMenuList from './views/AddMenuList';
-import ShowMenuList from './views/ShowMenuList';
 import Inventory from './views/Inventory';
 import ShowInventory from './views/ShowInventory';
 import AddTables from './views/AddTables';
+import  ShowSupplier  from './views/ShowSupplierOrder';
+import CreateSupplier from './views/SupplierOrder';
+import UpdateSupplier from './views/UpdateSupplierOrder';
+import ManagerMenuList from './views/ManagerMenuList';
+import UpdateMenuList from './views/UpdateMenuList';
+import ShowMenuLists from './views/ShowMenuLists';
+import EmailVerify from "./views/E-mailVerify";
+
 function App() {
   return (
     <BrowserRouter>
@@ -33,10 +40,17 @@ function App() {
         <Route path='/Session' element={<Session />} />
         <Route path='/UserProfile/:userId' element={<Profile />} />
         <Route path='/AddMenuList' element={<AddMenuList />} />
-        <Route path='/ShowMenuList/:userId' element={<ShowMenuList />} />
+        <Route path='/ShowMenuList/:userId' element={<ShowMenuLists />} />
         <Route path='/Inventory' element={<Inventory />} />
         <Route path='/ShowInventory' element={<ShowInventory />} />
         <Route path='/AddTables' element={<AddTables />} />
+        <Route path='/ShowSupplierOrder' element={<ShowSupplier />} />
+        <Route path='/SupplierOrder' element={<CreateSupplier />} />
+        <Route path='/UpdateSupplierOrder/:id' element={<UpdateSupplier />} />
+        <Route path='/ManagerMenuList' element={<ManagerMenuList />} />
+        <Route path='/UpdateMenuList/:id' element={<UpdateMenuList />} />
+        <Route path="/users/:id/verify/:token" element={<EmailVerify />} />
+
       </Routes>
     </BrowserRouter>
   );

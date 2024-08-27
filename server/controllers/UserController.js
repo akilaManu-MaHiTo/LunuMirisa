@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/Users');
 
-router.post("/createUser", (req, res) => {
+router.post("/createUserb", (req, res) => {
     User.create(req.body)
         .then(users => res.json(users))
         .catch(err => res.status(500).json(err));
@@ -25,6 +25,7 @@ router.get("/getUser/:id",(req,res) => {
 })
 
 router.put("/updateUser/:id",(req,res) => {
+    
 
     const userId = req.params.id;
     User.findByIdAndUpdate({_id: userId}, {name: req.body.name, email: req.body.email, age: req.body.age})
