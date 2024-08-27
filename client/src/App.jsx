@@ -16,6 +16,14 @@ import AddMenuList from './views/AddMenuList';
 import ShowMenuList from './views/ShowMenuList';
 import Inventory from './views/Inventory';
 import ShowInventory from './views/ShowInventory';
+
+import  ShowSupplier  from './views/ShowSupplierOrder';
+import CreateSupplier from './views/SupplierOrder';
+import UpdateSupplier from './views/UpdateSupplierOrder';
+
+
+
+
 function App() {
   return (
     <BrowserRouter>
@@ -35,6 +43,20 @@ function App() {
         <Route path='/ShowMenuList/:userId' element={<ShowMenuList />} />
         <Route path='/Inventory' element={<Inventory />} />
         <Route path='/ShowInventory' element={<ShowInventory />} />
+
+        <Route path='/ShowSupplierOrder' element={<ShowSupplier />} />
+        <Route path='/SupplierOrder' element={<CreateSupplier />} />
+        <Route path='/UpdateSupplierOrder/:id' element={<UpdateSupplier />} />
+
+
+        
+                
+
+        
+
+   
+       
+       
       </Routes>
     </BrowserRouter>
   );

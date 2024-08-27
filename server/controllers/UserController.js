@@ -25,6 +25,7 @@ router.get("/getUser/:id",(req,res) => {
 })
 
 router.put("/updateUser/:id",(req,res) => {
+    
 
     const userId = req.params.id;
     User.findByIdAndUpdate({_id: userId}, {name: req.body.name, email: req.body.email, age: req.body.age})
