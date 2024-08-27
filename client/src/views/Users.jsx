@@ -86,6 +86,12 @@ function Users() {
                     Home
                 </button>
             </Link>
+
+            <Link to="/AdminPage">
+                <button className='bg-slate-500 hover:bg-black hover:text-white hover:cursor-pointer mt-4' style={{ width: '400px' }}>
+                    Admin
+                </button>
+            </Link>
         </div>
     );
 }

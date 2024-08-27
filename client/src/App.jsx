@@ -16,6 +16,7 @@ import AddMenuList from './views/AddMenuList';
 import ShowMenuList from './views/ShowMenuList';
 import Inventory from './views/Inventory';
 import ShowInventory from './views/ShowInventory';
+import AddTables from './views/AddTables';
 function App() {
   return (
     <BrowserRouter>
@@ -35,6 +36,7 @@ function App() {
         <Route path='/ShowMenuList/:userId' element={<ShowMenuList />} />
         <Route path='/Inventory' element={<Inventory />} />
         <Route path='/ShowInventory' element={<ShowInventory />} />
+        <Route path='/AddTables' element={<AddTables />} />
       </Routes>
     </BrowserRouter>
   );
