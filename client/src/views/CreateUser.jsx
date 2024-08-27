@@ -1,75 +1,106 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios'
+import { useState } from "react";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 
-const CreateUsers = () => {
+const create = () => {
+	const [data, setData] = useState({
+		firstName: "",
+		lastName: "",
+		email: "",
+		password: "",
+	});
+	const [error, setError] = useState("");
+	const navigate = useNavigate();
 
-    const[name,setName] = useState();
-    const[email,setEmail] = useState();
-    const[age,setAge] = useState();
-    const[password,setPassword] = useState();
-    const navigate = useNavigate();
+	const handleChange = ({ currentTarget: input }) => {
+		setData({ ...data, [input.name]: input.value });
+	};
 
-    const Submit = (e) => {
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		try {
+			const url = "http://localhost:3001/createUser";
+			const { data: res } = await axios.post(url, data);
+			navigate("/login");
+			console.log(res.message);
+		} catch (error) {
+			if (
+				error.response &&
+				error.response.status >= 400 &&
+				error.response.status <= 500
+			) {
+				setError(error.response.data.message);
+			}
+		}
+	};
 
-        e.preventDefault();
-        axios.post("http://localhost:3001/createUser",{name,email,age,password})
-        .then(result => {
-
-            console.log(result)
-            navigate('/') 
-
-        })            
-        .catch(err => console.log(err))
-
-    }
-
-    return (
-        <div className='flex justify-center items-center min-h-screen bg-blue-600'>
-            <div className='w-full sm:w-1/2 bg-white p-6 sm:p-8 rounded-md shadow-md'>
-                <form onSubmit={Submit}>
-
-                    <h2>Add User</h2><br /><br />
-
-                    <div>
-                        <label className='block text-center mb-1'>Name</label>
-                        <input type="text" placeholder='Enter Name' className='w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-slate-500 focus:border-slate-500'
-                        onChange={(e) => setName(e.target.value)}/>
-                    </div>
-
-                    <div>
-                        <label className='block text-center mb-1'>E-mail</label>
-                        <input type="email" placeholder='Enter email' className='w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-slate-500 focus:border-slate-500'
-                        onChange={(e) => setEmail(e.target.value)}/>
-                    </div>
-
-                    <div>
-                        <label className='block text-center mb-1'>Age</label>
-                        <input type="Number" placeholder='Enter Age' className='w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-slate-500 focus:border-slate-500'
-                        onChange={(e) => setAge(e.target.value)}/>
-                    </div>
-
-                    <div>
-                        <label className='block text-center mb-1'>Password</label>
-                        <input type="Number" placeholder='Enter Age' className='w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-slate-500 focus:border-slate-500'
-                        onChange={(e) => setPassword(e.target.value)}/>
-                    </div>
-
-                    <button type="submit">Submit</button>
-
-                </form>
-
-            </div>
-
-            <Link to="/">
-                <button className='bg-slate-500 hover:bg-black hover:text-white hover:cursor-pointer' style={{ width: '400px' }}>
-                    User Page
-                </button>                    
-            </Link>
-
-        </div>
-    );
+	return (
+		<div className="flex justify-center items-center h-screen bg-gray-100">
+			<div className="flex w-3/4 max-w-4xl shadow-lg">
+				<div className="w-1/2 bg-white p-8 flex flex-col justify-center items-center">
+					<h1 className="text-3xl font-bold mb-4">Welcome Back</h1>
+					<Link to="/login">
+						<button
+							type="button"
+							className="px-6 py-2 mt-4 text-gray-700 bg-white border border-gray-300 rounded-full hover:bg-gray-50"
+						>
+							Sign in
+						</button>
+					</Link>
+				</div>
+				<div className="w-1/2 bg-gray-100 p-8 flex flex-col justify-center items-center">
+					<form className="w-full" onSubmit={handleSubmit}>
+						<h1 className="text-3xl font-bold mb-4 text-center">
+							Create Account
+						</h1>
+						<input
+							type="text"
+							placeholder="First Name"
+							name="firstName"
+							onChange={handleChange}
+							value={data.firstName}
+							required
+							className="w-full p-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
+						/>
+						<input
+							type="text"
+							placeholder="Last Name"
+							name="lastName"
+							onChange={handleChange}
+							value={data.lastName}
+							required
+							className="w-full p-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
+						/>
+						<input
+							type="email"
+							placeholder="Email"
+							name="email"
+							onChange={handleChange}
+							value={data.email}
+							required
+							className="w-full p-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
+						/>
+						<input
+							type="password"
+							placeholder="Password"
+							name="password"
+							onChange={handleChange}
+							value={data.password}
+							required
+							className="w-full p-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
+						/>
+						{error && <div className="text-red-500 text-sm mb-4">{error}</div>}
+						<button
+							type="submit"
+							className="w-full p-2 text-white bg-green-500 rounded-md hover:bg-green-600"
+						>
+							Sign Up
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	);
 };
 
-export default CreateUsers;
+export default create;

@@ -52,7 +52,7 @@ function Users() {
                 </tbody>
             </table>
             <Link to="/create">
-                <button className='bg-slate-500 hover:bg-black hover:text-white hover:cursor-pointer mt-4' style={{ width: '400px' }}>
+                <button className='bg-slate-400 hover:bg-black hover:text-white hover:cursor-pointer mt-4' style={{ width: '400px' }}>
                     Add User
                 </button>
             </Link>
