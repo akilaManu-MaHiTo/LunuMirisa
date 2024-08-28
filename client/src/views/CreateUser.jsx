@@ -1,6 +1,10 @@
 import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import Footer from './Footer.jsx'; 
+import NavigationBar from './NavigationBar'; 
+import logo from '../Images/Logo.png'; 
+import bgsignin from '../Images/signinbackgroundpattern.png'
 
 const create = () => {
 	const [data, setData] = useState({
@@ -35,71 +39,102 @@ const create = () => {
 	};
 
 	return (
-		<div className="flex justify-center items-center h-screen bg-gray-100">
-			<div className="flex w-3/4 max-w-4xl shadow-lg">
-				<div className="w-1/2 bg-white p-8 flex flex-col justify-center items-center">
-					<h1 className="text-3xl font-bold mb-4">Welcome Back</h1>
-					<Link to="/login">
-						<button
-							type="button"
-							className="px-6 py-2 mt-4 text-gray-700 bg-white border border-gray-300 rounded-full hover:bg-gray-50"
-						>
-							Sign in
-						</button>
-					</Link>
+		<div className="bg-custom-black min-h-screen">
+			<NavigationBar logo={logo} /> 
+			<div className="flex justify-center items-center bg-custom-black min-h-screen mt-10 mb-40 ">
+				<div className="flex max-w-4xl shadow-lg">
+				<div
+					className="relative bg-white w-[30rem] flex flex-col justify-center items-center"
+					style={{ 
+						backgroundImage: `url(${bgsignin})`, 
+						backgroundSize: 'cover', 
+						backgroundPosition: 'center' 
+					}}
+					>
+					{}
 				</div>
-				<div className="w-1/2 bg-gray-100 p-8 flex flex-col justify-center items-center">
-					<form className="w-full" onSubmit={handleSubmit}>
-						<h1 className="text-3xl font-bold mb-4 text-center">
-							Create Account
-						</h1>
-						<input
-							type="text"
-							placeholder="First Name"
-							name="firstName"
-							onChange={handleChange}
-							value={data.firstName}
-							required
-							className="w-full p-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
-						/>
-						<input
-							type="text"
-							placeholder="Last Name"
-							name="lastName"
-							onChange={handleChange}
-							value={data.lastName}
-							required
-							className="w-full p-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
-						/>
-						<input
-							type="email"
-							placeholder="Email"
-							name="email"
-							onChange={handleChange}
-							value={data.email}
-							required
-							className="w-full p-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
-						/>
-						<input
-							type="password"
-							placeholder="Password"
-							name="password"
-							onChange={handleChange}
-							value={data.password}
-							required
-							className="w-full p-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
-						/>
-						{error && <div className="text-red-500 text-sm mb-4">{error}</div>}
-						<button
-							type="submit"
-							className="w-full p-2 text-white bg-green-500 rounded-md hover:bg-green-600"
-						>
-							Sign Up
-						</button>
-					</form>
+
+
+					<div className=" bg-custom-gray p-20 flex flex-col justify-center items-center w-[30rem]">
+						<form className="w-full" onSubmit={handleSubmit}>
+							<h1 className="text-white mb-4 text-center font-spartan font-thin text-3xl">
+								Sign Up to Lunumirisa
+							</h1>
+							<div className="flex text-white pt-4 font-spartan items-start font-thin">First Name</div>
+							<input
+								type="text"
+								placeholder=""
+								name="firstName"
+								onChange={handleChange}
+								value={data.firstName}
+								required
+								className="w-full p-2 mb-5 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
+							/>
+
+							<div className="flex text-white font-spartan items-start font-thin">Last Name</div>
+							<input
+								type="text"
+								placeholder=""
+								name="lastName"
+								onChange={handleChange}
+								value={data.lastName}
+								required
+								className="w-full p-2 mb-5 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
+							/>
+
+							<div className="flex text-white font-spartan items-start font-thin">E-mail</div>
+							<input
+								type="email"
+								placeholder=""
+								name="email"
+								onChange={handleChange}
+								value={data.email}
+								required
+								className="w-full p-2 mb-5 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
+							/>
+
+							<div className="flex text-white font-spartan items-start font-thin">Password</div>
+							<input
+								type="password"
+								placeholder=""
+								name="password"
+								onChange={handleChange}
+								value={data.password}
+								required
+								className="w-full p-2 mb-5 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
+							/>
+							{error && <div className="text-red-500 text-sm mb-4">{error}</div>}
+							<div class="flex justify-center">
+							<button
+								type="submit"
+								class="bg-white border border-[#1A1A1A] rounded-[0.9375em] box-border text-black cursor-pointer inline-block font-sans font-semibold text-[16px] m-0 min-h-[3em] min-w-0 outline-none py-[0.5em] px-[1.5em] text-center no-underline transition-all duration-[300ms] ease-[cubic-bezier(.23,1,.32,1)] select-none touch-manipulation will-change-transform hover:bg-custom-cyan hover:text-black hover:shadow-[rgba(0,0,0,0.25)_0_8px_15px] hover:translate-y-[-2px] active:shadow-none active:translate-y-0 disabled:pointer-events-none"
+							>
+								Sign Up
+								<span>
+								<span>
+									<span></span>
+								</span>
+								</span>
+							</button>
+							</div>
+						</form>
+
+						<div className="flex text-white pt-4 font-spartan items-start">
+							<div className="font-thin"> 
+								Already has an account&nbsp;&nbsp; 
+							</div> 
+								<Link to="/login">
+									<button className="font-bold hover:underline">
+										Sign In
+									</button>
+								</Link>
+						</div>
+					</div>
 				</div>
 			</div>
+			<Footer/> 
 		</div>
+
 	);
 };
 
