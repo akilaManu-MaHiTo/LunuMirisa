@@ -23,6 +23,7 @@ import ManagerMenuList from './views/ManagerMenuList';
 import UpdateMenuList from './views/UpdateMenuList';
 import ShowMenuLists from './views/ShowMenuLists';
 import EmailVerify from "./views/E-mailVerify";
+import InOrder from "./views/InOrder";
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
         <Route path='/ManagerMenuList' element={<ManagerMenuList />} />
         <Route path='/UpdateMenuList/:id' element={<UpdateMenuList />} />
         <Route path="/users/:id/verify/:token" element={<EmailVerify />} />
+        <Route path="/InOrder" element={<InOrder/>} />
 
       </Routes>
     </BrowserRouter>
