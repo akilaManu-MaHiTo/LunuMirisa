@@ -39,9 +39,9 @@ const create = () => {
 	};
 
 	return (
-		<div className="bg-custom-black min-h-screen">
+		<div className="bg-custom-light min-h-screen">
 			<NavigationBar logo={logo} /> 
-			<div className="flex justify-center items-center bg-custom-black min-h-screen mt-10 mb-40 ">
+			<div className="flex justify-center items-center bg-custom-light min-h-screen mt-10 mb-40 ">
 				<div className="flex max-w-4xl shadow-lg">
 				<div
 					className="relative bg-white w-[30rem] flex flex-col justify-center items-center"
