@@ -28,6 +28,7 @@ import UpdateTablePage from "./views/UpdateTablePage";
 import TableReservationPage from "./views/TableReservationPage";
 import ReservedTables from "./views/ReservedTables";
 import InOrder from "./views/InOrder";
+import Navigation from "./views/Navigations/NavigationSignup";
 
 
 function App() {
@@ -61,6 +62,7 @@ function App() {
         <Route path="/TableReservationPage/:id" element={<TableReservationPage/>} />
         <Route path="/ReservedTables" element={<ReservedTables/>} />
         <Route path="/InOrder" element={<InOrder/>} />
+        <Route path="/Navigation" element={<Navigation/>} />
       </Routes>
     </BrowserRouter>
   );
