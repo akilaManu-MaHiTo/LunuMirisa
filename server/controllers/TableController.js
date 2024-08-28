@@ -8,12 +8,36 @@ router.post("/createTable", (req, res) => {
         .catch(err => res.status(500).json(err));
 });
 
-router.get("/ShowMenuList",(req,res) => {
+router.get("/ShowTable",(req,res) => {
 
-    Menu.find({})
+    Table.find({})
     .then(users => res.json(users))
     .catch(err => res.json(err))
 
 });
 
+router.get("/getTable/:id",(req,res) => {
+
+    const TableId = req.params.id;
+    Table.findById({_id: TableId})
+    .then(users => res.json(users))
+    .catch(err => res.json(err))
+})
+
+router.put("/updateTable/:id", (req, res) => {
+    const tableId = req.params.id;
+    const { tableNum, quantity, price } = req.body;
+    
+    Table.findByIdAndUpdate(tableId, { tableNum, quantity, price }, { new: true })
+        .then(updatedTable => res.json(updatedTable))
+        .catch(err => res.status(500).json(err));
+});
+
+router.delete("/DeleteTable/:id", (req, res) => {
+    const tableId = req.params.id;
+    
+    Table.findByIdAndDelete(tableId)
+        .then(() => res.json({ message: `Table with id ${tableId} deleted successfully.` }))
+        .catch(err => res.status(500).json({ error: err.message }));
+});
 module.exports = router;

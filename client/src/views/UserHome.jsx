@@ -7,6 +7,7 @@ import Footer from './Footer.jsx';
 import food from '../Images/food.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartPlus } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 const UserHome = () => {
   const { userId } = useParams(); // Extract userId from URL
@@ -59,6 +60,12 @@ const UserHome = () => {
       </div>
       
         <p>User ID: {userId}</p>
+
+        <Link to={`/TableReservationPage`}>
+                  <button className="bg-yellow-500 text-white p-2 rounded mr-2 hover:bg-yellow-600">
+                    Table Reservation
+                  </button>
+                </Link>
 
       <Footer/> 
       

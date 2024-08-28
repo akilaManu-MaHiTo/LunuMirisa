@@ -23,6 +23,11 @@ import ManagerMenuList from './views/ManagerMenuList';
 import UpdateMenuList from './views/UpdateMenuList';
 import ShowMenuLists from './views/ShowMenuLists';
 import EmailVerify from "./views/E-mailVerify";
+import UpdateTable from "./views/UpdateTable";
+import UpdateTablePage from "./views/UpdateTablePage";
+import TableReservationPage from "./views/TableReservationPage";
+import ReservedTables from "./views/ReservedTables";
+
 
 function App() {
   return (
@@ -50,7 +55,11 @@ function App() {
         <Route path='/ManagerMenuList' element={<ManagerMenuList />} />
         <Route path='/UpdateMenuList/:id' element={<UpdateMenuList />} />
         <Route path="/users/:id/verify/:token" element={<EmailVerify />} />
-
+        <Route path="/UpdateTable" element={<UpdateTable/>} />
+        <Route path="/UpdateTablePage/:id" element={<UpdateTablePage/>} />
+        <Route path="/TableReservationPage/:id" element={<TableReservationPage/>} />
+        <Route path="/ReservedTables" element={<ReservedTables/>} />
+        
       </Routes>
     </BrowserRouter>
   );
