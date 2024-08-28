@@ -17,9 +17,8 @@ router.post('/loginUser', async (req, res) => {
     if (employee) {
       console.log('Employee found:', employee);
 
-      // Use bcrypt to compare password
-      const isMatch = await bcrypt.compare(password, employee.EmPassword);
-      if (isMatch) {
+      // Direct string comparison for employees
+      if (employee.EmPassword === password) {
         const statusCode = {
           'Manager': 201,
           'Waitor': 202,
@@ -37,6 +36,7 @@ router.post('/loginUser', async (req, res) => {
       if (user) {
         console.log('User found:', user);
 
+        // Use bcrypt to compare the password for users
         const isMatch = await bcrypt.compare(password, user.password);
         if (isMatch) {
           if (user.verified === true) {
