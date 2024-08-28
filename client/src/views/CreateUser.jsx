@@ -39,10 +39,10 @@ const create = () => {
 	};
 
 	return (
-		<div className="bg-custom-light min-h-screen">
+		<div className="bg-custom-dark  min-h-screen">
 			<NavigationBar logo={logo} /> 
-			<div className="flex justify-center items-center bg-custom-light min-h-screen mt-10 mb-40 ">
-				<div className="flex max-w-4xl shadow-lg">
+			<div className="flex justify-center items-center bg-custom-dark min-h-screen mt-10 mb-40 ">
+				<div className="flex max-w-4xl shadow-lg border-2 border-custom-light  ">
 				<div
 					className="relative bg-white w-[30rem] flex flex-col justify-center items-center"
 					style={{ 
@@ -55,7 +55,8 @@ const create = () => {
 				</div>
 
 
-					<div className=" bg-custom-gray p-20 flex flex-col justify-center items-center w-[30rem]">
+				<div className="bg-custom-gray p-20 flex flex-col justify-center items-center w-[30rem] border-1 border-white ">
+
 						<form className="w-full" onSubmit={handleSubmit}>
 							<h1 className="text-white mb-4 text-center font-spartan font-thin text-3xl">
 								Sign Up to Lunumirisa

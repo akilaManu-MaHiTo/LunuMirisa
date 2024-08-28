@@ -67,14 +67,28 @@ const NavigationBar = ({ logo }) => {
           </div>
         )}
 
-        {showUserOption && (
-          <div ref={userRef} className="absolute top-10 right-16 mt-2 mr-4 p-2 rounded-none bg-gray-800">
-            <ul>
-              <Link to={`/UserProfile/${userId}`}><button>Profile Settings</button></Link>
-              <li className='text-red-800'>Logout</li>
-            </ul>
-          </div>
-        )}
+{showUserOption && (
+  <div 
+    ref={userRef} 
+    className="absolute top-10 right-16 mt-2 p-4 rounded-lg bg-gray-800 shadow-lg border border-gray-700"
+  >
+    <ul className="space-y-2">
+      <li>
+        <Link to={`/UserProfile/${userId}`}>
+          <button className="w-full text-white text-left font-semibold hover:bg-gray-700 py-2 px-3 rounded-md transition-colors duration-300">
+            Profile Settings
+          </button>
+        </Link>
+      </li>
+      <li>
+        <button className="w-full text-red-500 font-semibold hover:text-red-600 py-2 px-3 rounded-md transition-colors duration-300">
+          Logout
+        </button>
+      </li>
+    </ul>
+  </div>
+)}
+
       </nav>
     </div>
   );
