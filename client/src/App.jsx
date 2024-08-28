@@ -27,6 +27,7 @@ import UpdateTable from "./views/UpdateTable";
 import UpdateTablePage from "./views/UpdateTablePage";
 import TableReservationPage from "./views/TableReservationPage";
 import ReservedTables from "./views/ReservedTables";
+import InOrder from "./views/InOrder";
 
 
 function App() {
@@ -59,7 +60,7 @@ function App() {
         <Route path="/UpdateTablePage/:id" element={<UpdateTablePage/>} />
         <Route path="/TableReservationPage/:id" element={<TableReservationPage/>} />
         <Route path="/ReservedTables" element={<ReservedTables/>} />
-        
+        <Route path="/InOrder" element={<InOrder/>} />
       </Routes>
     </BrowserRouter>
   );

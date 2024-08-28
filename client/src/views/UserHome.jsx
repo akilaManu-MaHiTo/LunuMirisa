@@ -35,7 +35,7 @@ const UserHome = () => {
             <img src={food} alt="food" className='w-[15rem] h-auto rounded mx-auto mt-2' />
               <div className="text-center text-white font-spartan font-thin mt-8 text-2xl">Chicken Biriyani</div>
               <div className="text-center text-white font-spartan font-thin text-xl mt-2">Rs.1700/-</div>
-              <button type="submit" className='flex mb-4 items-center justify-center w-[15rem] py-1 mt-16 bg-custom-light text-white hover:bg-custom-black h-12 transition-all duration-300 ease-in-out transform hover:scale-105'>
+              <button type="submit" className='flex mb-4 items-center justify-center w-[15rem] py-1 mt-16 bg-custom-light text-white hover:bg-white hover:text-black h-12 transition-all duration-300 ease-in-out transform hover:scale-105'>
               <FontAwesomeIcon icon={faCartPlus} className='mr-2' /> Add to Cart </button>
             </div>
           ))}
@@ -52,12 +52,21 @@ const UserHome = () => {
               <img src={food} alt="food" className='w-[15rem] h-auto rounded mx-auto mt-2' />
               <div className="text-center text-white font-spartan font-thin mt-8 text-2xl">Chicken Biriyani</div>
               <div className="text-center text-white font-spartan font-thin text-xl mt-2">Rs.1700/-</div>
-              <button type="submit" className='flex mb-4 items-center justify-center w-[15rem] py-1 mt-16 bg-custom-light text-white hover:bg-custom-black h-12 transition-all duration-300 ease-in-out transform hover:scale-105'>
+              <button type="submit" className='flex mb-4 items-center justify-center w-[15rem] py-1 mt-16 bg-custom-light text-white hover:bg-white hover:text-black h-12 transition-all duration-300 ease-in-out transform hover:scale-105'>
               <FontAwesomeIcon icon={faCartPlus} className='mr-2' /> Add to Cart </button>
             </div>
           ))}
         </div>
       </div>
+
+      <div className='text-white text-5xl pt-8 font-spartan font-thin pl-[10rem]'>Table Resevation</div>
+
+      <div class="flex justify-center items-center min-h-screen">
+  <button class="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 transition duration-200 ease-in-out">
+    Table Reservation
+  </button>
+</div>
+
       
         <p>User ID: {userId}</p>
 
