@@ -2,9 +2,10 @@ import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from './Footer.jsx'; 
-import NavigationBar from './NavigationBar'; 
+import NavigationBar from './Navigations/NavigationSignup.jsx'; 
 import logo from '../Images/Logo.png'; 
 import bgsignin from '../Images/signinbackgroundpattern.png'
+import signupimage from '../Images/signupimage.jpg'
 
 const create = () => {
 	const [data, setData] = useState({
@@ -55,11 +56,11 @@ const create = () => {
 				</div>
 
 
-				<div className="bg-custom-gray p-20 flex flex-col justify-center items-center w-[30rem] border-1 border-white ">
+				<div className="bg-custom-gray pt-20 pl-16 pr-16 pb-20 flex flex-col justify-center items-center w-[30rem] border-1 border-white ">
 
 						<form className="w-full" onSubmit={handleSubmit}>
-							<h1 className="text-white mb-4 text-center font-spartan font-thin text-3xl">
-								Sign Up to Lunumirisa
+							<h1 className="text-white mb-10 text-center font-spartan font-thin text-4xl">
+								Sign Up to LunuMirisa
 							</h1>
 							<div className="flex text-white pt-4 font-spartan items-start font-thin">First Name</div>
 							<input
@@ -102,7 +103,7 @@ const create = () => {
 								onChange={handleChange}
 								value={data.password}
 								required
-								className="w-full p-2 mb-5 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
+								className="w-full p-2 mb-7 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
 							/>
 							{error && <div className="text-red-500 text-sm mb-4">{error}</div>}
 							<div class="flex justify-center">

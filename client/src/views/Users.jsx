@@ -92,6 +92,12 @@ function Users() {
                     Admin
                 </button>
             </Link>
+
+            <Link to="/Navigation">
+                <button className='bg-slate-500 hover:bg-black hover:text-white hover:cursor-pointer mt-4' style={{ width: '400px' }}>
+                    Navigation
+                </button>
+            </Link>
         </div>
     );
 }

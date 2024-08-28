@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import logo from '../Images/Logo.png'; 
 import homePic from '../Images/food.png';
-import NavigationBar from './NavigationBar'; 
+import NavigationBar from './Navigations/NavigationBar.jsx'; 
 import Footer from './Footer.jsx'; 
 import food from '../Images/food.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
