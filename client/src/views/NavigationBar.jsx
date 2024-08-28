@@ -91,29 +91,30 @@ const NavigationBar = ({ logo }) => {
           </div>
             )}
 
-            {showUserOption && (
-              <div 
-                ref={userRef} 
-                className="absolute top-10 right-20 mt-14 p-4 rounded-lg bg-custom-dark shadow-lg border border-white transform transition-transform duration-300 ease-in-out scale-95 translate-y-[-10px]"
-              >
-                <ul className="space-y-2">
-                  <li>
-                    <Link to={`/UserProfile/${userId}`}>
-                      <button className="w-full text-white text-left font-semibold hover:bg-white hover:text-black py-2 px-3 rounded-md transition-colors duration-300 flex items-center">
-                        <FontAwesomeIcon icon={faUserCog} className="mr-2" />
-                        Profile Settings
-                      </button>
-                    </Link>
-                  </li>
-                  <li>
-                    <button className="w-full text-red-500 font-semibold hover:bg-red-500 hover:text-black py-2 px-3 rounded-md transition-colors duration-300 flex items-center">
-                      <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
-                      Logout
-                    </button>
-                  </li>
-                </ul>
-              </div>
-            )}
+{showUserOption && (
+  <div 
+    ref={userRef} 
+    className="absolute top-10 right-20 mt-14 p-4 rounded-lg bg-custom-dark shadow-lg border border-white transform transition-transform duration-300 ease-in-out scale-95 translate-y-[-10px] z-50"
+  >
+    <ul className="space-y-2">
+      <li>
+        <Link to={`/UserProfile/${userId}`}>
+          <button className="w-full text-white text-left font-semibold hover:bg-white hover:text-black py-2 px-3 rounded-md transition-colors duration-300 flex items-center">
+            <FontAwesomeIcon icon={faUserCog} className="mr-2" />
+            Profile Settings
+          </button>
+        </Link>
+      </li>
+      <li>
+        <button className="w-full text-red-500 font-semibold hover:bg-red-500 hover:text-black py-2 px-3 rounded-md transition-colors duration-300 flex items-center">
+          <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
+          Logout
+        </button>
+      </li>
+    </ul>
+  </div>
+)}
+
 
 
       </nav>
