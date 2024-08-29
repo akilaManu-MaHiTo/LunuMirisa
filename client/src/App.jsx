@@ -59,8 +59,8 @@ function App() {
         <Route path="/users/:id/verify/:token" element={<EmailVerify />} />
         <Route path="/UpdateTable" element={<UpdateTable/>} />
         <Route path="/UpdateTablePage/:id" element={<UpdateTablePage/>} />
-        <Route path="/TableReservationPage/:id" element={<TableReservationPage/>} />
-        <Route path="/ReservedTables" element={<ReservedTables/>} />
+        <Route path="/TableReservationPage/:userId" element={<TableReservationPage/>} />
+        <Route path="/ReservedTables/:id/:userId" element={<ReservedTables/>} />
         <Route path="/InOrder" element={<InOrder/>} />
         <Route path="/Navigation" element={<Navigation/>} />
       </Routes>

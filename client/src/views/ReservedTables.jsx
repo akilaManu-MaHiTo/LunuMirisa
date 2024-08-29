@@ -1,14 +1,16 @@
 import axios from 'axios';
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState,useEffect } from 'react';
+import { useNavigate,useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 
 const ReservedTables = () => {
     
+    const { id } = useParams();
     const [tables, setTables] = useState([]);
     const [date, setDate] = useState('');
     const [time, setTime] = useState('');
+    const [eroor, setError] = useState('');
     
     const navigate = useNavigate();
 

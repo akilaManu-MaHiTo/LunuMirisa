@@ -61,16 +61,16 @@ const UserHome = () => {
 
       <div className='text-white text-5xl pt-8 font-spartan font-thin pl-[10rem]'>Table Resevation</div>
 
-      <div class="flex justify-center items-center min-h-screen">
-  <button class="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 transition duration-200 ease-in-out">
+      <div className="flex justify-center items-center min-h-screen">
+  <button className="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 transition duration-200 ease-in-out">
     Table Reservation
   </button>
 </div>
 
       
-        <p>User ID: {userId}</p>
+        <p className="bg-yellow-500 text-white">User ID: {userId}</p>
 
-        <Link to={`/TableReservationPage`}>
+        <Link to={`/TableReservationPage/${userId}`}>
                   <button className="bg-yellow-500 text-white p-2 rounded mr-2 hover:bg-yellow-600">
                     Table Reservation
                   </button>
