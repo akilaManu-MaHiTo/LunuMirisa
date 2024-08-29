@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link,useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 
-const Updatetable = () => {
-
-    const { userId } = useParams();
-
+const TableReservation = () => {
+  const { userId } = useParams();
   const [tables, setTables] = useState([]);
+  const [loading, setLoading] = useState(true);  // New state for loading
+  console.log(`user id: ${userId}`);
 
   useEffect(() => {
     axios.get('http://localhost:3001/ShowTable')
-      .then(result => setTables(result.data))
-      .catch(err => console.log(err));
+      .then(result => {
+        setTables(result.data);
+        setLoading(false);  // Set loading to false after data is fetched
+      })
+      .catch(err => {
+        console.log(err);
+        setLoading(false);  // Set loading to false in case of an error
+      });
   }, []);
-
- 
 
   const handleDelete = (id) => {
     axios.delete(`http://localhost:3001/DeleteTable/${id}`)
@@ -24,6 +28,16 @@ const Updatetable = () => {
       })
       .catch(err => console.log(err));
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <div className="flex items-center justify-center">
+          <div className="w-16 h-16 border-4 border-dashed rounded-full animate-spin border-black"></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -39,12 +53,11 @@ const Updatetable = () => {
                 <p>{`Price: ${table.price}`}</p>
               </div>
               <div className="mt-2">
-              <Link to={`/UpdateTablePage/${table._id}/${userId}`}>
+                <Link to={`/ReservedTables/${table._id}/${userId}`}>
                   <button className="bg-yellow-500 text-white p-2 rounded mr-2 hover:bg-yellow-600">
                     Reserve
                   </button>
                 </Link>
-                
               </div>
             </li>
           ))}
@@ -54,4 +67,4 @@ const Updatetable = () => {
   );
 };
 
-export default Updatetable;
+export default TableReservation;
