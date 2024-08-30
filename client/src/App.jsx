@@ -31,7 +31,7 @@ import InOrder from "./views/InOrder";
 import Navigation from "./views/Navigations/NavigationSignup";
 
 import AddSupplier from "./views/AddSupplier";
-import ShowSupplierProfile from "./views/ShowSupplierProfiles";
+import ShowSupplierProfiles from "./views/ShowSupplierProfiles";
 
 
 import AddSupplierCategory  from "./views/AddSupplierCategory";
@@ -76,7 +76,7 @@ function App() {
         <Route path="/Navigation" element={<Navigation/>} />
 
         <Route path="/AddSupplier" element={<AddSupplier/>} />
-        <Route path="/ShowSupplierProfiles" element={<ShowSupplierProfile/>} />
+        <Route path="/ShowSupplierProfiles" element={<ShowSupplierProfiles/>} />
       
 
         <Route path="/AddSupplierCategory" element={<AddSupplierCategory/>} />
