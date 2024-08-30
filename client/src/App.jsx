@@ -28,7 +28,7 @@ import UpdateTablePage from "./views/UpdateTablePage";
 import TableReservationPage from "./views/TableReservationPage";
 import ReservedTables from "./views/ReservedTables";
 import InOrder from "./views/InOrder";
-import Navigation from "./views/Navigations/NavigationSignup";
+import Navigation from "./views/Components/NavigationSignup";
 import AddSupplier from "./views/AddSupplier";
 import ShowSupplierProfiles from "./views/ShowSupplierProfiles";
 import AddSupplierCategory  from "./views/AddSupplierCategory";

@@ -1,7 +1,7 @@
 import React from "react";
 //import { Link } from 'react-router-dom';
 import logo from '../Images/OIP.jpeg'; // Ensure the path to your image is correct
-import NavigationBar from './Navigations/NavigationBar';
+import NavigationBar from './Components/NavigationBar';
 
 
 function ImageUpload() {
