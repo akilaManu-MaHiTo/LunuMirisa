@@ -5,7 +5,7 @@ import logo from '../Images/Logo.png';
 import Loader from './Components/Loader.jsx'; 
 import NavigationBar from './Components/NavigationBar.jsx'; 
 import Footer from './Footer.jsx';
-//import bgtable from '../Images/table.jpg';
+import bgtable from '../Images/table.jpg';
 
 const TableReservation = () => {
   const { userId } = useParams();
@@ -69,11 +69,11 @@ const TableReservation = () => {
       <NavigationBar logo={logo} />
       <div 
          className="flex items-center justify-center min-h-screen"
-        // style={{ 
-        //   backgroundImage: `url(${bgtable})`, 
-        //   backgroundSize: 'cover', 
-        //   backgroundPosition: 'center' 
-        // }}
+        style={{ 
+          backgroundImage: `url(${bgtable})`, 
+          backgroundSize: 'cover', 
+          backgroundPosition: 'center' 
+        }}
       >
         <div className="bg-black bg-opacity-60 p-10 mt-16 rounded-xl shadow-lg w-[55rem] h-auto mb-40 border border-gray-500">
           <h1 className="font-spartan font-thin text-3xl mb-6 text-center text-white">Reserve your table</h1>
