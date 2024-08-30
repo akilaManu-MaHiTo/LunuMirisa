@@ -29,11 +29,8 @@ import TableReservationPage from "./views/TableReservationPage";
 import ReservedTables from "./views/ReservedTables";
 import InOrder from "./views/InOrder";
 import Navigation from "./views/Navigations/NavigationSignup";
-
 import AddSupplier from "./views/AddSupplier";
 import ShowSupplierProfiles from "./views/ShowSupplierProfiles";
-
-
 import AddSupplierCategory  from "./views/AddSupplierCategory";
 import  ShowSupplierCategory from "./views/ShowSupplierCategory";
 import  UpdateSupplierCategory from "./views/UpdateSupplierCategory";
@@ -74,11 +71,8 @@ function App() {
         <Route path="/ReservedTables/:id/:userId" element={<ReservedTables/>} />
         <Route path="/InOrder" element={<InOrder/>} />
         <Route path="/Navigation" element={<Navigation/>} />
-
         <Route path="/AddSupplier" element={<AddSupplier/>} />
         <Route path="/ShowSupplierProfiles" element={<ShowSupplierProfiles/>} />
-      
-
         <Route path="/AddSupplierCategory" element={<AddSupplierCategory/>} />
         <Route path="/ShowSupplierCategory" element={<ShowSupplierCategory/>} />
         <Route path="/UpdateSupplierCategory/:id" element={<UpdateSupplierCategory/>} />
