@@ -14,6 +14,8 @@ const INVENTORY = require ('./controllers/InventoryController')
 const TABLE = require ('./controllers/TableController')
 const SUPPLIERORDER = require ('./controllers/SupplierOrderController')
 const SIGN = require ('./controllers/SignUpController')
+const SUPPLIERCATEGORY = require ('./controllers/SupplierCategoryController')
+const SupplierProfile = require ('./controllers/SupplierProfileController')
 
 const app = express();
 app.use(cors());
@@ -30,6 +32,8 @@ app.use('/',INVENTORY)
 app.use('/',TABLE)
 app.use('/',SUPPLIERORDER)
 app.use('/',SIGN)
+app.use('/',SUPPLIERCATEGORY)
+app.use('/',SupplierProfile)
 
 
 
