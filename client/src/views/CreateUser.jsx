@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from './Footer.jsx'; 
-import NavigationBar from './Navigations/NavigationSignup.jsx'; 
+import NavigationBar from './Components/NavigationSignup.jsx'; 
 import logo from '../Images/Logo.png'; 
 import bgsignin from '../Images/signinbackgroundpattern.png'
 import signupimage from '../Images/signupimage.jpg'
