@@ -34,7 +34,7 @@ import ShowSupplierProfiles from "./views/ShowSupplierProfiles";
 import AddSupplierCategory  from "./views/AddSupplierCategory";
 import  ShowSupplierCategory from "./views/ShowSupplierCategory";
 import  UpdateSupplierCategory from "./views/UpdateSupplierCategory";
-
+import  UserCart from "./views/UserCart";
 
 
 
@@ -76,6 +76,7 @@ function App() {
         <Route path="/AddSupplierCategory" element={<AddSupplierCategory/>} />
         <Route path="/ShowSupplierCategory" element={<ShowSupplierCategory/>} />
         <Route path="/UpdateSupplierCategory/:id" element={<UpdateSupplierCategory/>} />
+        <Route path="/UserCart/:userId" element={<UserCart/>} />
 
       </Routes>
     </BrowserRouter>

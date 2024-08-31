@@ -65,10 +65,10 @@ const NavigationBar = ({ logo }) => {
                 onClick={toggleSearchBar} 
               />
 
-              <FontAwesomeIcon 
+              <Link to = {`/UserCart/${userId}`}><FontAwesomeIcon 
                 icon={faShoppingCart} 
                 className="text-white cursor-pointer hidden md:inline text-2xl p-3 transition-transform duration-300 ease-in-out transform hover:scale-110 hover:text-gray-300"
-              />
+              /></Link>
 
               <FontAwesomeIcon 
                 icon={faUser} 
