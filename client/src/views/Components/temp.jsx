@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import AdminNaviBar from './Components/AdminNavigationBar';
 import ToggleSlideBar from './Components/ToggleSlideBar';
 import useSidebar from './Components/useSidebar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
 
 const ShowInventory = () => {
   const { isSidebarVisible, toggleSidebar, sidebarRef } = useSidebar();
@@ -70,8 +68,8 @@ const ShowInventory = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <AdminNaviBar selectedPage="Inventory Management" />
-      <div className="p-5 custom1-md:pl-[4rem]">
+      <AdminNaviBar selectedPage="Admin Panel" />
+      <div className="p-4">
         <button
           className="text-gray-800 text-2xl focus:outline-none"
           onClick={toggleSidebar}

@@ -1,31 +1,22 @@
-import React, { useState, useRef } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faShoppingCart, faUser, faSignOutAlt, faUserCog } from '@fortawesome/free-solid-svg-icons';
 import logo from '../../Images/Logo.png';
 
-const AdminNavigationBar = () => {
-  const [showUserOption, setShowUserOption] = useState(false);
-
-  const toggleUserOption = () => setShowUserOption(!showUserOption);
-
+const AdminNavigationBar = ({ selectedPage }) => {
   return (
-    <div className='custom1-md:pr-[10rem] custom1-md:pl-[10rem] bg-custom-gray'>
-      <nav className="flex items-center justify-between px-4">
-        <div className="flex items-center h-[7rem] w-32">
-          <img src={logo} alt="Logo" className="h-auto w-20 " />
+    <div className='custom1-md:pl-[3rem] bg-custom-gray'>
+      <nav className="flex items-center justify-start px-4 h-[7rem]">
+        <div className="flex items-center">
+          <img src={logo} alt="Logo" className="h-auto w-20" />
         </div>
-        
-        <div className="flex items-center space-x-4">
-  <h4 className="text-white font-semibold text-lg tracking-wide">Login / Signup</h4>
-
-  <FontAwesomeIcon 
-    icon={faUser} 
-    className="text-white cursor-pointer text-2xl p-3 transition-transform duration-300 ease-in-out transform hover:scale-110 hover:text-gray-300"
-    onClick={toggleUserOption} 
-  />
-</div>
-
+        <div className="flex-1 flex justify-center">
+          <span className="text-xl font-bold text-white">{selectedPage}</span>
+        </div>
+        <div className="flex items-center">
+          {/* Other navigation items can go here */}
+        </div>
       </nav>
     </div>
   );
