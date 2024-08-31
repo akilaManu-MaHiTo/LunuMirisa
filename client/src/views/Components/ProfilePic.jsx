@@ -29,11 +29,12 @@ function ProfilePic() {
     return (
         <div className='flex items-center justify-center w-30'>
         <div className="relative w-40 h-40">
-            <div 
-                id="imagePreview" 
-                className="w-full h-full bg-cover bg-center rounded-full" 
-                style={{ backgroundImage: 'url(http://i.pravatar.cc/500?img=7)' }}
-            ></div>
+        <div 
+    id="imagePreview" 
+    className="w-full h-full bg-cover bg-center rounded-full transition-all duration-500 ease-in-out transform hover:scale-110 hover:shadow-2xl " 
+    style={{ backgroundImage: 'url(http://i.pravatar.cc/500?img=7)' }}
+></div>
+
             <div className="absolute bottom-0 right-0 translate-x-1/2 translate-y-1/2 flex items-center justify-center">
                 <input 
                     type="file" 
@@ -47,7 +48,7 @@ function ProfilePic() {
                 >
                     <FontAwesomeIcon 
                         icon={faPencilAlt} 
-                        className="text-black text-[1rem] bg-gray-600 p-2 rounded-full hover:bg-white mb-10" 
+                        className="text-black text-[1rem] bg-white p-2 rounded-full hover:bg-blue-500 mb-10 transition-all duration-300 ease-in-out transform hover:scale-105 hover:text-white " 
                     />
                 </label>
             </div>
