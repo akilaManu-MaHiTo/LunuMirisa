@@ -6,7 +6,7 @@ import NavigationBar from './Components/NavigationBar';
 
 function ImageUpload() {
     return (
-        <div className="bg-custom-black min-h-screen ml-14 mr-16">
+        <div className="bg-custom-white min-h-screen ml-14 mr-16">
             {/* Navigation Bar */}
             <NavigationBar logo={logo} />
             {/* End of Navigation Bar */}
