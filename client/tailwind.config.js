@@ -14,6 +14,7 @@ export default {
         'custom-light': '#464545',
         'custom-dark': '#2C2C2C',
         'custom-toolight':'#999999',
+        'custom-maroon':'#1A0E0E',
       },
       fontFamily: {
         'spartan': ['League Spartan', 'sans-serif'],

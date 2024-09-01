@@ -71,19 +71,19 @@ const Create = () => {
 	};
 
 	return (
-		<div className="bg-custom-dark min-h-screen">
+		<div className="bg-custom-maroon min-h-screen ">
 			<NavigationBar logo={logo} /> 
-			<div className="flex justify-center items-center bg-custom-dark min-h-screen mt-10 mb-40">
-				<div className="flex w-[75rem] shadow-lg border-2 border-custom-light">
-					<div
-						className='hidden sm:block w-8/12 relative'
+			<div className="flex justify-center items-center bg-custom-maroon min-h-screen mt-10 mb-40 ">
+			<div className="flex w-[75rem] shadow-lg ">
+			<div
+						className='hidden sm:block w-8/12 relative '
 						style={{ 
 							backgroundImage: `url(${signinBG})`, 
 							backgroundSize: 'cover', 
 							backgroundPosition: 'center' 
 						}}
 					>
-						<div className='absolute inset-0 bg-black opacity-70'></div>
+						<div className='absolute inset-0 bg-black opacity-70 '></div>
 						<div className='relative flex justify-center items-center h-full'>
 							<h2 className='text-white font-spartan font-thin text-5xl text-center px-20'>
 								Craving something exciting? Sign up now and dive in!
@@ -91,9 +91,9 @@ const Create = () => {
 						</div>
 					</div>
 
-					<div className="bg-white pt-20 pl-16 pr-16 pb-20 flex flex-col justify-center items-center w-1/2 border-1 border-white">
-						<form className="w-full" onSubmit={handleSubmit}>
-							<h1 className="text-center text-black font-spartan font-semibold text-[4rem] mb-10">
+					<div className="bg-white pt-20 pl-16 pr-16 pb-20 flex flex-col justify-center items-center w-1/2 h-[1000px]">
+					<form className="w-full" onSubmit={handleSubmit}>
+							<h1 className="text-center text-black font-spartan font-semibold text-[4rem] mb-10 rounded-r-2xl">
 								Sign Up 
 							</h1>
 							<div className="flex text-black pt-4 font-spartan items-start">First Name</div>
