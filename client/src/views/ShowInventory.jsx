@@ -43,31 +43,25 @@ const ShowInventory = () => {
 
   const filterInventory = (category, max) => {
     let filtered = inventory;
-
+  
     if (category) {
       filtered = filtered.filter(item => item.category === category);
     }
-
-    // Show all items if maxQuantity is the maximum value
-    if (max === 5) {
-      // Sort by low inventory first, then by quantity
-      const sorted = filtered.sort((a, b) => {
-        if (a.quantity < 5 && b.quantity >= 5) return -1;
-        if (a.quantity >= 5 && b.quantity < 5) return 1;
-        return a.quantity - b.quantity;
-      });
-      setFilteredInventory(sorted);
-    } else {
+  
+    if (max !== 5) {
       filtered = filtered.filter(item => item.quantity <= max);
-      // Sort by low inventory first, then by quantity
-      const sorted = filtered.sort((a, b) => {
-        if (a.quantity < 5 && b.quantity >= 5) return -1;
-        if (a.quantity >= 5 && b.quantity < 5) return 1;
-        return a.quantity - b.quantity;
-      });
-      setFilteredInventory(sorted);
     }
+  
+    // Sort by low inventory first, then by quantity, while ensuring items with maxQuantity aren't marked as low
+    const sorted = filtered.sort((a, b) => {
+      if (a.quantity < 5 && a.quantity < a.maxQuantity && (b.quantity >= 5 || b.quantity === b.maxQuantity)) return -1;
+      if ((a.quantity >= 5 || a.quantity === a.maxQuantity) && b.quantity < 5 && b.quantity < b.maxQuantity) return 1;
+      return a.quantity - b.quantity;
+    });
+  
+    setFilteredInventory(sorted);
   };
+  
 
   useEffect(() => {
     filterInventory(selectedCategory, maxQuantity);
