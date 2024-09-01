@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Navigation from './Components/NavigationBar.jsx';
 import logo from '../Images/Logo.png';
-import defaultProfilePic from '../Images/Logo.png';
+import defaultProfilePic from '../Images/profile-picture.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCrown, faUser, faPenNib, faEnvelope, faPhone, faLocationDot, faPenAlt } from '@fortawesome/free-solid-svg-icons';
 import bgprofile from '../Images/profileBG2.jpg';
