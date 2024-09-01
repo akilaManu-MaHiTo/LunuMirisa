@@ -6,7 +6,7 @@ import NavigationBar from './Components/NavigationSignup.jsx';
 import logo from '../Images/Logo.png'; 
 import signinBG from '../Images/signinBG.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faCircleNotch, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const Create = () => {
 	const [data, setData] = useState({
@@ -17,6 +17,7 @@ const Create = () => {
 		confirmPassword: "", // Temporarily keep this for client-side validation
 	});
 	const [error, setError] = useState("");
+	const [loading, setLoading] = useState(false); // New state for loading
 	const [passwordVisible, setPasswordVisible] = useState(false);
 	const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
 	const navigate = useNavigate();
@@ -33,6 +34,8 @@ const Create = () => {
 			setError("Passwords do not match.");
 			return;
 		}
+
+		setLoading(true); // Set loading state to true when the form is submitted
 
 		console.log("Data being sent:", {
 			firstName: data.firstName,
@@ -59,6 +62,8 @@ const Create = () => {
 			} else {
 				setError("An unexpected error occurred.");
 			}
+		} finally {
+			setLoading(false); // Reset loading state after the request is complete
 		}
 	};
 
@@ -165,9 +170,14 @@ const Create = () => {
 							<div className="flex justify-center">
 								<button
 									type="submit" // Ensure button type is submit
-									className="w-64 mt-5 py-2 px-4 bg-black text-white rounded-md shadow-sm duration-300 hover:bg-white hover:border hover:border-black hover:text-black hover:scale-105"
+									disabled={loading} // Disable button while loading
+									className={`w-64 mt-5 py-2 px-4 text-white rounded-md shadow-sm duration-300 ${loading ? 'bg-black cursor-not-allowed' : 'bg-black hover:bg-white hover:border hover:border-black hover:text-black hover:scale-105'}`}
 								>
-									Sign Up
+									{loading ? (
+										<FontAwesomeIcon icon={faCircleNotch} spin className="w-5 h-5" />
+									) : (
+										"Sign Up"
+									)}
 								</button>
 							</div>
 						</form>
