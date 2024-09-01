@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const multer = require('multer');
+const path = require('path');
 
 // Local imports
 const conDatabase = require('./database');
@@ -20,6 +22,7 @@ const SupplierProfile = require ('./controllers/SupplierProfileController')
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(express.static('public'))
 
 //handle routing
 app.use('/',USER)

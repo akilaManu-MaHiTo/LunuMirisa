@@ -50,11 +50,21 @@ const ShowInventory = () => {
 
     // Show all items if maxQuantity is the maximum value
     if (max === 5) {
-      setFilteredInventory(filtered);
+      // Sort by low inventory first, then by quantity
+      const sorted = filtered.sort((a, b) => {
+        if (a.quantity < 5 && b.quantity >= 5) return -1;
+        if (a.quantity >= 5 && b.quantity < 5) return 1;
+        return a.quantity - b.quantity;
+      });
+      setFilteredInventory(sorted);
     } else {
       filtered = filtered.filter(item => item.quantity <= max);
-      // Sort items by quantity in ascending order
-      const sorted = filtered.sort((a, b) => a.quantity - b.quantity);
+      // Sort by low inventory first, then by quantity
+      const sorted = filtered.sort((a, b) => {
+        if (a.quantity < 5 && b.quantity >= 5) return -1;
+        if (a.quantity >= 5 && b.quantity < 5) return 1;
+        return a.quantity - b.quantity;
+      });
       setFilteredInventory(sorted);
     }
   };
@@ -158,17 +168,19 @@ const ShowInventory = () => {
                 {filteredInventory.map((item) => (
                   <li key={item._id} className="bg-slate-200 grid grid-cols-8 mb-4 p-4 border rounded items-center space-x-6 border-custom-black">
                     <img 
-                      src={item.image} 
+                      src={`http://localhost:3001/Images/`+item.image} 
                       alt={item.name} 
-                      className="w-24 h-24 object-cover"
+                      className="w-32 h-32 object-cover rounded-md"
                     />
                     <div className="text-xl font-semibold">{item.name}</div>
                     <div>{item.quantity}kg</div>
                     <div>{item.maxQuantity}kg</div>
-                    {item.quantity < 5 ? (
+                    {item.quantity < 5 && item.quantity !== item.maxQuantity ? (
                       <div className="text-white bg-red-500 rounded-md w-20 text-center h-11 font-semibold pt-2">Low</div>
                     ) : item.quantity === item.maxQuantity ? (
                       <div className="text-white bg-green-700 rounded-md w-20 text-center h-11 font-semibold pt-2">Fine</div>
+                    ) : item.quantity < item.maxQuantity && item.maxQuantity===5 ?(
+                      <div className="text-white bg-red-500 rounded-md w-20 text-center h-11 font-semibold pt-2">Low</div>
                     ) : (
                       <div className="text-white bg-yellow-500 rounded-md w-20 text-center h-11 font-bold pt-2">Normal</div>
                     )}

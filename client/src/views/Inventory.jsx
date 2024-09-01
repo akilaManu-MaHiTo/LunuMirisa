@@ -5,28 +5,32 @@ import AdminNaviBar from './Components/AdminNavigationBar';
 
 const Inventory = () => {
   const [name, setName] = useState('');
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState(null); 
   const [quantity, setQuantity] = useState(0);
   const [maxQuantity, setMaxQuantity] = useState(0);
-  const [category, setCategory] = useState('Vegetables'); // New state for category
+  const [category, setCategory] = useState('Vegetables');
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const item = {
-      name,
-      image,
-      quantity,
-      maxQuantity,
-      category, // Include category in the item object
-    };
-    console.log(item);
-    axios.post("http://localhost:3001/AddInventory", item)
+
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('image', image);
+    formData.append('quantity', quantity);
+    formData.append('maxQuantity', maxQuantity);
+    formData.append('category', category);
+
+    axios.post("http://localhost:3001/AddInventory", formData)
       .then(result => {
         console.log(result);
         navigate('/ShowInventory');
       })
       .catch(err => console.log(err));
+  };
+
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
   };
 
   return (
@@ -54,14 +58,13 @@ const Inventory = () => {
           </div>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="image">
-              Image URL
+              Image
             </label>
             <input
-              type="text"
+              type="file"
               name="image"
               id="image"
-              value={image}
-              onChange={(e) => setImage(e.target.value)}
+              onChange={handleImageChange} 
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               required
             />
