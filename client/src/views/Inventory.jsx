@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { useNavigate,Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import AdminNaviBar from './Components/AdminNavigationBar';
-
 
 const Inventory = () => {
   const [name, setName] = useState('');
   const [image, setImage] = useState('');
   const [quantity, setQuantity] = useState(0);
   const [maxQuantity, setMaxQuantity] = useState(0);
+  const [category, setCategory] = useState('Vegetables'); // New state for category
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -18,20 +18,19 @@ const Inventory = () => {
       image,
       quantity,
       maxQuantity,
+      category, // Include category in the item object
     };
     console.log(item);
-    axios.post("http://localhost:3001/AddInventory", { name, image, quantity, maxQuantity })
+    axios.post("http://localhost:3001/AddInventory", item)
       .then(result => {
         console.log(result);
-        navigate('/AdminPage');
+        navigate('/ShowInventory');
       })
       .catch(err => console.log(err));
   };
 
   return (
-
     <div>
-
       <AdminNaviBar selectedPage="Add Inventory Items" />
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
         <form 
@@ -94,6 +93,25 @@ const Inventory = () => {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               required
             />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="category">
+              Category
+            </label>
+            <select
+              name="category"
+              id="category"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              required
+            >
+              <option value="Vegetables">Vegetables</option>
+              <option value="Fruits">Fruits</option>
+              <option value="Spices">Spices</option>
+              <option value="Meat">Meat</option>
+              <option value="Fisheries">Fisheries</option>
+            </select>
           </div>
           <button
             type="submit"
