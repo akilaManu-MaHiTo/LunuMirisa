@@ -74,9 +74,9 @@ const Create = () => {
 		<div className="bg-custom-dark min-h-screen">
 			<NavigationBar logo={logo} /> 
 			<div className="flex justify-center items-center bg-custom-dark min-h-screen mt-10 mb-40">
-				<div className="flex max-w-4xl shadow-lg border-2 border-custom-light">
+				<div className="flex w-[75rem] shadow-lg border-2 border-custom-light">
 					<div
-						className='hidden sm:block w-[60rem] relative'
+						className='hidden sm:block w-8/12 relative'
 						style={{ 
 							backgroundImage: `url(${signinBG})`, 
 							backgroundSize: 'cover', 
@@ -91,7 +91,7 @@ const Create = () => {
 						</div>
 					</div>
 
-					<div className="bg-white pt-20 pl-16 pr-16 pb-20 flex flex-col justify-center items-center w-[55rem] border-1 border-white">
+					<div className="bg-white pt-20 pl-16 pr-16 pb-20 flex flex-col justify-center items-center w-1/2 border-1 border-white">
 						<form className="w-full" onSubmit={handleSubmit}>
 							<h1 className="text-center text-black font-spartan font-semibold text-[4rem] mb-10">
 								Sign Up 
