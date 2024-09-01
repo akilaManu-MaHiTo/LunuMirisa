@@ -193,13 +193,16 @@ function UpdateUsers() {
                         </div>
 
                         </div>
+                        <div className='flex justify-center items-center'>
+                            <button
+                                type="submit"
+                                className="w-64 h-12 bg-black text-white py-2 mt-10 rounded-md hover:bg-white hover:text-black transition duration-200 ease-in-out transform hover:scale-105 hover:translate-y-[-2px]"
+                            >
+                                Save Changes
+                            </button>
+                            </div>
 
-                        <button
-                            type="submit"
-                            className="w-full bg-blue-600 text-white py-2 mt-10 rounded-md hover:bg-blue-700 transition duration-200 ease-in-out"
-                        >
-                            Submit
-                        </button>
+                        
                     </form>
                 </div>
             </div>
