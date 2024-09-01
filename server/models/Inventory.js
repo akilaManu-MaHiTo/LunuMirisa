@@ -6,6 +6,7 @@ const InventorySchema = new mongoose.Schema({
     image: String,
     quantity: String,
     maxQuantity: String,
+    category: String,
     
 })
 
