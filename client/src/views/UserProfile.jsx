@@ -5,7 +5,7 @@ import Navigation from './Components/NavigationBar.jsx';
 import logo from '../Images/Logo.png';
 import defaultProfilePic from '../Images/profile-picture.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCrown, faUser, faPenNib, faEnvelope, faPhone, faLocationDot, faPenAlt } from '@fortawesome/free-solid-svg-icons';
+import { faCrown, faUser, faPenNib, faEnvelope, faPhone, faLocationDot, faPenAlt, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import bgprofile from '../Images/profileBG2.jpg';
 import Footer from './Footer.jsx';
 import Loader from './Components/Loader.jsx';
@@ -15,10 +15,11 @@ function UpdateUsers() {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
-    const [phone, setPhone] = useState('');  // Changed from age to phone
-    const [address, setAddress] = useState('');  // Added state for address
+    const [phone, setPhone] = useState('');
+    const [address, setAddress] = useState('');
     const [loading, setLoading] = useState(true);
     const [image, setImage] = useState(null);
+    const [previewImage, setPreviewImage] = useState(null); // State for image preview
     const [error, setError] = useState(null);
     const [profile, setProfile] = useState({});
     const navigate = useNavigate();
@@ -29,8 +30,8 @@ function UpdateUsers() {
                 setFirstName(result.data.firstName || '');
                 setLastName(result.data.lastName || '');
                 setEmail(result.data.email || '');
-                setPhone(result.data.phone || '');  // Updated to set phone
-                setAddress(result.data.address || '');  // Set address
+                setPhone(result.data.phone || '');
+                setAddress(result.data.address || '');
                 setLoading(false);
             })
             .catch(err => {
@@ -52,36 +53,34 @@ function UpdateUsers() {
     }, [userId]);
 
     const handleImageChange = (e) => {
-        setImage(e.target.files[0]);
+        const selectedFile = e.target.files[0];
+        setImage(selectedFile);
+        setPreviewImage(URL.createObjectURL(selectedFile)); // Generate preview URL
     };
 
     const handleUpdate = (e) => {
         e.preventDefault();
-        if (!firstName || !email || !phone || !address) {  // Added address check
+        if (!firstName || !email || !phone || !address) {
             alert('Please fill out all fields');
             return;
         }
+
+
 
         const formData = new FormData();
         formData.append('image', image);
         formData.append('userId', userId);
 
-        // Handle the profile image update or creation
         axios.post("http://localhost:3001/ProfileImage", formData)
             .then(result => {
                 if (result.data.alreadyExists) {
-                    axios.put("http://localhost:3001/ProfileImage", formData)
-                        .then(result => {
-                            console.log(result);
-                        })
-                        .catch(err => console.log(err));
+                    return axios.put("http://localhost:3001/ProfileImage", formData);
                 }
             })
-            .catch(err => console.log(err));
-
-        // Update user data
-        axios.put(`http://localhost:3001/updateUser/${userId}`, { firstName, lastName, email, phone, address })  // Updated to include phone and address
-            .then(result => {
+            .then(() => {
+                return axios.put(`http://localhost:3001/updateUser/${userId}`, { firstName, lastName, email, phone, address });
+            })
+            .then(() => {
                 navigate(`/UserHome/${userId}`);
             })
             .catch(err => {
@@ -113,7 +112,7 @@ function UpdateUsers() {
                                 <div className="flex items-center justify-center w-30">
                                     <div className="relative w-40 h-40">
                                         <img 
-                                            src={profile.image ? `http://localhost:3001/Images/${profile.image}` : defaultProfilePic} 
+                                            src={previewImage || (profile.image ? `http://localhost:3001/Images/${profile.image}` : defaultProfilePic)} 
                                             alt="Profile" 
                                             className="w-full h-full bg-cover bg-center rounded-full transition-all duration-500 ease-in-out transform hover:scale-110 hover:shadow-2xl"
                                         />
@@ -194,38 +193,47 @@ function UpdateUsers() {
 
                             <div className="mb-4">
                                 <label className="block text-xl text-gray-100 font-thin mb-3">Phone Number</label>
-                                <div className="flex items-center rounded-lg h-12 bg-white transition-all duration-300 ease-in-out transform hover:scale-105 focus-within:border-black">
+                                <div className="flex items-center rounded-lg h-12 bg-white transition duration-200 ease-in-out focus-within:border-black">
                                     <FontAwesomeIcon icon={faPhone} className="w-4 h-4 ml-4 text-black" />
                                     <input
-                                        type="number"
-                                        placeholder="Enter your Phone Number"
+                                        type="text"
+                                        placeholder="Enter your phone number"
                                         className="ml-3 w-full h-full font-thin bg-white text-black border-none rounded-lg focus:outline-none placeholder-black"
-                                        value={phone}  // Updated to use phone state
+                                        value={phone}
                                         onChange={(e) => setPhone(e.target.value)}
                                     />
                                 </div>
                             </div>
 
-                            <div className="mb-4">
-                                <label className="block text-xl text-gray-100 font-thin mb-3">Address</label>              
-                                <div className="flex items-center rounded-lg h-12 bg-white focus-within:border-black transition-all duration-300 ease-in-out transform hover:scale-105">
+                            <div className="mb-6">
+                                <label className="block text-xl text-gray-100 font-thin mb-3">Address</label>
+                                <div className="flex items-center rounded-lg h-12 bg-white transition duration-200 ease-in-out focus-within:border-black">
                                     <FontAwesomeIcon icon={faLocationDot} className="w-4 h-4 ml-4 text-black" />
                                     <input
                                         type="text"
                                         placeholder="Enter your address"
                                         className="ml-3 w-full h-full font-thin bg-white text-black border-none rounded-lg focus:outline-none placeholder-black"
-                                        value={address}  // Added state for address
-                                        onChange={(e) => setAddress(e.target.value)}  // Added handler for address change
+                                        value={address}
+                                        onChange={(e) => setAddress(e.target.value)}
                                     />
                                 </div>
-                            </div>
+                            </div>.
 
                             <div className="text-center">
-                                <button 
-                                    type="submit" 
-                                    className="w-full bg-black text-white h-12 mt-4 font-semibold text-2xl rounded-lg shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl hover:bg-white hover:text-black"
+                            <button
+                                type="submit"
+                                className={`py-2 px-8 rounded-lg transition-all duration-300 ease-in-out transform ${
+                                    loading
+                                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                    : 'bg-white text-black hover:bg-black hover:text-white hover:scale-105'
+                                }`}
+                                disabled={loading}
                                 >
-                                    Save Changes
+                                {loading ? (
+                                    <FontAwesomeIcon icon={faCircleNotch} spin className="w-5 h-5" />
+                                ) : (
+                                    'Save Changes'
+                                )}
                                 </button>
                             </div>
                         </form>
