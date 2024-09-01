@@ -29,11 +29,7 @@ function ProfilePic() {
     return (
         <div className='flex items-center justify-center w-30'>
         <div className="relative w-40 h-40">
-        <div 
-    id="imagePreview" 
-    className="w-full h-full bg-cover bg-center rounded-full transition-all duration-500 ease-in-out transform hover:scale-110 hover:shadow-2xl " 
-    style={{ backgroundImage: 'url(http://i.pravatar.cc/500?img=7)' }}
-></div>
+        <img className="w-full h-full bg-cover bg-center rounded-full transition-all duration-500 ease-in-out transform hover:scale-110 hover:shadow-2xl "/>
 
             <div className="absolute bottom-0 right-0 translate-x-1/2 translate-y-1/2 flex items-center justify-center">
                 <input 
