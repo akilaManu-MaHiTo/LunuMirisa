@@ -17,7 +17,7 @@ const NavigationBar = () => {
         </div>
         
         <div className="flex items-center space-x-4">
-  <h4 className="text-white font-semibold text-lg tracking-wide">Login / Signup</h4>
+  <h4 className="text-white font-thin text-lg tracking-wide">Login / Signup</h4>
 
   <FontAwesomeIcon 
     icon={faUser} 
