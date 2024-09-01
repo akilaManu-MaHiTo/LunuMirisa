@@ -91,8 +91,8 @@ const Create = () => {
 						</div>
 					</div>
 
-					<div className="bg-white pt-20 pl-16 pr-16 pb-20 flex flex-col justify-center items-center w-1/2 h-[1000px]">
-					<form className="w-full" onSubmit={handleSubmit}>
+					<div className="bg-white pt-20 pl-16 pr-16 pb-20 flex flex-col justify-center items-center w-1/2 ">
+						<form className="w-full" onSubmit={handleSubmit}>
 							<h1 className="text-center text-black font-spartan font-semibold text-[4rem] mb-10 rounded-r-2xl">
 								Sign Up 
 							</h1>

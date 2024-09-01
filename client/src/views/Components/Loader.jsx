@@ -9,7 +9,7 @@ const Loader = () => {
 
   return (
 <div className="bg-white p-4  flex items-center justify-center min-h-screen">
-  <div className=" text-black font-spartan  text-2xl box-border h-10 p-2 flex rounded-md">
+  <div className=" text-black font-spartan text-2xl box-border h-10 p-2 flex rounded-md">
     <p>Loading</p>
     <div className="overflow-hidden relative ml-2">
       <div className="absolute inset-0 bg-gradient-to-b  via-transparent to-transparent z-20" style={{ backgroundSize: '100% 50%' }}></div>
