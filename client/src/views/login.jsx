@@ -4,7 +4,8 @@ import { useNavigate, Link } from 'react-router-dom';
 import Navigation from './Components/NavigationSignup.jsx';
 import Footer from './Footer.jsx'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faCircleNotch, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import logo from '../Images/Logo.png';
 import at from '../Images/at.svg';
 import lock from '../Images/lock.svg';
@@ -14,11 +15,13 @@ const LoginUser = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState(''); // State to handle error messages
+  const [loading, setLoading] = useState(false); // Loading state
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const Submit = useCallback(async (e) => {
     e.preventDefault();
+    setLoading(true); // Start loading animation
     try {
       const response = await axios.post('http://localhost:3001/loginUser', { email, password });
       switch (response.status) {
@@ -39,10 +42,12 @@ const LoginUser = () => {
     } catch (error) {
       console.error('Error:', error);
       if (error.response && error.response.data) {
-        setError(error.response.data.message); // Set the error message in state
+        setError(error.response.data.message);
       } else {
         setError('An error occurred. Please try again.');
       }
+    } finally {
+      setLoading(false); // Stop loading animation
     }
   }, [email, password, navigate]);
 
@@ -53,7 +58,7 @@ const LoginUser = () => {
   return (
     <div>
       <Navigation logo={logo} />
-      <div className='flex justify-center items-center min-h-screen bg-custom-dark w-screen'>
+      <div className='flex justify-center items-center min-h-screen bg-[#1A0E0E] w-screen'>
         <div className='flex w-full sm:w-3/4 bg-white shadow-md mt-16 mb-40'>
           <div className='w-full sm:w-1/2 p-6 sm:p-8 mt-10'>
             <form onSubmit={Submit}>
@@ -86,8 +91,8 @@ const LoginUser = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    aria-describedby={error ? 'password-error' : null} // Adding aria-describedby for accessibility
-                    aria-invalid={error ? 'true' : 'false'} // Adding aria-invalid for accessibility
+                    aria-describedby={error ? 'password-error' : null}
+                    aria-invalid={error ? 'true' : 'false'}
                   />
                   <button
                     type="button"
@@ -105,13 +110,17 @@ const LoginUser = () => {
               {error && <div id="password-error" className="text-red-500 text-sm mb-4">{error}</div>}
               <div className="flex justify-center items-center">
                 <button
-                    type="submit"
-                    className="w-64 mt-10 py-2 px-4 bg-black text-white rounded-md shadow-sm duration-300 hover:bg-white hover:border hover:border-black hover:text-black hover:scale-105"
+                  type="submit"
+                  className="w-64 mt-10 py-2 px-4 bg-black text-white rounded-md shadow-sm duration-300 hover:bg-white hover:border hover:border-black hover:text-black hover:scale-105 flex justify-center items-center"
+                  disabled={loading} // Disable button while loading
                 >
-                    Log In
+                  {loading ? (
+                    <FontAwesomeIcon icon={faCircleNotch} spin className="w-5 h-5" />
+                  ) : (
+                    'Log In'
+                  )}
                 </button>
-            </div>
-
+              </div>
             </form>
             <div className="flex justify-center text-gray-700 pt-4 font-spartan items-center">
               <div className="font-thin text-center">
