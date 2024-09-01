@@ -68,7 +68,7 @@ function UpdateUsers() {
 					>
 					{}
             <div className="flex justify-center items-center min-h-screen">
-            <div className="w-full sm:w-1/2 bg-custom-toolight bg-opacity-70 p-6 sm:p-8 rounded-md shadow-md mt-16 mb-40">
+            <div className="w-full sm:w-1/2 bg-custom-light bg-opacity-70 p-6 sm:p-8 rounded-md shadow-md mt-16 mb-40">
 
                     <form onSubmit={handleUpdate}>
                         <h2 className="text-center text-4xl font-semibold text-white mb-4">Your Profile</h2>
@@ -187,7 +187,7 @@ function UpdateUsers() {
                                 <input
                                     placeholder="Enter your city"
                                     type="text"
-                                    className="relative h-10 w-full outline-none h-12 text-[#808080] rounded-lg px-3 bg-white text-base transition-all duration-300 ease-in-out transform hover:scale-105"
+                                    className="relative w-full outline-none h-12 text-[#808080] rounded-lg px-3 bg-white text-base transition-all duration-300 ease-in-out transform hover:scale-105"
                                 />
                             </div>
                         </div>
