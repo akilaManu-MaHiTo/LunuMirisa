@@ -19,6 +19,7 @@ const SIGN = require ('./controllers/SignUpController')
 const SUPPLIERCATEGORY = require ('./controllers/SupplierCategoryController')
 const SUPPLIERPROFILE = require ('./controllers/SupplierProfileController')
 const PROFILEPIC = require ('./controllers/ProfilePictureController')
+const INVENTORYORDERS = require ('./controllers/InventoryOrderController')
 
 const app = express();
 app.use(cors());
@@ -39,6 +40,7 @@ app.use('/',SIGN)
 app.use('/',SUPPLIERCATEGORY)
 app.use('/',SUPPLIERPROFILE)
 app.use('/',PROFILEPIC)
+app.use('/',INVENTORYORDERS)
 
 
 
