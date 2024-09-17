@@ -179,7 +179,7 @@ const ShowInventory = () => {
                       <div className="text-white bg-yellow-500 rounded-md w-20 text-center h-11 font-bold pt-2">Normal</div>
                     )}
                     <div><Link to="/UpdateInventory"><button>Update  <FontAwesomeIcon icon={faPenToSquare} /></button></Link></div>
-                    <div><Link to="/PlaceOrderInventory"><button>Order <FontAwesomeIcon icon={faTruckArrowRight} /></button></Link></div>
+                    <div><Link to={`/PlaceOrderInventory/${item._id}`}><button>Order <FontAwesomeIcon icon={faTruckArrowRight} /></button></Link></div>
                     <div><button className='text-red-500'>Delete <FontAwesomeIcon icon={faTrashCan} /></button></div>
                   </li>
                 ))}

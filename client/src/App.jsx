@@ -35,7 +35,7 @@ import AddSupplierCategory  from "./views/AddSupplierCategory";
 import  ShowSupplierCategory from "./views/ShowSupplierCategory";
 import  UpdateSupplierCategory from "./views/UpdateSupplierCategory";
 import  UserCart from "./views/UserCart";
-
+import  PlaceOrderInventory from "./views/InventoryOrder";
 
 
 
@@ -77,7 +77,7 @@ function App() {
         <Route path="/ShowSupplierCategory" element={<ShowSupplierCategory/>} />
         <Route path="/UpdateSupplierCategory/:id" element={<UpdateSupplierCategory/>} />
         <Route path="/UserCart/:userId" element={<UserCart/>} />
-
+        <Route path="/PlaceOrderInventory/:id" element={<PlaceOrderInventory/>} />
       </Routes>
     </BrowserRouter>
   );

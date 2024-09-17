@@ -43,4 +43,18 @@ router.get("/ShowInventory", (req, res) => {
         .catch(err => res.status(500).json(err));
 });
 
+// Route to get an inventory item by ID
+router.get("/GetInventory/:id", (req, res) => {
+    const { id } = req.params;
+
+    Inventory.findById(id)
+        .then(item => {
+            if (!item) {
+                return res.status(404).json({ message: "Item not found" });
+            }
+            res.json(item);
+        })
+        .catch(err => res.status(500).json(err));
+});
+
 module.exports = router;
