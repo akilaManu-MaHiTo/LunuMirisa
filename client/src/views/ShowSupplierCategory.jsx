@@ -21,6 +21,15 @@ function ShowSupplierCategory() {
 
   return (
     <div className="max-w-6xl mx-auto p-6">
+      {/* Add Categories Button */}
+      <div className="mb-6">
+        <Link to="/AddSupplierCategory">
+          <button className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
+            ADD CATEGORIES
+          </button>
+        </Link>
+      </div>
+
       <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
         <thead>
           <tr>

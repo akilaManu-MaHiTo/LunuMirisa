@@ -35,6 +35,13 @@ import AddSupplierCategory  from "./views/AddSupplierCategory";
 import  ShowSupplierCategory from "./views/ShowSupplierCategory";
 import  UpdateSupplierCategory from "./views/UpdateSupplierCategory";
 import  UserCart from "./views/UserCart";
+import SupplierManagerDashBoard from "./views/SupplierManagerDashBoard";
+import SupplierLogin from "./views/SignInSupplier";
+import SupplierDashboard from "./views/SupplierDashboard";
+
+
+
+
 
 
 
@@ -77,6 +84,11 @@ function App() {
         <Route path="/ShowSupplierCategory" element={<ShowSupplierCategory/>} />
         <Route path="/UpdateSupplierCategory/:id" element={<UpdateSupplierCategory/>} />
         <Route path="/UserCart/:userId" element={<UserCart/>} />
+        <Route path='/SignInSupplier' element={<SupplierLogin />} />
+        <Route path='/SupplierManagerDashBoard' element={<SupplierManagerDashBoard />} />
+        <Route path='/SupplierDashboard' element={<SupplierDashboard />} />
+        
+        
 
       </Routes>
     </BrowserRouter>
