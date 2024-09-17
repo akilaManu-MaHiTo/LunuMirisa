@@ -9,7 +9,7 @@ export default {
       colors: {
         'custom-cyan': '#00bcd4',
         'custom-black': '#0B0B0B',
-        'custom-white': '#fafafa',
+        'custom-white': '#F5F5F5',
         'custom-gray': '#212020',
         'custom-light': '#464545',
         'custom-dark': '#2C2C2C',
