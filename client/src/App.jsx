@@ -38,10 +38,7 @@ import  UserCart from "./views/UserCart";
 import SupplierManagerDashBoard from "./views/SupplierManagerDashBoard";
 import SupplierLogin from "./views/SignInSupplier";
 import SupplierDashboard from "./views/SupplierDashboard";
-
-
-
-
+import  PlaceOrderInventory from "./views/InventoryOrder";
 
 
 
@@ -87,9 +84,7 @@ function App() {
         <Route path='/SignInSupplier' element={<SupplierLogin />} />
         <Route path='/SupplierManagerDashBoard' element={<SupplierManagerDashBoard />} />
         <Route path='/SupplierDashboard' element={<SupplierDashboard />} />
-        
-        
-
+        <Route path="/PlaceOrderInventory/:id" element={<PlaceOrderInventory/>} />
       </Routes>
     </BrowserRouter>
   );
