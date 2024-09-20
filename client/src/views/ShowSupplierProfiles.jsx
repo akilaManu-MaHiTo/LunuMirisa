@@ -27,6 +27,11 @@ function ShowSupplierProfiles() {
       .catch(err => console.error('Error deleting supplier:', err));
   };
 
+  // Navigate to the update page
+  const handleUpdate = (id) => {
+    navigate(`/UpdateSupplier/${id}`); 
+  };
+
   // Get unique categories from the supplier list for the filter dropdown
   const categories = ['All', ...new Set(suppliers.map(supplier => supplier.category))];
 
@@ -38,16 +43,14 @@ function ShowSupplierProfiles() {
     return matchesSearch && matchesCategory;
   });
 
- 
   const handleAddSupplier = () => {
     navigate('/AddSupplier'); 
   };
 
   return (
-    <div className="max-w-6xl mx-auto bg-white p-8 border border-gray-300 rounded-lg shadow-md">
+    <div className="max-w-7xl mx-auto bg-white p-8 border border-gray-300 rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-6 text-center">Supplier Profiles</h2>
 
-   
       <div className="mb-6 text-right">
         <button
           onClick={handleAddSupplier}
@@ -67,7 +70,6 @@ function ShowSupplierProfiles() {
         />
       </div>
 
-      
       <div className="mb-6">
         <label htmlFor="categoryFilter" className="mr-2 font-medium">Filter by Category:</label>
         <select
@@ -105,6 +107,12 @@ function ShowSupplierProfiles() {
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{supplier.email}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{supplier.category}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <button
+                    onClick={() => handleUpdate(supplier._id)}
+                    className="text-blue-600 hover:text-blue-900 mr-4"
+                  >
+                    Update
+                  </button>
                   <button
                     onClick={() => handleDelete(supplier._id)}
                     className="text-red-600 hover:text-red-900"

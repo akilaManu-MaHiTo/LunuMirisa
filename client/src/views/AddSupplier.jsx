@@ -46,7 +46,7 @@ function AddSupplier() {
     setErrors({});
 
     // Submit the form data
-    // axios.post("http://localhost:3001/AddSupplier", { name, address, contact, email, category })
+   
     axios.post("http://localhost:3001/AddSupplier", { name:name, address:address, contact:contact, email:email, category:category })
 
       .then(result => {
