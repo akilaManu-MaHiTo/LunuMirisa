@@ -11,7 +11,6 @@ import Loader from './Components/Loader';
 const ShowInventory = () => {
   const { id } = useParams(); // Get the ID from the URL params
   const [name, setName] = useState('');
-  const [image, setImage] = useState(null); // Store the image file
   const [imageURL, setImageURL] = useState(''); // Store the image URL
   const [quantity, setQuantity] = useState(0);
   const [maxQuantity, setMaxQuantity] = useState(0);
@@ -43,20 +42,18 @@ const ShowInventory = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append('name', name);
-    if (image) {
-      formData.append('image', image); // Send image file if selected
-    }
-    formData.append('quantity', quantity);
-    formData.append('maxQuantity', maxQuantity);
-    formData.append('category', category);
+    const orderDetails = {
+      name,
+      imageURL,
+      quantity,
+      maxQuantity,
+      category,
+      orderQuantity: maxQuantity - quantity,
+    };
 
-    // Update the existing inventory item
-    axios.post(`http://localhost:3001/PlaceOrder`, formData)
-      .then(result => {
-        console.log(category);
-        console.log(result);
+    axios.post(`http://localhost:3001/PlaceOrder`, orderDetails)
+      .then(response => {
+        alert('Order placed successfully!');
         navigate('/ShowInventory');
       })
       .catch(err => console.log(err));
@@ -174,11 +171,11 @@ const ShowInventory = () => {
             required
             readOnly
           >
-            <option value="Vegetables">{category}</option>
-            <option value="Vegetables">{category}</option>
-            <option value="Vegetables">{category}</option>
-            <option value="Meat">{category}</option>
-            <option value="Fisheries">{category}</option>
+            <option value="Vegetables">Vegetables</option>
+            <option value="Fruits">Fruits</option>
+            <option value="Spices">Spices</option>
+            <option value="Meat">Meat</option>
+            <option value="Fisheries">Fisheries</option>
           </select>
         </div>
 

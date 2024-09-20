@@ -40,6 +40,9 @@ import SupplierLogin from "./views/SignInSupplier";
 import SupplierDashboard from "./views/SupplierDashboard";
 import  PlaceOrderInventory from "./views/InventoryOrder";
 import  UpdateSupplierprofiles from "./views/UpdateSupplier";
+import AddEmployeeForm from './views/AddEmployeeForm';
+import EmployeeTable from './views/EmployeeTable';
+import ProfilePage from './views/ProfilePage';
 
 
 
@@ -86,8 +89,9 @@ function App() {
         <Route path='/SupplierDashboard/:supplierId' element={<SupplierDashboard />} />
         <Route path="/PlaceOrderInventory/:id" element={<PlaceOrderInventory/>} />
         <Route path="/UpdateSupplier/:id" element={<UpdateSupplierprofiles/>} />
-       
-     
+        <Route path="/addemployee" element={<AddEmployeeForm/>} />
+        <Route path="/viewemployee" element={<EmployeeTable/>} />
+        <Route path="/profile" element={<ProfilePage/>} />
       </Routes>
     </BrowserRouter>
   );

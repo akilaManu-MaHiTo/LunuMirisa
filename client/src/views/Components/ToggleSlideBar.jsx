@@ -30,6 +30,11 @@ const Sidebar = React.forwardRef(({ isVisible }, ref) => {
             Supplier Orders
           </button>
         </Link>
+        <Link to="/viewemployee">
+          <button className="w-full text-left py-2 px-4 mb-6 bg-blue-500 text-white rounded hover:bg-blue-600">
+            Manage Employees
+          </button>
+        </Link>
       </nav>
     </aside>
   );

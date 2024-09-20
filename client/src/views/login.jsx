@@ -59,7 +59,7 @@ const LoginUser = () => {
     <div>
       <Navigation logo={logo} />
       <div className='flex justify-center items-center min-h-screen bg-[#1A0E0E] w-screen'>
-        <div className='flex w-full sm:w-3/4 bg-white shadow-md mt-16 mb-40'>
+        <div className='flex w-full sm:w-3/4 bg-white shadow-md mt-10 mb-40'>
           <div className='w-full sm:w-1/2 p-6 sm:p-8 mt-10'>
             <form onSubmit={Submit}>
               <h2 className='text-center text-black font-spartan font-semibold text-[4rem] mb-10'>Login</h2>
