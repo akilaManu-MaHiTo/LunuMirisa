@@ -42,7 +42,7 @@ import  PlaceOrderInventory from "./views/InventoryOrder";
 import AddEmployeeForm from './views/AddEmployeeForm';
 import EmployeeTable from './views/EmployeeTable';
 import ProfilePage from './views/ProfilePage';
-
+import UpdateInventory from './views/UpdateInventory';
 
 function App() {
   return (
@@ -89,6 +89,7 @@ function App() {
         <Route path="/addemployee" element={<AddEmployeeForm/>} />
         <Route path="/viewemployee" element={<EmployeeTable/>} />
         <Route path="/profile" element={<ProfilePage/>} />
+        <Route path="/UpdateInventory/:id" element={<UpdateInventory/>} />
       </Routes>
     </BrowserRouter>
   );

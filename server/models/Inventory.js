@@ -4,8 +4,8 @@ const InventorySchema = new mongoose.Schema({
 
     name: String,
     image: String,
-    quantity: String,
-    maxQuantity: String,
+    quantity: Number,
+    maxQuantity: Number,
     category: String,
     
 })
