@@ -20,16 +20,21 @@ const Sidebar = React.forwardRef(({ isVisible }, ref) => {
             Inventory
           </button>
         </Link>
+
+        <Link to="/SupplierManagerDashBoard">
+          <button className="w-full text-left py-2 px-4 mb-6 bg-blue-500 text-white rounded hover:bg-blue-600">
+            Supplier Manager DashBoard
+          </button>
+        </Link>
+
+
+
         <Link to="/AddTables">
           <button className="w-full text-left py-2 px-4 mb-6 bg-blue-500 text-white rounded hover:bg-blue-600">
             Add Tables
           </button>
         </Link>
-        <Link to="/ShowSupplierOrder">
-          <button className="w-full text-left py-2 px-4 mb-6 bg-blue-500 text-white rounded hover:bg-blue-600">
-            Supplier Orders
-          </button>
-        </Link>
+        
         <Link to="/viewemployee">
           <button className="w-full text-left py-2 px-4 mb-6 bg-blue-500 text-white rounded hover:bg-blue-600">
             Manage Employees

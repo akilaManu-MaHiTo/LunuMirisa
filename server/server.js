@@ -22,6 +22,8 @@ const PROFILEPIC = require ('./controllers/ProfilePictureController')
 const INVENTORYORDERS = require ('./controllers/InventoryOrderController')
 const ADDEMPLOYEE = require ('./controllers/AddEmployee')
 
+
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -43,6 +45,7 @@ app.use('/',SUPPLIERPROFILE)
 app.use('/',PROFILEPIC)
 app.use('/',INVENTORYORDERS)
 app.use('/',ADDEMPLOYEE)
+
 
 
 

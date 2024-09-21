@@ -25,8 +25,17 @@ const InventoryOrderSchema = new mongoose.Schema({
     type: Number,
     required: true, // Order quantity (derived from maxQuantity - quantity)
   },
-});
 
+  status: {
+    type: String,
+    default: 'pending' // Possible values: 'pending', 'accepted', 'declined'
+},
+supplierId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Supplier', // Assuming you have a Supplier model
+    default: null // Will be set when a supplier accepts the order
+}
+});
 
 const InventoryOrderModel = mongoose.model('InventoryOrder', InventoryOrderSchema);
 module.exports = InventoryOrderModel;

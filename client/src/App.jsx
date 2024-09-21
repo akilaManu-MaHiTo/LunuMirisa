@@ -16,9 +16,9 @@ import AddMenuList from './views/AddMenuList';
 import Inventory from './views/Inventory';
 import ShowInventory from './views/ShowInventory';
 import AddTables from './views/AddTables';
-import  ShowSupplier  from './views/ShowSupplierOrder';
-import CreateSupplier from './views/SupplierOrder';
-import UpdateSupplier from './views/UpdateSupplierOrder';
+
+
+
 import ManagerMenuList from './views/ManagerMenuList';
 import UpdateMenuList from './views/UpdateMenuList';
 import ShowMenuLists from './views/ShowMenuLists';
@@ -43,6 +43,8 @@ import  UpdateSupplierprofiles from "./views/UpdateSupplier";
 import AddEmployeeForm from './views/AddEmployeeForm';
 import EmployeeTable from './views/EmployeeTable';
 import ProfilePage from './views/ProfilePage';
+import SupplierConfirmOrder from './views/SupplierConfirmOrder';
+import AcceptedOrders from './views/AcceptedOrders';
 
 
 
@@ -66,9 +68,9 @@ function App() {
         <Route path='/Inventory' element={<Inventory />} />
         <Route path='/ShowInventory' element={<ShowInventory />} />
         <Route path='/AddTables' element={<AddTables />} />
-        <Route path='/ShowSupplierOrder' element={<ShowSupplier />} />
-        <Route path='/SupplierOrder' element={<CreateSupplier />} />
-        <Route path='/UpdateSupplierOrder/:id' element={<UpdateSupplier />} />
+        
+       
+        
         <Route path='/ManagerMenuList' element={<ManagerMenuList />} />
         <Route path='/UpdateMenuList/:id' element={<UpdateMenuList />} />
         <Route path="/users/:id/verify/:token" element={<EmailVerify />} />
@@ -92,6 +94,11 @@ function App() {
         <Route path="/addemployee" element={<AddEmployeeForm/>} />
         <Route path="/viewemployee" element={<EmployeeTable/>} />
         <Route path="/profile" element={<ProfilePage/>} />
+        <Route path="/SupplierConfirmOrder/:supplierId/:orderId/:supplierName" element={<SupplierConfirmOrder />} />
+        <Route path="/acceptedorders" element={<AcceptedOrders />} />
+
+        
+       
       </Routes>
     </BrowserRouter>
   );
