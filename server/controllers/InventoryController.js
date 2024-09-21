@@ -57,4 +57,19 @@ router.get("/GetInventory/:id", (req, res) => {
         .catch(err => res.status(500).json(err));
 });
 
+router.put("/updateInventory/:id", (req, res) => {
+    const Id = req.params.id;
+    const { newTotal } = req.body; // Get the new total quantity from the request body
+
+    // Update only the quantity field
+    Inventory.findByIdAndUpdate(
+        { _id: Id },
+        { $set: { quantity: newTotal } }, // Use $set to update only the quantity
+        { new: true } // Return the updated document
+    )
+    .then(items => res.json(items))
+    .catch(err => res.json(err));
+});
+
+
 module.exports = router;

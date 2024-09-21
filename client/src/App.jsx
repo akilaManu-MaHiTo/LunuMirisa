@@ -43,9 +43,9 @@ import  UpdateSupplierprofiles from "./views/UpdateSupplier";
 import AddEmployeeForm from './views/AddEmployeeForm';
 import EmployeeTable from './views/EmployeeTable';
 import ProfilePage from './views/ProfilePage';
+import UpdateInventory from './views/UpdateInventory';
 import SupplierConfirmOrder from './views/SupplierConfirmOrder';
 import AcceptedOrders from './views/AcceptedOrders';
-
 
 
 function App() {
@@ -94,11 +94,10 @@ function App() {
         <Route path="/addemployee" element={<AddEmployeeForm/>} />
         <Route path="/viewemployee" element={<EmployeeTable/>} />
         <Route path="/profile" element={<ProfilePage/>} />
+        <Route path="/UpdateInventory/:id" element={<UpdateInventory/>} />
         <Route path="/SupplierConfirmOrder/:supplierId/:orderId/:supplierName" element={<SupplierConfirmOrder />} />
         <Route path="/acceptedorders" element={<AcceptedOrders />} />
 
-        
-       
       </Routes>
     </BrowserRouter>
   );
