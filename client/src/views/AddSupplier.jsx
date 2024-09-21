@@ -9,26 +9,18 @@ function AddSupplier() {
   const [email, setEmail] = useState("");
   const [category, setCategory] = useState("");
   const [categories, setCategories] = useState([]);
-  const [errors, setErrors] = useState({}); 
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
   const [emailerror, setemailError] = useState("");
 
-  // Fetch categories when the component mounts
   useEffect(() => {
     axios.get("http://localhost:3001/ShowSupplierCategory")
-      .then(response => {
-        setCategories(response.data); // Set categories to state
-        console.log(response);
-      })
+      .then(response => setCategories(response.data))
       .catch(err => console.log(err));
   }, []);
 
-  // Validate phone number
-  const validatePhoneNumber = (number) => {
-    return /^\d{10}$/.test(number); 
-  };
+  const validatePhoneNumber = (number) => /^\d{10}$/.test(number);
 
-  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     let validationErrors = {};
@@ -39,82 +31,72 @@ function AddSupplier() {
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
-      return; // Stop form submission if there are errors
+      return;
     }
 
-    // Clear errors if validation passes
     setErrors({});
 
-    // Submit the form data
-    // axios.post("http://localhost:3001/AddSupplier", { name, address, contact, email, category })
-    axios.post("http://localhost:3001/AddSupplier", { name:name, address:address, contact:contact, email:email, category:category })
-
-      .then(result => {
-        console.log(result);
-        navigate('/ShowSupplierProfiles'); // Navigate to the supplier profiles page after successful addition
-      })
-      .catch(err =>{ 
-				setemailError(err.response.data.message || "An error occurred during sign-up.");
-
-      });
-      
+    axios.post("http://localhost:3001/AddSupplier", { name, address, contact, email, category })
+      .then(result => navigate('/ShowSupplierProfiles'))
+      .catch(err => setemailError(err.response.data.message || "An error occurred during sign-up."));
   }
 
   return (
-    <div className="max-w-md mx-auto bg-white p-8 border border-gray-300 rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-6 text-center">ADD SUPPLIER</h2>
+    <div className="max-w-xl mx-auto mt-12 p-8 bg-gray-200 rounded-lg shadow-lg">
+      <h2 className="text-2xl font-bold mb-6 text-center text-gray-700">Create Supplier</h2>
 
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label className="block text-gray-700">Name:</label>
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div>
+          <label className="block text-sm font-medium text-gray-600">Name</label>
           <input
             type="text"
-            className="w-full p-2 border border-gray-300 rounded mt-1"
+            className="w-full px-4 py-3 mt-2 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"
             required
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
         </div>
 
-        <div className="mb-4">
-          <label className="block text-gray-700">Address:</label>
+        <div>
+          <label className="block text-sm font-medium text-gray-600">Address</label>
           <input
             type="text"
-            className="w-full p-2 border border-gray-300 rounded mt-1"
+            className="w-full px-4 py-3 mt-2 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"
             required
             value={address}
             onChange={(e) => setAddress(e.target.value)}
           />
         </div>
 
-        <div className="mb-4">
-          <label className="block text-gray-700">Contact:</label>
+        <div>
+          <label className="block text-sm font-medium text-gray-600">Contact</label>
           <input
             type="text"
-            className={`w-full p-2 border border-gray-300 rounded mt-1 ${errors.contact ? 'border-red-500' : ''}`}
+            className={`w-full px-4 py-3 mt-2 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 ${errors.contact ? 'border-red-500' : ''}`}
             required
             value={contact}
             onChange={(e) => setContact(e.target.value)}
-            maxLength="10" 
+            maxLength="10"
           />
-          {errors.contact && <p className="text-red-600 text-sm">{errors.contact}</p>}
+          {errors.contact && <p className="text-red-500 text-sm mt-1">{errors.contact}</p>}
         </div>
 
-        <div className="mb-4">
-          <label className="block text-gray-700">Email:</label>
+        <div>
+          <label className="block text-sm font-medium text-gray-600">Email</label>
           <input
             type="email"
-            className="w-full p-2 border border-gray-300 rounded mt-1"
+            className="w-full px-4 py-3 mt-2 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+          {emailerror && <p className="text-red-500 text-sm mt-1">{emailerror}</p>}
         </div>
-        {emailerror && <div className="text-red-500 text-sm mb-4">{emailerror}</div>}
-        <div className="mb-4">
-          <label className="block text-gray-700">Category:</label>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-600">Category</label>
           <select
-            className="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-slate-500 focus:border-slate-500"
+            className="w-full px-4 py-3 mt-2 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
@@ -129,9 +111,9 @@ function AddSupplier() {
 
         <button
           type="submit"
-          className="w-full bg-green-500 text-white p-2 rounded mt-4 hover:bg-green-600"
+          className="w-full py-3 bg-indigo-600 text-white rounded-lg shadow-md hover:bg-indigo-700 transition-colors"
         >
-          ADD
+          Add Supplier
         </button>
       </form>
     </div>

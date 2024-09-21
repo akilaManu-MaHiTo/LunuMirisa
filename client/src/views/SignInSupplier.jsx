@@ -14,7 +14,10 @@ function SignInSupplier() {
       .then((response) => {
         // Store the JWT token in localStorage
         localStorage.setItem("token", response.data.token);
-        navigate("/SupplierDashboard"); // Redirect to dashboard after login
+        
+        // Navigate to the supplier's specific dashboard using supplierId
+        const supplierId = response.data.supplierId;
+        navigate(`/SupplierDashboard/${supplierId}`); // Redirect to the specific supplier dashboard
       })
       .catch(err => setError("Invalid credentials, please try again."));
   };
