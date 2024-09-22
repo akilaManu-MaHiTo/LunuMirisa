@@ -1,4 +1,7 @@
 import React from 'react';
+import LineGraph from './Components/UserCartStat'; // Import LineGraph component
+import BarGraph from './Components/InventoryStat';
+import PriceGraph from './Components/CartPriceStat';
 import AdminNaviBar from './Components/AdminNavigationBar';
 import ToggleSlideBar from './Components/ToggleSlideBar';
 import useSidebar from './Components/useSidebar';
@@ -13,41 +16,55 @@ const AdminPage = () => {
     <div className="flex">
       <ToggleSlideBar ref={sidebarRef} isVisible={isSidebarVisible} />
       {isSidebarVisible && (
-        <div
-          className="fixed inset-0 z-40"
-          onClick={toggleSidebar}
-        ></div>
+        <div className="fixed inset-0 z-40 bg-gray-800 opacity-50" onClick={toggleSidebar}></div>
       )}
     </div>
   );
 
-  // MainContent component
-  const MainContent = () => (
-    <main className="flex-1 p-6 mt-16">
-      <div className="bg-white p-8 rounded shadow-md max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold mb-6 text-center">Welcome to Admin</h1>
-        <p className="text-center text-gray-700">
-          This is the admin panel where you can manage various aspects of the application.
-        </p>
-      </div>
-    </main>
-  );
-
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="bg-black h-auto min-h-screen">
       <AdminNaviBar selectedPage="Admin Panel" />
-      <div className="p-5 custom1-md:pl-[4rem]">
-        <button
-          className="text-gray-800 text-2xl focus:outline-none "
-          onClick={toggleSidebar}
-        >
+
+      <div className="p-5 md:pl-[4rem]">
+        <button className="text-white text-2xl focus:outline-none" onClick={toggleSidebar}>
           <FontAwesomeIcon icon={faBars} />
         </button>
       </div>
 
       <SidebarWithOverlay />
 
-      <MainContent />
+      <div className="p-6">
+        <div className="text-white mb-6">
+          <h1 className="text-4xl font-bold text-center">Welcome to Admin</h1>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-16">
+          <div className="p-4 bg-gray-800 rounded-lg shadow-lg">
+            <h2 className="text-2xl font-semibold mb-4 text-center text-white">
+              Users vs Items (Line Graph)
+            </h2>
+            <LineGraph />
+          </div>
+          <div className="p-4 bg-gray-800 rounded-lg shadow-lg">
+            <h2 className="text-2xl font-semibold mb-4 text-center text-white">
+              Inventory Stats (Bar Graph)
+            </h2>
+            <BarGraph />
+          </div>
+          <div className="p-4 bg-gray-800 rounded-lg shadow-lg col-span-1 md:col-span-2">
+            <h2 className="text-2xl font-semibold mb-4 text-center text-white">
+              Cart Price Stats (Price Graph)
+            </h2>
+            <PriceGraph />
+          </div>
+          <div className="p-4 bg-gray-800 rounded-lg shadow-lg col-span-1 md:col-span-2">
+            <h2 className="text-2xl font-semibold mb-4 text-center text-white">
+              Cart Price Stats (Price Graph)
+            </h2>
+            <PriceGraph />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

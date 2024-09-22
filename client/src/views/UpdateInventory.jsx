@@ -95,13 +95,24 @@ const UpdateInventory = () => {
   // Generate dropdown options
   const generateOptions = () => {
     const options = [];
-    for (let i = 0; i <= maxQuantity; i++) {
-      options.push(
-        <option key={i} value={i}>{i}</option>
-      );
+  
+    if (quantity !== 0) {
+      for (let i = 0; i <= quantity; i++) {
+        options.push(
+          <option key={i} value={i}>{i}</option>
+        );
+      }
+    } else {
+      for (let i = 0; i <= maxQuantity; i++) {
+        options.push(
+          <option key={i} value={i}>{i}</option>
+        );
+      }
     }
-    return options;
+  
+    return options;  // Always return options
   };
+  
 
   // MainContent component
   const MainContent = () => (

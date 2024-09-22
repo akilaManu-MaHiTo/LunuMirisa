@@ -16,9 +16,6 @@ import AddMenuList from './views/AddMenuList';
 import Inventory from './views/Inventory';
 import ShowInventory from './views/ShowInventory';
 import AddTables from './views/AddTables';
-
-
-
 import ManagerMenuList from './views/ManagerMenuList';
 import UpdateMenuList from './views/UpdateMenuList';
 import ShowMenuLists from './views/ShowMenuLists';
@@ -46,7 +43,9 @@ import ProfilePage from './views/ProfilePage';
 import UpdateInventory from './views/UpdateInventory';
 import SupplierConfirmOrder from './views/SupplierConfirmOrder';
 import AcceptedOrders from './views/AcceptedOrders';
-
+import WaitorPage from './views/WaitorPage';
+import ShowMyOrders from './views/ShowMyOrders';
+import OrderDetails from './views/OrderDetails';
 
 function App() {
   return (
@@ -68,9 +67,6 @@ function App() {
         <Route path='/Inventory' element={<Inventory />} />
         <Route path='/ShowInventory' element={<ShowInventory />} />
         <Route path='/AddTables' element={<AddTables />} />
-        
-       
-        
         <Route path='/ManagerMenuList' element={<ManagerMenuList />} />
         <Route path='/UpdateMenuList/:id' element={<UpdateMenuList />} />
         <Route path="/users/:id/verify/:token" element={<EmailVerify />} />
@@ -78,7 +74,7 @@ function App() {
         <Route path="/UpdateTablePage/:id" element={<UpdateTablePage/>} />
         <Route path="/TableReservationPage/:userId" element={<TableReservationPage/>} />
         <Route path="/ReservedTables/:id/:userId" element={<ReservedTables/>} />
-        <Route path="/InOrder" element={<InOrder/>} />
+        <Route path="/InOrder/:id/:userId/:tableNum/:date/:ongoing" element={<InOrder/>} />
         <Route path="/Navigation" element={<Navigation/>} />
         <Route path="/AddSupplier" element={<AddSupplier/>} />
         <Route path="/ShowSupplierProfiles" element={<ShowSupplierProfiles/>} />
@@ -97,7 +93,9 @@ function App() {
         <Route path="/UpdateInventory/:id" element={<UpdateInventory/>} />
         <Route path="/SupplierConfirmOrder/:supplierId/:orderId/:supplierName" element={<SupplierConfirmOrder />} />
         <Route path="/acceptedorders" element={<AcceptedOrders />} />
-
+        <Route path="/WaitorPage/:userId" element={<WaitorPage/>} />
+        <Route path="/ShowMyOrders/:userId" element={<ShowMyOrders/>} />
+        <Route path="/OrderDetails/:orderId" element={<OrderDetails/>} />
       </Routes>
     </BrowserRouter>
   );
