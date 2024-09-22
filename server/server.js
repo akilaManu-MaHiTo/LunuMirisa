@@ -22,8 +22,8 @@ const PROFILEPIC = require ('./controllers/ProfilePictureController')
 const INVENTORYORDERS = require ('./controllers/InventoryOrderController')
 const ADDEMPLOYEE = require ('./controllers/AddEmployee')
 const RESERVEDTABLES =require('./controllers/ReservedTables')
-
-
+const INTABLEORDER = require ('./controllers/InOrderTableController')
+const INORDER = require ('./controllers/InOrderController')
 
 const app = express();
 app.use(cors());
@@ -47,6 +47,9 @@ app.use('/',PROFILEPIC)
 app.use('/',INVENTORYORDERS)
 app.use('/',ADDEMPLOYEE)
 app.use('/',RESERVEDTABLES)
+app.use('/',INTABLEORDER)
+app.use('/',INORDER)
+
 
 
 

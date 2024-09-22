@@ -16,4 +16,12 @@ router.get("/ShowMenuList",(req,res) => {
 
 });
 
+router.get("/showMenu/:id",(req,res) => {
+
+    const MenuId = req.params.id;
+    Menu.findById({_id:MenuId })
+    .then(users => res.json(users))
+    .catch(err => res.json(err))
+})
+
 module.exports = router;

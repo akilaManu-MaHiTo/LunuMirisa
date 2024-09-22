@@ -10,6 +10,12 @@ const Sidebar = React.forwardRef(({ isVisible }, ref) => {
       } z-50`}
     >
       <nav className="flex flex-col p-4">
+      <Link to="/AdminPage">
+          <button className="w-full text-left py-2 px-4 mb-6 bg-blue-500 text-white rounded hover:bg-blue-600">
+            Admin
+          </button>
+        </Link>
+        
         <Link to="/AddMenuList">
           <button className="w-full text-left py-2 px-4 mb-6 bg-blue-500 text-white rounded hover:bg-blue-600">
             Menu List
@@ -40,6 +46,8 @@ const Sidebar = React.forwardRef(({ isVisible }, ref) => {
             Manage Employees
           </button>
         </Link>
+
+        
       </nav>
     </aside>
   );

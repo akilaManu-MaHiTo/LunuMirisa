@@ -26,7 +26,7 @@ router.post('/loginUser', async (req, res) => {
         }[employee.EmType] || 204;
 
         console.log('Employee login successful:', employee);
-        return res.status(statusCode).json({ message: 'Login successful', user: employee });
+        return res.status(statusCode).json({ message: 'Login successful', user: employee, userId: employee._id });
       } else {
         console.log('Invalid credentials for employee');
         return res.status(400).json({ message: 'Invalid credentials' });
