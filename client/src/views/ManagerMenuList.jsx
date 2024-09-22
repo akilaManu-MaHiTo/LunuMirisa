@@ -54,37 +54,35 @@ const ShowMenuList = () => {
         {menuItems.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {menuItems.map((item) => (
-              <div key={item._id} className="bg-custom-black p-6 rounded shadow-md">
-                <div className="bg-custom-gray h-[34rem] p-6 rounded shadow-md w-[22rem] max-w-md mb-4 md:mb-0 flex flex-col items-center">
-                  <form
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      handleAddToCart(item);
-                    }}
-                  >
-                    <input type='text' value={userId} readOnly /><br />
-                    <label className='text-white'>Menu list Id</label><br />
-                    <input type='text' value={item._id} readOnly /><br />
-                    <label className='text-white'>Category</label><br />
-                    <input type='text' value={item.category} readOnly /><br />
-                    <label className='text-white'>Food name</label><br />
-                    <input type='text' value={item.type} readOnly /><br />
-                    <label className='text-white'>Price</label><br />
-                    <input type='text' value={item.price} readOnly /><br />
-                    
-                  </form>
+  <div key={item._id} className="bg-custom-black p-6 rounded shadow-md">
+    <div className="bg-custom-gray h-[34rem] p-6 rounded shadow-md w-[22rem] max-w-md mb-4 md:mb-0 flex flex-col items-center">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleAddToCart(item);
+        }}
+      >
+        <input type='text' value={userId} readOnly /><br />
+        <label className='text-white'>Menu list Id</label><br />
+        <input type='text' value={item._id} readOnly /><br />
+        <label className='text-white'>Category</label><br />
+        <input type='text' value={item.category} readOnly /><br />
+        <label className='text-white'>Food name</label><br />
+        <input type='text' value={item.type} readOnly /><br />
+        <label className='text-white'>Price</label><br />
+        <input type='text' value={item.price} readOnly /><br />
+      </form>
+    </div>
+    
+    <Link to={`/UpdateMenuList/${item._id}`}><button className='text-white'>Update</button></Link>
+    <button onClick={() => handleDelete(item._id)} className='text-white'>Delete</button> {/* Add the delete button here */}
 
-                </div>
-                
-                <Link to={`/UpdateMenuList/${item._id}`}><button className='text-white'>Update</button></Link>
-                <td><button onClick={(e) => handleDelete(item._id)}>Delete</button></td>
-                
+    <div className="text-white font-spartan font-thin w-[19rem] h-auto rounded mx-auto mt-2">Rs.{item.price}/-</div>
+    <div className="text-center text-white font-spartan font-thin mt-8 text-3xl">{item.type}</div>
+    <div className="text-center text-white font-spartan font-thin text-2xl mt-2">{item.category}</div>
+  </div>
+))}
 
-                <div className="text-white font-spartan font-thin w-[19rem] h-auto rounded mx-auto mt-2">Rs.{item.price}/-</div>
-                <div className="text-center text-white font-spartan font-thin mt-8 text-3xl">{item.type}</div>
-                <div className="text-center text-white font-spartan font-thin text-2xl mt-2">{item.category}</div>
-              </div>
-            ))}
           </div>
         ) : (
           <p className="text-center text-white-700">No menu items available.</p>

@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "@heroicons/react": "^2.1.5",
+    "chart.js": "^4.4.4",
+    "jspdf": "^2.5.2",
+    "jspdf-autotable": "^3.8.3",
+    "react-chartjs-2": "^5.2.0",
+    "react-datepicker": "^7.3.0",
+    "react-datetime": "^3.2.0",
+    "react-time-picker": "^7.0.0",
+    "react-time-picker-input": "^2.2.4"
+  }
+}

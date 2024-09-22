@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const ReservedTables = () => {
     const { id } = useParams();
@@ -8,8 +10,8 @@ const ReservedTables = () => {
     const [tableNum, setTableNum] = useState('');
     const [quantity, setQuantity] = useState(''); 
     const [price, setPrice] = useState('');
-    const [date, setDate] = useState('');
-    const [time, setTime] = useState('');
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedTime, setSelectedTime] = useState(null);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
 
@@ -26,31 +28,40 @@ const ReservedTables = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        if (!selectedDate || !selectedTime) {
+            setError("Please select a date and time.");
+            return;
+        }
+
         // Check for existing reservation
-        axios.post("http://localhost:3001/checkReservation", { date, time, tableNum })
-            .then(res => {
-                if (res.data.exists) {
-                    setError("This table is already reserved for the selected date and time. Please choose another time or date.");
-                } else {
-                    // Proceed with reservation
-                    axios.post("http://localhost:3001/reservedtables", {
-                        quantity,
-                        price,
-                        tableNum,
-                        date,
-                        time,
-                        userId: id
-                    })
-                    .then(result => {
-                        setSuccess("Reservation successful!");
-                        setTimeout(() => {
-                            navigate(`/TableReservationPage/${id}`);
-                        }, 2000);
-                    })
-                    .catch(err => console.log(err));
-                }
-            })
-            .catch(err => console.log(err));
+        axios.post("http://localhost:3001/checkReservation", {
+            date: selectedDate.toISOString().split('T')[0],
+            time: selectedTime.toTimeString().split(' ')[0],
+            tableNum
+        })
+        .then(res => {
+            if (res.data.exists) {
+                setError("This table is already reserved for the selected date and time. Please choose another time or date.");
+            } else {
+                // Proceed with reservation
+                axios.post("http://localhost:3001/reservedtables", {
+                    quantity,
+                    price,
+                    tableNum,
+                    date: selectedDate.toISOString().split('T')[0],
+                    time: selectedTime.toTimeString().split(' ')[0],
+                    userId: id
+                })
+                .then(result => {
+                    setSuccess("Reservation successful!");
+                    setTimeout(() => {
+                        navigate(`/TableReservationPage/${id}`);
+                    }, 2000);
+                })
+                .catch(err => console.log(err));
+            }
+        })
+        .catch(err => console.log(err));
     };
 
     return (
@@ -63,30 +74,31 @@ const ReservedTables = () => {
 
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
-                        <label htmlFor="date" className="block text-sm font-medium text-gray-700">
+                        <label className="block text-sm font-medium text-gray-700">
                             Date
                         </label>
-                        <input
-                            type="text"
-                            id="date"
+                        <DatePicker
+                            selected={selectedDate}
+                            onChange={(date) => setSelectedDate(date)}
                             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                            placeholder="Enter Date"
-                            value={date}
-                            onChange={(e) => setDate(e.target.value)}
+                            placeholderText="Select Date"
+                            dateFormat="yyyy/MM/dd"
                         />
                     </div>
 
                     <div className="mb-4">
-                        <label htmlFor="time" className="block text-sm font-medium text-gray-700">
+                        <label className="block text-sm font-medium text-gray-700">
                             Time
                         </label>
-                        <input
-                            type="text"
-                            id="time"
+                        <DatePicker
+                            selected={selectedTime}
+                            onChange={(time) => setSelectedTime(time)}
+                            showTimeSelect
+                            showTimeSelectOnly
+                            timeIntervals={15}
+                            timeCaption="Time"
+                            dateFormat="h:mm aa"
                             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                            placeholder="Enter Time"
-                            value={time}
-                            onChange={(e) => setTime(e.target.value)}
                         />
                     </div>
 

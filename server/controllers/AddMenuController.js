@@ -23,5 +23,10 @@ router.get("/showMenu/:id",(req,res) => {
     .then(users => res.json(users))
     .catch(err => res.json(err))
 })
+router.delete("/deleteMenuList/:id", (req, res) => {
+    Menu.findByIdAndDelete(req.params.id)
+        .then(result => res.json({ message: 'Menu item deleted successfully', result }))
+        .catch(err => res.status(500).json(err));
+});
 
 module.exports = router;
