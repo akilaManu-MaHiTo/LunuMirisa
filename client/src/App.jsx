@@ -48,6 +48,7 @@ import AcceptedOrders from './views/AcceptedOrders';
 
 
 
+
 function App() {
   return (
     <BrowserRouter>
@@ -96,8 +97,8 @@ function App() {
         <Route path="/profile" element={<ProfilePage/>} />
         <Route path="/SupplierConfirmOrder/:supplierId/:orderId/:supplierName" element={<SupplierConfirmOrder />} />
         <Route path="/acceptedorders" element={<AcceptedOrders />} />
-
         
+       
        
       </Routes>
     </BrowserRouter>

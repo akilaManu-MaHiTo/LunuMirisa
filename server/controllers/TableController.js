@@ -40,4 +40,10 @@ router.delete("/DeleteTable/:id", (req, res) => {
         .then(() => res.json({ message: `Table with id ${tableId} deleted successfully.` }))
         .catch(err => res.status(500).json({ error: err.message }));
 });
+
+
+
+
+
+
 module.exports = router;
