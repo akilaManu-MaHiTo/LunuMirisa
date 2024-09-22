@@ -4,7 +4,7 @@ const Cart = require('../models/Cart');
 
 // Add item to cart
 router.post("/Addtocarts", async (req, res) => {
-    const { userId, itemId, category, type, price } = req.body;
+    const { userId, itemId, category, type, price, cartDate } = req.body;
 
     // Validate input
     if (!userId || !itemId || !category || !type || !price) {
@@ -12,8 +12,8 @@ router.post("/Addtocarts", async (req, res) => {
     }
 
     try {
-        // Create a new cart item
-        const cartItem = await Cart.create({ userId, itemId, category, type, price });
+        // Create a new cart item with cartDate
+        const cartItem = await Cart.create({ userId, itemId, category, type, price, cartDate });
 
         res.status(201).json({
             message: "Item added to cart successfully.",
@@ -25,10 +25,10 @@ router.post("/Addtocarts", async (req, res) => {
     }
 });
 
+
 // Show cart items
 router.get("/ShowCart/:userId", async (req, res) => {
     const userId = req.params.userId;
-    console.log(userId)
 
     try {
         // Find cart items where the userId matches the provided userId
@@ -40,5 +40,75 @@ router.get("/ShowCart/:userId", async (req, res) => {
         res.status(500).json({ message: "An error occurred while fetching cart items." });
     }
 });
+
+// Get item counts for all users
+router.get("/itemCounts", async (req, res) => {
+    try {
+        // Aggregate to get counts of cart items per user
+        const counts = await Cart.aggregate([
+            {
+                $group: {
+                    _id: "$userId",
+                    count: { $sum: 1 }
+                }
+            }
+        ]);
+
+        // Format the response
+        const result = counts.map(item => ({
+            userId: item._id,
+            items: item.count
+        }));
+
+        res.json(result);
+    } catch (err) {
+        console.error('Error fetching item counts:', err);
+        res.status(500).json({ message: "An error occurred while fetching item counts." });
+    }
+});
+
+// Calculate total price for each day
+router.get("/totalPriceByDay", async (req, res) => {
+    try {
+        // Aggregate to get total price for items grouped by day
+        const totals = await Cart.aggregate([
+            {
+                $group: {
+                    _id: {
+                        year: { $year: "$cartDate" },
+                        month: { $month: "$cartDate" },
+                        day: { $dayOfMonth: "$cartDate" }
+                    },
+                    totalPrice: { $sum: { $toDouble: "$price" } }
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    date: {
+                        $dateToString: {
+                            format: "%Y-%m-%d",
+                            date: {
+                                $dateFromParts: {
+                                    year: "$_id.year",
+                                    month: "$_id.month",
+                                    day: "$_id.day"
+                                }
+                            }
+                        }
+                    },
+                    totalPrice: 1
+                }
+            },
+            { $sort: { date: 1 } } // Optional: Sort by date
+        ]);
+
+        res.json(totals);
+    } catch (err) {
+        console.error('Error calculating total price by day:', err);
+        res.status(500).json({ message: "An error occurred while calculating the total price by day." });
+    }
+});
+
 
 module.exports = router;

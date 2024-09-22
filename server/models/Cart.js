@@ -1,14 +1,13 @@
-const mongoose = require ('mongoose')
+const mongoose = require('mongoose');
 
 const CartSchema = new mongoose.Schema({
-
     userId: String,
     itemId: String,
     category: String,
     type: String,
-    price: String
+    price: String,
+    cartDate: { type: Date, default: Date.now } // or use `Date.now` for current date by default
+});
 
-})
-
-const CartModel = mongoose.model("carts",CartSchema)
-module.exports = CartModel
+const CartModel = mongoose.model("Cart", CartSchema);
+module.exports = CartModel;

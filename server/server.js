@@ -21,7 +21,8 @@ const SUPPLIERPROFILE = require ('./controllers/SupplierProfileController')
 const PROFILEPIC = require ('./controllers/ProfilePictureController')
 const INVENTORYORDERS = require ('./controllers/InventoryOrderController')
 const ADDEMPLOYEE = require ('./controllers/AddEmployee')
-
+const INTABLEORDER = require ('./controllers/InOrderTableController')
+const INORDER = require ('./controllers/InOrderController')
 
 
 const app = express();
@@ -45,6 +46,8 @@ app.use('/',SUPPLIERPROFILE)
 app.use('/',PROFILEPIC)
 app.use('/',INVENTORYORDERS)
 app.use('/',ADDEMPLOYEE)
+app.use('/',INTABLEORDER)
+app.use('/',INORDER)
 
 
 

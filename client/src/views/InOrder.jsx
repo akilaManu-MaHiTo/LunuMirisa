@@ -5,7 +5,10 @@ import axios from 'axios';
 const ShowMenuList = () => {
   const [menuItems, setMenuItems] = useState([]);
   const [error, setError] = useState('');
-  const { userId } = useParams();
+  const [selectedQuantities, setSelectedQuantities] = useState({});
+  
+  // Use a single useParams call
+  const { id, userId, tableNum, date, ongoing } = useParams();
 
   useEffect(() => {
     axios.get("http://localhost:3001/ShowMenuList")
@@ -18,15 +21,30 @@ const ShowMenuList = () => {
       });
   }, []);
 
-  const handleAddToCart = (item, quantity) => {
-    console.log("Adding to cart:", userId, item._id, item.category, item.type, item.price, quantity);
-    axios.post("http://localhost:3001/Addtocart", {
-      userId,
+  const handleQuantityChange = (itemId, quantity) => {
+    setSelectedQuantities(prev => ({
+      ...prev,
+      [itemId]: quantity
+    }));
+  };
+
+  const handleAddToCart = (item) => {
+    const quantity = selectedQuantities[item._id] || 1;
+    const totalPrice = item.price * quantity;
+
+    console.log("Adding to cart:", id, item._id, item.category, item.type, totalPrice, quantity, userId, tableNum, date, ongoing);
+    axios.post("http://localhost:3001/InOrderCreate", {
+      orderId: id,  // Include the order ID
       itemId: item._id,
       category: item.category,
       type: item.type,
       price: item.price,
-      quantity
+      quantity,
+      totalPrice,  // Include the total price
+      userId,
+      tableNum,
+      date,
+      ongoing
     })
     .then(response => {
       console.log("Added to cart:", response.data);
@@ -52,11 +70,11 @@ const ShowMenuList = () => {
                 <QuantitySelector 
                   initialQuantity={1}
                   price={item.price}
-                  onQuantityChange={(quantity) => handleAddToCart(item, quantity)} 
+                  onQuantityChange={(quantity) => handleQuantityChange(item._id, quantity)} 
                 />
 
                 <button
-                  onClick={() => handleAddToCart(item)}
+                  onClick={() => handleAddToCart(item)}  // Use the item directly
                   className="bg-green-500 text-white px-4 py-2 rounded mb-4"
                 >
                   Add to Order
@@ -80,14 +98,14 @@ const QuantitySelector = ({ initialQuantity, price, onQuantityChange }) => {
     const newQuantity = quantity + 1;
     setQuantity(newQuantity);
     setTotalPrice(newQuantity * price);
-    onQuantityChange(newQuantity);
+    onQuantityChange(newQuantity); // Notify parent of quantity change
   };
 
   const handleDecrement = () => {
     const newQuantity = Math.max(1, quantity - 1);
     setQuantity(newQuantity);
     setTotalPrice(newQuantity * price);
-    onQuantityChange(newQuantity);
+    onQuantityChange(newQuantity); // Notify parent of quantity change
   };
 
   return (
