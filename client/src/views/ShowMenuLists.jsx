@@ -147,6 +147,7 @@ const ShowMenuLists = () => {
                 <div key={item._id} className="bg-custom-black p-6 rounded shadow-md">
                   <div className="bg-custom-gray h-auto p-6 rounded shadow-md w-[22rem] max-w-md mb-4 md:mb-0 flex flex-col items-center">
                     <div className="text-white font-bold text-lg mb-2">{item.type}</div> {/* Item type displayed */}
+                    <div className="text-white font-bold text-lg mb-2">{item.title}</div> {/* Item type displayed */}
                     <div className="text-white font-thin text-md mb-4">{item.category}</div> {/* Item category displayed */}
                     <div className="text-white font-thin text-2xl mb-6">Rs.{item.price}/-</div> {/* Item price displayed */}
 
