@@ -110,27 +110,29 @@ const Footer = () => {
                     </div>
 
                     <div className="items-center p-2 lg:pl-40">
-                        <div className="text-white text-2xl pt-2 font-spartan font-thin pl-10 lg:pl-0 mt-2">Star Rating</div>
+                        <div className="text-white text-2xl pt-2 font-spartan font-thin pl-10 lg:pl-0 mt-2">We would love to hear your thoughts! </div>
                         <div className="flex">
                             {[...Array(5)].map((star, index) => {
                                 const ratingValue = index + 1;
                                 return (
-                                    <label key={index}>
-                                        <input
-                                            type="radio"
-                                            name="rating"
-                                            value={ratingValue}
-                                            className="hidden"
-                                            onClick={() => setRating(ratingValue)}
-                                        />
-                                        <FontAwesomeIcon
-                                            icon={ratingValue <= (hover || rating) ? faStar : faStarRegular}
-                                            className="text-2xl cursor-pointer transition-transform duration-300 ease-in-out transform hover:scale-125"
-                                            onMouseEnter={() => setHover(ratingValue)}
-                                            onMouseLeave={() => setHover(0)}
-                                            color={ratingValue <= (hover || rating) ? "#ffc107" : "#e4e5e9"}
-                                        />
-                                    </label>
+                            <label key={index}>
+                                <input
+                                    type="radio"
+                                    name="rating"
+                                    value={ratingValue}
+                                    className="hidden"
+                                    onClick={() => setRating(ratingValue)}
+                                />
+                                <FontAwesomeIcon
+                                    icon={ratingValue <= (hover || rating) ? faStar : faStarRegular}
+                                    className={`text-2xl cursor-pointer transition-transform duration-300 ease-in-out transform ${
+                                        ratingValue <= (hover || rating) ? 'hover:scale-125 hover:drop-shadow-[0_0_10px_rgba(255,193,7,0.8)]' : ''
+                                    }`}
+                                    onMouseEnter={() => setHover(ratingValue)}
+                                    onMouseLeave={() => setHover(0)}
+                                    color={ratingValue <= (hover || rating) ? "#ffc107" : "#e4e5e9"}
+                                />
+                            </label>
                                 );
                             })}
                         </div>
