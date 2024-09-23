@@ -33,6 +33,18 @@ const ShowInventory = () => {
       });
   }, []);
 
+  const handleDeleteItem = (itemId) => {
+    axios.delete(`http://localhost:3001/DeleteInventoryItem/${itemId}`)
+      .then(response => {
+        // After successful deletion, remove the item from the state
+        setFilteredInventory(prevInventory => prevInventory.filter(item => item._id !== itemId));
+      })
+      .catch(error => {
+        console.error("There was an error deleting the inventory item!", error);
+      });
+  };
+  
+
   const handleCategoryChange = (event) => {
     const category = event.target.value;
     setSelectedCategory(category);
@@ -242,7 +254,15 @@ const generateReport = () => {
                     )}
                     <div><Link to={`/UpdateInventory/${item._id}`}><button>Update  <FontAwesomeIcon icon={faPenToSquare} /></button></Link></div>
                     <div><Link to={`/PlaceOrderInventory/${item._id}`}><button>Order <FontAwesomeIcon icon={faTruckArrowRight} /></button></Link></div>
-                    <div><button className='text-red-500'>Delete <FontAwesomeIcon icon={faTrashCan} /></button></div>
+                    <div>
+                        <button 
+                          className='text-red-500' 
+                          onClick={() => handleDeleteItem(item._id)}
+                        >
+                          Delete <FontAwesomeIcon icon={faTrashCan} />
+                        </button>
+                    </div>
+
                   </li>
                 ))}
               </ul>

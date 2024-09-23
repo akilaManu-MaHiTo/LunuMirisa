@@ -19,9 +19,10 @@ function UpdateUsers() {
     const [address, setAddress] = useState('');
     const [loading, setLoading] = useState(true);
     const [image, setImage] = useState(null);
-    const [previewImage, setPreviewImage] = useState(null); // State for image preview
+    const [previewImage, setPreviewImage] = useState(null);
     const [error, setError] = useState(null);
     const [profile, setProfile] = useState({});
+    const [reviews, setReviews] = useState([]); 
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -52,10 +53,21 @@ function UpdateUsers() {
             });
     }, [userId]);
 
+    useEffect(() => {
+        axios.get(`http://localhost:3001/GetAllReviewsbyId/${userId}`)
+            .then(response => {
+                setReviews(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+                setError('Failed to fetch reviews');
+            });
+    }, [userId]);
+
     const handleImageChange = (e) => {
         const selectedFile = e.target.files[0];
         setImage(selectedFile);
-        setPreviewImage(URL.createObjectURL(selectedFile)); // Generate preview URL
+        setPreviewImage(URL.createObjectURL(selectedFile));
     };
 
     const handleUpdate = (e) => {
@@ -64,8 +76,6 @@ function UpdateUsers() {
             alert('Please fill out all fields');
             return;
         }
-
-
 
         const formData = new FormData();
         formData.append('image', image);
@@ -89,6 +99,16 @@ function UpdateUsers() {
             });
     };
 
+    const renderStars = (rating) => {
+        return [...Array(5)].map((_, index) => (
+            <FontAwesomeIcon 
+                key={index} 
+                icon={index < rating ? faCrown : ['far', 'fa-star']} 
+                className={`text-${index < rating ? 'yellow' : 'gray'}-500`} 
+            />
+        ));
+    };
+
     if (loading) {
         return <Loader />;
     }
@@ -97,7 +117,6 @@ function UpdateUsers() {
         <div>
             <Navigation logo={logo} />
             <div
-                className=""
                 style={{ 
                     backgroundImage: `url(${bgprofile})`, 
                     backgroundSize: 'cover', 
@@ -217,29 +236,53 @@ function UpdateUsers() {
                                         onChange={(e) => setAddress(e.target.value)}
                                     />
                                 </div>
-                            </div>.
+                            </div>
 
                             <div className="text-center">
-                            <button
-                                type="submit"
-                                className={`py-2 px-8 rounded-lg transition-all duration-300 ease-in-out transform ${
-                                    loading
-                                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                                    : 'bg-white text-black hover:bg-black hover:text-white hover:scale-105'
-                                }`}
-                                disabled={loading}
+                                <button
+                                    type="submit"
+                                    className={`py-2 px-8 rounded-lg transition-all duration-300 ease-in-out transform ${
+                                        loading
+                                            ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                            : 'bg-white text-black hover:bg-black hover:text-white hover:scale-105'
+                                    }`}
+                                    disabled={loading}
                                 >
-                                {loading ? (
-                                    <FontAwesomeIcon icon={faCircleNotch} spin className="w-5 h-5" />
-                                ) : (
-                                    'Save Changes'
-                                )}
+                                    {loading ? (
+                                        <FontAwesomeIcon icon={faCircleNotch} spin className="w-5 h-5" />
+                                    ) : (
+                                        'Save Changes'
+                                    )}
                                 </button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
+
+            <div className="text-white text-5xl pt-8 font-spartan font-thin pl-[10rem]">User Reviews</div>
+            <div className="flex flex-col items-center justify-center py-8">
+                {reviews.length > 0 ? (
+                    <div className="w-full px-10">
+                        {reviews.map((review, index) => (
+                            <div key={index} className="bg-gray-800 p-6 rounded my-4 w-full max-w-2xl transition-opacity duration-500 ease-in-out">
+                                <div className="flex items-center mb-2">
+                                    <h3 className="text-xl font-bold text-white mr-4">
+                                        {review.FirstName} {review.LastName}
+                                    </h3>
+                                    <div className="flex items-center">
+                                        {renderStars(review.rating)}
+                                    </div>
+                                </div>
+                                <p className="text-gray-300 italic">{review.review}</p>
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <p className="text-white">No reviews available.</p>
+                )}
+            </div>
+
             <Footer />
         </div>
     );

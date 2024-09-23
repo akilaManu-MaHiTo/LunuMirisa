@@ -82,7 +82,7 @@ const AddMenuList = () => {
               onChange={(e) => setPrice(e.target.value)}
             />
           </div>
-          <div className="mb-4">
+          {/* <div className="mb-4">
             <label htmlFor="image" className="block text-sm font-medium text-gray-700">
               Image URL
             </label>
@@ -94,20 +94,7 @@ const AddMenuList = () => {
               value={image}
               onChange={(e) => setImage(e.target.value)}
             />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="type" className="block text-sm font-medium text-gray-700">
-              Type
-            </label>
-            <input
-              type="text"
-              id="type"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              placeholder="Enter type"
-              value={type}
-              onChange={(e) => setType(e.target.value)}
-            />
-          </div>
+          </div> */}
           <div className="mb-4">
             <label htmlFor="category" className="block text-sm font-medium text-gray-700">
               Category
