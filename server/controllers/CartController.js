@@ -4,7 +4,7 @@ const Cart = require('../models/Cart');
 
 // Add item to cart
 router.post("/Addtocarts", async (req, res) => {
-    const { userId, itemId, category, type, price } = req.body;
+    const { userId, itemId, category, title, price } = req.body;
 
     // Validate input
     if (!userId || !itemId || !category || !price) {
@@ -13,7 +13,7 @@ router.post("/Addtocarts", async (req, res) => {
 
     try {
         // Create a new cart item
-        const cartItem = await Cart.create({ userId, itemId, category, type, price });
+        const cartItem = await Cart.create({ userId, itemId, category, title, price });
 
         res.status(201).json({
             message: "Item added to cart successfully.",
@@ -93,4 +93,20 @@ router.get("/topThreeItemIds", async (req, res) => {
         res.status(500).json({ message: "An error occurred while fetching the top three item IDs." });
     }
 });
+
+router.get("/countCartItems/:userId", async (req, res) => {
+    try {
+      const { userId } = req.params;
+      
+      // Count the items in the user's cart
+      const cartItemCount = await Cart.countDocuments({ userId });
+      
+      // Send the count as the response
+      res.status(200).json({ count: cartItemCount });
+    } catch (error) {
+      console.error("Error fetching cart item count:", error);
+      res.status(500).json({ message: 'Error fetching cart item count' });
+    }
+  });
+  
 module.exports = router;
