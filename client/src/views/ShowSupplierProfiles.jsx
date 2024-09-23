@@ -40,7 +40,9 @@ function ShowSupplierProfiles() {
   const handleAddSupplier = () => {
     navigate('/AddSupplier');
   };
-
+  const handleDashboard = () => {
+    navigate('/SupplierManagerDashBoard');
+  };
   return (
     <div className="max-w-7xl mx-auto bg-white p-8 border border-gray-300 rounded-lg shadow-lg">
       <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Supplier Profiles</h2>
@@ -52,7 +54,13 @@ function ShowSupplierProfiles() {
         >
           Add Supplier
         </button>
-      </div>
+        <button
+          onClick={handleDashboard}
+          className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200"
+        >
+          Dashboard
+        </button>
+        </div>
 
       <div className="mb-6">
         <input

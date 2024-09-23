@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
+import { useNavigate } from 'react-router-dom';
 
 function AcceptedOrders() {
   const [orders, setOrders] = useState([]);
@@ -10,6 +11,7 @@ function AcceptedOrders() {
   const [searchTerm, setSearchTerm] = useState('');
   const [editingOrder, setEditingOrder] = useState(null);
   const [updatedOrder, setUpdatedOrder] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -116,9 +118,23 @@ function AcceptedOrders() {
     doc.save('accepted_orders_report.pdf');
   };
 
+  const navigateToDashboard = () => {
+    navigate('/SupplierManagerDashBoard');
+  };
+
   return (
     <div className="max-w-6xl mx-auto p-8 bg-gradient-to-b from-green-50 to-green-100 rounded-lg shadow-xl">
       <h1 className="text-4xl font-bold text-gray-800 mb-6 text-center">Accepted Orders</h1>
+
+      {/* DashBoard Button */}
+      <div className="mb-4 text-right">
+        <button
+          onClick={navigateToDashboard}
+          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+        >
+          DashBoard
+        </button>
+      </div>
 
       {/* Search Bar */}
       <input
@@ -181,7 +197,7 @@ function AcceptedOrders() {
         onClick={downloadPDF}
         className="mb-6 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
       >
-        Download  PDF
+        Download PDF
       </button>
 
       <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
@@ -216,4 +232,3 @@ function AcceptedOrders() {
 }
 
 export default AcceptedOrders;
-

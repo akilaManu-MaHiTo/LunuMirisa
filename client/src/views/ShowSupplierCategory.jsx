@@ -19,16 +19,32 @@ function ShowSupplierCategory() {
       .catch(err => console.log(err));
   };
 
+
+
+
   return (
     <div className="max-w-6xl mx-auto mt-12 p-8 bg-white rounded-2xl shadow-xl">
       {/* Add Categories Button */}
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-2xl font-bold text-gray-800">Supplier Categories</h1>
+
+
+       
         <Link to="/AddSupplierCategory">
           <button className="px-6 py-3 bg-gradient-to-r from-green-400 to-teal-500 text-white rounded-full shadow-md hover:shadow-lg hover:scale-105 transform transition-all duration-300">
             + Add Category
           </button>
         </Link>
+        <Link to="/SupplierManagerDashBoard">
+          <button className="px-6 py-3 bg-gradient-to-r from-green-400 to-teal-500 text-white rounded-full shadow-md hover:shadow-lg hover:scale-105 transform transition-all duration-300">
+          DashBoard
+          </button>
+        </Link>
+        
+
+
+
+
       </div>
 
       <div className="overflow-hidden border border-gray-200 rounded-lg shadow-sm">
