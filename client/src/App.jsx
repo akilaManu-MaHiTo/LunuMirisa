@@ -46,6 +46,9 @@ import AcceptedOrders from './views/AcceptedOrders';
 import WaitorPage from './views/WaitorPage';
 import ShowMyOrders from './views/ShowMyOrders';
 import OrderDetails from './views/OrderDetails';
+import Reservations from './views/Reservations';
+import UpdateReservation from "./views/UpdateReservation";
+
 
 
 function App() {
@@ -97,6 +100,9 @@ function App() {
         <Route path="/WaitorPage/:userId" element={<WaitorPage/>} />
         <Route path="/ShowMyOrders/:userId" element={<ShowMyOrders/>} />
         <Route path="/OrderDetails/:orderId" element={<OrderDetails/>} />
+        <Route path="/Reservations" element={<Reservations />} />
+        <Route path="/updateReservation/:id" element={<UpdateReservation />} />
+        
       </Routes>
     </BrowserRouter>
   );
