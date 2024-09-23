@@ -52,7 +52,7 @@ const ShowCart = () => {
             </div>
             <div>
               {/* Link to CartDetailsForm */}
-              <Link to="/cartdetailsform">
+              <Link to="/CartForm">
                 <button
                   id="checkout_btn"
                   className="bg-gray-500 hover:bg-white text-white border-solid border-2 border-black  hover:text-black font-bold py-2 px-4 rounded pt-3"
