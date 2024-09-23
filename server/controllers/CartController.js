@@ -110,5 +110,40 @@ router.get("/totalPriceByDay", async (req, res) => {
     }
 });
 
+// Get top three item IDs by highest price
+router.get("/topThreeItemIds", async (req, res) => {
+    try {
+        // Aggregate to get top three item IDs by highest price
+        const topItems = await Cart.aggregate([
+            {
+                $group: {
+                    _id: "$itemId",
+                    maxPrice: { $max: { $toDouble: "$price" } },
+                    type: { $first: "$type" }, // Capture the type
+                    category: { $first: "$category" } // Capture the category
+                }
+            },
+            { $sort: { maxPrice: -1 } }, // Sort by price in descending order
+            { $limit: 3 }, // Limit to top 3 items
+            { 
+                $project: { 
+                    _id: 0, 
+                    itemId: "$_id", 
+                    maxPrice: 1, 
+                    type: 1, 
+                    category: 1 // Include type and category in the output
+                } 
+            }
+        ]);
+
+        res.json(topItems);
+    } catch (err) {
+        console.error('Error fetching top three item IDs:', err);
+        res.status(500).json({ message: "An error occurred while fetching the top three item IDs." });
+    }
+});
+
+
+
 
 module.exports = router;
