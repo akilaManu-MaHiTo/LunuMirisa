@@ -119,10 +119,10 @@ const ShowMenuLists = () => {
 
       {/* Display top three items in cart if "All" is selected */}
       {selectedCategory === 'All' && (
-        <div className="my-10 mx-10 md:mx-20 lg:mx-32 bg-custom-black">
+        <div className=" bg-custom-white">
           <h2 className="text-white text-2xl font-bold mb-4">Top 3 Cart Items</h2>
           {topThreeItems.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="flex gap-4 items-center">
               {topThreeItems.map((item) => (
                 <div key={item.itemId} className="bg-custom-gray p-6 rounded shadow-md w-[22rem] max-w-md">
                   <h3 className="text-white text-lg font-bold mb-2">{item.type}</h3>
