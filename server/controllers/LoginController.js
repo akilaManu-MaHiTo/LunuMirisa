@@ -22,7 +22,7 @@ router.post('/loginUser', async (req, res) => {
         const statusCode = {
           'Manager': 201,
           'Waitor': 202,
-          'Cashier': 203
+          'Chef': 203
         }[employee.EmType] || 204;
 
         console.log('Employee login successful:', employee);

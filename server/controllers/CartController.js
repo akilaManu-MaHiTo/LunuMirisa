@@ -49,6 +49,18 @@ router.get("/ShowCart/:userId", async (req, res) => {
     }
 });
 
+// Remove item from cart
+router.delete("/RemoveFromCart/:itemId", async (req, res) => {
+    const { itemId } = req.params;
+    try {
+        await Cart.findByIdAndDelete(itemId); // Assuming itemId is the ID of the cart item
+        res.status(200).json({ message: "Item removed from cart successfully." });
+    } catch (err) {
+        console.error("Error removing item from cart:", err);
+        res.status(500).json({ message: "An error occurred while removing the item from the cart." });
+    }
+});
+
 // Get top three items by highest price
 router.get("/topThreeItemIds", async (req, res) => {
     try {
@@ -81,7 +93,4 @@ router.get("/topThreeItemIds", async (req, res) => {
         res.status(500).json({ message: "An error occurred while fetching the top three item IDs." });
     }
 });
-
-
-
 module.exports = router;
