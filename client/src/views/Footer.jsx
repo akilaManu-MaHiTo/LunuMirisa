@@ -1,84 +1,168 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 import logo from '../Images/Logo.png'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFacebook, faInstagram, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
-import { faFacebookMessenger } from '@fortawesome/free-brands-svg-icons';
+import { faFacebook, faInstagram, faWhatsapp, faFacebookMessenger } from '@fortawesome/free-brands-svg-icons';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons';
 
 const Footer = () => {
-  return (
-    <footer className="bg-footer-bg bg-cover bg-center w-full h-auto py-10 text-white">
+    const { userId } = useParams();
+    const [rating, setRating] = useState(0);
+    const [hover, setHover] = useState(0);
+    const [review, setReview] = useState("");
+    const [message, setMessage] = useState("");
+    const [FirstName, setFirstName] = useState("");
+    const [LastName, setLastName] = useState("");
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
 
-        <div className="flex flex-col lg:flex-row"> 
-            <div>
-                <div className="text-white text-2xl pt-2 font-spartan font-thin pl-10 lg:pl-40">Contact Us</div>
-                <address className="not-italic">
-                    <div className="flex text-white pl-10 lg:pl-40 pt-4 font-spartan">
-                        <div className="font-bold">Address - </div>
-                        <div className="font-thin">&nbsp; No 76 Colombo Road, Raththanapitiya, Boralesgamuwa</div>
-                    </div>
-                    <div className="flex text-white pl-10 lg:pl-40 pt-4 font-spartan">
-                        <div className="font-bold">Phone - </div>
-                        <div className="font-thin">&nbsp; 0112 150 059</div>
-                    </div>
-                    <div className="flex text-white pl-10 lg:pl-40 pt-4 font-spartan">
-                        <div className="font-bold">Email - </div>
-                        <div className="font-thin">&nbsp; Lunumirisa@gmail.com</div>
-                    </div>
-                </address>
+    useEffect(() => {
+        axios.get(`http://localhost:3001/getUser/${userId}`)
+            .then(result => {
+                setFirstName(result.data.firstName || '');
+                setLastName(result.data.lastName || '');
+                setLoading(false);
+            })
+            .catch(err => {
+                console.error(err);
+                setError('Failed to fetch user data');
+                setLoading(false);
+            });
+    }, [userId]);
 
-                <div className="text-white text-2xl pt-10 font-spartan font-thin pl-10 lg:pl-40">Follow Us</div>
-                <div className="flex text-white pl-12 lg:pl-52 pt-4 space-x-4">
-                <FontAwesomeIcon icon={faFacebook} className="text-2xl transition-transform duration-300 ease-in-out transform hover:scale-125" />
-                <FontAwesomeIcon icon={faFacebookMessenger} className="text-2xl transition-transform duration-300 ease-in-out transform hover:scale-125" />
-                <FontAwesomeIcon icon={faWhatsapp} className="text-2xl transition-transform duration-300 ease-in-out transform hover:scale-125" />
-                <FontAwesomeIcon icon={faInstagram} className="text-2xl transition-transform duration-300 ease-in-out transform hover:scale-125" />
+    const handleSubmit = () => {
+        if (rating === 0 || review === "") {
+            setMessage("Please provide both a rating and a review.");
+            return;
+        }
 
+        const data = {
+            review,
+            rating,
+            userId,
+            FirstName,
+            LastName,
+        };
+
+        axios.post('http://localhost:3001/PlaceReview', data)
+            .then(() => {
+                setMessage("Thank you for your review!");
+                setRating(0);
+                setReview("");
+            })
+            .catch(() => {
+                setMessage("There was an error submitting your review. Please try again.");
+            });
+    };
+
+    return (
+        <footer className="bg-footer-bg bg-cover bg-center w-full h-auto py-10 text-white">
+            <div className="flex flex-col lg:flex-row">
+                <div>
+                    <div className="text-white text-2xl pt-2 font-spartan font-thin pl-10 lg:pl-40">Contact Us</div>
+                    <address className="not-italic">
+                        <div className="flex text-white pl-10 lg:pl-40 pt-4 font-spartan">
+                            <div className="font-bold">Address - </div>
+                            <div className="font-thin">&nbsp; No 76 Colombo Road, Raththanapitiya, Boralesgamuwa</div>
+                        </div>
+                        <div className="flex text-white pl-10 lg:pl-40 pt-4 font-spartan">
+                            <div className="font-bold">Phone - </div>
+                            <div className="font-thin">&nbsp; 0112 150 059</div>
+                        </div>
+                        <div className="flex text-white pl-10 lg:pl-40 pt-4 font-spartan">
+                            <div className="font-bold">Email - </div>
+                            <div className="font-thin">&nbsp; Lunumirisa@gmail.com</div>
+                        </div>
+                    </address>
+
+                    <div className="text-white text-2xl pt-10 font-spartan font-thin pl-10 lg:pl-40">Follow Us</div>
+                    <div className="flex text-white pl-12 lg:pl-52 pt-4 space-x-4">
+                        <FontAwesomeIcon icon={faFacebook} className="text-2xl transition-transform duration-300 ease-in-out transform hover:scale-125" />
+                        <FontAwesomeIcon icon={faFacebookMessenger} className="text-2xl transition-transform duration-300 ease-in-out transform hover:scale-125" />
+                        <FontAwesomeIcon icon={faWhatsapp} className="text-2xl transition-transform duration-300 ease-in-out transform hover:scale-125" />
+                        <FontAwesomeIcon icon={faInstagram} className="text-2xl transition-transform duration-300 ease-in-out transform hover:scale-125" />
+                    </div>
+                </div>
+
+                <div className="font-spartan flex-1">
+                    <div className="text-white text-2xl pt-2 font-spartan font-thin pl-10 lg:pl-40">House of Operations</div>
+                    <div className="ml-40 lg:ml-[10rem] mt-4 text-white">
+                        <div className="font-bold mt-4">Monday - Friday: 7:00 AM - 10:00 PM</div>
+                        <div className="font-bold mt-4">Saturday - Sunday: 8:00 AM - 11:00 PM</div>
+                    </div>
+
+                    <div className="text-white text-2xl pt-2 font-spartan font-thin pl-10 lg:pl-40 mt-5">Quick Link</div>
+                    <div className="text-white font-thin ml-44 lg:ml-[11rem]">
+                        <div className="flex justify-between mt-4">
+                            <div className="flex flex-col space-y-2">
+                                <a href="#" className="hover:underline">Home</a>
+                                <a href="#" className="hover:underline">Menu</a>
+                                <a href="#" className="hover:underline">Reservation</a>
+                            </div>
+                            <div className="flex flex-col space-y-2 mr-[32rem]">
+                                <a href="#" className="hover:underline">Catering</a>
+                                <a href="#" className="hover:underline">About Us</a>
+                                <a href="#" className="hover:underline">Contact</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="items-center p-2 lg:pl-40">
+                        <div className="text-white text-2xl pt-2 font-spartan font-thin pl-10 lg:pl-0 mt-2">Star Rating</div>
+                        <div className="flex">
+                            {[...Array(5)].map((star, index) => {
+                                const ratingValue = index + 1;
+                                return (
+                                    <label key={index}>
+                                        <input
+                                            type="radio"
+                                            name="rating"
+                                            value={ratingValue}
+                                            className="hidden"
+                                            onClick={() => setRating(ratingValue)}
+                                        />
+                                        <FontAwesomeIcon
+                                            icon={ratingValue <= (hover || rating) ? faStar : faStarRegular}
+                                            className="text-2xl cursor-pointer transition-transform duration-300 ease-in-out transform hover:scale-125"
+                                            onMouseEnter={() => setHover(ratingValue)}
+                                            onMouseLeave={() => setHover(0)}
+                                            color={ratingValue <= (hover || rating) ? "#ffc107" : "#e4e5e9"}
+                                        />
+                                    </label>
+                                );
+                            })}
+                        </div>
+                        <input
+                            type="text"
+                            className="p-3 bg-custom-light w-[15rem] h-12 ml-1 focus:bg-custom-light-hover focus:transition duration-300 ease-in-out mt-3 placeholder:text-gray-400 placeholder:font-thin"
+                            placeholder="Enter Your Review"
+                            value={review}
+                            onChange={(e) => setReview(e.target.value)}
+                        />
+
+                        <button
+                            className="bg-custom-dark ml-4 h-12 w-20 hover:bg-custom-light hover:scale-105 transition duration-300 ease-in-out"
+                            onClick={handleSubmit}
+                        >
+                            Submit
+                        </button>
+
+                        {message && <p className="text-white mt-2">{message}</p>}
+                    </div>
                 </div>
             </div>
 
-            <div className="font-spartan flex-1">
-                <div className="text-white text-2xl pt-2 font-spartan font-thin pl-10 lg:pl-40">House of Operations</div>
-                <div className="ml-40 lg:ml-[10rem] mt-4 text-white">
-                    <div className="font-bold mt-4">Monday - Friday: 7:00 AM - 10:00 PM</div>
-                    <div className="font-bold mt-4">Saturday - Sunday: 8:00 AM - 11:00 PM</div>
-                </div>
-
-                <div className="text-white text-2xl pt-2 font-spartan font-thin pl-10 lg:pl-40 mt-5">Quick Link</div>
-                <div className="text-white font-thin ml-44 lg:ml-[11rem]">
-                    <div className="flex justify-between mt-4">
-                        <div className="flex flex-col space-y-2">
-                            <a href="#" className="hover:underline">Home</a>
-                            <a href="#" className="hover:underline">Menu</a>
-                            <a href="#" className="hover:underline">Reservation</a>
-                        </div>
-                        <div className="flex flex-col space-y-2 mr-[32rem] ">
-                            <a href="#" className="hover:underline">Catering</a>
-                            <a href="#" className="hover:underline">About Us</a>
-                            <a href="#" className="hover:underline">Contact</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="items-center p-2 lg:pl-40">
-                    <div className="text-white text-2xl pt-2 font-spartan font-thin pl-10 lg:pl-0 mt-2">Newsletter</div>
-                    <input type="text" className=" p-3 bg-custom-light w-[15rem] h-12 ml-1 focus:bg-custom-light-hover focus:transition duration-300 ease-in-out mt-3 placeholder:text-gray-400 placeholder:font-thin" placeholder="Enter your email" />
-                    <button className="bg-custom-dark ml-4 h-12 w-20 hover:bg-custom-light hover:scale-105 transition duration-300 ease-in-out">Send</button>
-                </div>
-
-
+            <div className="flex ml-40 lg:ml-[10rem]">
+                <img src={logo} alt="Logo" className="w-24 h-auto" />
             </div>
-        </div>
 
-        <div className="flex ml-40 lg:ml-[10rem]">
-                    <img src={logo} alt="Logo" className="w-24 h-auto" />
-        </div>
-
-        <div className="mt-1 text-center font-thin text-xs select-none text-white">
-            Privacy Policy | Terms of Service © 2024 Lunumirisa. All Rights Reserved.
-        </div>
-
-    </footer>
-  );
+            <div className="mt-1 text-center font-thin text-xs select-none text-white">
+                Privacy Policy | Terms of Service © 2024 Lunumirisa. All Rights Reserved.
+            </div>
+        </footer>
+    );
 };
 
 export default Footer;

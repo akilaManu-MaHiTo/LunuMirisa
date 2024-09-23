@@ -71,5 +71,18 @@ router.put("/updateInventory/:id", (req, res) => {
     .catch(err => res.json(err));
 });
 
+router.delete("/DeleteInventoryItem/:id", (req, res) => {
+    const { id } = req.params;
+
+    Inventory.findByIdAndDelete(id)
+        .then(item => {
+            if (!item) {
+                return res.status(404).json({ message: "Item not found" });
+            }
+            res.json({ message: "Item successfully deleted", item });
+        })
+        .catch(err => res.status(500).json({ message: "Error deleting item", error: err }));
+});
+
 
 module.exports = router;
