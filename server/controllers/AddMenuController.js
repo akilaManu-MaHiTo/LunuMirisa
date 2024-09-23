@@ -24,4 +24,11 @@ router.get("/showMenu/:id",(req,res) => {
     .catch(err => res.json(err))
 })
 
+router.put("/updateMenu/:id", (req, res) => {
+    const menuId = req.params.id;
+    Menu.findByIdAndUpdate(menuId, req.body, { new: true })
+        .then(updatedMenuItem => res.json(updatedMenuItem))
+        .catch(err => res.status(500).json(err));
+});
+
 module.exports = router;
