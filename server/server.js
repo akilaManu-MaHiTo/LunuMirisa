@@ -24,6 +24,8 @@ const ADDEMPLOYEE = require ('./controllers/AddEmployee')
 const RESERVEDTABLES =require('./controllers/ReservedTables')
 const INTABLEORDER = require ('./controllers/InOrderTableController')
 const INORDER = require ('./controllers/InOrderController')
+const CARTFORM = require ('./controllers/CartFormController')
+
 
 const app = express();
 app.use(cors());
@@ -49,6 +51,7 @@ app.use('/',ADDEMPLOYEE)
 app.use('/',RESERVEDTABLES)
 app.use('/',INTABLEORDER)
 app.use('/',INORDER)
+app.use('/',CARTFORM)
 
 
 

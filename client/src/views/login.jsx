@@ -35,7 +35,7 @@ const LoginUser = () => {
           navigate(`/InOrder/${response.data.userId}`);
           break;
         case 203:
-          navigate(`/WaitorPage/${response.data.userId}`);
+          navigate(`/ChefPage/${response.data.userId}`);
           break;
         case 204:
           alert('Employee login successful');
