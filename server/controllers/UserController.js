@@ -24,7 +24,7 @@ router.get("/getUser/:id",(req,res) => {
     .catch(err => res.json(err))
 })
 
-router.put("/updateUser/:id",(req,res) => {
+router.put("/updatkeUser/:id",(req,res) => {
     
 
     const userId = req.params.id;

@@ -8,7 +8,9 @@ const userSchema = new mongoose.Schema({
     lastName: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },
-    verified: { type: Boolean, default: false } // Assuming you added this field for verification
+    phone: { type: String, default: "" }, // Default empty string for phone
+    address: { type: String, default: "" }, // Default empty string for address
+    verified: { type: Boolean, default: false }
 });
 
 userSchema.methods.generateAuthToken = function () {
@@ -26,6 +28,8 @@ const validate = (data) => {
         lastName: Joi.string().required().label("Last Name"),
         email: Joi.string().email().required().label("Email"),
         password: passwordComplexity().required().label("Password"),
+        phone: Joi.string().allow("").label("Phone"), // Allow empty phone
+        address: Joi.string().allow("").label("Address"), // Allow empty address
     });
     return schema.validate(data);
 };
