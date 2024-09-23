@@ -2,6 +2,20 @@ const express = require('express');
 const router = express.Router();
 const { UserModel } = require('../models/Users');
 
+// router.post("/createUserb", (req, res) => {
+//     User.create(req.body)
+//         .then(users => res.json(users))
+//         .catch(err => res.status(500).json(err));
+// });
+
+// router.get("/",(req,res) => {
+
+//     User.find({})
+//     .then(users => res.json(users))
+//     .catch(err => res.json(err))
+
+// })
+
 router.get("/getUser/:id",(req,res) => {
 
     const userId = req.params.id;
@@ -10,7 +24,7 @@ router.get("/getUser/:id",(req,res) => {
     .catch(err => res.json(err))
 })
 
-router.put("/updateUser/:id",(req,res) => {
+router.put("/updatkeUser/:id",(req,res) => {
     
 
     const userId = req.params.id;
@@ -28,11 +42,4 @@ router.delete("/deleteUser/:id",(req,res) => {
     .catch(err => res.json(err))
 
 })
-
-router.get("/countUsers", (req, res) => {
-    UserModel.countDocuments({})
-        .then(count => res.json({ count }))
-        .catch(err => res.json(err));
-});
-
 module.exports = router;
