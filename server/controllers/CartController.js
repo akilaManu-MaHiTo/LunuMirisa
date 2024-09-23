@@ -7,7 +7,7 @@ router.post("/Addtocarts", async (req, res) => {
     const { userId, itemId, category, type, price } = req.body;
 
     // Validate input
-    if (!userId || !itemId || !category || !type || !price) {
+    if (!userId || !itemId || !category || !price) {
         return res.status(400).json({ message: "All fields are required." });
     }
 

@@ -66,30 +66,22 @@ const AddMenuList = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="type" className="block text-sm font-medium text-gray-700">
-              Type
-            </label>
-            <input
-              type="text"
-              id="type"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              placeholder="Enter type"
-              value={type}
-              onChange={(e) => setType(e.target.value)}
-            />
-          </div>
-          <div className="mb-4">
             <label htmlFor="category" className="block text-sm font-medium text-gray-700">
               Category
             </label>
-            <input
-              type="text"
+            <select
               id="category"
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              placeholder="Enter category"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-            />
+            >
+              <option value="" disabled>Select category</option>
+              <option value="Appetizers">Appetizers</option>
+              <option value="Main Course">Main Course</option>
+              <option value="Specials">Specials</option>
+              <option value="Beverages">Beverages</option>
+            </select>
+
           </div>
           <button
             type="submit"
