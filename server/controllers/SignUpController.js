@@ -67,4 +67,30 @@ router.get("/users/:id/verify/:token", async (req, res) => {
     }
 });
 
+router.put("/updateUser/:id", async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const { firstName, lastName, phone, address } = req.body;
+        console.log(firstName,lastName,phone,address)
+        // Find the user by ID
+        const user = await UserModel.findById(userId);
+        if (!user) return res.status(404).send({ message: "User not found" });
+
+        // Update the user fields (excluding email)
+        user.firstName = firstName || user.firstName;
+        user.lastName = lastName || user.lastName;
+        user.phone = phone || user.phone;
+        user.address = address || user.address;
+
+        // Save the updated user details
+        await user.save();
+
+        res.status(200).send({ message: "User details updated successfully", user });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: "Internal Server Error" });
+    }
+});
+
+
 module.exports = router;
