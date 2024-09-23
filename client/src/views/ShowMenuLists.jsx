@@ -87,31 +87,31 @@ const ShowMenuLists = () => {
       <div className="flex justify-center my-10 md:mx-20 lg:mx-32 flex-wrap bg-custom-black">
         <button 
           onClick={() => handleCategoryClick('All')} 
-          className={`p-3 w-[8rem] mx-10 md:w-[10rem] rounded-full mb-4 ${selectedCategory === 'All' ? 'bg-white text-black' : 'bg-custom-gray text-white'}`}
+          className={`p-3 w-[8rem] mx-5 md:w-[10rem] rounded-full mb-4 ${selectedCategory === 'All' ? 'bg-white text-black' : 'bg-custom-gray text-white'}`}
         >
           All <FontAwesomeIcon icon={faBreadSlice} />
         </button>
         <button 
           onClick={() => handleCategoryClick('Appetizers')} 
-          className={`p-3 w-[8rem] mx-10 md:w-[10rem] rounded-full mb-4 ${selectedCategory === 'Appetizers' ? 'bg-white text-black' : 'bg-custom-gray text-white'}`}
+          className={`p-3 w-[8rem] mx-5 md:w-[10rem] rounded-full mb-4 ${selectedCategory === 'Appetizers' ? 'bg-white text-black' : 'bg-custom-gray text-white'}`}
         >
           Appetizers <FontAwesomeIcon icon={faBreadSlice} />
         </button>
         <button 
           onClick={() => handleCategoryClick('Main Course')} 
-          className={`p-3 w-[8rem] mx-10 md:w-[10rem] rounded-full mb-4 ${selectedCategory === 'Main Course' ? 'bg-white text-black' : 'bg-custom-gray text-white'}`}
+          className={`p-3 w-[8rem] mx-5 md:w-[10rem] rounded-full mb-4 ${selectedCategory === 'Main Course' ? 'bg-white text-black' : 'bg-custom-gray text-white'}`}
         >
           Main Course <FontAwesomeIcon icon={faPizzaSlice} />
         </button>
         <button 
           onClick={() => handleCategoryClick('Specials')} 
-          className={`p-3 w-[8rem] mx-10 md:w-[10rem] rounded-full mb-4 ${selectedCategory === 'Specials' ? 'bg-white text-black' : 'bg-custom-gray text-white'}`}
+          className={`p-3 w-[8rem] mx-5 md:w-[10rem] rounded-full mb-4 ${selectedCategory === 'Specials' ? 'bg-white text-black' : 'bg-custom-gray text-white'}`}
         >
           Specials <FontAwesomeIcon icon={faPepperHot} />
         </button>
         <button 
           onClick={() => handleCategoryClick('Beverages')} 
-          className={`p-3 w-[8rem] mx-10 md:w-[10rem] rounded-full mb-4 ${selectedCategory === 'Beverages' ? 'bg-white text-black' : 'bg-custom-gray text-white'}`}
+          className={`p-3 w-[8rem] mx-5 md:w-[10rem] rounded-full mb-4 ${selectedCategory === 'Beverages' ? 'bg-white text-black' : 'bg-custom-gray text-white'}`}
         >
           Beverages <FontAwesomeIcon icon={faMartiniGlass} />
         </button>
