@@ -62,15 +62,13 @@ const ShowMenuList = () => {
           handleAddToCart(item);
         }}
       >
-        <input type='text' value={userId} readOnly /><br />
-        <label className='text-white'>Menu list Id</label><br />
-        <input type='text' value={item._id} readOnly /><br />
-        <label className='text-white'>Category</label><br />
-        <input type='text' value={item.category} readOnly /><br />
-        <label className='text-white'>Food name</label><br />
-        <input type='text' value={item.type} readOnly /><br />
-        <label className='text-white'>Price</label><br />
-        <input type='text' value={item.price} readOnly /><br />
+        <input type='hidden' value={item._id} readOnly /><br />
+        {/* <label className='text-white'>Category</label><br /> */}
+        <input type='hidden' value={item.category} readOnly /><br />
+        {/* <label className='text-white'>Food name</label><br /> */}
+        <input type='hidden' value={item.type} readOnly /><br />
+        {/* <label className='text-white'>Price</label><br /> */}
+        <input type='hidden' value={item.price} readOnly /><br />
       </form>
     </div>
     

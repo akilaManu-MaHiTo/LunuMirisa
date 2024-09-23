@@ -61,9 +61,18 @@ const ShowMenuLists = () => {
     setSelectedCategory(category);
     if (category === 'All') {
       setFilteredItems(menuItems);
+      // Fetch top three items in cart when "All" is selected
+      axios.get("http://localhost:3001/topThreeItemIds")
+        .then(response => {
+          setTopThreeItems(response.data); // Restore the top items
+        })
+        .catch(error => {
+          console.error("There was an error fetching top three items!", error);
+        });
     } else {
       const filtered = menuItems.filter(item => item.category === category);
       setFilteredItems(filtered);
+      setTopThreeItems([]); // Clear top 3 items when filtering by category
     }
   };
 
@@ -76,6 +85,12 @@ const ShowMenuLists = () => {
       <NavigationBar logo={logo} />
 
       <div className="flex justify-center my-10 md:mx-20 lg:mx-32 flex-wrap bg-custom-black">
+        <button 
+          onClick={() => handleCategoryClick('All')} 
+          className={`p-3 w-[8rem] mx-10 md:w-[10rem] rounded-full mb-4 ${selectedCategory === 'All' ? 'bg-white text-black' : 'bg-custom-gray text-white'}`}
+        >
+          All <FontAwesomeIcon icon={faBreadSlice} />
+        </button>
         <button 
           onClick={() => handleCategoryClick('Appetizers')} 
           className={`p-3 w-[8rem] mx-10 md:w-[10rem] rounded-full mb-4 ${selectedCategory === 'Appetizers' ? 'bg-white text-black' : 'bg-custom-gray text-white'}`}
@@ -102,23 +117,25 @@ const ShowMenuLists = () => {
         </button>
       </div>
 
-      {/* Display top three items in cart */}
-      <div className="my-10 mx-10 md:mx-20 lg:mx-32 bg-custom-black">
-        <h2 className="text-white text-2xl font-bold mb-4">Top 3 Cart Items</h2>
-        {topThreeItems.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {topThreeItems.map((item) => (
-              <div key={item.itemId} className="bg-custom-gray p-6 rounded shadow-md w-[22rem] max-w-md">
-                <h3 className="text-white text-lg font-bold mb-2">{item.type}</h3>
-                <p className="text-white">Price: Rs.{item.maxPrice}/-</p>
-                <p className="text-white">{item.category}/-</p>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p className="text-gray-500">No top items in cart.</p>
-        )}
-      </div>
+      {/* Display top three items in cart if "All" is selected */}
+      {selectedCategory === 'All' && (
+        <div className="my-10 mx-10 md:mx-20 lg:mx-32 bg-custom-black">
+          <h2 className="text-white text-2xl font-bold mb-4">Top 3 Cart Items</h2>
+          {topThreeItems.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {topThreeItems.map((item) => (
+                <div key={item.itemId} className="bg-custom-gray p-6 rounded shadow-md w-[22rem] max-w-md">
+                  <h3 className="text-white text-lg font-bold mb-2">{item.type}</h3>
+                  <p className="text-white">Price: Rs.{item.maxPrice}/-</p>
+                  <p className="text-white">{item.category}/-</p>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-500">No top items in cart.</p>
+          )}
+        </div>
+      )}
 
       <div className="flex items-center justify-center min-h-screen bg-custom-black">
         <div className="bg-custom-black p-8 shadow-md w-full h-full max-w-4xl">
