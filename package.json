@@ -9,5 +9,8 @@
     "react-datetime": "^3.2.0",
     "react-time-picker": "^7.0.0",
     "react-time-picker-input": "^2.2.4"
+  },
+  "devDependencies": {
+    "vite": "^5.4.7"
   }
 }
