@@ -1,241 +1,296 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Navigation from './Components/NavigationBar.jsx';
+import logo from '../Images/Logo.png';
+import defaultProfilePic from '../Images/profile-picture.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faStarHalfAlt, faStar as emptyStar, faCartPlus } from '@fortawesome/free-solid-svg-icons';
-import logo from '../Images/Logo.png'; 
-import homePic from '../Images/food.png';
-import NavigationBar from './Components/NavigationBar.jsx'; 
-import Footer from './Footer.jsx'; 
-import food from '../Images/food.svg';
+import { faCrown, faUser, faPenNib, faEnvelope, faPhone, faLocationDot, faPenAlt, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import bgprofile from '../Images/profileBG2.jpg';
+import Footer from './Footer.jsx';
+import Loader from './Components/Loader.jsx';
 
-const UserHome = () => {
-  const { userId } = useParams();
-  const [reviews, setReviews] = useState([]);
-  const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
-  const [fade, setFade] = useState(true);
-  const [slideDirection, setSlideDirection] = useState('left');
+function UpdateUsers() {
+    const { userId } = useParams();
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
+    const [address, setAddress] = useState('');
+    const [loading, setLoading] = useState(true);
+    const [image, setImage] = useState(null);
+    const [previewImage, setPreviewImage] = useState(null);
+    const [error, setError] = useState(null);
+    const [profile, setProfile] = useState({});
+    const [reviews, setReviews] = useState([]);
+    const navigate = useNavigate();
 
-  useEffect(() => {
-    axios.get('http://localhost:3001/GetAllReviews')
-      .then(response => {
-        setReviews(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching reviews:', error);
-      });
-  }, []);
+    useEffect(() => {
+        axios.get(`http://localhost:3001/getUser/${userId}`)
+            .then(result => {
+                setFirstName(result.data.firstName || '');
+                setLastName(result.data.lastName || '');
+                setEmail(result.data.email || '');
+                setPhone(result.data.phone || '');
+                setAddress(result.data.address || '');
+                setLoading(false);
+            })
+            .catch(err => {
+                console.error(err);
+                setError('Failed to fetch user data');
+                setLoading(false);
+            });
+    }, [userId]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setFade(false);
-      setSlideDirection('left'); // Slide out left
-      setTimeout(() => {
-        setCurrentReviewIndex((prevIndex) =>
-          prevIndex === reviews.length - 1 ? 0 : prevIndex + 1
-        );
-        setSlideDirection('right'); // Slide in from right
-        setFade(true);
-      }, 500); // Time for fade out and slide transition
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [reviews.length]);
+    useEffect(() => {
+        axios.get(`http://localhost:3001/ShowProfilePic/${userId}`)
+            .then(response => {
+                setProfile(response.data);
+            })
+            .catch(error => {
+                console.error('There was an error fetching the profile picture!', error);
+                setError('There was an error fetching the profile picture!');
+            });
+    }, [userId]);
 
-  const renderStars = (rating) => {
-    const fullStars = Math.floor(rating);
-    const halfStar = rating % 1 !== 0;
-    const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+    useEffect(() => {
+        axios.get(`http://localhost:3001/GetAllReviewsbyId/${userId}`)
+            .then(response => {
+                setReviews(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+                setError('Failed to fetch reviews');
+            });
+    }, [userId]);
+
+    const handleImageChange = (e) => {
+        const selectedFile = e.target.files[0];
+        setImage(selectedFile);
+        setPreviewImage(URL.createObjectURL(selectedFile));
+    };
+
+    const handleUpdate = (e) => {
+        e.preventDefault();
+        setLoading(true);
+        if (!email) {
+            alert('Email is required.');
+            setLoading(false);
+            return;
+        }
+
+        const updatedUserData = {
+            firstName,
+            lastName,
+            phone,
+            address,
+        };
+
+        const formData = new FormData();
+        if (image) {
+            formData.append('image', image);
+        }
+        formData.append('userId', userId);
+
+        axios.post("http://localhost:3001/ProfileImage", formData)
+            .then(result => {
+                if (result.data.alreadyExists) {
+                    return axios.put("http://localhost:3001/ProfileImage", formData);
+                }
+            })
+            .then(() => {
+                return axios.put(`http://localhost:3001/updateUser/${userId}`, updatedUserData);
+            })
+            .then(() => {
+                navigate(`/UserHome/${userId}`);
+            })
+            .catch(err => {
+                console.error(err);
+                setError('Failed to update user data');
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    };
+
+    const handleDeleteAccount = () => {
+        const confirmDelete = window.confirm('Are you sure you want to uninstall your account? This action cannot be undone.');
+        if (confirmDelete) {
+            axios.delete(`http://localhost:3001/deleteUser/${userId}`)
+                .then(() => {
+                    navigate('/');
+                })
+                .catch(err => {
+                    console.error(err);
+                    setError('Failed to delete the account');
+                });
+        }
+    };
+
+    const renderStars = (rating) => {
+        return [...Array(5)].map((_, index) => (
+            <FontAwesomeIcon 
+                key={index} 
+                icon={index < rating ? faCrown : ['far', 'fa-star']} 
+                className={`text-${index < rating ? 'yellow' : 'gray'}-500`} 
+            />
+        ));
+    };
+
+    if (loading) {
+        return <Loader />;
+    }
 
     return (
-      <div className="flex items-center">
-        {[...Array(fullStars)].map((_, index) => (
-          <FontAwesomeIcon key={index} icon={faStar} className="text-yellow-400" />
-        ))}
-        {halfStar && <FontAwesomeIcon icon={faStarHalfAlt} className="text-yellow-400" />}
-        {[...Array(emptyStars)].map((_, index) => (
-          <FontAwesomeIcon key={index} icon={emptyStar} className="text-gray-400" />
-        ))}
-        <span className="text-yellow-400 ml-2">{rating.toFixed(1)}</span> {/* Rating number */}
-      </div>
-    );
-  };
-
-  return (
-    <div className="bg-custom-black min-h-screen">
-      <NavigationBar logo={logo} /> 
-
-      <div className="relative flex w-full h-full">
-        <img src={homePic} alt="Home" className="w-full h-auto rounded" style={{ filter: 'blur(1px)' }} />
-        <div className="absolute text-white w-[50rem] pl-[10rem] hidden md:inline text-7xl pt-32 font-spartan transition-opacity duration-1000 ease-in-out">
-          Experience the Authentic Sri Lankan Foods
-        </div>
-        <div className="absolute text-white hidden custom-md:flex justify-center text-2xl w-full mt-[50rem]">
-          <div className="font-spartan font-thin bg-custom-black p-4 opacity-70"> Order Now ↓ </div>
-        </div>
-      </div>
-
-      <div className='text-white text-5xl pt-20 font-spartan font-thin pl-[10rem]'>Today's Special</div>
-
-      <div className='flex justify-center gap-y-8'>
-        <div className="flex flex-wrap gap-x-16 gap-y-8 pt-16 pb-10 justify-center w-[80rem]">
-          {[...Array(3)].map((_, index) => (
-            <div key={index} className="bg-custom-gray p-6 rounded shadow-md w-[18rem] h-auto max-w-md mb-4 md:mb-0 flex flex-col items-center transition-all duration-500 ease-in-out transform hover:scale-105">
-              <img src={food} alt="food" className='w-[15rem] h-auto rounded mx-auto mt-2' />
-              <div className="text-center text-white font-spartan font-thin mt-8 text-2xl">Chicken Biriyani</div>
-              <div className="text-center text-white font-spartan font-thin text-xl mt-2">Rs.1700/-</div>
-              <button type="submit" className='flex mb-4 items-center justify-center w-[15rem] py-1 mt-16 bg-custom-light text-white hover:bg-white hover:text-black h-12 transition-all duration-300 ease-in-out transform hover:scale-105'>
-                <FontAwesomeIcon icon={faCartPlus} className='mr-2' /> Add to Cart 
-              </button>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className='text-white text-5xl pt-8 font-spartan font-thin pl-[10rem]'>Popular Meals</div>
-
-      <div className='flex justify-center gap-y-8'>
-        <div className="flex flex-wrap gap-x-16 gap-y-8 pt-16 pb-10 justify-center w-[80rem]">
-          {[...Array(3)].map((_, index) => (
-            <div key={index} className="bg-custom-gray p-6 rounded shadow-md w-[18rem] h-auto max-w-md mb-4 md:mb-0 flex flex-col items-center transition-transform duration-500 ease-in-out transform hover:scale-105">
-              <img src={food} alt="food" className='w-[15rem] h-auto rounded mx-auto mt-2' />
-              <div className="text-center text-white font-spartan font-thin mt-8 text-2xl">Chicken Biriyani</div>
-              <div className="text-center text-white font-spartan font-thin text-xl mt-2">Rs.1700/-</div>
-              <button type="submit" className='flex mb-4 items-center justify-center w-[15rem] py-1 mt-16 bg-custom-light text-white hover:bg-white hover:text-black h-12 transition-all duration-300 ease-in-out transform hover:scale-105'>
-                <FontAwesomeIcon icon={faCartPlus} className='mr-2' /> Add to Cart 
-              </button>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="text-white text-5xl pt-8 font-spartan font-thin pl-[10rem]">User Reviews</div>
-      <div className="flex flex-col items-center justify-center py-8">
-        {reviews.length > 0 ? (
-          <div
-            className={`w-full px-10 transition-all duration-700 ease-in-out transform ${
-              fade ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-' + (slideDirection === 'left' ? '-20' : '20')
-            }`}
-          >
-            <div key={currentReviewIndex} className="bg-custom-dark p-10 rounded my-4 w-[45rem] h-[20rem] mx-auto">
-              <div className="flex flex-col items-start">
-                <div className="flex items-start">
-                  <img
-                    src={`http://localhost:3001/Images/${reviews[currentReviewIndex].profileImage}`}
-                    alt="User"
-                    className="w-16 h-16 rounded-full mr-4"
-                  />
-                  <div className="flex flex-col">
-                    <h3 className="text-xl font-bold text-white">
-                      {reviews[currentReviewIndex].FirstName} {reviews[currentReviewIndex].LastName}
-                    </h3>
-                    <div className="flex flex-col mt-2">
-                      <div className="flex items-center">
-                        {renderStars(reviews[currentReviewIndex].rating)}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className='bg-custom-gray h-[11rem] pl-4 pr-4 pb-4 pt-1 mt-3 rounded-xl'>
-                <p className="text-gray-300 italic mt-5">{reviews[currentReviewIndex].review}</p>
-              </div>
-            </div>
-          </div>
-        ) : (
-          /* From Uiverse.io by Ykingdev */ 
-        <div
-          class="flex flex-col gap-2 dark:text-white max-w-md w-full bg-white dark:bg-neutral-900 p-5 rounded-md mt-8 shadow-md hover:scale-105 hover:duration-150 duration-150"
-        >
-          <div class="flex flex-row justify-between w-full">
-            <div class="flex flex-row justify-between w-full">
-              <div
-                class="bg-gray-200 dark:bg-neutral-700 rounded-md w-20 h-4 animate-pulse"
-              ></div>
-              <div
-                class="bg-gray-200 dark:bg-neutral-700 rounded-md w-10 animate-pulse"
-              ></div>
-            </div>
-          </div>
-          <div class="flex flex-row justify-between w-full">
+        <div>
+            <Navigation logo={logo} />
             <div
-              class="bg-gray-200 dark:bg-neutral-700 rounded-md w-40 animate-pulse"
-            ></div>
+                style={{ 
+                    backgroundImage: `url(${bgprofile})`, 
+                    backgroundSize: 'cover', 
+                    backgroundPosition: 'center' 
+                }}
+            >
+                <div className="flex justify-center items-center min-h-screen">
+                    <div className="w-full sm:w-1/2 bg-custom-light bg-opacity-70 p-6 sm:p-8 rounded-md shadow-md mt-16 mb-40">
+                        <form onSubmit={handleUpdate}>
+                            <h2 className="text-center text-4xl font-semibold text-white mb-4">Your Profile</h2>
+                            <div className="text-center mb-8">
+                                <div className="flex items-center justify-center w-30">
+                                    <div className="relative w-40 h-40">
+                                        <img 
+                                            src={previewImage || (profile.image ? `http://localhost:3001/Images/${profile.image}` : defaultProfilePic)} 
+                                            alt="Profile" 
+                                            className="w-full h-full bg-cover bg-center rounded-full transition-all duration-500 ease-in-out transform hover:scale-110 hover:shadow-2xl"
+                                        />
+                                        <div className="absolute bottom-0 right-0 translate-x-1/2 translate-y-1/2 flex items-center justify-center">
+                                            <input 
+                                                type="file" 
+                                                id="imageUpload" 
+                                                accept=".png, .jpg, .jpeg" 
+                                                onChange={handleImageChange}
+                                                className="hidden" 
+                                            />
+                                            <label 
+                                                htmlFor="imageUpload" 
+                                                className="flex items-center justify-center"
+                                            >
+                                                <FontAwesomeIcon 
+                                                    icon={faPenAlt} 
+                                                    className="text-black text-[1rem] bg-white p-2 rounded-full hover:bg-blue-500 mb-10 transition-all duration-300 ease-in-out transform hover:scale-105 hover:text-white" 
+                                                />
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h1 className="text-4xl font-thin text-white mt-6 mb-2">
+                                    <span className='flex justify-center items-center space-x-1'>
+                                        {firstName} {lastName}
+                                    </span>
+                                    <small className="font-bold text-orange-300 text-xl mt-2 flex items-center justify-center">
+                                        <FontAwesomeIcon icon={faCrown} className="text-orange-300 mr-2" />
+                                        Premium
+                                    </small>
+                                </h1>
+                            </div>
 
-          <div class="text-xs">
-            <div class="flex flex-row">
-              <svg
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                class="h-4 w-4 text-yellow-400"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M9.049 2.927c.3-.916 1.603-.916 1.902 0l1.286 3.953a1.5 1.5 0 001.421 1.033h4.171c.949 0 1.341 1.154.577 1.715l-3.38 2.458a1.5 1.5 0 00-.54 1.659l1.286 3.953c.3.916-.757 1.67-1.539 1.145l-3.38-2.458a1.5 1.5 0 00-1.76 0l-3.38 2.458c-.782.525-1.838-.229-1.539-1.145l1.286-3.953a1.5 1.5 0 00-.54-1.659l-3.38-2.458c-.764-.561-.372-1.715.577-1.715h4.171a1.5 1.5 0 001.421-1.033l1.286-3.953z"
-                ></path>
-              </svg>
-              <svg
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                class="h-4 w-4 text-yellow-400"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M9.049 2.927c.3-.916 1.603-.916 1.902 0l1.286 3.953a1.5 1.5 0 001.421 1.033h4.171c.949 0 1.341 1.154.577 1.715l-3.38 2.458a1.5 1.5 0 00-.54 1.659l1.286 3.953c.3.916-.757 1.67-1.539 1.145l-3.38-2.458a1.5 1.5 0 00-1.76 0l-3.38 2.458c-.782.525-1.838-.229-1.539-1.145l1.286-3.953a1.5 1.5 0 00-.54-1.659l-3.38-2.458c-.764-.561-.372-1.715.577-1.715h4.171a1.5 1.5 0 001.421-1.033l1.286-3.953z"
-                ></path>
-              </svg>
-              <svg
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                class="h-4 w-4 text-yellow-400"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M9.049 2.927c.3-.916 1.603-.916 1.902 0l1.286 3.953a1.5 1.5 0 001.421 1.033h4.171c.949 0 1.341 1.154.577 1.715l-3.38 2.458a1.5 1.5 0 00-.54 1.659l1.286 3.953c.3.916-.757 1.67-1.539 1.145l-3.38-2.458a1.5 1.5 0 00-1.76 0l-3.38 2.458c-.782.525-1.838-.229-1.539-1.145l1.286-3.953a1.5 1.5 0 00-.54-1.659l-3.38-2.458c-.764-.561-.372-1.715.577-1.715h4.171a1.5 1.5 0 001.421-1.033l1.286-3.953z"
-                ></path>
-              </svg>
-              <svg
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                class="h-4 w-4 text-yellow-400"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M9.049 2.927c.3-.916 1.603-.916 1.902 0l1.286 3.953a1.5 1.5 0 001.421 1.033h4.171c.949 0 1.341 1.154.577 1.715l-3.38 2.458a1.5 1.5 0 00-.54 1.659l1.286 3.953c.3.916-.757 1.67-1.539 1.145l-3.38-2.458a1.5 1.5 0 00-1.76 0l-3.38 2.458c-.782.525-1.838-.229-1.539-1.145l1.286-3.953a1.5 1.5 0 00-.54-1.659l-3.38-2.458c-.764-.561-.372-1.715.577-1.715h4.171a1.5 1.5 0 001.421-1.033l1.286-3.953z"
-                ></path>
-              </svg>
+                            <div className="flex gap-4 mb-4">
+                                <div className="flex-1">
+                                    <label className="block text-xl text-gray-100 font-thin mb-3">First Name</label>
+                                    <div className="flex items-center rounded-lg h-12 bg-white transition-all duration-300 ease-in-out transform hover:scale-105 focus-within:border-black">
+                                        <FontAwesomeIcon icon={faUser} className="w-4 h-4 ml-4 text-black" />
+                                        <input
+                                            type="text"
+                                            placeholder="Enter your first name"
+                                            className="ml-3 w-full h-full font-thin bg-white text-black border-none rounded-lg focus:outline-none placeholder-black"
+                                            value={firstName}
+                                            onChange={(e) => setFirstName(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
 
-              <svg
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                class="h-4 w-4 text-yellow-200"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M9.049 2.927c.3-.916 1.603-.916 1.902 0l1.286 3.953a1.5 1.5 0 001.421 1.033h4.171c.949 0 1.341 1.154.577 1.715l-3.38 2.458a1.5 1.5 0 00-.54 1.659l1.286 3.953c.3.916-.757 1.67-1.539 1.145l-3.38-2.458a1.5 1.5 0 00-1.76 0l-3.38 2.458c-.782.525-1.838-.229-1.539-1.145l1.286-3.953a1.5 1.5 0 00-.54-1.659l-3.38-2.458c-.764-.561-.372-1.715.577-1.715h4.171a1.5 1.5 0 001.421-1.033l1.286-3.953z"
-                ></path>
-              </svg>
+                                <div className="flex-1">
+                                    <label className="block text-xl text-gray-100 font-thin mb-3">Last Name</label>
+                                    <div className="flex items-center rounded-lg h-12 bg-white transition-all duration-300 ease-in-out transform hover:scale-105 focus-within:border-black">
+                                        <FontAwesomeIcon icon={faPenNib} className="w-4 h-4 ml-4 text-black" />
+                                        <input
+                                            type="text"
+                                            placeholder="Enter your last name"
+                                            className="ml-3 w-full h-full font-thin bg-white text-black border-none rounded-lg focus:outline-none placeholder-black"
+                                            value={lastName}
+                                            onChange={(e) => setLastName(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="mb-4">
+                                <label className="block text-xl text-gray-100 font-thin mb-3">Email</label>
+                                <div className="flex items-center rounded-lg h-12 bg-white transition-all duration-300 ease-in-out transform hover:scale-105 focus-within:border-black">
+                                    <FontAwesomeIcon icon={faEnvelope} className="w-4 h-4 ml-4 text-black" />
+                                    <input
+                                        type="email"
+                                        placeholder="Enter your email"
+                                        className="ml-3 w-full h-full font-thin bg-white text-black border-none rounded-lg focus:outline-none placeholder-black"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        required
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="flex gap-4 mb-4">
+                                <div className="flex-1">
+                                    <label className="block text-xl text-gray-100 font-thin mb-3">Phone</label>
+                                    <div className="flex items-center rounded-lg h-12 bg-white transition-all duration-300 ease-in-out transform hover:scale-105 focus-within:border-black">
+                                        <FontAwesomeIcon icon={faPhone} className="w-4 h-4 ml-4 text-black" />
+                                        <input
+                                            type="text"
+                                            placeholder="Enter your phone number"
+                                            className="ml-3 w-full h-full font-thin bg-white text-black border-none rounded-lg focus:outline-none placeholder-black"
+                                            value={phone}
+                                            onChange={(e) => setPhone(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="flex-1">
+                                    <label className="block text-xl text-gray-100 font-thin mb-3">Address</label>
+                                    <div className="flex items-center rounded-lg h-12 bg-white transition-all duration-300 ease-in-out transform hover:scale-105 focus-within:border-black">
+                                        <FontAwesomeIcon icon={faLocationDot} className="w-4 h-4 ml-4 text-black" />
+                                        <input
+                                            type="text"
+                                            placeholder="Enter your address"
+                                            className="ml-3 w-full h-full font-thin bg-white text-black border-none rounded-lg focus:outline-none placeholder-black"
+                                            value={address}
+                                            onChange={(e) => setAddress(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="text-center mt-6">
+                                <button
+                                    type="submit"
+                                    className="bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600 transition-all duration-300 ease-in-out transform hover:scale-105"
+                                >
+                                    Update Profile
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={handleDeleteAccount}
+                                    className="ml-4 bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition-all duration-300 ease-in-out transform hover:scale-105"
+                                >
+                                    Delete Account
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-          </div>
+            <Footer />
         </div>
-        <div
-          class="bg-gray-200 dark:bg-neutral-700 rounded-md w-full h-20 animate-pulse"></div>
-        </div>
+    );
+}
 
-        )}
-      </div>
-
-      <p className="bg-yellow-500 text-white">User ID: {userId}</p>
-
-      <Link to={`/TableReservationPage/${userId}`}>
-        <button className="bg-yellow-500 text-white p-2 rounded mr-2 hover:bg-yellow-600">
-          Table Reservation
-        </button>
-      </Link>
-
-      <Footer />
-    </div>
-  );
-};
-
-export default UserHome;
+export default UpdateUsers;
