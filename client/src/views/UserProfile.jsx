@@ -269,17 +269,26 @@ function UpdateUsers() {
                                 </div>
                             </div>
 
-                            <div className="text-center mt-6">
-                                <button
+                            <div className="text-center mt-10">
+                            <button
                                     type="submit"
-                                    className="bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600 transition-all duration-300 ease-in-out transform hover:scale-105"
+                                    className={`py-2 px-8 rounded-lg transition-all duration-300 ease-in-out transform ${
+                                        loading
+                                            ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                            : 'bg-white text-black hover:bg-black hover:text-white hover:scale-105'
+                                    }`}
+                                    disabled={loading}
                                 >
-                                    Update Profile
+                                    {loading ? (
+                                        <FontAwesomeIcon icon={faCircleNotch} spin className="w-5 h-5" />
+                                    ) : (
+                                        'Save Changes'
+                                    )}
                                 </button>
                                 <button
                                     type="button"
                                     onClick={handleDeleteAccount}
-                                    className="ml-4 bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition-all duration-300 ease-in-out transform hover:scale-105"
+                                    className="ml-4 bg-red-500 text-black py-2 px-4 rounded-lg hover:bg-red-700 hover:text-white transition-all duration-300 ease-in-out transform hover:scale-105"
                                 >
                                     Delete Account
                                 </button>

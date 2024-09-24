@@ -106,10 +106,12 @@ const NavigationBar = ({ logo }) => {
         </Link>
       </li>
       <li>
+      <Link to={`/Login`}>
         <button className="w-full text-red-500 font-semibold hover:bg-red-500 hover:text-black py-2 px-3 rounded-md transition-colors duration-300 flex items-center">
           <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
           Logout
         </button>
+        </Link>
       </li>
     </ul>
   </div>
