@@ -12,7 +12,6 @@ const CartDetailsForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Create the form data object
     const formData = {
       name,
       address,
@@ -21,12 +20,9 @@ const CartDetailsForm = () => {
     };
 
     try {
-      // Send the form data to the backend
       const response = await axios.post('http://localhost:3001/addCartInfo', formData);
-
       console.log('Response:', response.data); // Log the server response
       setSubmitted(true); // Simulate form submission
-
     } catch (error) {
       console.error('There was an error submitting the form:', error);
     }
@@ -34,20 +30,18 @@ const CartDetailsForm = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen"
-    
-    style={{ 
+      style={{ 
         backgroundImage: `url(${background})`, 
         backgroundSize: 'cover', 
         backgroundPosition: 'center' 
       }}>
-
       <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
         <h2 className="text-3xl font-bold mb-4">Checkout Form</h2>
 
         {submitted ? (
           <p className="text-green-500 font-semibold">Order placed successfully!</p>
         ) : (
-          <form class="pt-4" onSubmit={handleSubmit}>
+          <form className="pt-4" onSubmit={handleSubmit}>
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
               <input

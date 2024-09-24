@@ -4,7 +4,7 @@ const CartSchema = new mongoose.Schema({
     userId: String,
     itemId: String,
     category: String,
-    type: String,
+    title: String,
     price: String,
     cartDate: { type: Date, default: Date.now } // or use `Date.now` for current date by default
 });

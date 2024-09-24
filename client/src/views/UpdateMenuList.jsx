@@ -37,14 +37,14 @@ const AddMenuList = () => {
       axios.put(`http://localhost:3001/updateMenu/${id}`, menuItem)
         .then(result => {
           console.log(result);
-          navigate('/AdminPage');
+          navigate('/ManagerMenuList');
         })
         .catch(err => console.log(err));
     } else {
       axios.post("http://localhost:3001/createAddMenuList", menuItem)
         .then(result => {
           console.log(result);
-          navigate('/AdminPage');
+          navigate('/ManagerMenuList');
         })
         .catch(err => console.log(err));
     }
