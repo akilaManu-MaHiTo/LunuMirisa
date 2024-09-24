@@ -8,7 +8,7 @@ const ReservedTables = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const [tableNum, setTableNum] = useState('');
-    const [quantity, setQuantity] = useState(''); 
+    const [quantity, setQuantity] = useState('');
     const [price, setPrice] = useState('');
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedTime, setSelectedTime] = useState(null);
@@ -30,6 +30,17 @@ const ReservedTables = () => {
 
         if (!selectedDate || !selectedTime) {
             setError("Please select a date and time.");
+            return;
+        }
+
+        const currentDate = new Date();
+        const selectedDateTime = new Date(selectedDate);
+        selectedDateTime.setHours(selectedTime.getHours());
+        selectedDateTime.setMinutes(selectedTime.getMinutes());
+
+        // Check if the selected date and time are in the past
+        if (selectedDateTime < currentDate) {
+            setError("You cannot reserve a table in the past.");
             return;
         }
 

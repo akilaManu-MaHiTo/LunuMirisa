@@ -14,7 +14,7 @@ const AddTables = () => {
     axios.post("http://localhost:3001/createTable", { quantity, price, tableNum })
       .then(result => {
         console.log(result);
-        navigate('/AdminPage');
+        navigate('/Updatetable');
       })
       .catch(err => console.log(err));
   };
