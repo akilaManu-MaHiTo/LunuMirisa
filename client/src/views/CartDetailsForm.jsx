@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import background from '../Images/profileBG2.jpg';
 
@@ -7,22 +7,7 @@ const CartDetailsForm = () => {
   const [address, setAddress] = useState('');
   const [email, setEmail] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('credit-card');
-  const [totalPrice, setTotalPrice] = useState(0);
   const [submitted, setSubmitted] = useState(false);
-
-  // Fetch the total price when the component mounts
-  useEffect(() => {
-    const fetchTotalPrice = async () => {
-      try {
-        const response = await axios.get('http://localhost:3001/getTotalPrice'); // Adjust this endpoint as necessary
-        setTotalPrice(response.data.total); // Assume the response contains total price
-      } catch (error) {
-        console.error('Error fetching total price:', error);
-      }
-    };
-
-    fetchTotalPrice();
-  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,7 +17,6 @@ const CartDetailsForm = () => {
       address,
       email,
       paymentMethod,
-      totalPrice, // Include total price in the form data
     };
 
     try {
@@ -106,13 +90,6 @@ const CartDetailsForm = () => {
                 <option value="paypal">PayPal</option>
                 <option value="bank-transfer">Bank Transfer</option>
               </select>
-            </div>
-
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Total Price</label>
-              <p className="p-2 border border-gray-300 rounded text-xl  ">
-                {totalPrice.toFixed()} USD
-              </p>
             </div>
 
             <button

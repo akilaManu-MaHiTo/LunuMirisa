@@ -7,7 +7,6 @@ import background from '../Images/profileBG2.jpg';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
 const ShowCart = () => {
   const { userId } = useParams();
   const [cartItems, setCartItems] = useState([]);
@@ -27,20 +26,20 @@ const ShowCart = () => {
         toast.error('Error fetching cart items', { autoClose: 3000 });
       }
     };
-  
+
     fetchCartItems();
   }, [userId]);
-  
+
   const handleDelete = async (itemId) => {
     try {
       await axios.delete(`http://localhost:3001/RemoveFromCart/${itemId}`);
       setCartItems(cartItems.filter(item => item._id !== itemId));
-      
+
       const updatedTotalPrice = cartItems.reduce((total, item) => {
         return item._id === itemId ? total : total + parseFloat(item.price);
       }, 0);
       setTotalPrice(updatedTotalPrice);
-  
+
       toast.success('Item removed from cart', { autoClose: 3000 });
     } catch (err) {
       console.error('Error deleting cart item:', err);
@@ -48,7 +47,6 @@ const ShowCart = () => {
       toast.error('Error deleting item from cart', { autoClose: 3000 });
     }
   };
-  
 
   return (
     <div>
@@ -86,16 +84,16 @@ const ShowCart = () => {
           <div className="mt-4">
             <p className="text-black pt-4 text-3xl font-serif-black">Total:</p>
             <p className="text-black pt-4 text-4xl font-serif-black flex justify-end mt-4">Rs.{totalPrice}</p>
-            <div className=" flex justify-end mt-4">
+            <div className="flex justify-end mt-4">
               <Link to={`/CartForm/${userId}/${totalPrice}`}>
-              <button
-              id="checkout_btn"
-                className="bg-black hover:bg-gray-700 text-white font-bold py-2 mt-6 px-4 rounded"
-              >
+                <button
+                  id="checkout_btn"
+                  className="bg-black hover:bg-gray-700 text-white font-bold py-2 mt-6 px-4 rounded"
+                  disabled={cartItems.length === 0} // Disable button if cart is empty
+                >
                   Checkout
                 </button>
               </Link>
-          
             </div>
           </div>
         </div>

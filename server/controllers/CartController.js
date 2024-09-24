@@ -108,5 +108,28 @@ router.get("/countCartItems/:userId", async (req, res) => {
       res.status(500).json({ message: 'Error fetching cart item count' });
     }
   });
+
+  router.post("/Checkout/:userId", async (req, res) => {
+    const { userId } = req.params;
+
+    try {
+        // Find cart items for the user
+        const cartItems = await Cart.find({ userId });
+
+        // If the cart is empty, prevent checkout
+        if (cartItems.length === 0) {
+            return res.status(400).json({ message: "Cannot checkout with an empty cart." });
+        }
+
+        // Proceed with checkout logic here
+        // Example: processing payment, generating order, etc.
+
+        res.status(200).json({ message: "Checkout successful!" });
+    } catch (err) {
+        console.error("Error during checkout:", err);
+        res.status(500).json({ message: "An error occurred during checkout." });
+    }
+});
+
   
 module.exports = router;
