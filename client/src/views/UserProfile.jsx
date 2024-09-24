@@ -22,7 +22,7 @@ function UpdateUsers() {
     const [previewImage, setPreviewImage] = useState(null);
     const [error, setError] = useState(null);
     const [profile, setProfile] = useState({});
-    const [reviews, setReviews] = useState([]); 
+    const [reviews, setReviews] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -72,13 +72,24 @@ function UpdateUsers() {
 
     const handleUpdate = (e) => {
         e.preventDefault();
-        if (!firstName || !email || !phone || !address) {
-            alert('Please fill out all fields');
+        setLoading(true);
+        if (!email) {
+            alert('Email is required.');
+            setLoading(false);
             return;
         }
 
+        const updatedUserData = {
+            firstName,
+            lastName,
+            phone,
+            address,
+        };
+
         const formData = new FormData();
-        formData.append('image', image);
+        if (image) {
+            formData.append('image', image);
+        }
         formData.append('userId', userId);
 
         axios.post("http://localhost:3001/ProfileImage", formData)
@@ -88,7 +99,7 @@ function UpdateUsers() {
                 }
             })
             .then(() => {
-                return axios.put(`http://localhost:3001/updateUser/${userId}`, { firstName, lastName, email, phone, address });
+                return axios.put(`http://localhost:3001/updateUser/${userId}`, updatedUserData);
             })
             .then(() => {
                 navigate(`/UserHome/${userId}`);
@@ -96,7 +107,24 @@ function UpdateUsers() {
             .catch(err => {
                 console.error(err);
                 setError('Failed to update user data');
+            })
+            .finally(() => {
+                setLoading(false);
             });
+    };
+
+    const handleDeleteAccount = () => {
+        const confirmDelete = window.confirm('Are you sure you want to uninstall your account? This action cannot be undone.');
+        if (confirmDelete) {
+            axios.delete(`http://localhost:3001/deleteUser/${userId}`)
+                .then(() => {
+                    navigate('/');
+                })
+                .catch(err => {
+                    console.error(err);
+                    setError('Failed to delete the account');
+                });
+        }
     };
 
     const renderStars = (rating) => {
@@ -196,50 +224,53 @@ function UpdateUsers() {
                                 </div>
                             </div>
 
-                            <div className="mb-4 mt-3">
-                                <label className="block text-xl text-gray-100 font-thin mb-3">E-mail</label>
-                                <div className="flex items-center rounded-lg h-12 bg-white transition duration-200 ease-in-out focus-within:border-black">
+                            <div className="mb-4">
+                                <label className="block text-xl text-gray-100 font-thin mb-3">Email</label>
+                                <div className="flex items-center rounded-lg h-12 bg-white transition-all duration-300 ease-in-out transform hover:scale-105 focus-within:border-black">
                                     <FontAwesomeIcon icon={faEnvelope} className="w-4 h-4 ml-4 text-black" />
                                     <input
                                         type="email"
                                         placeholder="Enter your email"
                                         className="ml-3 w-full h-full font-thin bg-white text-black border-none rounded-lg focus:outline-none placeholder-black"
                                         value={email}
-                                        readOnly
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        required
                                     />
                                 </div>
                             </div>
 
-                            <div className="mb-4">
-                                <label className="block text-xl text-gray-100 font-thin mb-3">Phone Number</label>
-                                <div className="flex items-center rounded-lg h-12 bg-white transition duration-200 ease-in-out focus-within:border-black">
-                                    <FontAwesomeIcon icon={faPhone} className="w-4 h-4 ml-4 text-black" />
-                                    <input
-                                        type="text"
-                                        placeholder="Enter your phone number"
-                                        className="ml-3 w-full h-full font-thin bg-white text-black border-none rounded-lg focus:outline-none placeholder-black"
-                                        value={phone}
-                                        onChange={(e) => setPhone(e.target.value)}
-                                    />
+                            <div className="flex gap-4 mb-4">
+                                <div className="flex-1">
+                                    <label className="block text-xl text-gray-100 font-thin mb-3">Phone</label>
+                                    <div className="flex items-center rounded-lg h-12 bg-white transition-all duration-300 ease-in-out transform hover:scale-105 focus-within:border-black">
+                                        <FontAwesomeIcon icon={faPhone} className="w-4 h-4 ml-4 text-black" />
+                                        <input
+                                            type="text"
+                                            placeholder="Enter your phone number"
+                                            className="ml-3 w-full h-full font-thin bg-white text-black border-none rounded-lg focus:outline-none placeholder-black"
+                                            value={phone}
+                                            onChange={(e) => setPhone(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="flex-1">
+                                    <label className="block text-xl text-gray-100 font-thin mb-3">Address</label>
+                                    <div className="flex items-center rounded-lg h-12 bg-white transition-all duration-300 ease-in-out transform hover:scale-105 focus-within:border-black">
+                                        <FontAwesomeIcon icon={faLocationDot} className="w-4 h-4 ml-4 text-black" />
+                                        <input
+                                            type="text"
+                                            placeholder="Enter your address"
+                                            className="ml-3 w-full h-full font-thin bg-white text-black border-none rounded-lg focus:outline-none placeholder-black"
+                                            value={address}
+                                            onChange={(e) => setAddress(e.target.value)}
+                                        />
+                                    </div>
                                 </div>
                             </div>
 
-                            <div className="mb-6">
-                                <label className="block text-xl text-gray-100 font-thin mb-3">Address</label>
-                                <div className="flex items-center rounded-lg h-12 bg-white transition duration-200 ease-in-out focus-within:border-black">
-                                    <FontAwesomeIcon icon={faLocationDot} className="w-4 h-4 ml-4 text-black" />
-                                    <input
-                                        type="text"
-                                        placeholder="Enter your address"
-                                        className="ml-3 w-full h-full font-thin bg-white text-black border-none rounded-lg focus:outline-none placeholder-black"
-                                        value={address}
-                                        onChange={(e) => setAddress(e.target.value)}
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="text-center">
-                                <button
+                            <div className="text-center mt-10">
+                            <button
                                     type="submit"
                                     className={`py-2 px-8 rounded-lg transition-all duration-300 ease-in-out transform ${
                                         loading
@@ -254,35 +285,18 @@ function UpdateUsers() {
                                         'Save Changes'
                                     )}
                                 </button>
+                                <button
+                                    type="button"
+                                    onClick={handleDeleteAccount}
+                                    className="ml-4 bg-red-500 text-black py-2 px-4 rounded-lg hover:bg-red-700 hover:text-white transition-all duration-300 ease-in-out transform hover:scale-105"
+                                >
+                                    Delete Account
+                                </button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
-
-            <div className="text-white text-5xl pt-8 font-spartan font-thin pl-[10rem]">User Reviews</div>
-            <div className="flex flex-col items-center justify-center py-8">
-                {reviews.length > 0 ? (
-                    <div className="w-full px-10">
-                        {reviews.map((review, index) => (
-                            <div key={index} className="bg-gray-800 p-6 rounded my-4 w-full max-w-2xl transition-opacity duration-500 ease-in-out">
-                                <div className="flex items-center mb-2">
-                                    <h3 className="text-xl font-bold text-white mr-4">
-                                        {review.FirstName} {review.LastName}
-                                    </h3>
-                                    <div className="flex items-center">
-                                        {renderStars(review.rating)}
-                                    </div>
-                                </div>
-                                <p className="text-gray-300 italic">{review.review}</p>
-                            </div>
-                        ))}
-                    </div>
-                ) : (
-                    <p className="text-white">No reviews available.</p>
-                )}
-            </div>
-
             <Footer />
         </div>
     );

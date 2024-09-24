@@ -89,7 +89,6 @@ const NavigationBar = ({ logo }) => {
             )} {/* Display the count if greater than 0 */}
           </Link>
 
-
           <FontAwesomeIcon 
             icon={faUser} 
             className="text-white cursor-pointer text-2xl p-3 transition-transform duration-300 ease-in-out transform hover:scale-110 hover:text-gray-300"
@@ -127,10 +126,12 @@ const NavigationBar = ({ logo }) => {
                 </Link>
               </li>
               <li>
-                <button className="w-full text-red-500 font-semibold hover:bg-red-500 hover:text-black py-2 px-3 rounded-md transition-colors duration-300 flex items-center">
-                  <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
-                  Logout
-                </button>
+                <Link to={`/Login`}>
+                  <button className="w-full text-red-500 font-semibold hover:bg-red-500 hover:text-black py-2 px-3 rounded-md transition-colors duration-300 flex items-center">
+                    <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
+                    Logout
+                  </button>
+                </Link>
               </li>
             </ul>
           </div>

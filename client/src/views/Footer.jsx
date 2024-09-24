@@ -13,52 +13,79 @@ const Footer = () => {
     const [hover, setHover] = useState(0);
     const [review, setReview] = useState("");
     const [message, setMessage] = useState("");
-    const [FirstName, setFirstName] = useState("");
-    const [LastName, setLastName] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const [profileImage, setProfileImage] = useState("");
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/getUser/${userId}`)
-            .then(result => {
+        const fetchUserData = async () => {
+            try {
+                const result = await axios.get(`http://localhost:3001/getUser/${userId}`);
                 setFirstName(result.data.firstName || '');
                 setLastName(result.data.lastName || '');
-                setLoading(false);
-            })
-            .catch(err => {
+            } catch (err) {
                 console.error(err);
                 setError('Failed to fetch user data');
+            } finally {
                 setLoading(false);
-            });
+            }
+        };
+
+        fetchUserData();
     }, [userId]);
 
-    const handleSubmit = () => {
+    useEffect(() => {
+        const fetchProfilePic = async () => {
+            try {
+                const response = await axios.get(`http://localhost:3001/ShowProfilePic/${userId}`);
+                setProfileImage(response.data.image);
+                console.log("Profile picture data:", response.data); // Add this line
+            } catch (error) {
+                console.error('There was an error fetching the profile picture!', error);
+                setError('There was an error fetching the profile picture!');
+            }
+        };
+    
+        fetchProfilePic();
+    }, [userId]);
+    
+
+    const handleSubmit = async () => {
         if (rating === 0 || review === "") {
             setMessage("Please provide both a rating and a review.");
             return;
         }
-
+    
         const data = {
             review,
             rating,
             userId,
-            FirstName,
-            LastName,
+            FirstName: firstName,  // Updated to match schema
+            LastName: lastName,    // Updated to match schema
+            profileImage: profileImage || 'default-image-url.jpg', // Fallback image
         };
-
-        axios.post('http://localhost:3001/PlaceReview', data)
-            .then(() => {
-                setMessage("Thank you for your review!");
-                setRating(0);
-                setReview("");
-            })
-            .catch(() => {
-                setMessage("There was an error submitting your review. Please try again.");
-            });
+        
+        console.log(profileImage)
+        setLoading(true); // Start loading
+    
+        try {
+            await axios.post('http://localhost:3001/PlaceReview', data);
+            setMessage("Thank you for your review!");
+            setRating(0);
+            setReview("");
+        } catch (error) {
+            console.error(error); // Log error for debugging
+            setMessage("There was an error submitting your review. Please try again.");
+        } finally {
+            setLoading(false); // End loading
+        }
     };
+    
 
     return (
-        <footer className="bg-footer-bg bg-cover bg-center w-full h-auto py-10 text-white">
+        <footer className="w-full h-auto py-10 text-white bg-custom-dark">
             <div className="flex flex-col lg:flex-row">
                 <div>
                     <div className="text-white text-2xl pt-2 font-spartan font-thin pl-10 lg:pl-40">Contact Us</div>
@@ -93,46 +120,30 @@ const Footer = () => {
                         <div className="font-bold mt-4">Saturday - Sunday: 8:00 AM - 11:00 PM</div>
                     </div>
 
-                    <div className="text-white text-2xl pt-2 font-spartan font-thin pl-10 lg:pl-40 mt-5">Quick Link</div>
-                    <div className="text-white font-thin ml-44 lg:ml-[11rem]">
-                        <div className="flex justify-between mt-4">
-                            <div className="flex flex-col space-y-2">
-                                <a href="#" className="hover:underline">Home</a>
-                                <a href="#" className="hover:underline">Menu</a>
-                                <a href="#" className="hover:underline">Reservation</a>
-                            </div>
-                            <div className="flex flex-col space-y-2 mr-[32rem]">
-                                <a href="#" className="hover:underline">Catering</a>
-                                <a href="#" className="hover:underline">About Us</a>
-                                <a href="#" className="hover:underline">Contact</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="items-center p-2 lg:pl-40">
+                    <div className="items-center p-2 lg:pl-40 mt-5">
                         <div className="text-white text-2xl pt-2 font-spartan font-thin pl-10 lg:pl-0 mt-2">We would love to hear your thoughts! </div>
-                        <div className="flex">
+                        <div className="flex my-3">
                             {[...Array(5)].map((star, index) => {
                                 const ratingValue = index + 1;
                                 return (
-                            <label key={index}>
-                                <input
-                                    type="radio"
-                                    name="rating"
-                                    value={ratingValue}
-                                    className="hidden"
-                                    onClick={() => setRating(ratingValue)}
-                                />
-                                <FontAwesomeIcon
-                                    icon={ratingValue <= (hover || rating) ? faStar : faStarRegular}
-                                    className={`text-2xl cursor-pointer transition-transform duration-300 ease-in-out transform ${
-                                        ratingValue <= (hover || rating) ? 'hover:scale-125 hover:drop-shadow-[0_0_10px_rgba(255,193,7,0.8)]' : ''
-                                    }`}
-                                    onMouseEnter={() => setHover(ratingValue)}
-                                    onMouseLeave={() => setHover(0)}
-                                    color={ratingValue <= (hover || rating) ? "#ffc107" : "#e4e5e9"}
-                                />
-                            </label>
+                                    <label key={index}>
+                                        <input
+                                            type="radio"
+                                            name="rating"
+                                            value={ratingValue}
+                                            className="hidden"
+                                            onClick={() => setRating(ratingValue)}
+                                        />
+                                        <FontAwesomeIcon
+                                            icon={ratingValue <= (hover || rating) ? faStar : faStarRegular}
+                                            className={`text-2xl cursor-pointer transition-transform duration-300 ease-in-out transform ${
+                                                ratingValue <= (hover || rating) ? 'hover:scale-125 hover:drop-shadow-[0_0_10px_rgba(255,193,7,0.8)]' : ''
+                                            }`}
+                                            onMouseEnter={() => setHover(ratingValue)}
+                                            onMouseLeave={() => setHover(0)}
+                                            color={ratingValue <= (hover || rating) ? "#ffc107" : "#e4e5e9"}
+                                        />
+                                    </label>
                                 );
                             })}
                         </div>
