@@ -32,6 +32,11 @@ const ratingSchema = new Schema({
         trim: true,
         required: true,
     },
+    profileImage: {
+        type: String,
+        
+        
+    },
 });
 
 // Create and export the model
