@@ -76,14 +76,19 @@ const NavigationBar = ({ logo }) => {
             aria-label="Search"
           />
           
-          <Link to={`/UserCart/${userId}`}>
+          <Link to={`/UserCart/${userId}`} className="relative inline-block">
             <FontAwesomeIcon 
               icon={faShoppingCart} 
               className="text-white cursor-pointer hidden md:inline text-2xl p-3 transition-transform duration-300 ease-in-out transform hover:scale-110 hover:text-gray-300"
               aria-label="Shopping Cart"
             />
-            <span className="text-white">{cartItemCount}</span> {/* Display the count */}
+            {cartItemCount > 0 && (
+              <span className="absolute top-1 right-1 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
+                {cartItemCount}
+              </span>
+            )} {/* Display the count if greater than 0 */}
           </Link>
+
 
           <FontAwesomeIcon 
             icon={faUser} 

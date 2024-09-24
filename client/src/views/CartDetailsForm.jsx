@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import background from '../Images/profileBG2.jpg';
 
@@ -7,26 +7,38 @@ const CartDetailsForm = () => {
   const [address, setAddress] = useState('');
   const [email, setEmail] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('credit-card');
+  const [totalPrice, setTotalPrice] = useState(0);
   const [submitted, setSubmitted] = useState(false);
+
+  // Fetch the total price when the component mounts
+  useEffect(() => {
+    const fetchTotalPrice = async () => {
+      try {
+        const response = await axios.get('http://localhost:3001/getTotalPrice'); // Adjust this endpoint as necessary
+        setTotalPrice(response.data.total); // Assume the response contains total price
+      } catch (error) {
+        console.error('Error fetching total price:', error);
+      }
+    };
+
+    fetchTotalPrice();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Create the form data object
     const formData = {
       name,
       address,
       email,
       paymentMethod,
+      totalPrice, // Include total price in the form data
     };
 
     try {
-      // Send the form data to the backend
       const response = await axios.post('http://localhost:3001/addCartInfo', formData);
-
       console.log('Response:', response.data); // Log the server response
       setSubmitted(true); // Simulate form submission
-
     } catch (error) {
       console.error('There was an error submitting the form:', error);
     }
@@ -34,20 +46,18 @@ const CartDetailsForm = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen"
-    
-    style={{ 
+      style={{ 
         backgroundImage: `url(${background})`, 
         backgroundSize: 'cover', 
         backgroundPosition: 'center' 
       }}>
-
       <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
         <h2 className="text-3xl font-bold mb-4">Checkout Form</h2>
 
         {submitted ? (
           <p className="text-green-500 font-semibold">Order placed successfully!</p>
         ) : (
-          <form class="pt-4" onSubmit={handleSubmit}>
+          <form className="pt-4" onSubmit={handleSubmit}>
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
               <input
@@ -96,6 +106,13 @@ const CartDetailsForm = () => {
                 <option value="paypal">PayPal</option>
                 <option value="bank-transfer">Bank Transfer</option>
               </select>
+            </div>
+
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">Total Price</label>
+              <p className="p-2 border border-gray-300 rounded text-xl  ">
+                {totalPrice.toFixed()} USD
+              </p>
             </div>
 
             <button

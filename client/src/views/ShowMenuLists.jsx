@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import logo from '../Images/Logo.png'; 
 import NavigationBar from './Components/NavigationBar.jsx'; 
@@ -19,10 +19,18 @@ const ShowMenuLists = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [fade, setFade] = useState(false);
   const { userId } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchMenuItems();
     fetchTopThreeItems();
+
+    // Restore scroll position
+    const savedScrollPosition = localStorage.getItem('scrollPosition');
+    if (savedScrollPosition) {
+      window.scrollTo(0, parseInt(savedScrollPosition, 10));
+      localStorage.removeItem('scrollPosition');  // Clear it after restoring
+    }
   }, []);
 
   const fetchMenuItems = () => {
@@ -46,6 +54,11 @@ const ShowMenuLists = () => {
   };
 
   const handleAddToCart = (item) => {
+    // Save the current scroll position
+    const scrollPosition = window.scrollY;
+    localStorage.setItem('scrollPosition', scrollPosition);
+
+    // Make a POST request to add the item to the cart
     axios.post("http://localhost:3001/Addtocarts", {
       userId,
       itemId: item._id,
@@ -54,13 +67,18 @@ const ShowMenuLists = () => {
       price: item.price
     })
     .then(() => {
+      // Show success message with toast
       toast.success(`${item.title} added to cart successfully!`);
-      // Instead of reloading the page, update the menu items
-      fetchMenuItems(); // Re-fetch menu items to ensure the latest state
+  
+      // Reload the page to reflect changes
+      window.location.reload();
     })
-    .catch(() => toast.error(`Error adding ${item.title} to cart. Please try again!`));
+    .catch(() => {
+      // Show error message if adding to cart fails
+      toast.error(`Error adding ${item.title} to cart. Please try again!`);
+    });
   };
-
+  
   const handleCategoryClick = (category) => {
     setFade(true);
     setTimeout(() => {
@@ -88,7 +106,9 @@ const ShowMenuLists = () => {
           <button 
             key={idx}
             onClick={() => handleCategoryClick(category)} 
-            className={`category-button p-3 w-[8rem] mx-5 md:w-[10rem] rounded-full mb-4 ${selectedCategory === category ? 'bg-white text-black' : 'bg-custom-gray text-white'} transition-all duration-300 ease-in-out transform hover:scale-105`}
+            className={`category-button p-3 w-[8rem] mx-5 md:w-[10rem] rounded-full mb-4 ${
+              selectedCategory === category ? 'bg-white text-black' : 'bg-custom-gray text-white'
+            } transition-all duration-300 ease-in-out transform hover:scale-105`}
           >
             {category} <FontAwesomeIcon icon={getIconForCategory(category)} />
           </button>
