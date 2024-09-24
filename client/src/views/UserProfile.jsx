@@ -269,7 +269,7 @@ function UpdateUsers() {
                                 </div>
                             </div>
 
-                            <div className="text-center mt-6">
+                            <div className="text-center mt-10">
                             <button
                                     type="submit"
                                     className={`py-2 px-8 rounded-lg transition-all duration-300 ease-in-out transform ${
