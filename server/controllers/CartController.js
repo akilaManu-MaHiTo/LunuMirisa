@@ -4,7 +4,7 @@ const Cart = require('../models/Cart');
 
 // Add item to cart
 router.post("/Addtocarts", async (req, res) => {
-    const { userId, itemId, category, type, price } = req.body;
+    const { userId, itemId, category, title, price } = req.body;
 
     // Validate input
     if (!userId || !itemId || !category || !price) {
@@ -13,7 +13,7 @@ router.post("/Addtocarts", async (req, res) => {
 
     try {
         // Create a new cart item
-        const cartItem = await Cart.create({ userId, itemId, category, type, price });
+        const cartItem = await Cart.create({ userId, itemId, category, title, price });
 
         res.status(201).json({
             message: "Item added to cart successfully.",
@@ -93,4 +93,43 @@ router.get("/topThreeItemIds", async (req, res) => {
         res.status(500).json({ message: "An error occurred while fetching the top three item IDs." });
     }
 });
+
+router.get("/countCartItems/:userId", async (req, res) => {
+    try {
+      const { userId } = req.params;
+      
+      // Count the items in the user's cart
+      const cartItemCount = await Cart.countDocuments({ userId });
+      
+      // Send the count as the response
+      res.status(200).json({ count: cartItemCount });
+    } catch (error) {
+      console.error("Error fetching cart item count:", error);
+      res.status(500).json({ message: 'Error fetching cart item count' });
+    }
+  });
+
+  router.post("/Checkout/:userId", async (req, res) => {
+    const { userId } = req.params;
+
+    try {
+        // Find cart items for the user
+        const cartItems = await Cart.find({ userId });
+
+        // If the cart is empty, prevent checkout
+        if (cartItems.length === 0) {
+            return res.status(400).json({ message: "Cannot checkout with an empty cart." });
+        }
+
+        // Proceed with checkout logic here
+        // Example: processing payment, generating order, etc.
+
+        res.status(200).json({ message: "Checkout successful!" });
+    } catch (err) {
+        console.error("Error during checkout:", err);
+        res.status(500).json({ message: "An error occurred during checkout." });
+    }
+});
+
+  
 module.exports = router;

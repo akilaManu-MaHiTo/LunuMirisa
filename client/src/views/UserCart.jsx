@@ -4,6 +4,8 @@ import { useParams, Link } from 'react-router-dom';
 import NavigationBar from './Components/NavigationBar.jsx'; 
 import logo from '../Images/Logo.png';
 import background from '../Images/profileBG2.jpg';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ShowCart = () => {
   const { userId } = useParams();
@@ -17,9 +19,11 @@ const ShowCart = () => {
         const response = await axios.get(`http://localhost:3001/ShowCart/${userId}`);
         setCartItems(response.data.cartItems);
         setTotalPrice(response.data.totalPrice);
+        toast.success('Cart items fetched successfully!', { autoClose: 3000 });
       } catch (err) {
         setError('Failed to fetch cart items');
         console.error('Error fetching cart items:', err);
+        toast.error('Error fetching cart items', { autoClose: 3000 });
       }
     };
 
@@ -30,13 +34,17 @@ const ShowCart = () => {
     try {
       await axios.delete(`http://localhost:3001/RemoveFromCart/${itemId}`);
       setCartItems(cartItems.filter(item => item._id !== itemId));
+
       const updatedTotalPrice = cartItems.reduce((total, item) => {
         return item._id === itemId ? total : total + parseFloat(item.price);
       }, 0);
       setTotalPrice(updatedTotalPrice);
+
+      toast.success('Item removed from cart', { autoClose: 3000 });
     } catch (err) {
       console.error('Error deleting cart item:', err);
       setError('Failed to delete item from cart');
+      toast.error('Error deleting item from cart', { autoClose: 3000 });
     }
   };
 
@@ -59,7 +67,7 @@ const ShowCart = () => {
                   <div>
                     <h3 className="text-xl font-semibold">Rs.{item.price}</h3>
                     <p className="text-gray-600">Category: {item.category}</p>
-                    <p className="text-gray-600">Type: {item.type}</p>
+                    <p className="text-gray-600">Item Name: {item.title}</p>
                   </div>
                   <button 
                     className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4"
@@ -76,16 +84,16 @@ const ShowCart = () => {
           <div className="mt-4">
             <p className="text-black pt-4 text-3xl font-serif-black">Total:</p>
             <p className="text-black pt-4 text-4xl font-serif-black flex justify-end mt-4">Rs.{totalPrice}</p>
-            <div className=" flex justify-end mt-4">
+            <div className="flex justify-end mt-4">
               <Link to={`/CartForm/${userId}/${totalPrice}`}>
-              <button
-              id="checkout_btn"
-                className="bg-black hover:bg-gray-700 text-white font-bold py-2 mt-6 px-4 rounded"
-              >
+                <button
+                  id="checkout_btn"
+                  className="bg-black hover:bg-gray-700 text-white font-bold py-2 mt-6 px-4 rounded"
+                  disabled={cartItems.length === 0} // Disable button if cart is empty
+                >
                   Checkout
                 </button>
               </Link>
-          
             </div>
           </div>
         </div>

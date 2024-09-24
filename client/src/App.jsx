@@ -50,6 +50,7 @@ import Reservations from './views/Reservations';
 import UpdateReservation from "./views/UpdateReservation";
 import CartForm from "./views/CartDetailsForm"
 import ChefPage from "./views/Chef"
+import AllUsers from "./views/AllUsers"
 
 
 
@@ -106,7 +107,8 @@ function App() {
         <Route path="/updateReservation/:id" element={<UpdateReservation />} />
         <Route path="CartForm/:userid/:totalPrice" element={<CartForm />} />
         <Route path="/ChefPage/:userId" element={<ChefPage/>} />
-        
+        <Route path="/AllUsers" element={<AllUsers/>} />
+
       </Routes>
     </BrowserRouter>
   );

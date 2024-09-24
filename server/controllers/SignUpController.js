@@ -92,5 +92,27 @@ router.put("/updateUser/:id", async (req, res) => {
     }
 });
 
+router.get("/allUsers", async (req, res) => {
+    try {
+        const users = await UserModel.find();
+        res.status(200).send({ users });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: "Internal Server Error" });
+    }
+});
+
+router.delete("/deleteSiteUsers/:id", async (req, res) => {
+    const { id } = req.params;
+    try {
+        await UserModel.findByIdAndDelete(id);
+        res.status(200).send({ message: "User deleted successfully" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: "Internal Server Error" });
+    }
+});
+
+
 
 module.exports = router;

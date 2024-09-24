@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faShoppingCart, faUser } from '@fortawesome/free-solid-svg-icons';
-import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
-import { faUserCog } from '@fortawesome/free-solid-svg-icons';
-import { useParams } from 'react-router-dom';
+import { faSearch, faShoppingCart, faUser, faSignOutAlt, faUserCog } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 
 const NavigationBar = ({ logo }) => {
   const [showSearchBar, setShowSearchBar] = useState(false);
   const [showUserOption, setShowUserOption] = useState(false);
+  const [cartItemCount, setCartItemCount] = useState(0); // State for cart item count
   const searchRef = useRef(null);
   const userRef = useRef(null);
   const { userId } = useParams(); // Extract userId from URL
@@ -44,6 +43,16 @@ const NavigationBar = ({ logo }) => {
     }
   };
 
+  useEffect(() => {
+    axios.get(`http://localhost:3001/countCartItems/${userId}`)
+      .then(response => {
+        setCartItemCount(response.data.count); // Store the count in state
+      })
+      .catch(error => {
+        console.error('Error fetching cart item count:', error);
+      });
+  }, [userId]); // Add userId as a dependency to re-fetch when it changes
+
   return (
     <div className='custom1-md:pr-[10rem] custom1-md:pl-[10rem] bg-custom-gray'>
       <nav className="flex items-center justify-between px-4">
@@ -58,25 +67,36 @@ const NavigationBar = ({ logo }) => {
           <li className="text-white hidden md:inline font-spartan font-thin text-2xl">&nbsp;|&nbsp;</li>
           <li><Link to="/" className="text-white font-spartan font-thin text-2xl">Offers</Link></li>
         </ul>
+        
         <div className="flex items-center space-x-4">
-                      <FontAwesomeIcon 
-                icon={faSearch} 
-                className="text-white cursor-pointer hidden md:inline text-2xl p-3 transition-transform duration-300 ease-in-out transform hover:scale-110 hover:text-gray-300"
-                onClick={toggleSearchBar} 
-              />
+          <FontAwesomeIcon 
+            icon={faSearch} 
+            className="text-white cursor-pointer hidden md:inline text-2xl p-3 transition-transform duration-300 ease-in-out transform hover:scale-110 hover:text-gray-300"
+            onClick={toggleSearchBar} 
+            aria-label="Search"
+          />
+          
+          <Link to={`/UserCart/${userId}`} className="relative inline-block">
+            <FontAwesomeIcon 
+              icon={faShoppingCart} 
+              className="text-white cursor-pointer hidden md:inline text-2xl p-3 transition-transform duration-300 ease-in-out transform hover:scale-110 hover:text-gray-300"
+              aria-label="Shopping Cart"
+            />
+            {cartItemCount > 0 && (
+              <span className="absolute top-1 right-1 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
+                {cartItemCount}
+              </span>
+            )} {/* Display the count if greater than 0 */}
+          </Link>
 
-              <Link to = {`/UserCart/${userId}`}><FontAwesomeIcon 
-                icon={faShoppingCart} 
-                className="text-white cursor-pointer hidden md:inline text-2xl p-3 transition-transform duration-300 ease-in-out transform hover:scale-110 hover:text-gray-300"
-              /></Link>
-
-              <FontAwesomeIcon 
-                icon={faUser} 
-                className="text-white cursor-pointer text-2xl p-3 transition-transform duration-300 ease-in-out transform hover:scale-110 hover:text-gray-300"
-                onClick={toggleUserOption} 
-              />
-
+          <FontAwesomeIcon 
+            icon={faUser} 
+            className="text-white cursor-pointer text-2xl p-3 transition-transform duration-300 ease-in-out transform hover:scale-110 hover:text-gray-300"
+            onClick={toggleUserOption} 
+            aria-label="User Options"
+          />
         </div>
+
         {showSearchBar && (
           <div
             ref={searchRef}
@@ -89,36 +109,33 @@ const NavigationBar = ({ logo }) => {
               className="text-white px-3 py-1 border border-black focus:outline-none focus:border-black w-full md:max-w-96 bg-gray-700"
             />
           </div>
-            )}
+        )}
 
-{showUserOption && (
-  <div 
-    ref={userRef} 
-    className="absolute top-10 right-20 mt-14 p-4 rounded-lg bg-custom-dark shadow-lg border border-white transform transition-transform duration-300 ease-in-out scale-95 translate-y-[-10px] z-50"
-  >
-    <ul className="space-y-2">
-      <li>
-        <Link to={`/UserProfile/${userId}`}>
-          <button className="w-full text-white text-left font-semibold hover:bg-white hover:text-black py-2 px-3 rounded-md transition-colors duration-300 flex items-center">
-            <FontAwesomeIcon icon={faUserCog} className="mr-2" />
-            Profile Settings
-          </button>
-        </Link>
-      </li>
-      <li>
-      <Link to={`/Login`}>
-        <button className="w-full text-red-500 font-semibold hover:bg-red-500 hover:text-black py-2 px-3 rounded-md transition-colors duration-300 flex items-center">
-          <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
-          Logout
-        </button>
-        </Link>
-      </li>
-    </ul>
-  </div>
-)}
-
-
-
+        {showUserOption && (
+          <div 
+            ref={userRef} 
+            className="absolute top-10 right-20 mt-14 p-4 rounded-lg bg-custom-dark shadow-lg border border-white transform transition-transform duration-300 ease-in-out scale-95 translate-y-[-10px] z-50"
+          >
+            <ul className="space-y-2">
+              <li>
+                <Link to={`/UserProfile/${userId}`}>
+                  <button className="w-full text-white text-left font-semibold hover:bg-white hover:text-black py-2 px-3 rounded-md transition-colors duration-300 flex items-center">
+                    <FontAwesomeIcon icon={faUserCog} className="mr-2" />
+                    Profile Settings
+                  </button>
+                </Link>
+              </li>
+              <li>
+                <Link to={`/Login`}>
+                  <button className="w-full text-red-500 font-semibold hover:bg-red-500 hover:text-black py-2 px-3 rounded-md transition-colors duration-300 flex items-center">
+                    <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
+                    Logout
+                  </button>
+                </Link>
+              </li>
+            </ul>
+          </div>
+        )}
       </nav>
     </div>
   );
