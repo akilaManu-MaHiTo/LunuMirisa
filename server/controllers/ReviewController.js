@@ -3,9 +3,13 @@ const router = express.Router();    // Then use express.Router()
 const Rating = require('../models/Review');
 
 router.post("/PlaceReview", (req, res) => {
-    Rating.create(req.body)
-        .then(Rating => res.json(Rating))
-        .catch(err => res.status(500).json(err));
+  console.log(req.body); // Log the incoming data
+  Rating.create(req.body)
+      .then(rating => res.json(rating))
+      .catch(err => {
+          console.error(err); // Log the error
+          res.status(500).json({ error: 'Failed to place review' });
+      });
 });
 
 router.get("/GetAllReviews", (req, res) => {
