@@ -65,7 +65,6 @@ const ShowMenuLists = () => {
       category: item.category,
       title: item.title,
       price: item.price,
-      ingredient: ingredient
     })
     .then(() => {
       // Show success message with toast

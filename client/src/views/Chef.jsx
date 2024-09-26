@@ -69,6 +69,11 @@ const CartInfoDisplay = () => {
               <p><strong>Email:</strong> {item.email}</p>
               <p><strong>Payment Method:</strong> {item.paymentMethod}</p>
               <p><strong>Submitted At:</strong> {new Date(item.createdAt).toLocaleString()}</p>
+
+              <div>
+                  
+
+              </div>
               <div className="flex space-x-2">
                 <button
                   className="mt-2 bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
