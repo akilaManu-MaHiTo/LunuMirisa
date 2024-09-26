@@ -17,7 +17,8 @@ const ShowCart = () => {
     const fetchCartItems = async () => {
       try {
         const response = await axios.get(`http://localhost:3001/ShowCart/${userId}`);
-        setCartItems(response.data.cartItems);
+        const groupedItems = groupCartItems(response.data.cartItems);
+        setCartItems(groupedItems);
         setTotalPrice(response.data.totalPrice);
         toast.success('Cart items fetched successfully!', { autoClose: 3000 });
       } catch (err) {
@@ -30,13 +31,33 @@ const ShowCart = () => {
     fetchCartItems();
   }, [userId]);
 
+  // Group items by title and price and calculate quantity
+  const groupCartItems = (items) => {
+    const groupedItems = {};
+
+    items.forEach((item) => {
+      const key = `${item.title}-${item.price}`;
+      if (groupedItems[key]) {
+        groupedItems[key].quantity += item.quantity; 
+      } else {
+        groupedItems[key] = {
+          ...item,
+          quantity: item.quantity || 1 
+        };
+      }
+    });
+
+    return Object.values(groupedItems);
+  };
+
+  // Handle Delete
   const handleDelete = async (itemId) => {
     try {
       await axios.delete(`http://localhost:3001/RemoveFromCart/${itemId}`);
       setCartItems(cartItems.filter(item => item._id !== itemId));
 
       const updatedTotalPrice = cartItems.reduce((total, item) => {
-        return item._id === itemId ? total : total + parseFloat(item.price);
+        return item._id === itemId ? total : total + parseFloat(item.price) * item.quantity;
       }, 0);
       setTotalPrice(updatedTotalPrice);
 
@@ -45,6 +66,32 @@ const ShowCart = () => {
       console.error('Error deleting cart item:', err);
       setError('Failed to delete item from cart');
       toast.error('Error deleting item from cart', { autoClose: 3000 });
+    }
+  };
+
+  // Handle Update Quantity
+  const handleUpdate = async (itemId, newQuantity) => {
+    try {
+      await axios.put(`http://localhost:3001/UpdateCartItem/${itemId}`, { quantity: newQuantity });
+
+      const updatedCartItems = cartItems.map(item => {
+        if (item._id === itemId) {
+          return { ...item, quantity: newQuantity };
+        }
+        return item;
+      });
+
+      setCartItems(updatedCartItems);
+
+      const updatedTotalPrice = updatedCartItems.reduce((total, item) => {
+        return total + parseFloat(item.price) * item.quantity;
+      }, 0);
+      setTotalPrice(updatedTotalPrice);
+
+      toast.success('Cart item updated successfully', { autoClose: 3000 });
+    } catch (err) {
+      console.error('Error updating cart item:', err);
+      toast.error('Error updating cart item', { autoClose: 3000 });
     }
   };
 
@@ -68,13 +115,30 @@ const ShowCart = () => {
                     <h3 className="text-xl font-semibold">Rs.{item.price}</h3>
                     <p className="text-gray-600">Category: {item.category}</p>
                     <p className="text-gray-600">Item Name: {item.title}</p>
+                    <p className="text-gray-600">Quantity: 
+                      <input 
+                        type="number" 
+                        value={item.quantity} 
+                        min="1" 
+                        onChange={(e) => handleUpdate(item._id, parseInt(e.target.value))} 
+                        className="ml-2 w-16 text-center border border-gray-300"
+                      />
+                    </p>
                   </div>
-                  <button 
-                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4"
-                    onClick={() => handleDelete(item._id)}
-                  >
-                    Delete
-                  </button>
+                  <div className="mt-4 flex justify-between">
+                    <button 
+                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                      onClick={() => handleDelete(item._id)}
+                    >
+                      Delete
+                    </button>
+                    <button 
+                      className="bg-black hover:bg-gray-500 text-white font-bold py-2 px-4 rounded"
+                      onClick={() => handleUpdate(item._id, item.quantity)}
+                    >
+                      Update
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
@@ -98,6 +162,7 @@ const ShowCart = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };
