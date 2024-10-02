@@ -12,7 +12,7 @@ router.post("/Addtocarts", async (req, res) => {
     }
 
     try {
-        // Create a new cart item
+        
         const cartItem = await Cart.create({ userId, itemId, category, title, price });
 
         res.status(201).json({
@@ -25,19 +25,19 @@ router.post("/Addtocarts", async (req, res) => {
     }
 });
 
-// Show cart items and calculate total price
+
 router.get("/ShowCart/:userId", async (req, res) => {
     const userId = req.params.userId;
     console.log(userId);
 
     try {
-        // Find cart items where the userId matches the provided userId
+        
         const cartItems = await Cart.find({ userId });
 
-        // Calculate the total price of all cart items
+        
         const totalPrice = cartItems.reduce((total, item) => total + parseFloat(item.price),0);
 
-        // Send back cart items along with the total price
+    
         res.json({
             cartItems,
             totalPrice
@@ -49,11 +49,11 @@ router.get("/ShowCart/:userId", async (req, res) => {
     }
 });
 
-// Remove item from cart
+
 router.delete("/RemoveFromCart/:itemId", async (req, res) => {
     const { itemId } = req.params;
     try {
-        await Cart.findByIdAndDelete(itemId); // Assuming itemId is the ID of the cart item
+        await Cart.findByIdAndDelete(itemId); 
         res.status(200).json({ message: "Item removed from cart successfully." });
     } catch (err) {
         console.error("Error removing item from cart:", err);
@@ -61,28 +61,28 @@ router.delete("/RemoveFromCart/:itemId", async (req, res) => {
     }
 });
 
-// Get top three items by highest price
+
 router.get("/topThreeItemIds", async (req, res) => {
     try {
-        // Aggregate to get top three item IDs by highest price
+        
         const topItems = await Cart.aggregate([
             {
                 $group: {
                     _id: "$itemId",
                     maxPrice: { $max: { $toDouble: "$price" } },
-                    type: { $first: "$type" }, // Capture the type
-                    category: { $first: "$category" } // Capture the category
+                    type: { $first: "$type" }, 
+                    category: { $first: "$category" } 
                 }
             },
-            { $sort: { maxPrice: -1 } }, // Sort by price in descending order
-            { $limit: 3 }, // Limit to top 3 items
+            { $sort: { maxPrice: -1 } }, 
+            { $limit: 3 }, 
             { 
                 $project: { 
                     _id: 0, 
                     itemId: "$_id", 
                     maxPrice: 1, 
                     type: 1, 
-                    category: 1 // Include type and category in the output
+                    category: 1 
                 } 
             }
         ]);
@@ -98,10 +98,9 @@ router.get("/countCartItems/:userId", async (req, res) => {
     try {
       const { userId } = req.params;
       
-      // Count the items in the user's cart
-      const cartItemCount = await Cart.countDocuments({ userId });
       
-      // Send the count as the response
+      const cartItemCount = await Cart.countDocuments({ userId });
+   
       res.status(200).json({ count: cartItemCount });
     } catch (error) {
       console.error("Error fetching cart item count:", error);
@@ -113,21 +112,40 @@ router.get("/countCartItems/:userId", async (req, res) => {
     const { userId } = req.params;
 
     try {
-        // Find cart items for the user
+       
         const cartItems = await Cart.find({ userId });
 
-        // If the cart is empty, prevent checkout
+       
         if (cartItems.length === 0) {
             return res.status(400).json({ message: "Cannot checkout with an empty cart." });
         }
 
-        // Proceed with checkout logic here
-        // Example: processing payment, generating order, etc.
+       
 
         res.status(200).json({ message: "Checkout successful!" });
     } catch (err) {
         console.error("Error during checkout:", err);
         res.status(500).json({ message: "An error occurred during checkout." });
+    }
+});
+
+// Update item quantity in the cart
+router.put("/UpdateCartItem/:itemId", async (req, res) => {
+    const { itemId } = req.params;
+    const { quantity } = req.body;
+
+    try {
+       
+        const updatedCartItem = await Cart.findByIdAndUpdate(itemId, { quantity }, { new: true });
+        
+        if (!updatedCartItem) {
+            return res.status(404).json({ message: "Cart item not found" });
+        }
+
+        res.status(200).json({ message: "Item quantity updated successfully", updatedCartItem });
+    } catch (err) {
+        console.error("Error updating cart item quantity:", err);
+        res.status(500).json({ message: "An error occurred while updating the cart item." });
     }
 });
 

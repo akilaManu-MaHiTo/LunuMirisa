@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { useNavigate,Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import NavigationBar from './Components/NavigationMenuListManager'; 
 import logo from '../Images/Logo.png'; 
 
@@ -8,13 +8,13 @@ const AddMenuList = () => {
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState('');
   const [image, setImage] = useState('');
-  const [type, setType] = useState('');
+  const [type, setType] = useState(''); // Not used in the form; consider removing if unnecessary
   const [category, setCategory] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:3001/createAddMenuList", { title, price, image, type, category })
+    axios.post("http://localhost:3001/createAddMenuList", { title, price, image, category})
       .then(result => {
         console.log(result);
         navigate('/ManagerMenuList');
@@ -30,7 +30,7 @@ const AddMenuList = () => {
           <h2 className="text-2xl font-bold mb-4">Add Menu Item</h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label htmlFor="title" className="block text-sm font-medium text-white">
+              <label htmlFor="title" className="block text-sm font-medium text-gray-700">
                 Title
               </label>
               <input
@@ -85,8 +85,8 @@ const AddMenuList = () => {
                 <option value="Specials">Specials</option>
                 <option value="Beverages">Beverages</option>
               </select>
-
             </div>
+
             <button
               type="submit"
               className="w-full bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
@@ -94,7 +94,11 @@ const AddMenuList = () => {
               Add Menu Item
             </button>
 
-            <Link to="/ManagerMenuList"><button>Menu List</button></Link>
+            <Link to="/ManagerMenuList">
+              <button type="button" className="mt-4 w-full bg-gray-300 text-black py-2 px-4 rounded-md hover:bg-gray-400 focus:outline-none">
+                Menu List
+              </button>
+            </Link>
 
           </form>
         </div>

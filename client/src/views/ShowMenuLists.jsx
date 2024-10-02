@@ -64,7 +64,7 @@ const ShowMenuLists = () => {
       itemId: item._id,
       category: item.category,
       title: item.title,
-      price: item.price
+      price: item.price,
     })
     .then(() => {
       // Show success message with toast
