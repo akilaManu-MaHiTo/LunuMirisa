@@ -1,6 +1,14 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import NavigationBar from './Components/NavigationSignup'
+import logo from '../Images/Logo.png'
+import homePic from '../Images/food.png';
+import food from '../Images/food.svg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar, faStarHalfAlt, faStar as emptyStar, faCartPlus } from '@fortawesome/free-solid-svg-icons';
+import Footer from './Components/FooterStartPage'; 
+
 
 
 function Users() {
@@ -26,78 +34,39 @@ function Users() {
     }
 
     return (
-        <div className='container mx-auto px-4 py-8'>
-            <div className='text-2xl font-bold text-center text-green-400 mb-6'>
-                Users List<br /><br />
+        <div>
+            <NavigationBar logo={logo} />
+
+            <div className="relative flex w-full h-full">
+                <img src={homePic} alt="Home" className="w-full h-auto rounded" style={{ filter: 'blur(1px)' }} />
+                <div className="absolute text-white w-[50rem] pl-[10rem] hidden md:inline text-7xl pt-32 font-spartan transition-opacity duration-1000 ease-in-out">
+                Experience the Authentic Sri Lankan Foods
+                </div>
+                <div className="absolute text-white hidden custom-md:flex justify-center text-2xl w-full mt-[50rem]">
+                <div className="font-spartan font-thin bg-custom-black p-4 opacity-70"> Order Now ↓ </div>
+                </div>
             </div>
-            <table className='min-w-full bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden'>
-                <thead className='bg-gray-100'>
-                    <tr>
-                        <th className='px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider'>Name</th>
-                        <th className='px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider'>Email</th>
-                        <th className='px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider'>Age</th>
-                        <th className='px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider'>Action</th>
-                    </tr>
-                </thead>
-                <tbody className='divide-y divide-gray-200'>
-                    {users.map((akila) => (
-                        <tr key={akila._id} className='hover:bg-gray-50'>
-                            <td className='px-6 py-4 text-center whitespace-nowrap'>{akila.name}</td>
-                            <td className='px-6 py-4 text-center whitespace-nowrap'>{akila.email}</td>
-                            <td className='px-6 py-4 text-center whitespace-nowrap'>{akila.age}</td>
-                            <td><Link to={`/update/${akila._id}`}><button>Edit</button></Link></td>
-                            <td><button onClick={(e) => handleDelete(akila._id)}>Delete</button></td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-            <Link to="/create">
-                <button className='bg-slate-400 hover:bg-black hover:text-white hover:cursor-pointer mt-4' style={{ width: '400px' }}>
-                    Add User
-                </button>
-            </Link>
-            <br /><br />
-            <Link to="/createEmployee">
-                <button className='bg-slate-500 hover:bg-black hover:text-white hover:cursor-pointer mt-4' style={{ width: '400px' }}>
-                    Add Employees
-                </button>
-            </Link>
-            <br /><br />
-            <Link to="/addImage">
-                <button className='bg-slate-500 hover:bg-black hover:text-white hover:cursor-pointer mt-4' style={{ width: '400px' }}>
-                    Add Image
-                </button>
-            </Link>
-            <br /><br />
-            <Link to="/showImages">
-                <button className='bg-slate-500 hover:bg-black hover:text-white hover:cursor-pointer mt-4' style={{ width: '400px' }}>
-                    Show Images
-                </button>
-            </Link>
-            <br /><br />
-            <Link to="/login">
-                <button className='bg-slate-500 hover:bg-black hover:text-white hover:cursor-pointer mt-4' style={{ width: '400px' }}>
-                    Login
-                </button>
-            </Link>
 
-            <Link to="/UserHome">
-                <button className='bg-slate-500 hover:bg-black hover:text-white hover:cursor-pointer mt-4' style={{ width: '400px' }}>
-                    Home
-                </button>
-            </Link>
+            <div className='text-white text-5xl pt-20 font-spartan font-thin pl-[10rem]'>Today's Special</div>
 
-            <Link to="/AdminPage">
-                <button className='bg-slate-500 hover:bg-black hover:text-white hover:cursor-pointer mt-4' style={{ width: '400px' }}>
-                    Admin
-                </button>
-            </Link>
+            <div className='text-white text-5xl pt-20 font-spartan font-thin pl-[10rem]'>Today's Special</div>
 
-            <Link to="/Navigation">
-                <button className='bg-slate-500 hover:bg-black hover:text-white hover:cursor-pointer mt-4' style={{ width: '400px' }}>
-                    Navigation
-                </button>
-            </Link>
+      <div className='flex justify-center gap-y-8'>
+        <div className="flex flex-wrap gap-x-16 gap-y-8 pt-16 pb-10 justify-center w-[80rem]">
+          {[...Array(3)].map((_, index) => (
+            <div key={index} className="bg-custom-gray p-6 rounded shadow-md w-[18rem] h-auto max-w-md mb-4 md:mb-0 flex flex-col items-center transition-all duration-500 ease-in-out transform hover:scale-105">
+              <img src={food} alt="food" className='w-[15rem] h-auto rounded mx-auto mt-2' />
+              <div className="text-center text-white font-spartan font-thin mt-8 text-2xl">Chicken Biriyani</div>
+              <div className="text-center text-white font-spartan font-thin text-xl mt-2">Rs.1700/-</div>
+              <button type="submit" className='flex mb-4 items-center justify-center w-[15rem] py-1 mt-16 bg-custom-light text-white hover:bg-white hover:text-black h-12 transition-all duration-300 ease-in-out transform hover:scale-105'>
+                <FontAwesomeIcon icon={faCartPlus} className='mr-2' /> Add to Cart 
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <Footer logo={logo} />
         </div>
     );
 }

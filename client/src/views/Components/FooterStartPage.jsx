@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
-import logo from '../Images/Logo.png'; 
+import logo from '../../Images/Logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faInstagram, faWhatsapp, faFacebookMessenger } from '@fortawesome/free-brands-svg-icons';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons';
 
+
 const Footer = () => {
     const { userId } = useParams();
     const [rating, setRating] = useState(0);
     const [hover, setHover] = useState(0);
-    const [reviewTitle, setReviewTitle] = useState("");
     const [review, setReview] = useState("");
     const [message, setMessage] = useState("");
     const [firstName, setFirstName] = useState("");
@@ -54,35 +54,33 @@ const Footer = () => {
     
 
     const handleSubmit = async () => {
-        if (rating === 0 || review === "" || reviewTitle === "") { // Check for review title
-            setMessage("Please provide a title, rating, and a review.");
+        if (rating === 0 || review === "") {
+            setMessage("Please provide both a rating and a review.");
             return;
         }
     
         const data = {
-            reviewTitle,  
             review,
             rating,
             userId,
-            FirstName: firstName,
-            LastName: lastName,
-            profileImage: profileImage || 'default-image-url.jpg',
+            FirstName: firstName,  // Updated to match schema
+            LastName: lastName,    // Updated to match schema
+            profileImage: profileImage || 'default-image-url.jpg', // Fallback image
         };
         
         console.log(profileImage)
-        setLoading(true);
+        setLoading(true); // Start loading
     
         try {
             await axios.post('http://localhost:3001/PlaceReview', data);
             setMessage("Thank you for your review!");
             setRating(0);
             setReview("");
-            setReviewTitle(""); // Reset review title after submission
         } catch (error) {
-            console.error(error);
+            console.error(error); // Log error for debugging
             setMessage("There was an error submitting your review. Please try again.");
         } finally {
-            setLoading(false);
+            setLoading(false); // End loading
         }
     };
     
@@ -124,7 +122,7 @@ const Footer = () => {
                     </div>
 
                     <div className="items-center p-2 lg:pl-40 mt-5">
-                        <div className="text-white text-2xl pt-2 font-spartan font-thin pl-10 lg:pl-0 mt-2">We would love to hear your thoughts!</div>
+                        <div className="text-white text-2xl pt-2 font-spartan font-thin pl-10 lg:pl-0 mt-2">We would love to hear your thoughts! </div>
                         <div className="flex my-3">
                             {[...Array(5)].map((star, index) => {
                                 const ratingValue = index + 1;
@@ -150,33 +148,22 @@ const Footer = () => {
                                 );
                             })}
                         </div>
-                        <div className="flex flex-col space-y-4">
-                            <input
-                                type="text"
-                                className="p-3 bg-custom-light w-[15rem] h-12 ml-1 focus:bg-custom-light-hover focus:transition duration-300 ease-in-out mt-3 placeholder:text-gray-400 placeholder:font-thin"
-                                placeholder="Enter Review Title"
-                                value={reviewTitle}
-                                onChange={(e) => setReviewTitle(e.target.value)}
-                            />
+                        <input
+                            type="text"
+                            className="p-3 bg-custom-light w-[15rem] h-12 ml-1 focus:bg-custom-light-hover focus:transition duration-300 ease-in-out mt-3 placeholder:text-gray-400 placeholder:font-thin"
+                            placeholder="Enter Your Review"
+                            value={review}
+                            onChange={(e) => setReview(e.target.value)}
+                        />
 
-                            <input
-                                type="text"
-                                className="p-3 bg-custom-light w-[15rem] h-12 ml-1 focus:bg-custom-light-hover focus:transition duration-300 ease-in-out mt-3 placeholder:text-gray-400 placeholder:font-thin"
-                                placeholder="Enter Your Review"
-                                value={review}
-                                onChange={(e) => setReview(e.target.value)}
-                            />
-                            </div>
 
-                            <div className="flex justify-center w-[15rem] ">
-                            <button
-                                className="bg-red-500 h-10 mt-3 w-20 hover:bg-red-700 hover:font-bold hover:text-black hover:scale-105 transition duration-300 ease-in-out"
-                                onClick={handleSubmit}
-                            >
-                                Submit
-                            </button>
-                            </div>
-
+                        <Link to={`/Login`}>
+                        <button
+                            className="bg-custom-dark ml-4 h-12 w-20 hover:bg-custom-light hover:scale-105 transition duration-300 ease-in-out"                            
+                        >
+                            Submit
+                        </button>
+                        </Link>
 
                         {message && <p className="text-white mt-2">{message}</p>}
                     </div>
@@ -185,6 +172,10 @@ const Footer = () => {
 
             <div className="flex ml-40 lg:ml-[10rem]">
                 <img src={logo} alt="Logo" className="w-24 h-auto" />
+            </div>
+
+            <div className="mt-1 text-center font-thin text-xs select-none text-white">
+                Privacy Policy | Terms of Service © 2024 Lunumirisa. All Rights Reserved.
             </div>
         </footer>
     );

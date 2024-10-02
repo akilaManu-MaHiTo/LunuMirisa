@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 const AllUsers = () => {
     const [users, setUsers] = useState([]);
@@ -68,7 +70,7 @@ const AllUsers = () => {
     }
 
     return (
-        <div className="container mx-auto p-4 bg-gray-900 text-white">
+        <div className="container mx-auto p-4 bg-gray-900 h-[45rem] text-white">
             <h1 className="text-2xl font-bold mb-4">All Users</h1>
             <div className="mb-4">
                 <input
@@ -81,7 +83,7 @@ const AllUsers = () => {
             </div>
             <button
                 onClick={generateReport}
-                className="bg-blue-600 text-white font-semibold py-2 px-4 rounded hover:bg-blue-700 transition"
+                className="bg-blue-500 text-black font-semibold py-2 px-4 rounded hover:bg-blue-700 hover:text-white  transition transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg mx-auto"
             >
                 Generate Report
             </button>
@@ -102,14 +104,15 @@ const AllUsers = () => {
                             <td className="border border-gray-700 p-2">{user.lastName}</td>
                             <td className="border border-gray-700 p-2">{user.email}</td>
                             <td className="border border-gray-700 p-2">{user.verified ? 'Yes' : 'No'}</td>
-                            <td className="border border-gray-700 p-2">
+                            <td className="border border-gray-700 p-2 text-center">
                                 <button
                                     onClick={() => handleDelete(user._id)}
-                                    className="bg-red-600 text-white py-1 px-3 rounded hover:bg-red-700 transition"
+                                    className="bg-red-500 text-black py-1 px-3 rounded hover:bg-red-700 hover:text-white transition transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg mx-auto"
                                 >
-                                    Delete
+                                    <FontAwesomeIcon icon={faTrashCan} className='mr-3' />Delete
                                 </button>
                             </td>
+
                         </tr>
                     ))}
                 </tbody>

@@ -16,15 +16,18 @@ const NavigationBar = () => {
           <img src={logo} alt="Logo" className="h-auto w-20 " />
         </div>
         
+        
         <div className="flex items-center space-x-4">
-  <h4 className="text-white font-thin text-lg tracking-wide">Login / Signup</h4>
-
-  <FontAwesomeIcon 
-    icon={faUser} 
-    className="text-white cursor-pointer text-2xl p-3 transition-transform duration-300 ease-in-out transform hover:scale-110 hover:text-gray-300"
-    onClick={toggleUserOption} 
-  />
-</div>
+        <Link to="/login">
+        <h4 className="text-white font-thin text-lg tracking-wide">Login / Signup</h4>
+        </Link>
+        <FontAwesomeIcon 
+          icon={faUser} 
+          className="text-white cursor-pointer text-2xl p-3 transition-transform duration-300 ease-in-out transform hover:scale-110 hover:text-gray-300"
+          onClick={toggleUserOption} 
+        />
+        
+        </div>
 
       </nav>
     </div>
