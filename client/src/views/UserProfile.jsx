@@ -5,7 +5,7 @@ import Navigation from './Components/NavigationBar.jsx';
 import logo from '../Images/Logo.png';
 import defaultProfilePic from '../Images/profile-picture.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCrown, faUser, faPenNib, faEnvelope, faPhone, faLocationDot, faPenAlt, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { faCrown, faUser, faPenNib, faEnvelope, faPhone, faLocationDot, faPenAlt, faCircleNotch, faTrashCan, faSave } from '@fortawesome/free-solid-svg-icons';
 import bgprofile from '../Images/profileBG2.jpg';
 import Footer from './Footer.jsx';
 import Loader from './Components/Loader.jsx';
@@ -23,6 +23,7 @@ function UpdateUsers() {
     const [error, setError] = useState(null);
     const [profile, setProfile] = useState({});
     const [reviews, setReviews] = useState([]);
+    const [validationErrors, setValidationErrors] = useState({});
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -70,14 +71,39 @@ function UpdateUsers() {
         setPreviewImage(URL.createObjectURL(selectedFile));
     };
 
+    const validateForm = () => {
+        const errors = {};
+
+        if (!firstName.trim()) {
+            errors.firstName = 'First name is required.';
+        }
+
+        if (!lastName.trim()) {
+            errors.lastName = 'Last name is required.';
+        }
+
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email.trim() || !emailPattern.test(email)) {
+            errors.email = 'A valid email is required.';
+        }
+
+        const phonePattern = /^\d+$/;
+        if (phone && (!phonePattern.test(phone) || phone.length < 10)) {
+            errors.phone = 'A valid phone number is required.';
+        }
+
+        return errors;
+    };
+
     const handleUpdate = (e) => {
         e.preventDefault();
-        setLoading(true);
-        if (!email) {
-            alert('Email is required.');
-            setLoading(false);
+        const errors = validateForm();
+        if (Object.keys(errors).length > 0) {
+            setValidationErrors(errors);
             return;
         }
+
+        setLoading(true);
 
         const updatedUserData = {
             firstName,
@@ -114,7 +140,7 @@ function UpdateUsers() {
     };
 
     const handleDeleteAccount = () => {
-        const confirmDelete = window.confirm('Are you sure you want to uninstall your account? This action cannot be undone.');
+        const confirmDelete = window.confirm('Are you sure you want to delete your account? This action cannot be undone.');
         if (confirmDelete) {
             axios.delete(`http://localhost:3001/deleteUser/${userId}`)
                 .then(() => {
@@ -202,13 +228,15 @@ function UpdateUsers() {
                                         <input
                                             type="text"
                                             placeholder="Enter your first name"
-                                            className="ml-3 w-full h-full font-thin bg-white text-black border-none rounded-lg focus:outline-none placeholder-black"
+                                            className="ml-3 w-full h-full font-thin bg-white text-black border-none rounded-lg focus:outline-none focus:ring-0"
                                             value={firstName}
                                             onChange={(e) => setFirstName(e.target.value)}
                                         />
                                     </div>
+                                    {validationErrors.firstName && (
+                                        <p className="text-red-500 text-sm mt-1">{validationErrors.firstName}</p>
+                                    )}
                                 </div>
-
                                 <div className="flex-1">
                                     <label className="block text-xl text-gray-100 font-thin mb-3">Last Name</label>
                                     <div className="flex items-center rounded-lg h-12 bg-white transition-all duration-300 ease-in-out transform hover:scale-105 focus-within:border-black">
@@ -216,30 +244,34 @@ function UpdateUsers() {
                                         <input
                                             type="text"
                                             placeholder="Enter your last name"
-                                            className="ml-3 w-full h-full font-thin bg-white text-black border-none rounded-lg focus:outline-none placeholder-black"
+                                            className="ml-3 w-full h-full font-thin bg-white text-black border-none rounded-lg focus:outline-none focus:ring-0"
                                             value={lastName}
                                             onChange={(e) => setLastName(e.target.value)}
                                         />
                                     </div>
+                                    {validationErrors.lastName && (
+                                        <p className="text-red-500 text-sm mt-1">{validationErrors.lastName}</p>
+                                    )}
                                 </div>
                             </div>
-
-                            <div className="mb-4">
-                                <label className="block text-xl text-gray-100 font-thin mb-3">Email</label>
-                                <div className="flex items-center rounded-lg h-12 bg-white transition-all duration-300 ease-in-out transform hover:scale-105 focus-within:border-black">
-                                    <FontAwesomeIcon icon={faEnvelope} className="w-4 h-4 ml-4 text-black" />
-                                    <input
-                                        type="email"
-                                        placeholder="Enter your email"
-                                        className="ml-3 w-full h-full font-thin bg-white text-black border-none rounded-lg focus:outline-none placeholder-black"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        required
-                                    />
-                                </div>
-                            </div>
-
+                            
                             <div className="flex gap-4 mb-4">
+                                <div className="flex-1">
+                                    <label className="block text-xl text-gray-100 font-thin mb-3">Email</label>
+                                    <div className="flex items-center rounded-lg h-12 bg-white transition-all duration-300 ease-in-out transform hover:scale-105 focus-within:border-black">
+                                        <FontAwesomeIcon icon={faEnvelope} className="w-4 h-4 ml-4 text-black" />
+                                        <input
+                                            type="text"
+                                            placeholder="Enter your email"
+                                            className="ml-3 w-full h-full font-thin bg-white text-black border-none rounded-lg focus:outline-none focus:ring-0"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                        readOnly/>
+                                    </div>
+                                    {validationErrors.email && (
+                                        <p className="text-red-500 text-sm mt-1">{validationErrors.email}</p>
+                                    )}
+                                </div>
                                 <div className="flex-1">
                                     <label className="block text-xl text-gray-100 font-thin mb-3">Phone</label>
                                     <div className="flex items-center rounded-lg h-12 bg-white transition-all duration-300 ease-in-out transform hover:scale-105 focus-within:border-black">
@@ -247,53 +279,52 @@ function UpdateUsers() {
                                         <input
                                             type="text"
                                             placeholder="Enter your phone number"
-                                            className="ml-3 w-full h-full font-thin bg-white text-black border-none rounded-lg focus:outline-none placeholder-black"
+                                            className="ml-3 w-full h-full font-thin bg-white text-black border-none rounded-lg focus:outline-none focus:ring-0"
                                             value={phone}
                                             onChange={(e) => setPhone(e.target.value)}
                                         />
                                     </div>
+                                    {validationErrors.phone && (
+                                        <p className="text-red-500 text-sm mt-1">{validationErrors.phone}</p>
+                                    )}
                                 </div>
-
-                                <div className="flex-1">
-                                    <label className="block text-xl text-gray-100 font-thin mb-3">Address</label>
-                                    <div className="flex items-center rounded-lg h-12 bg-white transition-all duration-300 ease-in-out transform hover:scale-105 focus-within:border-black">
-                                        <FontAwesomeIcon icon={faLocationDot} className="w-4 h-4 ml-4 text-black" />
-                                        <input
-                                            type="text"
-                                            placeholder="Enter your address"
-                                            className="ml-3 w-full h-full font-thin bg-white text-black border-none rounded-lg focus:outline-none placeholder-black"
-                                            value={address}
-                                            onChange={(e) => setAddress(e.target.value)}
-                                        />
-                                    </div>
+                            </div>
+                            
+                            <div className="mb-4">
+                                <label className="block text-xl text-gray-100 font-thin mb-3">Address</label>
+                                <div className="flex items-center rounded-lg h-12 bg-white transition-all duration-300 ease-in-out transform hover:scale-105 focus-within:border-black">
+                                    <FontAwesomeIcon icon={faLocationDot} className="w-4 h-4 ml-4 text-black" />
+                                    <input
+                                        type="text"
+                                        placeholder="Enter your address"
+                                        className="ml-3 w-full h-full font-thin bg-white text-black border-none rounded-lg focus:outline-none focus:ring-0"
+                                        value={address}
+                                        onChange={(e) => setAddress(e.target.value)}
+                                    />
                                 </div>
                             </div>
 
-                            <div className="text-center mt-10">
-                            <button
-                                    type="submit"
-                                    className={`py-2 px-8 rounded-lg transition-all duration-300 ease-in-out transform ${
-                                        loading
-                                            ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                                            : 'bg-white text-black hover:bg-black hover:text-white hover:scale-105'
-                                    }`}
-                                    disabled={loading}
-                                >
-                                    {loading ? (
-                                        <FontAwesomeIcon icon={faCircleNotch} spin className="w-5 h-5" />
-                                    ) : (
-                                        'Save Changes'
-                                    )}
-                                </button>
+                            {error && (
+                                <p className="text-red-500 text-sm mt-1">{error}</p>
+                            )}
+
+                            <div className="flex justify-center mt-8">
                                 <button
-                                    type="button"
-                                    onClick={handleDeleteAccount}
-                                    className="ml-4 bg-red-500 text-black py-2 px-4 rounded-lg hover:bg-red-700 hover:text-white transition-all duration-300 ease-in-out transform hover:scale-105"
-                                >
-                                    Delete Account
+                                    type="submit"
+                                    className="py-3 px-8 rounded-lg transition-all duration-300 ease-in-out transform bg-white text-black hover:bg-black hover:text-white hover:scale-105" >                                                                    
+                                        <FontAwesomeIcon icon={faSave} className="w-5 h-5 mr-2" />Save Changes
                                 </button>
                             </div>
                         </form>
+
+                        <div className="flex justify-center mt-8">
+                            <button
+                                onClick={handleDeleteAccount}
+                                className="bg-red-500 text-black px-4 py-2 rounded-lg hover:bg-red-600 hover:text-white hover:scale-105 transition-all duration-300 ease-in-out transform"
+                            >
+                                <FontAwesomeIcon icon={faTrashCan}  /> Deactivate My Account
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

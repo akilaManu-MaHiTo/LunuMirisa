@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import Navigation from './Components/NavigationSignup.jsx';
-import Footer from './Footer.jsx'; 
+import Footer from './Components/FooterStartPage'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -154,7 +154,7 @@ const LoginUser = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      <Footer logo={logo} />
     </div>
   );
 };
