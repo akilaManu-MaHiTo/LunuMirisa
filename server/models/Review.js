@@ -43,6 +43,10 @@ const ratingSchema = new Schema({
         trim: true,
         default: 'default-profile-image-url.jpg' // Set a default image URL if none is provided
     },
+    Status: {
+        type: String,
+        default: 'Show'
+    },
 });
 
 // Create and export the model

@@ -18,7 +18,7 @@ router.get("/GetAllReviews", (req, res) => {
       .catch(err => res.status(500).json({ error: err.message })); // Error handling
   });
 
-  router.get("/GetAllReviewsbyId/:userId", (req, res) => {
+router.get("/GetAllReviewsbyId/:userId", (req, res) => {
     const userId = req.params.userId;
     console.log(userId)
     if (!userId) {
@@ -29,6 +29,50 @@ router.get("/GetAllReviews", (req, res) => {
       .then(reviews => res.json(reviews)) // Send the filtered reviews back to the client as JSON
       .catch(err => res.status(500).json({ error: err.message })); // Error handling
 });
+
+// PUT route to update only specific fields (rating, reviewTitle, review)
+router.put('/updateReview/:reviewId', async (req, res) => {
+  const { reviewId } = req.params;
+  const { rating, reviewTitle, review } = req.body; // Destructure only the required fields
+
+  try {
+      // Update only the provided fields
+      const updatedReview = await Rating.findByIdAndUpdate(
+          reviewId,
+          { rating, reviewTitle, review }, // Update these fields
+          { new: true } // Return the updated review
+      );
+
+      if (!updatedReview) {
+          return res.status(404).json({ message: 'Review not found' });
+      }
+
+      res.status(200).json(updatedReview); // Return updated review
+  } catch (error) {
+      console.error('Error updating review:', error);
+      res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// DELETE route to delete a review by ID
+router.delete('/deleteReview/:reviewId', async (req, res) => {
+  const { reviewId } = req.params;
+
+  try {
+      // Find the review by ID and delete it
+      const deletedReview = await Rating.findByIdAndDelete(reviewId);
+
+      if (!deletedReview) {
+          return res.status(404).json({ message: 'Review not found' });
+      }
+
+      res.status(200).json({ message: 'Review deleted successfully', deletedReview });
+  } catch (error) {
+      console.error('Error deleting review:', error);
+      res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 
 
 module.exports = router;
