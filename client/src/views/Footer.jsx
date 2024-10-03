@@ -109,10 +109,10 @@ const Footer = () => {
 
                     <div className="text-white text-2xl pt-10 font-spartan font-thin pl-10 lg:pl-40">Follow Us</div>
                     <div className="flex text-white pl-12 lg:pl-52 pt-4 space-x-4">
-                        <FontAwesomeIcon icon={faFacebook} className="text-2xl transition-transform duration-300 ease-in-out transform hover:scale-125" />
-                        <FontAwesomeIcon icon={faFacebookMessenger} className="text-2xl transition-transform duration-300 ease-in-out transform hover:scale-125" />
-                        <FontAwesomeIcon icon={faWhatsapp} className="text-2xl transition-transform duration-300 ease-in-out transform hover:scale-125" />
-                        <FontAwesomeIcon icon={faInstagram} className="text-2xl transition-transform duration-300 ease-in-out transform hover:scale-125" />
+                        <FontAwesomeIcon icon={faFacebook} className="text-2xl transition-transform duration-300 ease-in-out transform hover:scale-125 hover:text-blue-600 " />
+                        <FontAwesomeIcon icon={faFacebookMessenger} className="text-2xl transition-transform duration-300 ease-in-out transform hover:scale-125 hover:text-blue-300 " />
+                        <FontAwesomeIcon icon={faWhatsapp} className="text-2xl transition-transform duration-300 ease-in-out transform hover:scale-125 hover:text-green-500 " />
+                        <FontAwesomeIcon icon={faInstagram} className="text-2xl transition-transform duration-300 ease-in-out transform hover:scale-125 hover:text-purple-600 " />
                     </div>
                 </div>
 
@@ -166,16 +166,16 @@ const Footer = () => {
                                 value={review}
                                 onChange={(e) => setReview(e.target.value)}
                             />
-                            </div>
+                        </div>
 
-                            <div className="flex justify-center w-[15rem] ">
-                            <button
-                                className="bg-red-500 h-10 mt-3 w-20 hover:bg-red-700 hover:font-bold hover:text-black hover:scale-105 transition duration-300 ease-in-out"
-                                onClick={handleSubmit}
-                            >
-                                Submit
-                            </button>
-                            </div>
+                        <div className="flex justify-center w-[15rem] ">
+                        <button
+                            className="bg-white text-black h-10 mt-3 w-20 hover:bg-yellow-200 hover:text-black hover:scale-105 transition duration-300 ease-in-out"
+                            onClick={handleSubmit}
+                        >
+                            Submit
+                        </button>
+                        </div>
 
 
                         {message && <p className="text-white mt-2">{message}</p>}
