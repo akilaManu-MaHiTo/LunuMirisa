@@ -96,7 +96,7 @@ function App() {
         <Route path="/UpdateSupplier/:id" element={<UpdateSupplierprofiles/>} />
         <Route path="/addemployee" element={<AddEmployeeForm/>} />
         <Route path="/viewemployee" element={<EmployeeTable/>} />
-        <Route path="/profile" element={<ProfilePage/>} />
+        <Route path="/profile/:userId" element={<ProfilePage/>} />
         <Route path="/UpdateInventory/:id" element={<UpdateInventory/>} />
         <Route path="/SupplierConfirmOrder/:supplierId/:orderId/:supplierName" element={<SupplierConfirmOrder />} />
         <Route path="/acceptedorders" element={<AcceptedOrders />} />

@@ -34,7 +34,7 @@ const LoginUser = () => {
           navigate('/AdminPage');
           break;
         case 202:
-          navigate(`/InOrder/${response.data.userId}`);
+          navigate(`/WaitorPage/${response.data.userId}`);
           break;
         case 203:
           navigate(`/ChefPage/${response.data.userId}`);

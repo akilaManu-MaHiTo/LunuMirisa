@@ -1,10 +1,26 @@
 const express = require('express');
 const router = express.Router();
 const Menu = require('../models/Menu');
+const multer = require('multer');
+const path = require('path');
 
-router.post("/createAddMenuList", (req, res) => {
-    Menu.create(req.body)
-        .then(users => res.json(users))
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'public/Images'); // Ensure this directory exists
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + "_" + Date.now() + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({ storage: storage });
+
+router.post("/createAddMenuList", upload.single('image'), (req, res) => {
+    const { title, price, category } = req.body;
+    const image = req.file ? req.file.filename : null; // Get the image filename
+
+    Menu.create({ title, price, image, category })
+        .then(menuItem => res.json(menuItem))
         .catch(err => res.status(500).json(err));
 });
 
@@ -35,5 +51,27 @@ router.put("/updateMenu/:id", (req, res) => {
         .then(updatedMenuItem => res.json(updatedMenuItem))
         .catch(err => res.status(500).json(err));
 });
+
+router.put("/UpdateHotDeals/:id", (req, res) => {
+    const menuId = req.params.id;
+
+    Menu.findById(menuId)
+        .then(item => {
+            // Toggle the hotDeals value
+            const newHotDealsStatus = item.hotDeals === "Yes" ? "No" : "Yes";
+            return Menu.findByIdAndUpdate(menuId, { hotDeals: newHotDealsStatus }, { new: true });
+        })
+        .then(updatedMenuItem => res.json(updatedMenuItem))
+        .catch(err => res.status(500).json(err));
+});
+
+router.get("/getHotDeals", (req, res) => {
+    Menu.find({ hotDeals: "Yes" }) // Find all items where hotDeals is "Yes"
+        .then(hotDealsItems => res.json(hotDealsItems))
+        .catch(err => res.status(500).json(err));
+});
+
+
+
 
 module.exports = router;

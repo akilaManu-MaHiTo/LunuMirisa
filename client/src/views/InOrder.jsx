@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import EmployeeNavigation from './Components/AdminNavigationBar'
 
 const ShowMenuList = () => {
   const [menuItems, setMenuItems] = useState([]);
@@ -56,6 +57,8 @@ const ShowMenuList = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-900">
+
+      <EmployeeNavigation/>
       <div className="p-8 lg shadow-md w-full h-full max-w-7xl">
         <h2 className="text-white text-3xl font-bold mb-4">Menu Items</h2>
         {error && <p className="text-red-500">{error}</p>}
