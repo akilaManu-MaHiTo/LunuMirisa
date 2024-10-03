@@ -8,6 +8,7 @@ const AddMenuList = () => {
   const [image, setImage] = useState('');
   const [type, setType] = useState('');
   const [category, setCategory] = useState('');
+  const [description, setDescription] = useState('');
   const navigate = useNavigate();
   const { id } = useParams(); // Correct use of useParams()
 
@@ -16,12 +17,13 @@ const AddMenuList = () => {
     if (id) {
       axios.get(`http://localhost:3001/showMenu/${id}`)
         .then(result => {
-          const { title, price, image, type, category } = result.data;
+          const { title, price, image, type, category, description } = result.data;
           setTitle(title);
           setPrice(price);
           setImage(image);
           setType(type);
           setCategory(category);
+          setDescription(description)
         })
         .catch(err => console.log(err));
     }
@@ -30,7 +32,7 @@ const AddMenuList = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const menuItem = { title, price, image, type, category };
+    const menuItem = { title, price, image, type, category,description };
 
     // If there's an ID, update the menu item; otherwise, create a new one
     if (id) {
@@ -54,6 +56,12 @@ const AddMenuList = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md">
         <h2 className="text-2xl font-bold mb-4">{id ? "Edit Menu Item" : "Add Menu Item"}</h2>
+
+        <img 
+            src={`http://localhost:3001/Images/` + image} 
+            alt={image} 
+            className="w-32 h-32 object-cover rounded-md"
+          />
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="title" className="block text-sm font-medium text-gray-700">
@@ -106,6 +114,20 @@ const AddMenuList = () => {
               placeholder="Enter category"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
+              readOnly
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="category" className="block text-sm font-medium text-gray-700">
+              Description
+            </label>
+            <textarea
+              type="text"
+              id="description"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              placeholder="Enter category"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
             />
           </div>
           <button

@@ -16,10 +16,10 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.post("/createAddMenuList", upload.single('image'), (req, res) => {
-    const { title, price, category } = req.body;
+    const { title, price, category,description } = req.body;
     const image = req.file ? req.file.filename : null; // Get the image filename
 
-    Menu.create({ title, price, image, category })
+    Menu.create({ title, price, image, category,description })
         .then(menuItem => res.json(menuItem))
         .catch(err => res.status(500).json(err));
 });
@@ -54,16 +54,17 @@ router.put("/updateMenu/:id", (req, res) => {
 
 router.put("/UpdateHotDeals/:id", (req, res) => {
     const menuId = req.params.id;
+    const { percentage } = req.body;
 
     Menu.findById(menuId)
         .then(item => {
-            // Toggle the hotDeals value
             const newHotDealsStatus = item.hotDeals === "Yes" ? "No" : "Yes";
-            return Menu.findByIdAndUpdate(menuId, { hotDeals: newHotDealsStatus }, { new: true });
+            return Menu.findByIdAndUpdate(menuId, { hotDeals: newHotDealsStatus, percentage }, { new: true });
         })
         .then(updatedMenuItem => res.json(updatedMenuItem))
         .catch(err => res.status(500).json(err));
 });
+
 
 router.get("/getHotDeals", (req, res) => {
     Menu.find({ hotDeals: "Yes" }) // Find all items where hotDeals is "Yes"

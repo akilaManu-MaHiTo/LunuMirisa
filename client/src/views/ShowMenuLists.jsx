@@ -158,12 +158,18 @@ const ShowMenuLists = () => {
 // Component to display each item card
 const ItemCard = ({ item, onAddToCart }) => (
   <div className="bg-custom-gray p-6 rounded shadow-md w-full max-w-xs transition-transform duration-300 hover:scale-105 hover:shadow-lg relative">
-    <img src={foodImage} alt={item.title} className="w-[14rem] h-auto rounded mx-auto mt-3 mb-6" />
+    {/* <img src={foodImage} alt={item.title} className="w-[14rem] h-auto rounded mx-auto mt-3 mb-6" /> */}
+    <img 
+      src={`http://localhost:3001/Images/` + item.image} 
+      alt={item.name} 
+      className="w-[14rem] h-auto rounded mx-auto mt-3 mb-6"
+    />
     <h3 className="text-white text-xl font-bold mb-2">{item.title}</h3>
     <p className="text-white text-3xl mb-2">Rs.{item.price}/-</p>
     <div className="absolute top-3 right-5">
       <FontAwesomeIcon icon={getIconForCategory(item.category)} className="text-white" />
     </div>
+    <div className='text-white text-2xl'>{item.description}</div>
     <button onClick={onAddToCart} className="bg-white text-black py-2 px-4 rounded hover:bg-black hover:text-white transition duration-300 hover:scale-105">
       Add to cart
     </button>
