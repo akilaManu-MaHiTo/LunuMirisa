@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate,Link  } from 'react-router-dom';
 import axios from 'axios';
 import Navigation from './Components/NavigationBar.jsx';
 import logo from '../Images/Logo.png';
@@ -324,6 +324,12 @@ function UpdateUsers() {
                             >
                                 <FontAwesomeIcon icon={faTrashCan}  /> Deactivate My Account
                             </button>
+
+                            <Link to={`/ShowUserReviews/${userId}`}>
+                                <button>
+                                    Show My Reviews
+                                </button>
+                            </Link>
                         </div>
                     </div>
                 </div>
