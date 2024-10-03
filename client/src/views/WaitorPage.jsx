@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, Link, useParams } from 'react-router-dom';
+import EmployeeNavigation from './Components/EmployeeNavigation'
 
 const InOrder = () => {
   const [tables, setTables] = useState([]); // State to hold fetched tables
@@ -44,7 +45,11 @@ const InOrder = () => {
   };
 
   return (
+    <div>
+      <EmployeeNavigation/>
     <div className='flex justify-center items-center min-h-screen bg-blue-600'>
+
+      
       <form onSubmit={handleSubmit}>
         <label htmlFor="tableSelect" className='text-white text-lg mb-2'>Table Number</label>
         <select
@@ -65,6 +70,7 @@ const InOrder = () => {
       </form>
 
       <Link to={`/ShowMyOrders/${userId}`}><button>Show Orders</button></Link>
+    </div>
     </div>
   );
 };

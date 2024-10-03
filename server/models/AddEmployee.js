@@ -12,6 +12,7 @@ const AddEmployeeSchema = new mongoose.Schema({
     EmployeePosition: String,
     Salary: String,
     Contact: Number,
+    password:String
 });
 
 // Create the Employee model

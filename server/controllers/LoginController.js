@@ -1,7 +1,7 @@
 const express = require('express');
 const { UserModel } = require('../models/Users'); // Adjust the path to your User model
 const router = express.Router();
-const Employee = require('../models/Employees'); // Adjust the path to your Employee model
+const AddEmployee = require('../models/AddEmployee'); // Adjust the path to AddEmployee model
 const { SupplierProfile } = require("../models/SupplierProfile"); // Adjust path to SupplierProfile model
 const bcrypt = require("bcrypt");
 require('dotenv').config();
@@ -12,23 +12,23 @@ router.post('/loginUser', async (req, res) => {
   console.log('Login attempt:', { email, password });
 
   try {
-    // Check if employee exists
-    const employee = await Employee.findOne({ email });
-    if (employee) {
-      console.log('Employee found:', employee);
+    // Check if AddEmployee exists using EmployeeEmail
+    const addEmployee = await AddEmployee.findOne({ EmployeeEmail: email });
+    if (addEmployee) {
+      console.log('AddEmployee found:', addEmployee);
 
-      // Direct string comparison for employees
-      if (employee.EmPassword === password) {
+      // Direct string comparison for AddEmployee
+      if (addEmployee.password === password) {
         const statusCode = {
           'Manager': 201,
-          'Waitor': 202,
+          'Waiter': 202,
           'Chef': 203
-        }[employee.EmType] || 204;
+        }[addEmployee.EmployeePosition] || 204;
 
-        console.log('Employee login successful:', employee);
-        return res.status(statusCode).json({ message: 'Login successful', user: employee, userId: employee._id });
+        console.log('AddEmployee login successful:', addEmployee);
+        return res.status(statusCode).json({ message: 'Login successful', user: addEmployee, userId: addEmployee._id });
       } else {
-        console.log('Invalid credentials for employee');
+        console.log('Invalid credentials for AddEmployee');
         return res.status(400).json({ message: 'Invalid credentials' });
       }
     }
@@ -71,7 +71,7 @@ router.post('/loginUser', async (req, res) => {
       }
     }
 
-    // If no user, employee, or supplier found
+    // If no user, addEmployee, or supplier found
     return res.status(404).json({ message: 'User not found' });
   } catch (error) {
     console.error('Error during login:', error);

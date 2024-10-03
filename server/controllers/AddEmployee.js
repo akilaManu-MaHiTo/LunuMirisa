@@ -24,9 +24,10 @@ router.get('/employees', async (req, res) => {
 });
 
 // Get a single employee by ID
-router.get('/employee/:id', async (req, res) => {
+router.get('/employee/:userId', async (req, res) => {
+    const { userId } = req.params;
     try {
-        const employee = await AddEmployeeModel.findById(req.params.id);
+        const employee = await AddEmployeeModel.findById(userId);
         if (employee) {
             res.status(200).json(employee);
         } else {
@@ -36,6 +37,7 @@ router.get('/employee/:id', async (req, res) => {
         res.status(500).json({ message: 'Error fetching employee', error });
     }
 });
+
 
 // Update an employee
 router.put('/employee/:id', async (req, res) => {
