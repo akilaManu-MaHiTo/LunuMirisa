@@ -9,17 +9,17 @@ function SupplierDashboard() {
   const [acceptedOrders, setAcceptedOrders] = useState([]);
   const [filterDate, setFilterDate] = useState('');
   const [showOrderRequests, setShowOrderRequests] = useState(false);
+  const [selectedOrderId, setSelectedOrderId] = useState(null); // State to track the selected order ID
   const navigate = useNavigate();
 
   useEffect(() => {
     axios.get(`http://localhost:3001/ShowSupplierProfile/${supplierId}`)
       .then(response => {
         setSupplierData(response.data);
-        axios.get(`http://localhost:3001/orders/${response.data.category}`)
-          .then(res => setOrderRequests(res.data))
-          .catch(err => console.error("Error fetching order requests:", err));
+        return axios.get(`http://localhost:3001/orders/${response.data.category}`);
       })
-      .catch(error => console.error("Error fetching supplier data:", error));
+      .then(res => setOrderRequests(res.data))
+      .catch(err => console.error("Error fetching data:", err));
   }, [supplierId]);
 
   useEffect(() => {
@@ -30,14 +30,10 @@ function SupplierDashboard() {
     }
   }, [supplierData]);
 
-  const handleAccept = (orderId) => {
-    axios.post(`http://localhost:3001/acceptOrder/${orderId}`, { supplierId: supplierData._id })
-      .then(() => {
-        axios.get(`http://localhost:3001/orders/${supplierData.category}`)
-          .then(res => setOrderRequests(res.data));
-          navigate(`/SupplierConfirmOrder/${supplierData._id}/${orderId}/${supplierData.name}`); // Pass supplier name
-      })
-      .catch(err => console.error('Error accepting order:', err));
+  const handleAccept = () => {
+    if (selectedOrderId) {
+      navigate(`/SupplierConfirmOrder/${supplierData._id}/${selectedOrderId}/${supplierData.name}`);
+    }
   };
 
   const handleDecline = (orderId) => {
@@ -46,7 +42,7 @@ function SupplierDashboard() {
       .catch(err => console.error('Error declining order:', err));
   };
 
-  const filteredAcceptedOrders = acceptedOrders.filter(order => 
+  const filteredAcceptedOrders = acceptedOrders.filter(order =>
     !filterDate || new Date(order.deliveryDate).toISOString().split('T')[0] === filterDate
   );
 
@@ -104,13 +100,16 @@ function SupplierDashboard() {
                   orderRequests.map(order => (
                     <div key={order._id} className="p-6 mb-6 border-b border-gray-200">
                       <h3 className="text-xl font-bold mb-2">{order.name}</h3>
-                      <p className="text-gray-600">Quantity: {order.quantity}</p>
-                      <p className="text-gray-600">Max Quantity: {order.maxQuantity - order.quantity}</p>
+                      <p className="text-gray-600">Order Quantity: {order.orderQuantity}</p>
+                      {/* <p className="text-gray-600">Max Quantity: {order.maxQuantity - order.quantity}</p> */}
                       <p className="text-gray-600">Category: {order.category}</p>
                       <div className="flex justify-end mt-4 space-x-4">
                         <button 
                           className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded transition duration-300"
-                          onClick={() => handleAccept(order._id)}
+                          onClick={() => {
+                            setSelectedOrderId(order._id);
+                            handleAccept();
+                          }}
                         >
                           Accept
                         </button>
