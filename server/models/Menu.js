@@ -24,7 +24,15 @@ const MenuSchema = new mongoose.Schema({
     },
     hotDeals: {
         type: String,
-        //default: "Yes" // Default to "Yes"
+        default: "No" // Default to "Yes"
+    },
+    percentage: {
+        type: Number,
+        default: 0 // Default to "Yes"
+    },
+    description: {
+        type: String,
+        //default: 0 // Default to "Yes"
     }
 });
 
