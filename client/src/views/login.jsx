@@ -5,7 +5,6 @@ import Navigation from './Components/NavigationSignup.jsx';
 import Footer from './Footer.jsx'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import logo from '../Images/Logo.png';
 import at from '../Images/at.svg';
 import lock from '../Images/lock.svg';
@@ -24,6 +23,9 @@ const LoginUser = () => {
     setLoading(true); // Start loading animation
     try {
       const response = await axios.post('http://localhost:3001/loginUser', { email, password });
+      
+      console.log('Response Data:', response.data); // Debugging log
+
       switch (response.status) {
         case 200:
           navigate(`/UserHome/${response.data.userId}`);
@@ -40,6 +42,10 @@ const LoginUser = () => {
         case 204:
           alert('Employee login successful');
           break;
+        case 206:
+          console.log(response.data.SupplierId)
+          navigate(`/SupplierDashboard/${response.data.SupplierId}`); // Updated navigation
+          break;
         default:
           alert('Unexpected response from server');
       }
@@ -54,7 +60,7 @@ const LoginUser = () => {
       setLoading(false); // Stop loading animation
     }
   }, [email, password, navigate]);
-
+  
   const togglePasswordVisibility = useCallback(() => {
     setShowPassword(!showPassword);
   }, [showPassword]);

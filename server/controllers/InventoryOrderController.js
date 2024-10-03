@@ -32,27 +32,52 @@ router.get('/orders/:category', (req, res) => {
         .catch(err => res.status(500).json({ error: 'Failed to fetch orders' }));
 });
 
-router.post('/acceptOrder/:id', (req, res) => {
-    const { id } = req.params;
-    const supplierId = req.body.supplierId;
+// Update the order quantity
+router.put('/UpdateOrderInventory/:orderId', async (req, res) => {
+    const orderId = req.params.orderId; // Get the orderId from the request params
+    const { orderQuantity } = req.body; // Get the quantity from the request body
 
-    InventoryOrder.findByIdAndUpdate(
-        id,
-        {
-            status: 'accepted',
-            supplierId: supplierId
-        },
-        { new: true } // Return the updated document
-    )
-    .then(updatedOrder => {
-        if (updatedOrder) {
-            res.json({ message: 'Order accepted successfully', order: updatedOrder });
-        } else {
-            res.status(404).json({ error: 'Order not found' });
+    try {
+        // Find the InventoryOrder by orderId and update the orderQuantity
+        const updatedOrder = await InventoryOrder.findByIdAndUpdate(
+            orderId, 
+            { orderQuantity: orderQuantity }, // Update only the quantity field
+            { new: true } // Return the updated document
+        );
+
+        if (!updatedOrder) {
+            return res.status(404).json({ message: 'Order not found' });
         }
-    })
-    .catch(err => res.status(500).json({ error: 'Failed to accept order', details: err.message }));
+
+        res.json(updatedOrder);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 });
+
+  
+
+// router.post('/acceptOrder/:id', (req, res) => {
+//     const { id } = req.params;
+//     const supplierId = req.body.supplierId;
+
+//     InventoryOrder.findByIdAndUpdate(
+//         id,
+//         {
+//             status: 'accepted',
+//             supplierId: supplierId
+//         },
+//         { new: true } // Return the updated document
+//     )
+//     .then(updatedOrder => {
+//         if (updatedOrder) {
+//             res.json({ message: 'Order accepted successfully', order: updatedOrder });
+//         } else {
+//             res.status(404).json({ error: 'Order not found' });
+//         }
+//     })
+//     .catch(err => res.status(500).json({ error: 'Failed to accept order', details: err.message }));
+// });
 
 
 // Backend route to fetch accepted orders for a specific supplier

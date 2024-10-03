@@ -2,10 +2,9 @@ const express = require('express');
 const { UserModel } = require('../models/Users'); // Adjust the path to your User model
 const router = express.Router();
 const Employee = require('../models/Employees'); // Adjust the path to your Employee model
+const { SupplierProfile } = require("../models/SupplierProfile"); // Adjust path to SupplierProfile model
 const bcrypt = require("bcrypt");
 require('dotenv').config();
-
-const app = express();
 
 router.post('/loginUser', async (req, res) => {
   const { email, password } = req.body;
@@ -13,6 +12,7 @@ router.post('/loginUser', async (req, res) => {
   console.log('Login attempt:', { email, password });
 
   try {
+    // Check if employee exists
     const employee = await Employee.findOne({ email });
     if (employee) {
       console.log('Employee found:', employee);
@@ -31,31 +31,51 @@ router.post('/loginUser', async (req, res) => {
         console.log('Invalid credentials for employee');
         return res.status(400).json({ message: 'Invalid credentials' });
       }
-    } else {
-      const user = await UserModel.findOne({ email });
-      if (user) {
-        console.log('User found:', user);
+    }
 
-        // Use bcrypt to compare the password for users
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (isMatch) {
-          if (user.verified === true) {
-            return res.status(200).json({ message: 'Login successful', user, userId: user._id });
-          } else {
-            return res.status(505).json({ message: 'User Not verified' });
-          }
+    // Check if user exists
+    const user = await UserModel.findOne({ email });
+    if (user) {
+      console.log('User found:', user);
+
+      // Use bcrypt to compare the password for users
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (isMatch) {
+        if (user.verified === true) {
+          console.log('User login successful:', user);
+          return res.status(200).json({ message: 'Login successful', user, userId: user._id });
         } else {
-          console.log('Invalid credentials for user');
-          return res.status(400).json({ message: 'Invalid credentials' });
+          console.log('User not verified:', user);
+          return res.status(505).json({ message: 'User not verified' });
         }
       } else {
-        console.log('User not found');
-        return res.status(404).json({ message: 'User not found' });
+        console.log('Invalid credentials for user');
+        return res.status(400).json({ message: 'Invalid credentials' });
       }
     }
-  } catch (err) {
-    console.error('Error finding user or employee:', err);
-    return res.status(500).json({ message: 'Server error', error: err });
+
+    // Check if supplier exists
+    const supplier = await SupplierProfile.findOne({ email });
+    if (supplier) {
+      console.log('Supplier found:', supplier);
+
+      // Use bcrypt to compare the password for suppliers
+      const isMatch = await bcrypt.compare(password, supplier.password);
+      if (isMatch) {
+        console.log('Supplier ID:', supplier._id); // Debugging log
+
+        return res.status(206).json({ message: 'Login successful', user: supplier, SupplierId: supplier._id });
+      } else {
+        console.log('Invalid credentials for supplier');
+        return res.status(400).json({ message: 'Invalid credentials' });
+      }
+    }
+
+    // If no user, employee, or supplier found
+    return res.status(404).json({ message: 'User not found' });
+  } catch (error) {
+    console.error('Error during login:', error);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 

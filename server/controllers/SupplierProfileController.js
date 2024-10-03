@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-
 const crypto = require("crypto");
 const sendEmail = require("../util/Email");
 require('dotenv').config();
@@ -101,7 +100,7 @@ router.post("/SignInSupplier", async (req, res) => {
   
         // Direct string comparison for employees
         if (isCorrect) {
-        return res.status(200).json({ message: 'Login successful', supplier: supplier,supplierId:supplier._id });
+            return res.status(205).json({ message: 'Login successful', user: supplier, userId: supplier._id });
 
         }}
 
