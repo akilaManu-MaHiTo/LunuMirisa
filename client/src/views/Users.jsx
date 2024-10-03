@@ -49,8 +49,6 @@ function Users() {
 
             <div className='text-white text-5xl pt-20 font-spartan font-thin pl-[10rem]'>Today's Special</div>
 
-            <div className='text-white text-5xl pt-20 font-spartan font-thin pl-[10rem]'>Today's Special</div>
-
       <div className='flex justify-center gap-y-8'>
         <div className="flex flex-wrap gap-x-16 gap-y-8 pt-16 pb-10 justify-center w-[80rem]">
           {[...Array(3)].map((_, index) => (
