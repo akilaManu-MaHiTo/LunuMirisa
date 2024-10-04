@@ -212,13 +212,14 @@ const UserHome = () => {
                     src={`http://localhost:3001/Images/${reviews[currentReviewIndex].profileImage}`}
                     alt={`${reviews[currentReviewIndex].FirstName} ${reviews[currentReviewIndex].LastName}`}
                     className="w-16 h-16 rounded-full mr-4"
-                  />
+                  />                  
                   <div className="flex flex-col">
                     <h3 className="text-xl font-bold text-white">
                       {reviews[currentReviewIndex].FirstName} {reviews[currentReviewIndex].LastName}
                     </h3>
                     <div className="flex flex-col mt-2">
                       <div className="flex items-center">{renderStars(reviews[currentReviewIndex].rating)}</div>
+                      <p className="text-sm text-gray-300">{new Date(reviews[currentReviewIndex].createdAt).toLocaleDateString()}</p>
                     </div>
                   </div>
                 </div>
