@@ -52,7 +52,8 @@ import CartForm from "./views/CartDetailsForm"
 import ChefPage from "./views/Chef"
 import AllUsers from "./views/AllUsers"
 import ShowUserReviews from "./views/ShowUserReviews"
-
+import ShowAdminReviews from "./views/AdminReview"
+import ShowAcceptedOrders from "./views/ShowAcceptedOrders"
 
 function App() {
   return (
@@ -98,7 +99,7 @@ function App() {
         <Route path="/viewemployee" element={<EmployeeTable/>} />
         <Route path="/profile/:userId" element={<ProfilePage/>} />
         <Route path="/UpdateInventory/:id" element={<UpdateInventory/>} />
-        <Route path="/SupplierConfirmOrder/:supplierId/:orderId/:supplierName" element={<SupplierConfirmOrder />} />
+        <Route path="/SupplierConfirmOrder/:supplierId/:orderId/:supplierName/:image" element={<SupplierConfirmOrder />} />
         <Route path="/acceptedorders" element={<AcceptedOrders />} />
         <Route path="/WaitorPage/:userId" element={<WaitorPage/>} />
         <Route path="/ShowMyOrders/:userId" element={<ShowMyOrders/>} />
@@ -109,6 +110,8 @@ function App() {
         <Route path="/ChefPage/:userId" element={<ChefPage/>} />
         <Route path="/AllUsers" element={<AllUsers/>} />
         <Route path="/ShowUserReviews/:userId" element={<ShowUserReviews/>} />
+        <Route path="/ShowAdminReviews" element={<ShowAdminReviews/>} />
+        <Route path="/ShowAcceptedOrders" element={<ShowAcceptedOrders/>} />
       </Routes>
     </BrowserRouter>
   );
