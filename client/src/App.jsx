@@ -51,9 +51,11 @@ import UpdateReservation from "./views/UpdateReservation";
 import CartForm from "./views/CartDetailsForm"
 import ChefPage from "./views/Chef"
 import AllUsers from "./views/AllUsers"
+import LeaveList from './views/LeaveList';
 import ShowUserReviews from "./views/ShowUserReviews"
 import ShowAdminReviews from "./views/AdminReview"
 import ShowAcceptedOrders from "./views/ShowAcceptedOrders"
+
 
 function App() {
   return (
@@ -109,6 +111,7 @@ function App() {
         <Route path="CartForm/:userid/:totalPrice" element={<CartForm />} />
         <Route path="/ChefPage/:userId" element={<ChefPage/>} />
         <Route path="/AllUsers" element={<AllUsers/>} />
+        <Route path="/leaves/:employeeId" element={<LeaveList />} />
         <Route path="/ShowUserReviews/:userId" element={<ShowUserReviews/>} />
         <Route path="/ShowAdminReviews" element={<ShowAdminReviews/>} />
         <Route path="/ShowAcceptedOrders" element={<ShowAcceptedOrders/>} />
