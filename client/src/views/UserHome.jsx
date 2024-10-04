@@ -195,7 +195,6 @@ const UserHome = () => {
 
 
 
-        return (
   <div>
     <div className="text-white text-5xl mt-16 mb-16 font-spartan font-thin pl-[10rem]">
       What keeps you coming back to us?
@@ -246,8 +245,6 @@ const UserHome = () => {
       <div className="text-white text-center">No reviews available</div>
     )}
   </div>
-);
-
 
       </section>
 
