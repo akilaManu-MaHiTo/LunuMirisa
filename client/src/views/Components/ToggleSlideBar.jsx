@@ -57,7 +57,7 @@ const Sidebar = React.forwardRef(({ isVisible }, ref) => {
           </button>
         </Link>
 
-        <Link to="/AllReviews">
+        <Link to="/ShowAdminReviews">
           <button className="w-full text-left py-2 px-4 mb-6 bg-blue-500 text-white rounded hover:bg-blue-600">
             Review Management
           </button>

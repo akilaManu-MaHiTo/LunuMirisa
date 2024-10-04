@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function SupplierConfirmOrder() {
-  const { supplierId, orderId, supplierName } = useParams();
+  const { supplierId, orderId, supplierName, image } = useParams();
 
   const [orderData, setOrderData] = useState(null);
   const [quantity, setQuantity] = useState(''); // Use 'quantity' for the dropdown value
@@ -70,6 +70,7 @@ function SupplierConfirmOrder() {
       specialNote,
       supplierId,
       supplierName,
+      image:image,
     };
 
     axios.post('http://localhost:3001/AddSupplierOrder', confirmationData)
@@ -101,8 +102,10 @@ function SupplierConfirmOrder() {
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       <h1 className="text-4xl font-bold text-center mb-8">Order Confirmation</h1>
+      
       {orderData ? (
         <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-3xl mx-auto">
+          <img src={`http://localhost:3001/Images/${image}`} alt="" className='w-20 h-20'/>
           <h2 className="text-2xl font-semibold text-gray-700 mb-6">Order Details</h2>
           <p><strong>Name:</strong> {orderData.name}</p> 
           <p><strong>Order Quantity:</strong> {orderData.orderQuantity}</p>

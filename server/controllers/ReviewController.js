@@ -73,6 +73,22 @@ router.delete('/deleteReview/:reviewId', async (req, res) => {
   }
 });
 
+router.put("/UpdateReviewStatus/:id", (req, res) => {
+    const { id } = req.params;
+    const { Status } = req.body;
+  
+    Rating.findByIdAndUpdate(id, { Status }, { new: true })
+      .then((updatedReview) => res.json(updatedReview))
+      .catch((err) => res.status(500).json({ error: err.message }));
+});
+  
+router.get("/GetNonHideReviews", (req, res) => {
+    Rating.find({ Status: "Show" }) // Fetch reviews where Status is "Show"
+      .then((reviews) => res.json(reviews)) // Send the filtered reviews back as JSON
+      .catch((err) => res.status(500).json({ error: err.message })); // Error handling
+});
+  
+
 
 
 module.exports = router;
