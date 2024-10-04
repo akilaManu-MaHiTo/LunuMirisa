@@ -13,15 +13,15 @@ export default {
         'custom-gray': '#212020',
         'custom-light': '#464545',
         'custom-dark': '#2C2C2C',
-        'custom-toolight':'#999999',
-        'custom-maroon':'#1A0E0E',
+        'custom-toolight': '#999999',
+        'custom-maroon': '#1A0E0E',
       },
       fontFamily: {
         'spartan': ['League Spartan', 'sans-serif'],
       },
       screens: {
         'custom-md': '1600px',
-        'custom1-md': '940px', 
+        'custom1-md': '940px',
       },
       backgroundImage: {
         'footer-bg': "url('Images/footerbg.jpg')",
@@ -37,9 +37,19 @@ export default {
           '85%': { transform: 'translateY(-402%)' },
           '100%': { transform: 'translateY(-400%)' },
         },
+        slideInRight: { // Adding slide in animation
+          '0%': { transform: 'translateX(100%)', opacity: '0' },
+          '100%': { transform: 'translateX(0)', opacity: '1' },
+        },
+        slideOutLeft: { // Adding slide out animation
+          '0%': { transform: 'translateX(0)', opacity: '1' },
+          '100%': { transform: 'translateX(-100%)', opacity: '0' },
+        },
       },
       animation: {
         spin_4991: 'spin_4991 4s infinite',
+        'slide-in-right': 'slideInRight 0.7s forwards', // Adding slide-in animation
+        'slide-out-left': 'slideOutLeft 0.7s forwards', // Adding slide-out animation
       },
     },
   },
