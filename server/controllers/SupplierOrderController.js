@@ -56,6 +56,23 @@ router.put('/acceptedOrders/:id', (req, res) => {
     });
 });
 
+router.put('/OrdersToNo/:id', (req, res) => {
+  // Ensure the status is set to "No" during the update
+  SupplierOrder.findByIdAndUpdate(
+    req.params.id, 
+    { status: 'No' }, // Explicitly setting the status to "No"
+    { new: true }
+  )
+  .then(order => res.json(order))
+  .catch(err => {
+    console.error(err);
+    res.status(500).json({ error: 'Internal Server Error', details: err.message });
+  });
+});
+
+
+// axios.delete()
+
 
 
 

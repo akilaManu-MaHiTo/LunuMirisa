@@ -10,6 +10,10 @@ const SupplierOrderSchema = new mongoose.Schema({
   supplierId: { type: String, required: true },
   supplierName: { type: String, required: true },
   image: { type: String, required: true },
+  status:{
+    type: String,
+    default:'Yes'
+  },
 }, { timestamps: true }); // Optionally add timestamps
 
 module.exports = mongoose.model('suppliers', SupplierOrderSchema); // Use singular form for the model name
