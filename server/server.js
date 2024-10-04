@@ -26,6 +26,7 @@ const INTABLEORDER = require ('./controllers/InOrderTableController')
 const INORDER = require ('./controllers/InOrderController')
 const CARTFORM = require ('./controllers/CartFormController')
 const RATINGS = require ('./controllers/ReviewController')
+const Leave = require ('./controllers/leaveRoutes')
 
 const app = express();
 app.use(cors());
@@ -53,6 +54,7 @@ app.use('/',INTABLEORDER)
 app.use('/',INORDER)
 app.use('/',CARTFORM)
 app.use('/',RATINGS)
+app.use('/',Leave)
 
 
 

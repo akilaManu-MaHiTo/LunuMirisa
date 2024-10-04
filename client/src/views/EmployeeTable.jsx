@@ -4,8 +4,7 @@ import EditEmployeeForm from './EditEmployeeForm';
 import AddEmployeeForm from './AddEmployeeForm';
 import { useNavigate } from 'react-router-dom';
 import AdminNavigationBar from './Components/AdminNavigationBar';
-import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
-import { PlusIcon } from '@heroicons/react/24/outline';
+import { PencilIcon, TrashIcon, PlusIcon } from '@heroicons/react/24/outline';
 
 const EmployeeTable = () => {
   const [employees, setEmployees] = useState([]);
@@ -18,6 +17,7 @@ const EmployeeTable = () => {
   const handleAddEmployeeClick = () => {
     navigate('/addemployee'); // Replace '/add-employee' with the path to your new page
   };
+
   // Fetch employees on component mount
   useEffect(() => {
     fetchEmployees();
@@ -63,6 +63,11 @@ const EmployeeTable = () => {
     }
   };
 
+  // Navigate to the leave list of the selected employee
+  const handleLeaveClick = (employeeId) => {
+    navigate(`/leaves/${employeeId}`);
+  };
+
   // Filter and search employees
   const filteredEmployees = employees
     .filter((employee) =>
@@ -75,15 +80,13 @@ const EmployeeTable = () => {
     );
 
   return (
-  
     <div className="relative">
-      <AdminNavigationBar selectedPage="Manage Employees"></AdminNavigationBar>
+      <AdminNavigationBar selectedPage="Manage Employees" />
       {/* Search and Table Section with Conditional Blur */}
       <div className={`${showAddForm ? 'blur-md' : ''} container mx-auto p-6`}>
         
-
         {/* Search and Filter Section */}
-        <div className="flex flex-col md:flex-row justify-between mb-6" >
+        <div className="flex flex-col md:flex-row justify-between mb-6">
           {/* Search */}
           <input
             type="text"
@@ -91,7 +94,7 @@ const EmployeeTable = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="p-2 border border-gray-300 rounded-lg mb-4 md:mb-0 md:mr-4"
-            style={{width:'400px'}}
+            style={{width: '400px'}}
           />
 
           {/* Filter by Position */}
@@ -101,37 +104,36 @@ const EmployeeTable = () => {
             className="p-2 border border-gray-300 rounded-lg mb-4 md:mb-0 md:mr-4"
           >
             <option value="">All Positions</option>
-              <option value="Waiter">Waiter</option>
-              <option value="Staff Member">Staff Member</option>
-              <option value="Employee Manager">Employee Manager</option>
-              <option value="Inventory Manager">Inventory Manager</option>
-              <option value="Table Reservation Manager">Table Reservation Manager</option>
-              <option value="Menu List Manager">Menu List Manager</option>
+            <option value="Waiter">Waiter</option>
+            <option value="Staff Member">Staff Member</option>
+            <option value="Employee Manager">Employee Manager</option>
+            <option value="Inventory Manager">Inventory Manager</option>
+            <option value="Table Reservation Manager">Table Reservation Manager</option>
+            <option value="Menu List Manager">Menu List Manager</option>
           </select>
 
           {/* Add Employee Button */}
           <button
-      onClick={handleAddEmployeeClick}
-      className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 flex items-center gap-2"
-    >
-      <PlusIcon className="h-5 w-5" />
-      Add Employee
-    </button>
+            onClick={handleAddEmployeeClick}
+            className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 flex items-center gap-2"
+          >
+            <PlusIcon className="h-5 w-5" />
+            Add Employee
+          </button>
         </div>
-<div style={{width:'700px', marginLeft:'150px'}}>
-{editEmployee && (
-          <EditEmployeeForm
-            employee={editEmployee}
-            onSave={handleSaveEdit}
-            onCancel={() => setEditEmployee(null)}
-             
-          />
-        )}
-</div>
-        
+
+        <div style={{width: '700px', marginLeft: '150px'}}>
+          {editEmployee && (
+            <EditEmployeeForm
+              employee={editEmployee}
+              onSave={handleSaveEdit}
+              onCancel={() => setEditEmployee(null)}
+            />
+          )}
+        </div>
 
         {/* Employee Table */}
-        <table className="min-w-full  text-white bg-gray-800 p-6 rounded-lg shadow-xl border border-gray-700 ">
+        <table className="min-w-full text-white bg-gray-800 p-6 rounded-lg shadow-xl border border-gray-700">
           <thead>
             <tr>
               <th className="px-4 py-2">Name</th>
@@ -140,7 +142,8 @@ const EmployeeTable = () => {
               <th className="px-4 py-2">Position</th>
               <th className="px-4 py-2">Salary</th>
               <th className="px-4 py-2">Contact</th>
-              <th className="px- py-2">Actions</th>
+              <th className="px-4 py-2">Leave</th> {/* New Leave Column */}
+              <th className="px-4 py-2">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -153,20 +156,28 @@ const EmployeeTable = () => {
                 <td className="px-4 py-2">{employee.Salary}</td>
                 <td className="px-4 py-2">{employee.Contact}</td>
                 <td className="px-4 py-2">
-                <div className="flex gap-2 mt-4">
-            <button
-              onClick={() => handleEdit(employee)}
-              className="bg-yellow-500 text-white p-2 rounded-lg hover:bg-yellow-600 transition duration-300 ease-in-out"
-            >
-              <PencilIcon className="h-5 w-5" />
-            </button>
-            <button
-              onClick={() => handleDelete(employee._id)}
-              className="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition duration-300 ease-in-out"
-            >
-              <TrashIcon className="h-5 w-5" />
-            </button>
-          </div>
+                  <button
+                    onClick={() => handleLeaveClick(employee._id)} // Navigate to leave list
+                    className="bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition duration-300 ease-in-out"
+                  >
+                    View Leave
+                  </button>
+                </td>
+                <td className="px-4 py-2">
+                  <div className="flex gap-2 mt-4">
+                    <button
+                      onClick={() => handleEdit(employee)}
+                      className="bg-yellow-500 text-white p-2 rounded-lg hover:bg-yellow-600 transition duration-300 ease-in-out"
+                    >
+                      <PencilIcon className="h-5 w-5" />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(employee._id)}
+                      className="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition duration-300 ease-in-out"
+                    >
+                      <TrashIcon className="h-5 w-5" />
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
@@ -176,8 +187,8 @@ const EmployeeTable = () => {
 
       {/* Conditionally render add employee form with overlay */}
       {showAddForm && (
-        <div  className="inset-0 flex justify-center items-center bg-black bg-opacity-50" style={{marginTop:'0px'}}>
-          <div className="rounded-lg shadow-lg" style={{marginTop:'0px'}}>
+        <div className="inset-0 flex justify-center items-center bg-black bg-opacity-50" style={{marginTop: '0px'}}>
+          <div className="rounded-lg shadow-lg" style={{marginTop: '0px'}}>
             <AddEmployeeForm
               onCancel={() => setShowAddForm(false)}
             />

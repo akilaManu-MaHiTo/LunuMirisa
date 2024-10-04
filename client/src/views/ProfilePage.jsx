@@ -2,13 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
-const EmployeeDetails = () => {
+const ProfilePage = () => {
   const { userId } = useParams(); // Get userId from params
   const [employee, setEmployee] = useState(null);
   const [epf, setEpf] = useState(0);
   const [eps, setEps] = useState(0);
   const [salaryAfterEps, setSalaryAfterEps] = useState(0);
   const [error, setError] = useState(null);
+  const [leaveType, setLeaveType] = useState('');
+  const [leaveStartDate, setLeaveStartDate] = useState('');
+  const [leaveEndDate, setLeaveEndDate] = useState('');
+  const [leaveError, setLeaveError] = useState(null);
+  const [leaveSuccess, setLeaveSuccess] = useState(null);
+  const [appliedLeaves, setAppliedLeaves] = useState([]); 
+
+  const leaveTypes = ["Sick Leave", "Casual Leave", "Earned Leave", "Maternity Leave", "Paternity Leave"]; 
 
   useEffect(() => {
     // Fetch employee details by userId
@@ -21,6 +29,9 @@ const EmployeeDetails = () => {
       .catch(err => {
         setError(err.response ? err.response.data.message : 'Error fetching data');
       });
+
+    // Fetch applied leaves for the employee
+    fetchAppliedLeaves();
   }, [userId]);
 
   const calculateEPFAndEPS = (salary) => {
@@ -33,6 +44,58 @@ const EmployeeDetails = () => {
       setSalaryAfterEps(salaryValue - epsAmount);
     }
   };
+
+  const fetchAppliedLeaves = () => {
+    axios.get(`http://localhost:3001/leaves/${userId}`) 
+      .then(response => {
+        setAppliedLeaves(response.data);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
+
+  const handleLeaveApply = (e) => {
+    e.preventDefault();
+
+    // Validation for dates
+    const today = new Date();
+    const startDate = new Date(leaveStartDate);
+    const endDate = new Date(leaveEndDate);
+
+    if (startDate < today || endDate < today) {
+        setLeaveError('Leave dates cannot be in the past.');
+        return;
+    }
+
+    if (startDate > endDate) {
+        setLeaveError('End date must be after the start date.');
+        return;
+    }
+
+    // Format the dates to YYYY-MM-DD
+    const formattedLeaveStartDate = startDate.toISOString().slice(0, 10);
+    const formattedLeaveEndDate = endDate.toISOString().slice(0, 10);
+
+    const leaveData = {
+        employeeID: userId,
+        leaveType,
+        leaveStartDate: formattedLeaveStartDate, 
+        leaveEndDate: formattedLeaveEndDate, 
+    };
+
+    axios.post('http://localhost:3001/applyleave', leaveData)
+        .then(response => {
+            setLeaveSuccess('Leave applied successfully!');
+            setLeaveError(null);
+            fetchAppliedLeaves();
+        })
+        .catch(err => {
+            setLeaveError(err.response ? err.response.data.message : 'Error applying for leave');
+            setLeaveSuccess(null);
+        });
+};
+
 
   if (error) {
     return <p className="text-red-400">{error}</p>;
@@ -67,8 +130,95 @@ const EmployeeDetails = () => {
           </p>
         </div>
       </div>
+
+      {/* Leave Application Form */}
+      <div className="mt-8 bg-gray-800 p-6 rounded-lg shadow-xl border border-gray-700 max-w-3xl w-full">
+        <h2 className="text-2xl font-semibold mb-4 text-white">Apply for Leave</h2>
+        <form onSubmit={handleLeaveApply}>
+          <div className="mb-4">
+            <label className="block text-white" htmlFor="leaveType">Leave Type:</label>
+            <select 
+              id="leaveType" 
+              className="mt-1 block w-full p-2 border border-gray-600 rounded bg-gray-700 text-white"
+              value={leaveType}
+              onChange={(e) => setLeaveType(e.target.value)}
+              required 
+            >
+              <option value="" disabled>Select Leave Type</option>
+              {leaveTypes.map((type, index) => (
+                <option key={index} value={type}>{type}</option>
+              ))}
+            </select>
+          </div>
+          <div className="mb-4">
+            <label className="block text-white" htmlFor="leaveStartDate">Start Date:</label>
+            <input 
+              type="date" 
+              id="leaveStartDate" 
+              className="mt-1 block w-full p-2 border border-gray-600 rounded bg-gray-700 text-white"
+              value={leaveStartDate}
+              onChange={(e) => setLeaveStartDate(e.target.value)}
+              required 
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-white" htmlFor="leaveEndDate">End Date:</label>
+            <input 
+              type="date" 
+              id="leaveEndDate" 
+              className="mt-1 block w-full p-2 border border-gray-600 rounded bg-gray-700 text-white"
+              value={leaveEndDate}
+              onChange={(e) => setLeaveEndDate(e.target.value)}
+              required 
+            />
+          </div>
+          {leaveError && <p className="text-red-400 mb-4">{leaveError}</p>}
+          <button 
+            type="submit" 
+            className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded"
+          >
+            Apply Leave
+          </button>
+        </form>
+
+        {leaveSuccess && <p className="text-green-400 mt-4">{leaveSuccess}</p>}
+      </div>
+
+      {/* Applied Leave Details */}
+      // Applied Leave Details
+<div className="mt-8 bg-gray-800 p-6 rounded-lg shadow-xl border border-gray-700 max-w-3xl w-full">
+  <h2 className="text-2xl font-semibold mb-4 text-white">Applied Leave Details</h2>
+  {appliedLeaves.length > 0 ? (
+    <table className="min-w-full divide-y divide-gray-700">
+      <thead>
+        <tr>
+          <th className="px-4 py-2 text-left text-white">Leave ID</th> 
+          <th className="px-4 py-2 text-left text-white">Leave Type</th>
+          <th className="px-4 py-2 text-left text-white">Start Date</th>
+          <th className="px-4 py-2 text-left text-white">End Date</th>
+          <th className="px-4 py-2 text-left text-white">Status</th>
+        </tr>
+      </thead>
+      <tbody className="divide-y divide-gray-600">
+        {appliedLeaves.map((leave, index) => (
+          <tr key={index}>
+            <td className="px-4 py-2 text-white">{leave._id}</td> 
+            <td className="px-4 py-2 text-white">{leave.leaveType}</td>
+            <td className="px-4 py-2 text-white">{new Date(leave.leaveStartDate).toLocaleDateString()}</td>
+            <td className="px-4 py-2 text-white">{new Date(leave.leaveEndDate).toLocaleDateString()}</td>
+            <td className="px-4 py-2 text-white">{leave.status}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  ) : (
+    <p className="text-gray-400">No applied leaves found.</p>
+  )}
+</div>
+
+
     </div>
   );
 };
 
-export default EmployeeDetails;
+export default ProfilePage;
