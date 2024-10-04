@@ -137,11 +137,11 @@ const TableReservation = () => {
                       </h4>
                     </div>
                     <div className="absolute duration-300 -left-32 mt-2 group-hover:left-10">
-                      <p className="text-12 mt-3">{`Quantity: ${table.quantity}`}</p>
-                      <p className="text-12">{`Price: ${table.price}`}</p>
+                      <p className="text-lg mt-5">{`Quantity: ${table.quantity}`}</p>
+                      <p className="text-xl ">{`Price: ${table.price}`}</p>
                       <div className="flex justify-center">
                         <Link to={`/ReservedTables/${table._id}/${userId}`}>
-                          <button className="bg-custom-dark text-white py-2 px-4 hover:bg-black transition duration-300 ease-in-out">
+                          <button className="bg-custom-dark text-white py-2 px-4 mt-10 w-24 hover:bg-black transition duration-300 ease-in-out">
                             Reserve
                           </button>
                         </Link>
