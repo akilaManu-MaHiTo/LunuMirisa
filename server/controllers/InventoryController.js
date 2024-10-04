@@ -57,6 +57,7 @@ router.get("/GetInventory/:id", (req, res) => {
         .catch(err => res.status(500).json(err));
 });
 
+// Route to update the inventory quantity with a new total quantity
 router.put("/updateInventory/:id", (req, res) => {
     const Id = req.params.id;
     const { newTotal } = req.body; // Get the new total quantity from the request body
@@ -67,10 +68,11 @@ router.put("/updateInventory/:id", (req, res) => {
         { $set: { quantity: newTotal } }, // Use $set to update only the quantity
         { new: true } // Return the updated document
     )
-    .then(items => res.json(items))
-    .catch(err => res.json(err));
+    .then(item => res.json(item))
+    .catch(err => res.status(500).json(err));
 });
 
+// Route to delete an inventory item
 router.delete("/DeleteInventoryItem/:id", (req, res) => {
     const { id } = req.params;
 
@@ -82,6 +84,28 @@ router.delete("/DeleteInventoryItem/:id", (req, res) => {
             res.json({ message: "Item successfully deleted", item });
         })
         .catch(err => res.status(500).json({ message: "Error deleting item", error: err }));
+});
+// Route to update inventory by adding orderQuantity to the current quantity
+router.put("/updateBySupply/:name", (req, res) => {
+    const { name } = req.params;
+    const { orderQuantity } = req.body; // Get orderQuantity from the request body
+
+    // Find the inventory item by name and update the quantity
+    Inventory.findOne({ name })
+        .then(item => {
+            if (!item) {
+                return res.status(404).json({ message: "Inventory item not found" });
+            }
+
+            // Add orderQuantity to the existing quantity
+            item.quantity += orderQuantity;
+
+            // Save the updated item
+            item.save()
+                .then(updatedItem => res.json(updatedItem))
+                .catch(err => res.status(500).json({ message: "Error updating inventory", error: err }));
+        })
+        .catch(err => res.status(500).json({ message: "Error fetching inventory item", error: err }));
 });
 
 
