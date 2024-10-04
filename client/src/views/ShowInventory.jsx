@@ -4,7 +4,7 @@ import AdminNaviBar from './Components/AdminNavigationBar';
 import ToggleSlideBar from './Components/ToggleSlideBar';
 import useSidebar from './Components/useSidebar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faPlus, faPenToSquare, faTruckArrowRight, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faPlus, faPenToSquare, faTruckArrowRight, faTrashCan, faBagShopping } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Loader from './Components/Loader.jsx';
@@ -205,6 +205,14 @@ const generateReport = () => {
           >
             Generate Report
           </button>
+          <Link to='/ShowAcceptedOrders'>
+            <button 
+              className="p-3 h-16 w-[10rem] bg-custom-gray text-white rounded-3xl border border-white"
+            >
+              Supplies <FontAwesomeIcon icon={faBagShopping} />
+            </button>
+          </Link>
+
         </div>
       </div>
 

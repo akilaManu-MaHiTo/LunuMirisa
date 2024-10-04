@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate,Link } from 'react-router-dom';
 import axios from 'axios';
 
 function SupplierDashboard() {
@@ -30,11 +30,11 @@ function SupplierDashboard() {
     }
   }, [supplierData]);
 
-  const handleAccept = () => {
-    if (selectedOrderId) {
-      navigate(`/SupplierConfirmOrder/${supplierData._id}/${selectedOrderId}/${supplierData.name}`);
-    }
-  };
+  // const handleAccept = () => {
+  //   if (selectedOrderId) {
+  //     navigate(`/SupplierConfirmOrder/${supplierData._id}/${selectedOrderId}/${supplierData.name}`);
+  //   }
+  // };
 
   const handleDecline = (orderId) => {
     axios.post(`http://localhost:3001/declineOrder/${orderId}`)
@@ -43,7 +43,8 @@ function SupplierDashboard() {
   };
 
   const filteredAcceptedOrders = acceptedOrders.filter(order =>
-    !filterDate || new Date(order.deliveryDate).toISOString().split('T')[0] === filterDate
+    (!filterDate || new Date(order.deliveryDate).toISOString().split('T')[0] === filterDate) &&
+    order.orderQuantity > 0 // Only show orders where orderQuantity is greater than 0
   );
 
   return (
@@ -97,23 +98,24 @@ function SupplierDashboard() {
               <div>
                 <h2 className="text-2xl font-semibold text-green-600 mb-8 text-center">Order Requests</h2>
                 {orderRequests.length > 0 ? (
-                  orderRequests.map(order => (
+                  orderRequests
+                    .filter(order => order.orderQuantity > 0) // Only show orders with orderQuantity > 0
+                    .map(order => (
                     <div key={order._id} className="p-6 mb-6 border-b border-gray-200">
+                      <img src={`http://localhost:3001/Images/${order.image}`} alt="Order Image" className='w-20 h-20' />
                       <h3 className="text-xl font-bold mb-2">{order.name}</h3>
                       <p className="text-gray-600">Order Quantity: {order.orderQuantity}</p>
-                      {/* <p className="text-gray-600">Max Quantity: {order.maxQuantity - order.quantity}</p> */}
                       <p className="text-gray-600">Category: {order.category}</p>
                       <div className="flex justify-end mt-4 space-x-4">
-                        <button 
-                          className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded transition duration-300"
-                          onClick={() => {
-                            setSelectedOrderId(order._id);
-                            handleAccept();
-                          }}
-                        >
-                          Accept
-                        </button>
-                        <button 
+                        <Link to={`/SupplierConfirmOrder/${supplierData._id}/${order._id}/${supplierData.name}/${order.image}`}>
+                          <button
+                            className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded transition duration-300"
+                            onClick={() => setSelectedOrderId(order._id)} // Set selectedOrderId when Accept is clicked
+                          >
+                            Accept
+                          </button>
+                        </Link>
+                        <button
                           className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded transition duration-300"
                           onClick={() => handleDecline(order._id)}
                         >
@@ -125,6 +127,7 @@ function SupplierDashboard() {
                 ) : (
                   <p className="text-gray-500 text-center">No order requests available.</p>
                 )}
+
               </div>
             ) : (
               <div>

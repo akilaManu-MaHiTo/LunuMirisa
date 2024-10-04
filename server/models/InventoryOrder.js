@@ -29,11 +29,6 @@ const InventoryOrderSchema = new mongoose.Schema({
   status: {
     type: String,
     default: 'pending' // Possible values: 'pending', 'accepted', 'declined'
-},
-supplierId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Supplier', // Assuming you have a Supplier model
-    default: null // Will be set when a supplier accepts the order
 }
 });
 

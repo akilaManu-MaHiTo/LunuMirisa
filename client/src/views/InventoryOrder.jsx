@@ -11,7 +11,8 @@ import Loader from './Components/Loader';
 const ShowInventory = () => {
   const { id } = useParams(); // Get the ID from the URL params
   const [name, setName] = useState('');
-  const [imageURL, setImageURL] = useState(''); // Store the image URL
+  const [imageURL, setImageURL] = useState('');
+  const [image, setCorrectedImg] = useState(''); // Store the image URL
   const [quantity, setQuantity] = useState(0);
   const [maxQuantity, setMaxQuantity] = useState(0);
   const [category, setCategory] = useState('Vegetables');
@@ -31,6 +32,7 @@ const ShowInventory = () => {
           setMaxQuantity(item.maxQuantity);
           setCategory(item.category);
           setImageURL(`http://localhost:3001/Images/${item.image}`); // Set the image URL
+          setCorrectedImg(item.image)
           setLoading(false);
         })
         .catch(err => console.log(err));
@@ -44,7 +46,7 @@ const ShowInventory = () => {
 
     const orderDetails = {
       name,
-      imageURL,
+      image:image,
       quantity,
       maxQuantity,
       category,

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate,Link  } from 'react-router-dom';
 import axios from 'axios';
 import Navigation from './Components/NavigationBar.jsx';
 import logo from '../Images/Logo.png';
@@ -178,7 +178,7 @@ function UpdateUsers() {
                 }}
             >
                 <div className="flex justify-center items-center min-h-screen">
-                    <div className="w-full sm:w-1/2 bg-custom-light bg-opacity-70 p-6 sm:p-8 rounded-md shadow-md mt-16 mb-40">
+                    <div className="w-full sm:w-1/2 bg-custom-light bg-opacity-70 p-6 sm:p-8 rounded-md shadow-md mt-16 mb-10">
                         <form onSubmit={handleUpdate}>
                             <h2 className="text-center text-4xl font-semibold text-white mb-4">Your Profile</h2>
                             <div className="text-center mb-8">
@@ -317,16 +317,56 @@ function UpdateUsers() {
                             </div>
                         </form>
 
-                        <div className="flex justify-center mt-8">
-                            <button
-                                onClick={handleDeleteAccount}
-                                className="bg-red-500 text-black px-4 py-2 rounded-lg hover:bg-red-600 hover:text-white hover:scale-105 transition-all duration-300 ease-in-out transform"
-                            >
-                                <FontAwesomeIcon icon={faTrashCan}  /> Deactivate My Account
-                            </button>
+                        <div className="relative">
+
                         </div>
                     </div>
                 </div>
+                <div className='flex h-80 justify-center mb-10' >
+                    <div className=' w-1/2 justify-center items-center bg-custom-light bg-opacity-70 rounded-xl'>
+                        <h2 className='text-3xl text-white mt-10 ml-5 font-spartan font-thin'>Your Reviews</h2>
+
+                        <p className='text-white mt-5 ml-10 w-[40rem] font-spartan text-lg '> Easily take control of all your customer feedback with our streamlined review management system. Whether you're looking to update a review, edit the details, or delete an outdated comment, we've got you covered. With just a few clicks</p>
+
+                        <div className="flex justify-end mt-10 mr-10">
+
+                        <Link to={`/ShowUserReviews/${userId}`}>
+
+                        <button class="bg-black border border-white hover:bg-white text-white font-bold py-3 px-6 shadow-lg shadow-neutral-950 hover:text-black transform transition-all duration-500 ease-in-out hover:scale-110 hover:brightness-110 hover:animate-pulse active:animate-bounce">
+                        See Reveiws
+                        </button>
+
+
+                        </Link>
+
+                        </div>
+                    </div>
+                </div>
+                
+                <div className='flex h-72 justify-center mb-20' >
+                    <div className=' w-1/2 justify-center items-center bg-custom-light bg-opacity-70 rounded-xl'>
+
+                    <h2 className='text-3xl text-white mt-10 ml-5 font-spartan font-thin'> Deactivate Account </h2>
+
+                    <p className='text-white mt-5 ml-10 w-[40rem] font-spartan text-lg'>
+                    <strong>We're Sorry to See You Go</strong> We understand that this is a big decision. If you have any feedback or need assistance, we’re here to help.
+                    </p>
+
+
+
+                        <div className='flex justify-end mr-10 mt-14'>
+                            <button
+                                    onClick={handleDeleteAccount}
+                                    className=" bg-red-500 text-black px-4 py-2 rounded-lg hover:bg-red-600 hover:text-white hover:scale-105 transition-all duration-300 ease-in-out transform"
+                                >
+                                    <FontAwesomeIcon icon={faTrashCan} className='mr-2' /> Deactivate Account
+
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
             <Footer />
         </div>
