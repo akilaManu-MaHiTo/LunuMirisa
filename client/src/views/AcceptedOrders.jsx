@@ -116,9 +116,19 @@ function AcceptedOrders() {
     doc.save('accepted_orders_report.pdf');
   };
 
+  // Calculate total price for all filtered orders
+  const calculateTotalAmount = () => {
+    return filteredOrders.reduce((total, order) => total + (order.totalAmount || 0), 0);
+  };
+
   return (
     <div className="max-w-6xl mx-auto p-8 bg-gradient-to-b from-green-50 to-green-100 rounded-lg shadow-xl">
       <h1 className="text-4xl font-bold text-gray-800 mb-6 text-center">Accepted Orders</h1>
+
+      {/* Total Price Display */}
+      <div className="text-right text-2xl font-bold text-green-700 mb-4">
+        Total Price: Rs. {calculateTotalAmount()}
+      </div>
 
       {/* Search Bar */}
       <input
@@ -181,13 +191,13 @@ function AcceptedOrders() {
         onClick={downloadPDF}
         className="mb-6 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
       >
-        Download  PDF
+        Download PDF
       </button>
 
       <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
         <thead className="bg-green-100">
           <tr>
-            {['Supplier Name', 'Order Quantity', 'Category', 'Amount', 'Delivery Date', 'Special Note', 'Difference', 'Expiry Status', 'Actions'].map(header => (
+            {['Order Id', 'Supplier Name', 'Order Quantity', 'Category', 'Amount', 'Delivery Date', 'Special Note', 'Price', 'Expiry Status', 'Actions'].map(header => (
               <th key={header} className="border-b p-4 text-left text-gray-600">{header}</th>
             ))}
           </tr>
@@ -195,17 +205,28 @@ function AcceptedOrders() {
         <tbody>
           {filteredOrders.map((order) => (
             <tr key={order._id} className="hover:bg-gray-50 transition">
+              <td className="border-b p-4">{order._id}</td>
               <td className="border-b p-4">{order.supplierName}</td>
               <td className="border-b p-4">{order.orderQuantity}</td>
               <td className="border-b p-4">{order.category}</td>
               <td className="border-b p-4">{order.amount}</td>
               <td className="border-b p-4">{new Date(order.deliveryDate).toLocaleDateString()}</td>
               <td className="border-b p-4">{order.specialNote}</td>
-              <td className="border-b p-4">{getDifference(order.orderQuantity, order.amount)}</td>
+              <td className="border-b p-4">Rs. {order.totalAmount}</td>
               <td className="border-b p-4">{isExpired(order.deliveryDate)}</td>
-              <td className="border-b p-4 flex space-x-4">
-                <button onClick={() => handleUpdateClick(order)} className="text-green-600 hover:underline">Update</button>
-                <button onClick={() => handleDelete(order._id)} className="text-red-600 hover:underline">Delete</button>
+              <td className="border-b p-4 space-x-2">
+                {/* <button
+                  onClick={() => handleUpdateClick(order)}
+                  className="bg-yellow-500 text-white px-2 py-1 rounded-lg hover:bg-yellow-600 transition"
+                >
+                  Edit
+                </button> */}
+                <button
+                  onClick={() => handleDelete(order._id)}
+                  className="bg-red-500 text-white px-2 py-1 rounded-lg hover:bg-red-600 transition"
+                >
+                  Delete
+                </button>
               </td>
             </tr>
           ))}
@@ -216,4 +237,3 @@ function AcceptedOrders() {
 }
 
 export default AcceptedOrders;
-

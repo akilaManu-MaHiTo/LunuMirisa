@@ -54,6 +54,8 @@ import AllUsers from "./views/AllUsers"
 import ShowUserReviews from "./views/ShowUserReviews"
 import ShowAdminReviews from "./views/AdminReview"
 import ShowAcceptedOrders from "./views/ShowAcceptedOrders"
+import MyTableReservations from "./views/ShowMyTables"
+import UpdateReservedTables from "./views/UpdateReservedTable"
 
 function App() {
   return (
@@ -112,6 +114,8 @@ function App() {
         <Route path="/ShowUserReviews/:userId" element={<ShowUserReviews/>} />
         <Route path="/ShowAdminReviews" element={<ShowAdminReviews/>} />
         <Route path="/ShowAcceptedOrders" element={<ShowAcceptedOrders/>} />
+        <Route path="/MyTableReservations/:userId" element={<MyTableReservations/>} />
+        <Route path="/UpdateReservedTables/:reserveId" element={<UpdateReservedTables/>} />
       </Routes>
     </BrowserRouter>
   );

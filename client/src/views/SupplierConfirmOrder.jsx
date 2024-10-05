@@ -6,8 +6,8 @@ function SupplierConfirmOrder() {
   const { supplierId, orderId, supplierName, image } = useParams();
 
   const [orderData, setOrderData] = useState(null);
-  const [quantity, setQuantity] = useState(''); // Use 'quantity' for the dropdown value
-  const [unitPrice, setUnitPrice] = useState(''); // Now editable via input field
+  const [quantity, setQuantity] = useState(''); 
+  const [unitPrice, setUnitPrice] = useState(''); 
   const [deliveryDate, setDeliveryDate] = useState('');
   const [specialNote, setSpecialNote] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -22,7 +22,7 @@ function SupplierConfirmOrder() {
     axios.get(`http://localhost:3001/order/${orderId}`)
       .then(res => {
         setOrderData(res.data);
-        setUnitPrice(res.data.unitPrice || 0); // Initial unit price from the order
+        setUnitPrice(res.data.unitPrice || 0); 
       })
       .catch(err => console.error('Error fetching order details:', err));
   }, [orderId]);
@@ -39,13 +39,13 @@ function SupplierConfirmOrder() {
   const handleQuantityChange = (e) => {
     const selectedQuantity = e.target.value;
     setQuantity(selectedQuantity);
-    calculateTotalAmount(selectedQuantity, unitPrice); // Recalculate total based on quantity change
+    calculateTotalAmount(selectedQuantity, unitPrice); 
   };
 
   const handleUnitPriceChange = (e) => {
     const newUnitPrice = e.target.value;
     setUnitPrice(newUnitPrice);
-    calculateTotalAmount(quantity, newUnitPrice); // Recalculate total based on unit price change
+    calculateTotalAmount(quantity, newUnitPrice); 
   };
 
   const handleConfirm = (e) => {
@@ -62,7 +62,7 @@ function SupplierConfirmOrder() {
 
     const confirmationData = {
       name: orderData.name,
-      orderQuantity:quantity,
+      orderQuantity: quantity,
       category: orderData.category,
       unitPrice,
       totalAmount,
@@ -70,7 +70,7 @@ function SupplierConfirmOrder() {
       specialNote,
       supplierId,
       supplierName,
-      image:image,
+      image: image,
     };
 
     axios.post('http://localhost:3001/AddSupplierOrder', confirmationData)
@@ -115,23 +115,22 @@ function SupplierConfirmOrder() {
           {successMessage && <p className="text-green-500 mb-4">{successMessage}</p>}
 
           <form onSubmit={handleConfirm} className="mt-8">
-          <div className="mb-4">
-            <label className="block text-gray-700 mb-2">Quantity</label>
-            <select
-              value={quantity}
-              onChange={handleQuantityChange}
-              className="border rounded w-full py-2 px-3"
-              required
-            >
-              <option value="">Select Quantity</option>
-              {/* Generate options based on orderQuantity */}
-              {[...Array(orderData.orderQuantity + 1).keys()].map(num => (
-                <option key={num} value={num}>
-                  {num}
-                </option>
-              ))}
-            </select>
-          </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 mb-2">Quantity</label>
+              <select
+                value={quantity}
+                onChange={handleQuantityChange}
+                className="border rounded w-full py-2 px-3"
+                required
+              >
+                <option value="">Select Quantity</option>
+                {[...Array(orderData.orderQuantity + 1).keys()].map(num => (
+                  <option key={num} value={num}>
+                    {num}
+                  </option>
+                ))}
+              </select>
+            </div>
 
             <div className="mb-4">
               <label className="block text-gray-700 mb-2">Unit Price</label>
@@ -159,7 +158,7 @@ function SupplierConfirmOrder() {
                 value={deliveryDate}
                 onChange={(e) => setDeliveryDate(e.target.value)}
                 className="border rounded w-full py-2 px-3"
-                min={today} // Prevent selecting earlier dates
+                min={today} 
                 required
               />
             </div>

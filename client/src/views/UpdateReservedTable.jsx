@@ -1,107 +1,69 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const ReservedTables = () => {
-    const { id, userId } = useParams(); // Extract both table ID and user ID
+    const { reserveId } = useParams(); // Extract the reserveId from the URL
     const navigate = useNavigate();
-    const [tableNum, setTableNum] = useState('');
-    const [quantity, setQuantity] = useState('');
-    const [price, setPrice] = useState('');
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedTime, setSelectedTime] = useState(null);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
-    const [email, setEmail] = useState('');
-
-    // Fetch user's email
-    useEffect(() => {
-        axios.get(`http://localhost:3001/getUser/${userId}`)
-            .then((response) => {
-                setEmail(response.data.email);
-                console.log(response.data.email);
-            })
-            .catch((err) => {
-                setError("Error fetching user data.");
-                console.log(err);
-            });
-    }, [userId]);
-
-    // Fetch table details
-    useEffect(() => {
-        axios.get(`http://localhost:3001/getTable/${id}`)
-            .then(result => {
-                setTableNum(result.data.tableNum);
-                setQuantity(result.data.quantity);
-                setPrice(result.data.price);
-            })
-            .catch(err => {
-                setError("Error fetching table data.");
-                console.log(err);
-            });
-    }, [id]);
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
     
+    // Assuming tableNum is known or passed as a prop. Change as needed.
+    const tableNum = "1"; // Example table number
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        // Check if date and time are selected
         if (!selectedDate || !selectedTime) {
             setError("Please select a date and time.");
             return;
         }
-    
+
         const currentDate = new Date();
         const selectedDateTime = new Date(selectedDate);
         selectedDateTime.setHours(selectedTime.getHours());
         selectedDateTime.setMinutes(selectedTime.getMinutes());
-    
+
         // Check if the selected date and time are in the past
         if (selectedDateTime < currentDate) {
             setError("You cannot reserve a table in the past.");
             return;
         }
-    
+
+        setError(''); // Clear previous error messages
+
+        // Format the date and time correctly for the backend
         const formattedDate = `${selectedDate.getFullYear()}-${(selectedDate.getMonth() + 1).toString().padStart(2, '0')}-${selectedDate.getDate().toString().padStart(2, '0')}`;
-        const formattedTime = selectedTime.toTimeString().split(' ')[0];
-    
-        // Check for existing reservation
-        axios.post("http://localhost:3001/checkReservation", {
-            date: formattedDate, // Use formatted date
-            time: formattedTime, // Use formatted time
-            tableNum
-        })
-        .then(res => {
-            if (res.data.exists) {
-                setError("This table is already reserved for the selected date and time. Please choose another time or date.");
-            } else {
-                // Proceed with reservation
-                axios.post("http://localhost:3001/reservedtables", {
-                    quantity,
-                    price,
-                    tableNum,
-                    date: formattedDate, // Use formatted date
-                    time: formattedTime, // Use formatted time
-                    userId, // use the userId from the URL
-                    email
-                })
-                .then(result => {
-                    setSuccess("Reservation successful!");
-                    setTimeout(() => {
-                        navigate(`/TableReservationPage/${userId}`);
-                    }, 2000);
-                })
-                .catch(err => console.log(err));
-            }
-        })
-        .catch(err => console.log(err));
+        const formattedTime = selectedTime.toTimeString().split(' ')[0]; // Get time in HH:mm:ss format
+
+        try {
+            // Make an API call to update the reservation
+            await axios.put(`http://localhost:3001/updateReservedTable/${reserveId}`, {
+                date: formattedDate,  // Send the formatted date
+                time: formattedTime,  // Send the formatted time
+                tableNum,             // Include the table number
+            });
+
+            setSuccess('Reservation updated successfully!');
+            setError('');
+
+            // Optionally navigate to another page after success
+            navigate('/some-page'); // Uncomment and change if you want to redirect after success
+        } catch (err) {
+            // Handle errors
+            setError(err.response?.data?.message || 'An error occurred. Please try again.');
+        }
     };
-    
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className="bg-white p-8 rounded-lg shadow-md">
-                <h2 className="text-2xl font-bold mb-4">Reservation</h2>
+                <h2 className="text-2xl font-bold mb-4">Update Reservation</h2>
 
                 {error && <div className="text-red-600 mb-4">{error}</div>}
                 {success && <div className="text-green-600 mb-4">{success}</div>}
@@ -129,13 +91,10 @@ const ReservedTables = () => {
                             onChange={(time) => setSelectedTime(time)}
                             showTimeSelect
                             showTimeSelectOnly
-                            timeIntervals={60}
+                            timeIntervals={15}
                             timeCaption="Time"
                             dateFormat="h:mm aa"
                             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                            minTime={new Date().setHours(8, 0)} // Set minimum time to 9:00 AM
-                            maxTime={new Date().setHours(22, 0)} // Set maximum time to 10:00 PM
-                            placeholderText="Select Time"
                         />
                     </div>
 
@@ -143,7 +102,7 @@ const ReservedTables = () => {
                         type="submit"
                         className="w-full bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
                     >
-                        Done
+                        Update Reservation
                     </button>
                 </form>
             </div>

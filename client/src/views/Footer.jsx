@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams,Link } from 'react-router-dom';
 import axios from 'axios';
 import logo from '../Images/Logo.png'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -186,7 +186,7 @@ const Footer = () => {
                 <div className="flex justify-start">
                     <img src={logo} alt="Logo" className="w-24 h-auto" />
                 </div>
-                
+                <Link to={`/MyTableReservations/${userId}`}><button className='bg-black'> My Reservations</button></Link>
                 <div className='flex justify-center'>
                 <p class="select-none text-xs ">
                     Alright, reserved for <strong>LunuMirisa</strong>

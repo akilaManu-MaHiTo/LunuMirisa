@@ -19,10 +19,10 @@ router.post("/checkReservation", (req, res) => {
 
 // Route to create a new reservation
 router.post("/reservedtables", (req, res) => {
-    const { quantity, price, tableNum, date, time, userId } = req.body;
+    const { quantity, price, tableNum, date, time, userId,email } = req.body;
 
     // Create the reserved table
-    ReservedTables.create({ quantity, price, tableNum, date, time, userId })
+    ReservedTables.create({ quantity, price, tableNum, date, time, userId,email })
         .then(reservedTable => res.json(reservedTable))
         .catch(err => res.status(500).json({ error: err.message }));
 });
@@ -57,6 +57,61 @@ router.get("/reservations/:id", (req, res) => {
         })
         .catch(err => res.status(500).json({ error: err.message }));
 });
+
+router.get('/getReservationByUserId/:userId', async (req, res) => {
+    const { userId } = req.params;
+    
+    try {
+      // Fetch reservations by userId
+      const reservations = await ReservedTables.find({ userId });
+      
+      if (!reservations || reservations.length === 0) {
+        return res.status(404).json({ message: 'No reservations found for this user.' });
+      }
+  
+      res.json(reservations);
+    } catch (error) {
+      console.error("Error fetching reservation details:", error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  });
+
+router.put("/updateReservedTable/:reserveId", async (req, res) => {
+    const { date, time, tableNum } = req.body; // Ensure tableNum is included
+    const { reserveId } = req.params;
+
+    try {
+        // Check if the new date and time for the table already exist
+        const existingReservation = await ReservedTables.findOne({
+            date,
+            time,
+            tableNum,
+            _id: { $ne: reserveId } // Exclude the current reservation being updated
+        });
+
+        // Log existing reservations for debugging
+        console.log('Existing Reservation:', existingReservation);
+
+        // If a reservation exists, prevent the update
+        if (existingReservation) {
+            return res.status(400).json({ message: "This table is already reserved for the selected date and time." });
+        }
+
+        // Proceed with updating the reservation
+        const updatedReservation = await ReservedTables.findByIdAndUpdate(reserveId, req.body, { new: true });
+        if (!updatedReservation) {
+            return res.status(404).json({ message: "Reservation not found." });
+        }
+
+        // Return the updated reservation
+        res.json(updatedReservation);
+    } catch (err) {
+        console.error("Error updating reservation:", err); // Log the error for debugging
+        res.status(500).json({ error: err.message });
+    }
+});
+
+
 
 
 module.exports = router;
