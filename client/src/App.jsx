@@ -110,7 +110,7 @@ function App() {
         <Route path="/OrderDetails/:orderId" element={<OrderDetails/>} />
         <Route path="/Reservations" element={<Reservations />} />
         <Route path="/updateReservation/:id" element={<UpdateReservation />} />
-        <Route path="CartForm/:userid/:totalPrice" element={<CartForm />} />
+        <Route path="CartForm/:userId/:totalPrice/:cartItemsJson" element={<CartForm />} />
         <Route path="/ChefPage/:userId" element={<ChefPage/>} />
         <Route path="/AllUsers" element={<AllUsers/>} />
         <Route path="/leaves/:employeeId" element={<LeaveList />} />

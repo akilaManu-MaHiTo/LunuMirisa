@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 import background from '../Images/profileBG2.jpg';
 
 const CartDetailsForm = () => {
@@ -7,7 +8,23 @@ const CartDetailsForm = () => {
   const [address, setAddress] = useState('');
   const [email, setEmail] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('credit-card');
+  const [cartItems, setCartItems] = useState([]);
   const [submitted, setSubmitted] = useState(false);
+
+  const location = useLocation(); // To access the current URL
+
+  // Extract and parse the JSON from the URL when the component mounts
+  useEffect(() => {
+    const currentURL = location.pathname;
+    const jsonString = decodeURIComponent(currentURL.split('/').pop()); // Extract JSON part of the URL
+
+    try {
+      const parsedData = JSON.parse(jsonString); // Parse the extracted JSON string
+      setCartItems(parsedData); // Store cart items in state
+    } catch (error) {
+      console.error('Error parsing JSON from URL:', error);
+    }
+  }, [location.pathname]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,6 +34,7 @@ const CartDetailsForm = () => {
       address,
       email,
       paymentMethod,
+      cartItems, // Include cart items from the URL
     };
 
     try {

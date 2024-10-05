@@ -154,15 +154,26 @@ const ShowCart = () => {
             <p className="text-black pt-4 text-3xl font-serif-black">Total:</p>
             <p className="text-black pt-4 text-4xl font-serif-black flex justify-end mt-4">Rs.{totalPrice}</p>
             <div className="flex justify-end mt-4">
-              <Link to={`/CartForm/${userId}/${totalPrice}`}>
-                <button
-                  id="checkout_btn"
-                  className="bg-black hover:bg-gray-700 text-white font-bold py-2 mt-6 px-4 rounded"
-                  disabled={cartItems.length === 0} // Disable button if cart is empty
+            <div className="flex justify-end mt-4">
+                <Link 
+                  to={`/CartForm/${userId}/${totalPrice}/${encodeURIComponent(
+                    JSON.stringify(
+                      cartItems.map(item => ({
+                        title: item.title,
+                        quantity: item.quantity
+                      }))
+                    )
+                  )}`}
                 >
-                  Checkout
-                </button>
-              </Link>
+                  <button
+                    id="checkout_btn"
+                    className="bg-black hover:bg-gray-700 text-white font-bold py-2 mt-6 px-4 rounded"
+                    disabled={cartItems.length === 0} // Disable button if cart is empty
+                  >
+                    Checkout
+                  </button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
