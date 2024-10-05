@@ -5,7 +5,7 @@ import logo from '../Images/Logo.png';
 import NavigationBar from './Components/NavigationBar.jsx'; 
 import Loader from './Components/Loader.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBreadSlice, faMartiniGlass, faPizzaSlice, faPepperHot } from '@fortawesome/free-solid-svg-icons';
+import { faBreadSlice, faMartiniGlass, faPizzaSlice, faPepperHot, faFireFlameCurved, faCartShopping, faCartPlus } from '@fortawesome/free-solid-svg-icons';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -16,7 +16,7 @@ const ShowMenuLists = () => {
   const [error, setError] = useState('');
   const [topThreeItems, setTopThreeItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedCategory, setSelectedCategory] = useState('All Meals');
   const [fade, setFade] = useState(false);
   const { userId } = useParams();
   const navigate = useNavigate();
@@ -50,11 +50,15 @@ const ShowMenuLists = () => {
   const fetchTopThreeItems = () => {
     axios.get("http://localhost:3001/topThreeItemIds")
       .then(response => {
-        setTopThreeItems(response.data);
-        console.log("Top three items: ", response.data);  // Correctly logging the top three items
+        const uniqueItems = response.data.filter((item, index, self) => 
+          index === self.findIndex((i) => i._id === item._id)
+        );
+        setTopThreeItems(uniqueItems);
+        console.log("Unique top three items: ", uniqueItems);  // Correctly logging the unique top three items
       })
       .catch(() => toast.error('Error fetching top three items!'));
   };
+  
 
   const handleAddToCart = (item) => {
     const scrollPosition = window.scrollY;
@@ -81,7 +85,7 @@ const ShowMenuLists = () => {
     setFade(true);
     setTimeout(() => {
       setSelectedCategory(category);
-      if (category === 'All') {
+      if (category === 'All Meals') {
         setFilteredItems(menuItems);
         fetchTopThreeItems();
       } else {
@@ -119,7 +123,7 @@ const ShowMenuLists = () => {
 
       {/* Category Buttons */}
       <div className="flex justify-center my-10 md:mx-20 lg:mx-32 flex-wrap bg-custom-black">
-        {['All', 'Appetizers', 'Main Course', 'Specials', 'Beverages'].map((category, idx) => (
+        {['All Meals', 'Appetizers', 'Main Course', 'Specials', 'Beverages'].map((category, idx) => (
           <button 
             key={idx}
             onClick={() => handleCategoryClick(category)} 
@@ -133,17 +137,53 @@ const ShowMenuLists = () => {
       </div>
 
       {/* Top 3 Hot Items */}
-      {selectedCategory === 'All' && searchTerm === '' && (  // Condition added to check if searchTerm is empty
+      {selectedCategory === 'All Meals' && searchTerm === '' && (  
         <div className="bg-custom-black flex flex-col items-center">
-          <h2 className="text-white text-2xl font-bold mb-10">Today's Hot Items</h2>
+          <h2 className="text-white text-4xl font-thin mb-10 self-start ml-64 ">Today's Hot Items</h2>
           {topThreeItems.length > 0 ? (
-            <div className="flex justify-start gap-4">
+            <div className=" justify-start grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12">
               {topThreeItems.map(item => (
                 <TopThreeItemCard key={item._id} item={item} onAddToCart={() => handleAddToCart(item)} />
               ))}
             </div>
           ) : (
-            <p className="text-gray-500">No top items in cart.</p>
+            <div className='flex gap-8'>
+              <div
+                class="flex flex-col bg-custom-gray w-64 h-96 animate-pulse rounded-xl p-4 gap-4"
+              >
+                <div class="bg-neutral-400/50 w-full h-32 animate-pulse rounded-md"></div>
+                <div class="flex flex-col gap-2">
+                  <div class="bg-neutral-400/50 w-full h-4 animate-pulse rounded-md"></div>
+                  <div class="bg-neutral-400/50 w-4/5 h-4 animate-pulse rounded-md"></div>
+                  <div class="bg-neutral-400/50 w-full h-4 animate-pulse rounded-md"></div>
+                  <div class="bg-neutral-400/50 w-2/4 h-4 animate-pulse rounded-md"></div>
+                </div>
+              </div>
+              <div
+                class="flex flex-col bg-custom-gray w-64 h-96 animate-pulse rounded-xl p-4 gap-4"
+              >
+                <div class="bg-neutral-400/50 w-full h-32 animate-pulse rounded-md"></div>
+                <div class="flex flex-col gap-2">
+                  <div class="bg-neutral-400/50 w-full h-4 animate-pulse rounded-md"></div>
+                  <div class="bg-neutral-400/50 w-4/5 h-4 animate-pulse rounded-md"></div>
+                  <div class="bg-neutral-400/50 w-full h-4 animate-pulse rounded-md"></div>
+                  <div class="bg-neutral-400/50 w-2/4 h-4 animate-pulse rounded-md"></div>
+                </div>
+              </div>
+              <div
+                class="flex flex-col bg-custom-gray w-64 h-96 animate-pulse rounded-xl p-4 gap-4"
+              >
+                <div class="bg-neutral-400/50 w-full h-32 animate-pulse rounded-md"></div>
+                <div class="flex flex-col gap-2">
+                  <div class="bg-neutral-400/50 w-full h-4 animate-pulse rounded-md"></div>
+                  <div class="bg-neutral-400/50 w-4/5 h-4 animate-pulse rounded-md"></div>
+                  <div class="bg-neutral-400/50 w-full h-4 animate-pulse rounded-md"></div>
+                  <div class="bg-neutral-400/50 w-2/4 h-4 animate-pulse rounded-md"></div>
+                </div>
+              </div>
+            </div>
+
+
           )}
         </div>
       )}
@@ -155,7 +195,7 @@ const ShowMenuLists = () => {
           {error && <p className="text-red-500">{error}</p>}
           <div className={`transition-opacity duration-300 ${fade ? 'opacity-0' : 'opacity-100'}`}>
             {filteredItems.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12">
                 {filteredItems.map(item => (
                   <ItemCard key={item._id} item={item} onAddToCart={() => handleAddToCart(item)} />
                 ))}
@@ -174,42 +214,83 @@ const ShowMenuLists = () => {
 
 // Component to display each item card
 const ItemCard = ({ item, onAddToCart }) => (
-  <div className="bg-custom-gray p-6 rounded shadow-md w-full max-w-xs transition-transform duration-300 hover:scale-105 hover:shadow-lg relative">
-    <img 
-      src={`http://localhost:3001/Images/` + item.image} 
-      alt={item.name} 
-      className="w-[14rem] h-auto rounded mx-auto mt-3 mb-6"
-    />
-    <h3 className="text-white text-xl font-bold mb-2">{item.title}</h3>
-    <p className="text-white text-3xl mb-2">Rs.{item.price}/-</p>
+  <div className="bg-custom-gray p-6 rounded shadow-md w-full max-w-xs transition-transform duration-300 hover:shadow-lg hover:scale-105 relative">
+
+
+    <div class="group card w-[220px] h-[185px] mx-auto mt-5 bg-custom-gray  text-[30px] font-black transition-all duration-400 hover:cursor-pointer hover:scale-[1] hover:bg-custom-gray">
+      <div class="first-content flex justify-center items-center w-full h-full transition-all duration-400 opacity-100 group-hover:opacity-0 group-hover:h-0">
+        <img 
+          src={`http://localhost:3001/Images/` + item.image} 
+          alt={item.name} 
+          className="w-full h-48 bg-cover mx-auto bg-center mt-5"
+        />
+      </div>
+      <div class="second-content flex justify-center items-center w-full h-0 opacity-0 transition-all duration-400 text-[0rem] transform rotate-90 scale-[-1] group-hover:h-full group-hover:opacity-100 group-hover:rotate-0 group-hover:scale-100 group-hover:text-[1.8rem]">
+        <span className='text-white w-52 h-32 mb-10 whitespace-normal font-thin text-justify'>
+          <strong className='font-semibold text-lg'>Ingredients</strong>
+          <p className='mt-2 w-46 h-28 overflow-y-scroll text-sm'>{item.description}</p>
+        </span>
+      </div>
+    </div>
+
+    <h3 className="text-white text-xl font-light mt-10 mb-5">{item.title}</h3>
+    <p className="text-white text-3xl font-thin mb-2">Rs.{item.price}/-</p>
     <div className="absolute top-3 right-5">
       <FontAwesomeIcon icon={getIconForCategory(item.category)} className="text-white" />
     </div>
-    <p className='text-white text-sm w-60 h-20 overflow-y-scroll whitespace-normal text-justify'>
-      {item.description}
-    </p>
-    <button onClick={onAddToCart} className="bg-white text-black py-2 px-4 rounded hover:bg-black hover:text-white transition duration-300 hover:scale-105">
-      Add to cart
+
+    <button onClick={onAddToCart} className="w-full text-lg  bg-custom-light text-white hover:bg-white hover:text-black h-12 mt-3 mb-3 py-2 px-4 transition duration-300 hover:scale-105 group">
+      Add to cart 
+      <FontAwesomeIcon 
+        icon={faCartPlus} 
+        className="ml-3 group-hover:animate-bounce-custom" 
+      />
     </button>
+
+
+
   </div>
 );
 
 
 
 const TopThreeItemCard = ({ item, onAddToCart }) => (
-  <div className="bg-custom-gray p-6 rounded shadow-md w-full max-w-xs transition-transform duration-300 hover:scale-105 hover:shadow-lg relative">
-    <img 
-      src={`http://localhost:3001/Images/` + item.image} 
-      alt={item.image} 
-      className="w-[14rem] h-auto rounded mx-auto mt-3 mb-6"
-    />
-    <h3 className="text-white text-xl font-bold mb-2">{item.title}</h3>
-    <p className="text-white text-3xl mb-2">Rs.{item.maxPrice}/-</p>
-    <div className='text-white text-2xl'>{item.description}</div>
-    <button onClick={onAddToCart} className="bg-white text-black py-2 px-4 rounded hover:bg-black hover:text-white transition duration-300 hover:scale-105">
-      Add to cart
-    </button>
+<div className="bg-custom-gray p-6 rounded shadow-md w-full max-w-xs transition-transform duration-300 hover:scale-105 hover:shadow-lg relative">
+  {/* Ribbon for hot item */}
+  <div className="absolute top-0 right-0 w-32 h-32 overflow-hidden">
+    <div className="bg-red-600 text-white text-center pl-[5.5rem] text-sm font-bold px-3 py-1 absolute top-[-1rem] right-[-45px] w-48 transform rotate-45">
+     HOT <FontAwesomeIcon icon={faFireFlameCurved} />
+    </div>
   </div>
+
+  <div class="group card w-[220px] h-[185px] mx-auto mt-5 bg-custom-gray  text-[30px] font-black transition-all duration-400 hover:cursor-pointer hover:scale-[1] hover:bg-custom-gray">
+    <div class="first-content flex justify-center items-center w-full h-full transition-all duration-400 opacity-100 group-hover:opacity-0 group-hover:h-0">
+      <img 
+        src={`http://localhost:3001/Images/` + item.image} 
+        alt={item.name} 
+        className="w-full h-48 bg-cover mx-auto bg-center mt-5"
+      />
+    </div>
+    <div class="second-content flex justify-center items-center w-full h-0 opacity-0 transition-all duration-400 text-[0rem] transform rotate-90 scale-[-1] group-hover:h-full group-hover:opacity-100 group-hover:rotate-0 group-hover:scale-100 group-hover:text-[1.8rem]">
+      <span className='text-white w-52 h-32 mb-10 whitespace-normal font-thin text-justify'>
+        <strong className='font-semibold text-lg'>Ingredients</strong>
+        <p className='mt-2 w-46 h-28 overflow-y-scroll text-sm'>{item.description}</p>
+      </span>
+    </div>
+  </div>
+
+  <h3 className="text-white text-xl font-light mt-10 mb-5">{item.title}</h3>
+  <p className="text-white text-3xl font-thin mb-2">Rs.{item.maxPrice}/-</p>
+  <button onClick={onAddToCart} className="w-full text-lg  bg-custom-light text-white hover:bg-white hover:text-black h-12 mt-3 mb-3 py-2 px-4 transition duration-300 hover:scale-105 group">
+      Add to cart 
+      <FontAwesomeIcon 
+        icon={faCartPlus} 
+        className="ml-3 group-hover:animate-bounce-custom" 
+      />
+    </button>
+</div>
+
+
 );
 
 // Function to get icon for category

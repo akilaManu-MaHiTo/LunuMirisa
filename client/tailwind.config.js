@@ -37,19 +37,24 @@ export default {
           '85%': { transform: 'translateY(-402%)' },
           '100%': { transform: 'translateY(-400%)' },
         },
-        slideInRight: { // Adding slide in animation
+        slideInRight: {
           '0%': { transform: 'translateX(100%)', opacity: '0' },
           '100%': { transform: 'translateX(0)', opacity: '1' },
         },
-        slideOutLeft: { // Adding slide out animation
+        slideOutLeft: {
           '0%': { transform: 'translateX(0)', opacity: '1' },
           '100%': { transform: 'translateX(-100%)', opacity: '0' },
+        },
+        bounceCustom: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-5px)' },
         },
       },
       animation: {
         spin_4991: 'spin_4991 4s infinite',
-        'slide-in-right': 'slideInRight 0.7s forwards', // Adding slide-in animation
-        'slide-out-left': 'slideOutLeft 0.7s forwards', // Adding slide-out animation
+        'slide-in-right': 'slideInRight 0.7s forwards',
+        'slide-out-left': 'slideOutLeft 0.7s forwards',
+        'bounce-custom': 'bounceCustom 0.6s ease-in-out infinite',
       },
     },
   },
