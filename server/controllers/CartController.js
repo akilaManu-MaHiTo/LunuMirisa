@@ -64,27 +64,28 @@ router.delete("/RemoveFromCart/:itemId", async (req, res) => {
 
 router.get("/topThreeItemIds", async (req, res) => {
     try {
-        
         const topItems = await Cart.aggregate([
             {
                 $group: {
-                    _id: "$_id",
-                    maxPrice: { $max: { $toDouble: "$price" } },
+                    _id: "$itemId",  // Group by itemId
+                    totalQuantity: { $sum: "$quantity" },  // Sum the quantities for each item
                     title: { $first: "$title" }, 
-                    category: { $first: "$category" } ,
-                    image: { $first: "$image" } 
+                    category: { $first: "$category" },
+                    image: { $first: "$image" },
+                    price: { $first: "$price" }
                 }
             },
-            { $sort: { maxPrice: -1 } }, 
-            { $limit: 3 }, 
+            { $sort: { totalQuantity: -1 } },  // Sort by total quantity in descending order
+            { $limit: 3 },  // Limit to top 3
             { 
                 $project: { 
-                    //_id: 0, 
-                    itemId: "$_id", 
-                    maxPrice: 1, 
+                    _id: 0,  // Exclude the _id field
+                    itemId: "$_id",  // Return itemId
+                    totalQuantity: 1,  // Return total quantity
                     title: 1, 
                     category: 1,
-                    image:1
+                    image: 1,
+                    price: 1  // Return price
                 } 
             }
         ]);
@@ -95,6 +96,8 @@ router.get("/topThreeItemIds", async (req, res) => {
         res.status(500).json({ message: "An error occurred while fetching the top three item IDs." });
     }
 });
+
+
 
 router.get("/countCartItems/:userId", async (req, res) => {
     try {

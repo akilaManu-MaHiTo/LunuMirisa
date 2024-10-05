@@ -204,7 +204,7 @@ const TopThreeItemCard = ({ item, onAddToCart }) => (
       className="w-[14rem] h-auto rounded mx-auto mt-3 mb-6"
     />
     <h3 className="text-white text-xl font-bold mb-2">{item.title}</h3>
-    <p className="text-white text-3xl mb-2">Rs.{item.maxPrice}/-</p>
+    <p className="text-white text-3xl mb-2">Rs.{item.price}/-</p>
     <div className='text-white text-2xl'>{item.description}</div>
     <button onClick={onAddToCart} className="bg-white text-black py-2 px-4 rounded hover:bg-black hover:text-white transition duration-300 hover:scale-105">
       Add to cart

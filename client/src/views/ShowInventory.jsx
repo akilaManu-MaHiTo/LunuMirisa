@@ -4,12 +4,13 @@ import AdminNaviBar from './Components/AdminNavigationBar';
 import ToggleSlideBar from './Components/ToggleSlideBar';
 import useSidebar from './Components/useSidebar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faPlus, faPenToSquare, faTruckArrowRight, faTrashCan, faBagShopping } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faPlus, faPenToSquare, faTruckArrowRight, faTrashCan, faBell } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Loader from './Components/Loader.jsx';
 
 const ShowInventory = () => {
+  const [count, setCount] = useState(0);
   const { isSidebarVisible, toggleSidebar, sidebarRef } = useSidebar();
   const [loading, setLoading] = useState(true);
   const [inventory, setInventory] = useState([]);
@@ -43,6 +44,17 @@ const ShowInventory = () => {
         console.error("There was an error deleting the inventory item!", error);
       });
   };
+
+  useEffect(() => {
+    // Fetch the count of inventory items with status "Yes"
+    axios.get('http://localhost:3001/countYesSupply')
+      .then(response => {
+        setCount(response.data.count);
+      })
+      .catch(error => {
+        console.error("There was an error fetching the count!", error);
+      });
+  }, []);
   
 
   const handleCategoryChange = (event) => {
@@ -207,9 +219,9 @@ const generateReport = () => {
           </button>
           <Link to='/ShowAcceptedOrders'>
             <button 
-              className="p-3 h-16 w-[10rem] bg-custom-gray text-white rounded-3xl border border-white"
+              className="p-3 h-16 w-[10rem] text-2xl text-white border rounded-3xl bg-custom-gray border-white"
             >
-              Supplies <FontAwesomeIcon icon={faBagShopping} />
+              <FontAwesomeIcon icon={faBell} /> <span className='text-red-600'>{count}</span>
             </button>
           </Link>
 

@@ -70,6 +70,16 @@ router.put('/OrdersToNo/:id', (req, res) => {
   });
 });
 
+router.get('/countYesSupply', async (req, res) => {
+  try {
+    const count = await SupplierOrder.countDocuments({ status: 'Yes' });
+    res.status(200).json({ count });
+  } catch (error) {
+    console.error('Error fetching count:', error);
+    res.status(500).json({ error: 'Error fetching count' });
+  }
+});
+
 
 // axios.delete()
 

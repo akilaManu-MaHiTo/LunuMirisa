@@ -1,4 +1,3 @@
-// models/CartForm.js
 const mongoose = require('mongoose');
 
 // Define the Cart schema
@@ -14,7 +13,6 @@ const cartFormSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    // You can add an email validator if needed
     validate: {
       validator: (v) => /^\S+@\S+\.\S+$/.test(v),
       message: (props) => `${props.value} is not a valid email!`,
@@ -25,6 +23,19 @@ const cartFormSchema = new mongoose.Schema({
     required: true,
     enum: ['credit-card', 'paypal', 'bank-transfer'],
   },
+  cartItems: [
+    {
+      title: {
+        type: String,
+        required: true,
+      },
+      quantity: {
+        type: Number,
+        required: true,
+        min: 1,
+      },
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,
