@@ -225,11 +225,11 @@ const UserHome = () => {
                 </div>
               </div>
               <div>
-                <p className="text-gray-300 text-2xl font-bold italic mt-5">
+                <p className="text-gray-300 text-2xl font-bold mt-5">
                   {reviews[currentReviewIndex].reviewTitle}
                 </p>
-                <div className="bg-white bg-opacity-70 h-[11rem] pl-4 pr-4 pb-4 pt-1 mt-3 rounded-xl">
-                  <p className="text-black italic mt-5">{reviews[currentReviewIndex].review}</p>
+                <div className="bg-black bg-opacity-50 text-black h-[11rem] pl-4 pr-4 pb-4 pt-1 mt-3 rounded-xl">
+                  <p className="text-white italic mt-5">{reviews[currentReviewIndex].review}</p>
                 </div>
               </div>
             </div>

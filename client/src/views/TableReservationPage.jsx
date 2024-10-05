@@ -78,35 +78,101 @@ const TableReservation = () => {
         <div className="bg-black bg-opacity-60 p-10 mt-16 rounded-xl shadow-lg w-[55rem] h-auto mb-40 border border-gray-500">
           <h1 className="font-spartan font-thin text-3xl mb-6 text-center text-white">Reserve your table</h1>
 
+          
           <div className="flex justify-center mb-6">
-            <label className="text-white mr-4">
+            <label
+              htmlFor="hr"
+              className="flex flex-row items-center gap-2.5 dark:text-white light:text-black mr-5"
+            >
               <input 
                 type="checkbox" 
                 value={2} 
                 onChange={() => handleCheckboxChange(2)} 
                 checked={selectedQuantities.includes(2)}
-                className="mr-2"
+                id="hr"
+                className="peer hidden"
               />
+              <div
+                className="h-5 w-5 flex rounded-md border border-white light:bg-[#e8e8e8] dark:bg-[#212121] peer-checked:bg-red-600 peer-checked:border-red-600 transition"
+              >
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  className="w-5 h-5 light:stroke-[#e8e8e8] dark:stroke-[#212121]"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M4 12.6111L8.92308 17.5L20 6.5"
+                    strokeWidth="2" 
+                    strokeLinecap="round"
+                    strokeLinejoin="round" 
+                  />
+                </svg>
+              </div>
               Quantity 2
             </label>
-            <label className="text-white mr-4">
+
+            <label
+              htmlFor="hr4"
+              className="flex flex-row items-center gap-2.5 dark:text-white light:text-black mr-5"
+            >
               <input 
                 type="checkbox" 
                 value={4} 
                 onChange={() => handleCheckboxChange(4)} 
                 checked={selectedQuantities.includes(4)}
-                className="mr-2"
+                id="hr4"
+                className="peer hidden m-2"
               />
+              <div
+                className="h-5 w-5 flex rounded-md border border-white light:bg-[#e8e8e8] dark:bg-[#212121] peer-checked:bg-red-600 peer-checked:border-red-600  transition"
+              >
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  className="w-5 h-5 light:stroke-[#e8e8e8] dark:stroke-[#212121]"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M4 12.6111L8.92308 17.5L20 6.5"
+                    strokeWidth="2" 
+                    strokeLinecap="round"
+                    strokeLinejoin="round" 
+                  />
+                </svg>
+              </div>
               Quantity 4
             </label>
-            <label className="text-white">
+
+            <label
+              htmlFor="hr6"
+              className="flex flex-row items-center gap-2.5 dark:text-white light:text-black mr-5"
+            >
               <input 
                 type="checkbox" 
                 value={6} 
                 onChange={() => handleCheckboxChange(6)} 
                 checked={selectedQuantities.includes(6)}
-                className="mr-2"
+                id="hr6"
+                className="peer hidden m-2"
               />
+              <div
+                className="h-5 w-5 flex rounded-md border border-white light:bg-[#e8e8e8] dark:bg-[#212121] peer-checked:bg-red-600 peer-checked:border-red-600 transition"
+              >
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  className="w-5 h-5 light:stroke-[#e8e8e8] dark:stroke-[#212121]"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M4 12.6111L8.92308 17.5L20 6.5"
+                    strokeWidth="2" 
+                    strokeLinecap="round"
+                    strokeLinejoin="round" 
+                  />
+                </svg>
+              </div>
               Quantity 6
             </label>
           </div>
@@ -136,7 +202,7 @@ const TableReservation = () => {
                         {`${table.tableNum}`}
                       </h4>
                     </div>
-                    <div className="absolute duration-300 -left-32 mt-2 group-hover:left-10">
+                    <div className="absolute duration-300 -left-36 mt-2 group-hover:left-10">
                       <p className="text-lg mt-5">{`Quantity: ${table.quantity}`}</p>
                       <p className="text-xl ">{`Price: ${table.price}`}</p>
                       <div className="flex justify-center">
