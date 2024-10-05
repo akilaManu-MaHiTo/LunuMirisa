@@ -4,16 +4,16 @@ const Cart = require('../models/Cart');
 
 // Add item to cart
 router.post("/Addtocarts", async (req, res) => {
-    const { userId, itemId, category, title, price } = req.body;
+    const { userId, itemId, category, title, price,image } = req.body;
 
     // Validate input
-    if (!userId || !itemId || !category || !price) {
+    if (!userId || !itemId || !category || !price || !image) {
         return res.status(400).json({ message: "All fields are required." });
     }
 
     try {
         
-        const cartItem = await Cart.create({ userId, itemId, category, title, price });
+        const cartItem = await Cart.create({ userId, itemId, category, title, price, image });
 
         res.status(201).json({
             message: "Item added to cart successfully.",
@@ -68,21 +68,23 @@ router.get("/topThreeItemIds", async (req, res) => {
         const topItems = await Cart.aggregate([
             {
                 $group: {
-                    _id: "$itemId",
+                    _id: "$_id",
                     maxPrice: { $max: { $toDouble: "$price" } },
-                    type: { $first: "$type" }, 
-                    category: { $first: "$category" } 
+                    title: { $first: "$title" }, 
+                    category: { $first: "$category" } ,
+                    image: { $first: "$image" } 
                 }
             },
             { $sort: { maxPrice: -1 } }, 
             { $limit: 3 }, 
             { 
                 $project: { 
-                    _id: 0, 
+                    //_id: 0, 
                     itemId: "$_id", 
                     maxPrice: 1, 
-                    type: 1, 
-                    category: 1 
+                    title: 1, 
+                    category: 1,
+                    image:1
                 } 
             }
         ]);

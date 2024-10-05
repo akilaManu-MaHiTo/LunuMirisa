@@ -58,11 +58,13 @@ const Reservations = () => {
     const filteredReservations = reservations.filter(reservation =>
         (reservation._id.toLowerCase().includes(searchTerm.toLowerCase()) ||
         reservation.userId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        reservation.email.toLowerCase().includes(searchTerm.toLowerCase()) || // Added email filter
         reservation.tableNum.toLowerCase().includes(searchTerm.toLowerCase())) &&
         (filterQuantity === '' || reservation.quantity.toString() === filterQuantity) &&
         (filterDate === '' || reservation.date === filterDate) && // Filter by date
         (filterTime === '' || reservation.time.slice(0, 5) === filterTime) // Filter by formatted time
     );
+    
     
     // Generate time options with 15-minute intervals (e.g., 13:00, 13:15, 13:30)
     const generateTimeOptions = () => {
@@ -144,6 +146,7 @@ const Reservations = () => {
                     <tr className="bg-gray-700 text-gray-200 uppercase text-sm leading-normal">
                         <th className="py-4 px-6 text-left">Reservation ID</th>
                         <th className="py-4 px-6 text-left">User ID</th>
+                        <th className="py-4 px-6 text-left">User Email</th>
                         <th className="py-4 px-6 text-left">Quantity</th>
                         <th className="py-4 px-6 text-left">Price</th>
                         <th className="py-4 px-6 text-left">Table Number</th>
@@ -157,6 +160,7 @@ const Reservations = () => {
                         <tr key={reservation._id} className="border-b border-gray-600 hover:bg-gray-700 transition duration-200">
                             <td className="py-3 px-6">{reservation._id}</td>
                             <td className="py-3 px-6">{reservation.userId}</td>
+                            <td className="py-3 px-6">{reservation.email}</td>
                             <td className="py-3 px-6">{reservation.quantity}</td>
                             <td className="py-3 px-6">{reservation.price}</td>
                             <td className="py-3 px-6">{reservation.tableNum}</td>
@@ -166,12 +170,12 @@ const Reservations = () => {
                             </td>
 
                             <td className="py-3 px-6 text-center">
-                                <button
+                                {/* <button
                                     onClick={() => handleUpdate(reservation._id)}
                                     className="bg-blue-500 text-white py-1 px-3 rounded-md shadow-md hover:bg-blue-600 transition duration-300 mr-2"
                                 >
                                     Update
-                                </button>
+                                </button> */}
                                 <button
                                     onClick={() => handleDelete(reservation._id)}
                                     className="bg-red-500 text-white py-1 px-3 rounded-md shadow-md hover:bg-red-600 transition duration-300"

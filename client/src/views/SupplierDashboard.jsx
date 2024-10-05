@@ -142,6 +142,7 @@ function SupplierDashboard() {
                   <table className="w-full border-collapse bg-white">
                     <thead>
                       <tr className="bg-indigo-100">
+                      <th className="border p-3 text-left">Order Id</th>
                         <th className="border p-3 text-left">Name</th>
                         <th className="border p-3 text-left">Order Quantity</th>
                         <th className="border p-3 text-left">Category</th>
@@ -153,10 +154,11 @@ function SupplierDashboard() {
                     <tbody>
                       {filteredAcceptedOrders.map(order => (
                         <tr key={order._id} className="hover:bg-gray-50 transition duration-300">
+                          <td className="border p-3">{order._id}</td>
                           <td className="border p-3">{order.name}</td>
                           <td className="border p-3">{order.orderQuantity}</td>
                           <td className="border p-3">{order.category}</td>
-                          <td className="border p-3">{order.amount}</td>
+                          <td className="border p-3">{order.totalAmount}</td>
                           <td className="border p-3">{new Date(order.deliveryDate).toLocaleDateString()}</td>
                           <td className="border p-3">{order.specialNote || 'N/A'}</td>
                         </tr>

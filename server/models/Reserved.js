@@ -10,7 +10,8 @@ const ReservedTableSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Assuming 'User' is your user collection
         required: true
-    }
+    },
+    email:{type:String}
 });
 
 module.exports = mongoose.model('ReservedTables', ReservedTableSchema);

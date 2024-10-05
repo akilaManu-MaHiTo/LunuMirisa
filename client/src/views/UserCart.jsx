@@ -20,7 +20,7 @@ const ShowCart = () => {
         const groupedItems = groupCartItems(response.data.cartItems);
         setCartItems(groupedItems);
         setTotalPrice(response.data.totalPrice);
-        toast.success('Cart items fetched successfully!', { autoClose: 3000 });
+        //toast.success('Cart items fetched successfully!', { autoClose: 3000 });
       } catch (err) {
         setError('Failed to fetch cart items');
         console.error('Error fetching cart items:', err);
@@ -112,6 +112,11 @@ const ShowCart = () => {
               {cartItems.map(item => (
                 <div key={item._id} className="bg-gray-100 p-4 rounded-lg shadow-md flex flex-col justify-between">
                   <div>
+                  <img 
+                    src={`http://localhost:3001/Images/` + item.image} 
+                    alt={item.image} 
+                    className="w-[14rem] h-auto rounded mx-auto mt-3 mb-6"
+                  />
                     <h3 className="text-xl font-semibold">Rs.{item.price}</h3>
                     <p className="text-gray-600">Category: {item.category}</p>
                     <p className="text-gray-600">Item Name: {item.title}</p>
