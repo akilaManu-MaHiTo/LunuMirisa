@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faShoppingCart, faUser, faSignOutAlt, faUserCog } from '@fortawesome/free-solid-svg-icons';
+import { faShoppingCart, faUser, faSignOutAlt, faUserCog } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import { faCalendarCheck } from '@fortawesome/free-regular-svg-icons';
 
 const NavigationBar = ({ logo }) => {
   const [showSearchBar, setShowSearchBar] = useState(false);
@@ -46,12 +47,12 @@ const NavigationBar = ({ logo }) => {
   useEffect(() => {
     axios.get(`http://localhost:3001/countCartItems/${userId}`)
       .then(response => {
-        setCartItemCount(response.data.count); // Store the count in state
+        setCartItemCount(response.data.count); 
       })
       .catch(error => {
         console.error('Error fetching cart item count:', error);
       });
-  }, [userId]); // Add userId as a dependency to re-fetch when it changes
+  }, [userId]); 
 
   return (
     <div className='custom1-md:pr-[10rem] custom1-md:pl-[10rem] bg-custom-gray'>
@@ -62,16 +63,16 @@ const NavigationBar = ({ logo }) => {
 
         <ul className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 self-center">
           <li><Link to={`/UserHome/${userId}`} className="text-white font-spartan font-thin text-2xl ">Home</Link></li>
-          <li className="text-white hidden md:inline font-spartan font-thin text-2xl">&nbsp;|&nbsp;</li>
+          <li className="text-white hidden md:inline font-spartan font-thin text-2xl select-none">&nbsp;|&nbsp;</li>
           <li><Link to={`/ShowMenuList/${userId}`} className="text-white font-spartan font-thin text-2xl">Menu</Link></li>
-          <li className="text-white hidden md:inline font-spartan font-thin text-2xl">&nbsp;|&nbsp;</li>
+          <li className="text-white hidden md:inline font-spartan font-thin text-2xl select-none">&nbsp;|&nbsp;</li>
           <li><Link to="/" className="text-white font-spartan font-thin text-2xl">Offers</Link></li>
         </ul>
         
         <div className="flex items-center space-x-4">
           <FontAwesomeIcon 
-            icon={faSearch} 
-            className="text-white cursor-pointer hidden md:inline text-2xl p-3 transition-transform duration-300 ease-in-out transform hover:scale-110 hover:text-gray-300"
+            icon={faCalendarCheck} 
+            className="text-white cursor-pointer hidden md:inline text-[1.6rem] p-3 transition-transform duration-300 ease-in-out transform hover:scale-110  "
             onClick={toggleSearchBar} 
             aria-label="Search"
           />
@@ -79,14 +80,14 @@ const NavigationBar = ({ logo }) => {
           <Link to={`/UserCart/${userId}`} className="relative inline-block">
             <FontAwesomeIcon 
               icon={faShoppingCart} 
-              className="text-white cursor-pointer hidden md:inline text-2xl p-3 transition-transform duration-300 ease-in-out transform hover:scale-110 hover:text-gray-300"
+              className="text-white cursor-pointer hidden md:inline text-2xl p-3 mt-1 transition-transform duration-300 ease-in-out transform hover:scale-110 hover:text-gray-300"
               aria-label="Shopping Cart"
             />
             {cartItemCount > 0 && (
               <span className="absolute top-1 right-1 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
                 {cartItemCount}
               </span>
-            )} {/* Display the count if greater than 0 */}
+            )}
           </Link>
 
           <FontAwesomeIcon 
