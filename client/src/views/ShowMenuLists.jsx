@@ -50,15 +50,11 @@ const ShowMenuLists = () => {
   const fetchTopThreeItems = () => {
     axios.get("http://localhost:3001/topThreeItemIds")
       .then(response => {
-        const uniqueItems = response.data.filter((item, index, self) => 
-          index === self.findIndex((i) => i._id === item._id)
-        );
-        setTopThreeItems(uniqueItems);
-        console.log("Unique top three items: ", uniqueItems);  // Correctly logging the unique top three items
+        setTopThreeItems(response.data);
+        console.log("Top three items: ", response.data);  // Correctly logging the top three items
       })
       .catch(() => toast.error('Error fetching top three items!'));
   };
-  
 
   const handleAddToCart = (item) => {
     const scrollPosition = window.scrollY;
@@ -280,7 +276,7 @@ const TopThreeItemCard = ({ item, onAddToCart }) => (
   </div>
 
   <h3 className="text-white text-xl font-light mt-10 mb-5">{item.title}</h3>
-  <p className="text-white text-3xl font-thin mb-2">Rs.{item.maxPrice}/-</p>
+  <p className="text-white text-3xl font-thin mb-2">Rs.{item.price}/-</p>
   <button onClick={onAddToCart} className="w-full text-lg  bg-custom-light text-white hover:bg-white hover:text-black h-12 mt-3 mb-3 py-2 px-4 transition duration-300 hover:scale-105 group">
       Add to cart 
       <FontAwesomeIcon 
