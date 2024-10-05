@@ -153,16 +153,6 @@ function UpdateUsers() {
         }
     };
 
-    const renderStars = (rating) => {
-        return [...Array(5)].map((_, index) => (
-            <FontAwesomeIcon 
-                key={index} 
-                icon={index < rating ? faCrown : ['far', 'fa-star']} 
-                className={`text-${index < rating ? 'yellow' : 'gray'}-500`} 
-            />
-        ));
-    };
-
     if (loading) {
         return <Loader />;
     }
@@ -346,7 +336,7 @@ function UpdateUsers() {
                 <div className='flex h-72 justify-center mb-20' >
                     <div className=' w-1/2 justify-center items-center bg-custom-light bg-opacity-70 rounded-xl'>
 
-                    <h2 className='text-3xl text-white mt-10 ml-5 font-spartan font-thin'> Deactivate Account </h2>
+                    <h2 className='text-3xl text-red-400 mt-10 ml-5 font-spartan font-light'> Deactivate Account </h2>
 
                     <p className='text-white mt-5 ml-10 w-[40rem] font-spartan text-lg'>
                     <strong>We're Sorry to See You Go</strong> We understand that this is a big decision. If you have any feedback or need assistance, we’re here to help.

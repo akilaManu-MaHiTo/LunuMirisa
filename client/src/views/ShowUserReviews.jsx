@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar as solidStar } from '@fortawesome/free-solid-svg-icons';
-import { faStar as regularStar } from '@fortawesome/free-regular-svg-icons';
+import { faDeleteLeft, faEdit, faTrash, faStar as solidStar } from '@fortawesome/free-solid-svg-icons';
+import { faTrashCan, faStar as regularStar } from '@fortawesome/free-regular-svg-icons';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import NavigationBar from './Components/NavigationBar';
+import bgReview from '../Images/Review-edit-bg.jpg';
+import Navigation from './Components/NavigationBar';
+import logo from '../Images/Logo.png';
 import Footer from './Footer';
 
 const UserReviews = () => {
@@ -89,14 +91,25 @@ const UserReviews = () => {
     };
 
     return (
-        <div>
-            <NavigationBar />
+        <div className='bg-custom-gray'>
+            <Navigation logo={logo} />
             <div className="p-4">
                 <ToastContainer />
-                <h2 className="text-xl font-semibold">My Reviews</h2>
+                <div className='flex justify-center '>
+                
+                <div className='w-1/2'>
+                <h2 className="text-3xl text-white font-thin my-10">My Reviews</h2>
                 {reviews.length > 0 ? (
                     reviews.map((review) => (
-                        <div key={review._id} className="border p-4 my-4 rounded shadow text-white">
+                        <div key={review._id} className="bg-white opacity-70 rounded-xl p-10 my-10 shadow text-black relative">
+                            <div className="absolute top-0 right-0 m-2">
+                                <button
+                                    onClick={() => handleDelete(review._id)}
+                                    className="bg-red-600 text-white px-3 mr-3 mt-3 py-2 rounded hover:bg-red-600 hover:text-black hover:scale-105 transition-all duration-300 ease-in-out transform"
+                                >
+                                   <FontAwesomeIcon icon={faTrashCan} className='text-3' />
+                                </button>
+                            </div>
                             <div className="flex items-center">
                                 {profile && profile.image && (
                                     <img
@@ -106,49 +119,57 @@ const UserReviews = () => {
                                     />
                                 )}
                                 <div>
-                                    <h3 className="font-bold text-white">{`${review.FirstName} ${review.LastName}`}</h3>
-                                    <p className="text-sm text-gray-600">{new Date(review.createdAt).toLocaleDateString()}</p>
+                                    <h3 className="font-bold text-black select-none">{`${review.FirstName} ${review.LastName}`}</h3>
+                                    <p className="text-sm text-gray-400">{new Date(review.createdAt).toLocaleDateString()}</p>
                                 </div>
                             </div>
-                            <div className="mt-4">
-                                <h4 className="font-semibold">Edit Review</h4>
+                            <div className="mt-6">
                                 <input
                                     type="text"
                                     name="reviewTitle"
                                     value={review.reviewTitle || ''}
                                     onChange={(e) => handleChange(e, review._id)}
-                                    className="border p-2 w-full mb-2 text-black"
+                                    className="border p-2 w-full mb-2 text-black rounded-sm shadow-lg"
                                     placeholder="Review Title"
                                 />
                                 <textarea
                                     name="review"
                                     value={review.review || ''}
                                     onChange={(e) => handleChange(e, review._id)}
-                                    className="border p-2 w-full mb-2 text-black"
+                                    className="border p-2 w-full h-40 mb-2 text-black rounded-sm shadow-lg"
                                     placeholder="Your Review"
                                 />
                             </div>
                             <div className="mt-2">
-                                <p>Rating:</p>
+                                <p className='text-lg'>Rating </p>
                                 <div>
                                     {renderStarRating(review.rating, review._id, handleRatingChange)}
                                 </div>
                             </div>
-                            <div className="mt-4">
-                                <button
-                                    onClick={() => handleUpdate(review._id)}
-                                    disabled={!review.isEdited}
-                                    className={`bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 ${!review.isEdited ? 'opacity-50 cursor-not-allowed' : ''}`}
-                                >
-                                    Update Review
-                                </button>
-
-                                <button
-                                    onClick={() => handleDelete(review._id)}
-                                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                                >
-                                    Delete
-                                </button>
+                            <div className="flex mt-4 justify-end">
+                                <div className='mb-5 mr-2'>
+                                    <button
+                                        className="flex items-center bg-blue-500 text-white gap-1 px-4 py-2 cursor-pointer font-semibold tracking-widest rounded-md hover:bg-blue-600 duration-300 hover:gap-2 hover:translate-x-3
+                                        ${!review.isEdited ? 'opacity-50 cursor-not-allowed' : ''}"
+                                        onClick={() => handleUpdate(review._id)}
+                                        disabled={!review.isEdited}>
+                                        Send
+                                        <svg
+                                            className="w-5 h-5"
+                                            stroke="currentColor"
+                                            stroke-width="1.5"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
+                                                stroke-linejoin="round"
+                                                stroke-linecap="round"
+                                            ></path>
+                                        </svg>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     ))
@@ -156,12 +177,14 @@ const UserReviews = () => {
                     <p>No reviews found.</p>
                 )}
             </div>
+
+                </div>
+            </div>
             <Footer />
         </div>
     );
 };
 
-// Helper function to render star rating using Font Awesome
 const renderStarRating = (rating, reviewId, handleRatingChange) => {
     const stars = [];
     for (let i = 0; i < 5; i++) {
