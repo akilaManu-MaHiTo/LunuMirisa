@@ -50,16 +50,21 @@ router.get("/ShowCart/:userId", async (req, res) => {
 });
 
 
-router.delete("/RemoveFromCart/:itemId", async (req, res) => {
-    const { itemId } = req.params;
+router.delete("/RemoveFromCart/:itemtitle/:userId", async (req, res) => {
+    const { itemtitle, userId } = req.params; // Get item title and userId from parameters
     try {
-        await Cart.findByIdAndDelete(itemId); 
-        res.status(200).json({ message: "Item removed from cart successfully." });
+        const result = await Cart.deleteMany({ title: itemtitle, userId: userId }); // Delete items matching the title and userId
+        if (result.deletedCount > 0) {
+            res.status(200).json({ message: "Items removed from cart successfully." });
+        } else {
+            res.status(404).json({ message: "No items found with the specified title." });
+        }
     } catch (err) {
-        console.error("Error removing item from cart:", err);
-        res.status(500).json({ message: "An error occurred while removing the item from the cart." });
+        console.error("Error removing items from cart:", err);
+        res.status(500).json({ message: "An error occurred while removing items from the cart." });
     }
 });
+
 
 
 router.get("/topThreeItemIds", async (req, res) => {

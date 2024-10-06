@@ -51,23 +51,28 @@ const ShowCart = () => {
   };
 
   // Handle Delete
-  const handleDelete = async (itemId) => {
-    try {
-      await axios.delete(`http://localhost:3001/RemoveFromCart/${itemId}`);
-      setCartItems(cartItems.filter(item => item._id !== itemId));
+  // Handle Delete
+const handleDelete = async (itemTitle) => { // Accept itemTitle instead of itemId
+  try {
+      await axios.delete(`http://localhost:3001/RemoveFromCart/${itemTitle}/${userId}`); // Pass itemTitle and userId
+      // Remove all items with the matching title from the state
+      const updatedCartItems = cartItems.filter(item => item.title !== itemTitle);
+      setCartItems(updatedCartItems);
 
-      const updatedTotalPrice = cartItems.reduce((total, item) => {
-        return item._id === itemId ? total : total + parseFloat(item.price) * item.quantity;
+      // Update total price after deleting items
+      const updatedTotalPrice = updatedCartItems.reduce((total, item) => {
+          return total + parseFloat(item.price) * item.quantity;
       }, 0);
       setTotalPrice(updatedTotalPrice);
 
-      toast.success('Item removed from cart', { autoClose: 3000 });
-    } catch (err) {
-      console.error('Error deleting cart item:', err);
-      setError('Failed to delete item from cart');
-      toast.error('Error deleting item from cart', { autoClose: 3000 });
-    }
-  };
+      toast.success('Items removed from cart', { autoClose: 3000 });
+  } catch (err) {
+      console.error('Error deleting cart items:', err);
+      setError('Failed to delete items from cart');
+      toast.error('Error deleting items from cart', { autoClose: 3000 });
+  }
+};
+
 
   // Handle Update Quantity
   const handleUpdate = async (itemId, newQuantity) => {
@@ -131,12 +136,13 @@ const ShowCart = () => {
                     </p>
                   </div>
                   <div className="mt-4 flex justify-between">
-                    <button 
-                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                      onClick={() => handleDelete(item._id)}
-                    >
-                      Delete
-                    </button>
+                  <button 
+                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                    onClick={() => handleDelete(item.title)} // Pass the item title to handleDelete
+                  >
+                    Delete
+                  </button>
+
                     <button 
                       className="bg-black hover:bg-gray-500 text-white font-bold py-2 px-4 rounded"
                       onClick={() => handleUpdate(item._id, item.quantity)}

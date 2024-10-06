@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const CartInfoDisplay = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -108,6 +109,7 @@ const CartInfoDisplay = () => {
           ))}
         </div>
       </div>
+      <Link to='/CheffInventory'><button className='bg-red-600'>Show Inventory</button></Link>
     </div>
   );
 };
