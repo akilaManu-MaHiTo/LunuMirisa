@@ -20,6 +20,7 @@
     "axios": "^1.7.2",
     "chart.js": "^4.4.4",
     "formik": "^2.4.6",
+    "html2canvas": "^1.4.1",
     "jquery": "^3.7.1",
     "jspdf": "^2.5.2",
     "jspdf-autotable": "^3.8.3",

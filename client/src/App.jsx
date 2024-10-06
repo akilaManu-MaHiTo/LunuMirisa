@@ -57,6 +57,8 @@ import ShowAdminReviews from "./views/AdminReview"
 import ShowAcceptedOrders from "./views/ShowAcceptedOrders"
 import MyTableReservations from "./views/ShowMyTables"
 import UpdateReservedTables from "./views/UpdateReservedTable"
+import CheffInventory from "./views/CheffInventory"
+import UpdateInventoryByCheff from './views/UpdateInventoryByCheff'
 
 
 function App() {
@@ -119,6 +121,8 @@ function App() {
         <Route path="/ShowAcceptedOrders" element={<ShowAcceptedOrders/>} />
         <Route path="/MyTableReservations/:userId" element={<MyTableReservations/>} />
         <Route path="/UpdateReservedTables/:reserveId" element={<UpdateReservedTables/>} />
+        <Route path="/CheffInventory" element={<CheffInventory/>} />
+        <Route path="/UpdateInventoryByCheff/:id" element={<UpdateInventoryByCheff/>} />
       </Routes>
     </BrowserRouter>
   );

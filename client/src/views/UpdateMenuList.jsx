@@ -74,6 +74,7 @@ const AddMenuList = () => {
               placeholder="Enter title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+              required
             />
           </div>
           <div className="mb-4">
@@ -88,6 +89,7 @@ const AddMenuList = () => {
               placeholder="Enter price"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
+              required
             />
           </div>
           {/* <div className="mb-4">
@@ -128,6 +130,7 @@ const AddMenuList = () => {
               placeholder="Enter category"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
+              required
             />
           </div>
           <button
