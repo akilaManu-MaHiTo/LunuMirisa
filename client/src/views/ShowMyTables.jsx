@@ -28,24 +28,7 @@ const TableReservation = () => {
       });
   }, [userId]);
 
-  const handleCheckboxChange = (quantity) => {
-    const numericQuantity = Number(quantity); // Convert to number
-    let newSelectedQuantities;
-
-    if (selectedQuantities.includes(numericQuantity)) {
-      newSelectedQuantities = selectedQuantities.filter(q => q !== numericQuantity);
-    } else {
-      newSelectedQuantities = [...selectedQuantities, numericQuantity];
-    }
-    setSelectedQuantities(newSelectedQuantities);
-
-    if (newSelectedQuantities.length > 0) {
-      const filtered = tables.filter(table => newSelectedQuantities.includes(Number(table.quantity)));
-      setFilteredTables(filtered);
-    } else {
-      setFilteredTables(tables);
-    }
-  };
+ 
 
   if (loading) {
     return <Loader />;
@@ -63,48 +46,16 @@ const TableReservation = () => {
         }}
       >
         <div className="bg-black bg-opacity-60 p-10 mt-16 rounded-xl shadow-lg w-[55rem] h-auto mb-40 border border-gray-500">
-          <h1 className="font-spartan font-thin text-3xl mb-6 text-center text-white">Reserve your table</h1>
+          <h1 className="font-spartan font-thin text-4xl mb-16 text-center text-white">You Reserved Tables</h1>
+          
 
-          <div className="flex justify-center mb-6">
-            <label className="text-white mr-4">
-              <input 
-                type="checkbox" 
-                value={2} 
-                onChange={() => handleCheckboxChange(2)} 
-                checked={selectedQuantities.includes(2)}
-                className="mr-2"
-              />
-              Quantity 2
-            </label>
-            <label className="text-white mr-4">
-              <input 
-                type="checkbox" 
-                value={4} 
-                onChange={() => handleCheckboxChange(4)} 
-                checked={selectedQuantities.includes(4)}
-                className="mr-2"
-              />
-              Quantity 4
-            </label>
-            <label className="text-white">
-              <input 
-                type="checkbox" 
-                value={6} 
-                onChange={() => handleCheckboxChange(6)} 
-                checked={selectedQuantities.includes(6)}
-                className="mr-2"
-              />
-              Quantity 6
-            </label>
-          </div>
-
-          <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-center">
+          <ul className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-center">
             {filteredTables.length === 0 ? (
               <p className="text-center text-white">No tables available for the selected quantity.</p>
             ) : (
               filteredTables.map(table => (
                 <li key={table._id} className="p-6">
-                  <div className="font-spartan duration-300 group cursor-pointer relative overflow-hidden bg-custom-dark w-56 h-64 rounded-3xl p-4 hover:w-56 hover:bg-gray-300">
+                  <div className="font-spartan duration-300 group cursor-pointer relative overflow-hidden bg-custom-dark w-56 h-72 rounded-3xl p-4 hover:w-56 hover:bg-gray-300">
                     <h3 className="text-3xl font-thin text-center text-white group-hover:text-black group-hover:text-2xl transition-all duration-300 ease-in-out">
                       Table
                     </h3>
@@ -113,15 +64,15 @@ const TableReservation = () => {
                         {`${table.tableNum}`}
                       </h4>
                     </div>
-                    <div className="absolute duration-300 -left-32 mt-2 group-hover:left-10">
+                    <div className="absolute duration-300 -left-40 mt-2 group-hover:left-10">
                       <p className="text-lg mt-5">{`Quantity: ${table.quantity}`}</p>
                       <p className="text-xl">{`Price: ${table.price}`}</p>
                       <p className="text-xl">{`Time: ${table.time}`}</p>
                       <p className="text-xl">{`Date: ${table.date}`}</p>
                       <div className="flex justify-center">
                         <Link to={`/UpdateReservedTables/${table._id}`}>
-                          <button className="bg-custom-dark text-white py-2 px-4 mt-10 w-24 hover:bg-black transition duration-300 ease-in-out">
-                            Reserve
+                          <button className="bg-custom-dark text-white py-2 px-4 mt-6 w-24 hover:bg-black transition duration-300 ease-in-out">
+                            Renew 
                           </button>
                         </Link>
                       </div>
