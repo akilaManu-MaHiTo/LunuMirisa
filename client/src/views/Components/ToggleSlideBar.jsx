@@ -13,7 +13,7 @@ const Sidebar = () => {
   return (
     <>
       {/* Toggle Button */}
-      <label className="absolute top-10 left-5 z-50">
+      <label className="absolute top-10 left-8 z-50">
         <div onClick={toggleSidebar} className="cursor-pointer">
           {!isOpen ? (
             <FontAwesomeIcon icon={faBars} className="text-3xl text-white" />
