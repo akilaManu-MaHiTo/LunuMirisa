@@ -3,9 +3,10 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import logo from '../Images/Logo.png'; 
 import NavigationBar from './Components/NavigationBar.jsx'; 
+import Footer from './Footer.jsx';
 import Loader from './Components/Loader.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBreadSlice, faMartiniGlass, faPizzaSlice, faPepperHot, faFireFlameCurved, faCartShopping, faCartPlus } from '@fortawesome/free-solid-svg-icons';
+import { faBreadSlice, faMartiniGlass, faPizzaSlice, faPepperHot, faFireFlameCurved, faCartShopping, faCartPlus, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -185,9 +186,9 @@ const ShowMenuLists = () => {
       )}
 
       {/* Menu Items */}
-      <div className="flex items-center justify-center min-h-screen bg-custom-black">
+      <div className="flex items-center justify-center min-h-screen bg-custom-black mb-28">
         <div className="bg-custom-black shadow-md w-full h-full max-w-4xl">
-          <h2 className="text-white text-2xl font-bold mt-6 mb-10">{selectedCategory}</h2>
+          <h2 className="text-white text-2xl font-thin mt-6 mb-10">{selectedCategory}</h2>
           {error && <p className="text-red-500">{error}</p>}
           <div className={`transition-opacity duration-300 ${fade ? 'opacity-0' : 'opacity-100'}`}>
             {filteredItems.length > 0 ? (
@@ -204,33 +205,47 @@ const ShowMenuLists = () => {
       </div>
 
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
+
+      <Footer />
+ 
     </div>
   );
 };
 
 // Component to display each item card
 const ItemCard = ({ item, onAddToCart }) => (
-  <div className="bg-custom-gray p-6 rounded shadow-md w-full max-w-xs transition-transform duration-300 hover:shadow-lg hover:scale-105 relative">
+  <div className="bg-custom-gray p-6 rounded shadow-md w-full max-w-xs transition-transform duration-300 hover:shadow-[0_0_10px_rgba(255,255,255,0.6)]  hover:scale-105 relative">
 
-
-    <div class="group card w-[220px] h-[185px] mx-auto mt-5 bg-custom-gray  text-[30px] font-black transition-all duration-400 hover:cursor-pointer hover:scale-[1] hover:bg-custom-gray">
-      <div class="first-content flex justify-center items-center w-full h-full transition-all duration-400 opacity-100 group-hover:opacity-0 group-hover:h-0">
-        <img 
-          src={`http://localhost:3001/Images/` + item.image} 
-          alt={item.name} 
-          className="w-full h-48 bg-cover mx-auto bg-center mt-5"
-        />
-      </div>
-      <div class="second-content flex justify-center items-center w-full h-0 opacity-0 transition-all duration-400 text-[0rem] transform rotate-90 scale-[-1] group-hover:h-full group-hover:opacity-100 group-hover:rotate-0 group-hover:scale-100 group-hover:text-[1.8rem]">
-        <span className='text-white w-52 h-32 mb-10 whitespace-normal font-thin text-justify'>
-          <strong className='font-semibold text-lg'>Ingredients</strong>
-          <p className='mt-2 w-46 h-28 overflow-y-scroll text-sm'>{item.description}</p>
-        </span>
+    <div className="relative">
+      <img 
+        src={`http://localhost:3001/Images/` + item.image} 
+        alt={item.name} 
+        className="w-full h-48 bg-cover mx-auto bg-center mt-5"
+      />
+      <div
+        className="group absolute right-0 bottom-0 flex h-[2em] w-[2em] items-center justify-center overflow-hidden rounded-[1.5em] border-[1px] border-[#ffffffaa] bg-[#8988885c] hover:bg-black hover:opacity-80  duration-[500ms] hover:h-[12.5em] hover:w-[13.8em] hover:rounded-lg"
+      >
+        <FontAwesomeIcon icon={faInfoCircle} className="h-[1em] w-[1em] duration-300 group-hover:opacity-0" />
+        <div
+          className="items-left duration-600 absolute left-0 top-0 flex h-[13.5em] w-[14.5em] translate-y-[100%] flex-col justify-between p-[1.5em] font-nunito text-[hsl(0,0%,85%)] group-hover:translate-y-0"
+        >
+          <div className="items-left flex flex-col justify-center">
+            <h1 className="text-[1.5em] font-bold leading-[0.8em] mb-2">Description</h1>
+            <p className="text-[0.9em] font-light">
+              <p className='mt-2 w-46 h-28 overflow-y-scroll custom-scrollbar text-[1rem] '>{item.description}</p>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
 
-    <h3 className="text-white text-xl font-light mt-10 mb-5">{item.title}</h3>
-    <p className="text-white text-3xl font-thin mb-2">Rs.{item.price}/-</p>
+
+
+    <h3 className="text-white text-xl font-light mt-10 mb-4">{item.title}</h3>
+    <p className="text-white text-3xl font-thin mb-2">
+      <span className="text-lg">Rs.</span> {item.price}/-
+    </p>
+
     <div className="absolute top-3 right-5">
       <FontAwesomeIcon icon={getIconForCategory(item.category)} className="text-white" />
     </div>
@@ -251,7 +266,7 @@ const ItemCard = ({ item, onAddToCart }) => (
 
 
 const TopThreeItemCard = ({ item, onAddToCart }) => (
-<div className="bg-custom-gray p-6 rounded shadow-md w-full max-w-xs transition-transform duration-300 hover:scale-105 hover:shadow-lg relative">
+<div className="bg-custom-gray p-6 rounded shadow-md w-full max-w-xs transition-transform duration-300 hover:scale-105 hover:shadow-[0_0_10px_rgba(255,255,255,0.6)] relative">
   {/* Ribbon for hot item */}
   <div className="absolute top-0 right-0 w-32 h-32 overflow-hidden">
     <div className="bg-red-600 text-white text-center pl-[5.5rem] text-sm font-bold px-3 py-1 absolute top-[-1rem] right-[-45px] w-48 transform rotate-45">
@@ -259,24 +274,33 @@ const TopThreeItemCard = ({ item, onAddToCart }) => (
     </div>
   </div>
 
-  <div class="group card w-[220px] h-[185px] mx-auto mt-5 bg-custom-gray  text-[30px] font-black transition-all duration-400 hover:cursor-pointer hover:scale-[1] hover:bg-custom-gray">
-    <div class="first-content flex justify-center items-center w-full h-full transition-all duration-400 opacity-100 group-hover:opacity-0 group-hover:h-0">
+  <div className="relative">
       <img 
         src={`http://localhost:3001/Images/` + item.image} 
         alt={item.name} 
-        className="w-full h-48 bg-cover mx-auto bg-center mt-5"
+        className="w-52 h-48 bg-cover mx-auto bg-center mt-5"
       />
+      <div
+        className="group absolute right-0 bottom-0 flex h-[2em] w-[2em] items-center justify-center overflow-hidden rounded-[1.5em] border-[1px] border-[#ffffffaa] bg-[#8988885c] hover:bg-black hover:opacity-80  duration-[500ms] hover:h-[12.5em] hover:w-[13.8em] hover:rounded-lg"
+      >
+        <FontAwesomeIcon icon={faInfoCircle} className="h-[1em] w-[1em] duration-300 group-hover:opacity-0" />
+        <div
+          className="items-left duration-600 absolute left-0 top-0 flex h-[13.5em] w-[14.5em] translate-y-[100%] flex-col justify-between p-[1.5em] font-nunito text-[hsl(0,0%,85%)] group-hover:translate-y-0"
+        >
+          <div className="items-left flex flex-col justify-center">
+            <h1 className="text-[1.5em] font-bold leading-[0.8em] mb-2">Description</h1>
+            <p className="text-[0.9em] font-light">
+              <p className='mt-2 w-46 h-28 overflow-y-scroll custom-scrollbar text-[1rem] '>{item.description}</p>
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="second-content flex justify-center items-center w-full h-0 opacity-0 transition-all duration-400 text-[0rem] transform rotate-90 scale-[-1] group-hover:h-full group-hover:opacity-100 group-hover:rotate-0 group-hover:scale-100 group-hover:text-[1.8rem]">
-      <span className='text-white w-52 h-32 mb-10 whitespace-normal font-thin text-justify'>
-        <strong className='font-semibold text-lg'>Ingredients</strong>
-        <p className='mt-2 w-46 h-28 overflow-y-scroll text-sm'>{item.description}</p>
-      </span>
-    </div>
-  </div>
 
-  <h3 className="text-white text-xl font-light mt-10 mb-5">{item.title}</h3>
-  <p className="text-white text-3xl font-thin mb-2">Rs.{item.price}/-</p>
+  <h3 className="text-white text-xl font-light mt-10 mb-4">{item.title}</h3>
+  <p className="text-white text-3xl font-thin mb-2">
+      <span className="text-lg">Rs.</span> {item.price}/-
+    </p>
   <button onClick={onAddToCart} className="w-full text-lg  bg-custom-light text-white hover:bg-white hover:text-black h-12 mt-3 mb-3 py-2 px-4 transition duration-300 hover:scale-105 group">
       Add to cart 
       <FontAwesomeIcon 
