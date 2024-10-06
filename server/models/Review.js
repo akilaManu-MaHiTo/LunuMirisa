@@ -47,6 +47,10 @@ const ratingSchema = new Schema({
         type: String,
         default: 'Show'
     },
+    reply:{
+        type: String,
+        default: ''
+    }
 });
 
 // Create and export the model

@@ -140,6 +140,11 @@ const UserReviews = () => {
                                     placeholder="Your Review"
                                 />
                             </div>
+                            
+                            
+                            <div className="border p-2 w-full h-40 mb-2 text-black rounded-sm shadow-lg"><div className='pt-2 pb-2'>Admin Reply</div>
+                                {review.reply}
+                            </div>
                             <div className="mt-2">
                                 <p className='text-lg'>Rating </p>
                                 <div>

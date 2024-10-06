@@ -87,7 +87,15 @@ router.get("/GetNonHideReviews", (req, res) => {
       .then((reviews) => res.json(reviews)) // Send the filtered reviews back as JSON
       .catch((err) => res.status(500).json({ error: err.message })); // Error handling
 });
+
+router.put("/UpdateReviewReply/:id", (req, res) => {
+    const { id } = req.params;
+    const { reply } = req.body;
   
+    Rating.findByIdAndUpdate(id, { reply }, { new: true })
+      .then((updatedReview) => res.json(updatedReview))
+      .catch((err) => res.status(500).json({ error: err.message }));
+});
 
 
 

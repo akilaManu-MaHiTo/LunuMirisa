@@ -85,7 +85,7 @@ router.get("/topThreeItemIds", async (req, res) => {
             { 
                 $project: { 
                     _id: 0,  // Exclude the _id field
-                    itemId: "$_id",  // Return itemId
+                    itemId: "$_id",  // Return itemId (use _id from the group)
                     totalQuantity: 1,  // Return total quantity
                     title: 1, 
                     category: 1,
@@ -101,6 +101,7 @@ router.get("/topThreeItemIds", async (req, res) => {
         res.status(500).json({ message: "An error occurred while fetching the top three item IDs." });
     }
 });
+
 
 
 
