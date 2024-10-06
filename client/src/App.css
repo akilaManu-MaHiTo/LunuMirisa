@@ -90,3 +90,44 @@ body {
   background-color: transparent;
 }
 
+
+/* Parallax container */
+.parallax {
+  position: relative;
+  height: 100vh; /* Full viewport height */
+  overflow: hidden; /* Hide overflow */
+}
+
+/* Background image styles */
+.parallax-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-attachment: fixed; /* Fixed background for parallax effect */
+  background-size: cover; /* Cover entire area */
+  background-position: center; /* Center the background image */
+  z-index: 0; /* Behind the content */
+}
+
+/* Content styles */
+.parallax-content {
+  position: relative;
+  z-index: 1; /* In front of the background */
+  color: white; /* Text color */
+  padding: 2rem; /* Optional padding */
+}
+
+.overlay {
+  position: absolute; /* Position overlay absolutely */
+  top: 0; /* Align to the top */
+  left: 0; /* Align to the left */
+  right: 0; /* Align to the right */
+  bottom: 0; /* Align to the bottom */
+  background-color: rgba(0, 0, 0, 0.5); /* Black with 50% transparency */
+  z-index: 1; /* Behind the content */
+}
+
+
+

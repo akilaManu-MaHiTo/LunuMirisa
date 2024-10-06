@@ -69,13 +69,14 @@ const NavigationBar = ({ logo }) => {
           <li><Link to="/" className="text-white font-spartan font-thin text-2xl">Offers</Link></li>
         </ul>
         
+        
         <div className="flex items-center space-x-4">
+        <Link to={`/MyTableReservations/${userId}`}>
           <FontAwesomeIcon 
             icon={faCalendarCheck} 
-            className="text-white cursor-pointer hidden md:inline text-[1.6rem] p-3 transition-transform duration-300 ease-in-out transform hover:scale-110  "
-            onClick={toggleSearchBar} 
-            aria-label="Search"
+            className="text-white cursor-pointer hidden md:inline text-[1.6rem] p-3 transition-transform duration-300 ease-in-out transform hover:scale-110  "            
           />
+          </Link>
           
           <Link to={`/UserCart/${userId}`} className="relative inline-block">
             <FontAwesomeIcon 
