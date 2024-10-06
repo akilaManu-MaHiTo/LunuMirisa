@@ -51,9 +51,9 @@ const AddMenuList = () => {
         <div>
             <NavigationBar logo={logo} /> 
             <Sidebar /> 
-            <div className="flex items-center justify-center min-h-screen bg-custom-maroon">
+            <div className="flex items-center justify-center min-h-screen bg-black">
                 <h1 className=" absolute top-10 text-white text-2xl font-thin text-center">Menu List Managment</h1>
-                <div className="bg-white w-[30em] p-8 rounded-lg shadow-md mt-10">
+                <div className="bg-custom-toolight w-[30em] p-8 rounded-lg shadow-md mt-10">
                     <h2 className="text-2xl font-light text-center mb-8 text-black">Add Menu Item</h2>
                     <form onSubmit={handleSubmit}>
                         <div className="mb-4">
@@ -63,7 +63,7 @@ const AddMenuList = () => {
                             <input
                                 type="text"
                                 id="title"
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none  sm:text-sm"
                                 placeholder="Enter title"
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
@@ -78,7 +78,7 @@ const AddMenuList = () => {
                                 type="number"
                                 id="price"
                                 step="0.01"
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none sm:text-sm"
                                 placeholder="Enter price"
                                 value={price}
                                 onChange={(e) => setPrice(e.target.value)}
@@ -107,7 +107,7 @@ const AddMenuList = () => {
                             </label>
                             <select
                                 id="category"
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none sm:text-sm"
                                 value={category}
                                 onChange={(e) => setCategory(e.target.value)}
                                 required
@@ -125,7 +125,7 @@ const AddMenuList = () => {
                             </label>
                             <textarea
                                 id="description"
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none sm:text-sm"
                                 placeholder="Enter description"
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
@@ -142,7 +142,7 @@ const AddMenuList = () => {
                         </button>
 
                         <Link to="/ManagerMenuList">
-                            <button type="button" className="w-full mt-4 bg-custom-toolight text-black py-2 px-4 rounded-md hover:bg-white border hover:border-black hover:text-black transition-all duration-300 ease-out transform hover:scale-105">
+                            <button type="button" className="w-full mt-4 bg-custom-light text-white py-2 px-4 rounded-md hover:bg-white border hover:border-black hover:text-black transition-all duration-300 ease-out transform hover:scale-105">
                                 Menu List
                             </button>
                         </Link>

@@ -80,12 +80,12 @@ const ShowInventory = () => {
 
   // MainContent component
   const MainContent = () => (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center min-h-screen bg-black">
       <form 
         onSubmit={handleSubmit} 
-        className="bg-white p-6 rounded shadow-md w-full max-w-sm"
+        className="bg-custom-toolight w-[35rem] p-6 rounded shadow-md mb-20"
       >
-        <h2 className="text-2xl font-bold mb-4">{id ? "Edit" : "Add"} Place Order For Suppliers</h2>
+        <h2 className="text-2xl font-thin text-center mb-6">Order For Suppliers</h2>
         
         <div className="mb-4 flex items-center justify-center">
           {imageURL && (
@@ -164,7 +164,7 @@ const ShowInventory = () => {
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="category">
             Category
           </label>
-          <select
+          <input
             name="category"
             id="category"
             value={category}
@@ -172,19 +172,14 @@ const ShowInventory = () => {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             required
             readOnly
-          >
-            <option value="Vegetables">Vegetables</option>
-            <option value="Fruits">Fruits</option>
-            <option value="Spices">Spices</option>
-            <option value="Meat">Meat</option>
-            <option value="Fisheries">Fisheries</option>
-          </select>
+          
+          />
         </div>
 
         <div className="flex justify-center items-center">
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-black hover:bg-white hover:text-black text-white  font-light mt-5 py-3 px-4 rounded focus:outline-none focus:shadow-outline transition-all duration-300 ease-out transform hover:scale-105"
           >
             Place Order
           </button>
@@ -194,15 +189,10 @@ const ShowInventory = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <AdminNaviBar selectedPage="Admin Panel" />
+    <div className="min-h-screen bg-black">
+      <AdminNaviBar selectedPage="Place Order" />
       <div className="p-5 custom1-md:pl-[4rem]">
-        <button
-          className="text-gray-800 text-2xl focus:outline-none"
-          onClick={toggleSidebar}
-        >
-          <FontAwesomeIcon icon={faBars} />
-        </button>
+        
       </div>
 
       <SidebarWithOverlay />

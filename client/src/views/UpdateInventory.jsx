@@ -116,12 +116,12 @@ const UpdateInventory = () => {
 
   // MainContent component
   const MainContent = () => (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center min-h-screen bg-black">
       <form 
         onSubmit={handleSubmit} 
-        className="bg-white p-6 rounded shadow-md w-full max-w-sm"
+        className="bg-custom-toolight p-6 rounded shadow-md w-[35rem] my-10"
       >
-        <h2 className="text-2xl font-bold mb-4">{id ? "Edit" : "Add"} Place Order For Suppliers</h2>
+        <h2 className="text-2xl font-thin text-center mb-4">{id ? "Edit" : "Add"} Place Order For Suppliers</h2>
         
         <div className="mb-4 flex items-center justify-center">
           {imageURL && (
@@ -135,7 +135,7 @@ const UpdateInventory = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
+          <label className="block text-gray-500 text-sm font-bold mb-2" htmlFor="name">
             Item Name
           </label>
           <input
@@ -151,7 +151,7 @@ const UpdateInventory = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="quantity">
+          <label className="block text-gray-500 text-sm font-bold mb-2" htmlFor="quantity">
             Current Quantity
           </label>
           <input
@@ -166,7 +166,7 @@ const UpdateInventory = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="newQuantity">
+          <label className="block text-black text-sm font-bold mb-2" htmlFor="newQuantity">
             New Quantity
           </label>
           <select
@@ -183,7 +183,7 @@ const UpdateInventory = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="reduceQuantity">
+          <label className="block text-blacktext-sm font-bold mb-2" htmlFor="reduceQuantity">
             Reduce Quantity
           </label>
           <select
@@ -200,7 +200,7 @@ const UpdateInventory = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="maxQuantity">
+          <label className="block text-gray-500 text-sm font-bold mb-2" htmlFor="maxQuantity">
             Max Quantity
           </label>
           <input
@@ -216,29 +216,25 @@ const UpdateInventory = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="category">
+          <label className="block text-gray-500 text-sm font-bold mb-2" htmlFor="category">
             Category
           </label>
-          <select
+          <input
             name="category"
             id="category"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             required
-          >
-            <option value="Vegetables">Vegetables</option>
-            <option value="Fruits">Fruits</option>
-            <option value="Spices">Spices</option>
-            <option value="Meat">Meat</option>
-            <option value="Fisheries">Fisheries</option>
-          </select>
+            readOnly
+          
+          />
         </div>
 
         <div className="flex justify-center items-center">
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-black hover:bg-white hover:text-black text-white  font-light py-3 px-4 rounded focus:outline-none focus:shadow-outline transition-all duration-300 ease-out transform hover:scale-105"
           >
             Update Inventory
           </button>
@@ -248,8 +244,8 @@ const UpdateInventory = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <AdminNaviBar />
+    <div className="min-h-screen bg-black">
+      <AdminNaviBar selectedPage="Edit Item" />
       <SidebarWithOverlay />
       <div className="container mx-auto p-4">
         <MainContent />

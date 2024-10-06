@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import jsPDF from 'jspdf';  // Import jsPDF
 import 'jspdf-autotable';   // Import jsPDF AutoTable
+import AdminNaviBar from './Components/AdminNavigationBar';
+import Sidebar from './Components/ToggleSlideBar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFileLines, faFilePdf } from '@fortawesome/free-solid-svg-icons';
 
 const AcceptedOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -133,96 +137,128 @@ const AcceptedOrders = () => {
   }
 
   return (
-    <div className="container mx-auto p-4 text-gray-100 bg-gray-900 min-h-screen">
-      <h1 className="text-3xl font-bold mb-6 text-center text-gray-200">Accepted Orders</h1>
+    <div>
+      <AdminNaviBar selectedPage="Accepted Orders" />
+      <Sidebar /> 
+      <div className="container mx-auto p-4 text-gray-100 bg-gray-900 min-h-screen px-40">
 
-      {/* Status Filter Dropdown */}
-      <div className="mb-6">
-        <label className="text-gray-200 mr-4">Filter by Status:</label>
-        <select
-          value={statusFilter}
-          onChange={handleStatusFilterChange}
-          className="px-4 py-2 bg-gray-700 text-white rounded"
-        >
-          <option value="All">All Supplies</option>
-          <option value="Yes">To Add Inventory</option>
-          <option value="No">Added Supplies</option>
-        </select>
-      </div>
+        <div className='flex justify-between w-full '>
 
-      {/* Single Search Bar */}
-      <div className="mb-6">
-        <label className="text-gray-200 mr-4">Search:</label>
-        <input
-          type="text"
-          value={searchInput}
-          onChange={handleSearchInputChange}
-          placeholder="Search by Order Name, Supply Name, Supplier Name, or Supplier ID"
-          className="px-4 py-2 bg-gray-700 text-white rounded w-full"
-        />
-      </div>
-
-      {/* Delivery Date Filter */}
-      <div className="mb-6">
-        <label className="text-gray-200 mr-4">Filter by Delivery Date:</label>
-        <input
-          type="date"
-          value={deliveryDate}
-          onChange={handleDeliveryDateChange}
-          className="px-4 py-2 bg-gray-700 text-white rounded"
-        />
-      </div>
-
-      {/* Display Total Amount */}
-      <div className="mb-6 text-center text-lg text-gray-200">
-        <strong>Total Amount:</strong> ${totalAmount.toFixed(2)}
-      </div>
-
-      {/* Button to generate PDF report */}
-      <button 
-        onClick={generatePDF}
-        className="mb-6 px-4 py-2 bg-blue-500 text-white rounded"
-      >
-        Generate PDF Report
-      </button>
-
-      <div className="grid grid-cols-1 gap-6">
-        {filteredOrders.map(order => (
-          <div 
-            key={order._id} 
-            className={`bg-gray-800 p-6 rounded-lg shadow-lg 
-                        ${order.status === 'Yes' ? 'border-2 border-green-500' : 'border-2 border-red-500'}`}
-          >
-            <img 
-              src={`http://localhost:3001/Images/${order.image}`} 
-              alt={order.name} 
-              className="w-32 h-32 object-cover rounded-md"
-            />
-            <p><strong>ID:</strong> {order._id}</p>
-            <p><strong>Name:</strong> {order.name}</p>
-            <p><strong>Order Quantity:</strong> {order.orderQuantity}</p>
-            <p><strong>Category:</strong> {order.category}</p>
-            <p><strong>Total Amount:</strong> ${order.totalAmount}</p>
-            <p><strong>Delivery Date:</strong> {new Date(order.deliveryDate).toLocaleDateString()}</p>
-            <p><strong>Special Note:</strong> {order.specialNote}</p>
-            <p><strong>Supplier ID:</strong> {order.supplierId}</p>
-            <p><strong>Supplier Name:</strong> {order.supplierName}</p>
-            <p><strong>Unit Price:</strong> ${order.totalAmount / order.orderQuantity}</p>
-            <p><strong>Status:</strong> {order.status}</p>
-            <p><strong>Created At:</strong> {new Date(order.createdAt).toLocaleString()}</p>
-            <p><strong>Updated At:</strong> {new Date(order.updatedAt).toLocaleString()}</p>
-
-            {/* Update Inventory Button */}
-            <button 
-              className={`px-4 py-2 mt-4 rounded 
-                          ${order.status === 'Yes' ? 'bg-white text-black' : 'bg-gray-600 text-gray-300 cursor-not-allowed'}`}
-              onClick={() => order.status === 'Yes' && handleUpdate(order.name, order.orderQuantity, order._id)}
-              disabled={order.status !== 'Yes'} // Disable button if status is not 'Yes'
+          {/* Status Filter Dropdown */}
+          <div className="mb-6">
+            <label className="text-gray-200 mr-4">Filter by Status:</label>
+            <select
+              value={statusFilter}
+              onChange={handleStatusFilterChange}
+              className="px-4 py-2 bg-gray-700 text-white rounded"
             >
-              Update Inventory
-            </button>
+              <option value="All">All Supplies</option>
+              <option value="Yes">To Add Inventory</option>
+              <option value="No">Added Supplies</option>
+            </select>
           </div>
-        ))}
+
+          {/* Single Search Bar */}
+          <div className=" flex mb-6">
+            <label className="text-gray-200 mr-4 mt-2">Search:</label>
+            <input
+              type="text"
+              value={searchInput}
+              onChange={handleSearchInputChange}
+              placeholder="Search by Order Name, Supply Name, Supplier Name, or Supplier ID"
+              className="px-4 py-2 bg-gray-700 text-white rounded w-full"
+            />
+          </div>
+
+          {/* Delivery Date Filter */}
+          <div className="mb-6">
+            <label className="text-gray-200 mr-4">Filter by Delivery Date:</label>
+            <input
+              type="date"
+              value={deliveryDate}
+              onChange={handleDeliveryDateChange}
+              className="px-4 py-2 bg-gray-700 text-white rounded"
+            />
+          </div>
+
+        </div>
+
+
+
+
+        {/* Display Total Amount */}
+        <div className="mb-6 mt-16 text-center text-2xl text-gray-200">
+          <strong className='font-thin text-lg'>Total Amount:</strong> <p className='text-4xl font-light'>Rs.{totalAmount.toFixed(2)}</p>
+        </div>
+
+
+        {/* Button to generate PDF report */}
+        <button 
+          onClick={generatePDF}
+          className="mb-6 px-4 py-2 bg-blue-500 text-white rounded"
+        >
+          Generate PDF Report
+        </button>
+
+        <div className="grid grid-cols-1 gap-6">
+          {filteredOrders.map(order => (
+            <div 
+              key={order._id} 
+              className={`bg-gray-800 p-6 rounded-lg shadow-lg 
+                          ${order.status === 'Yes' ? 'border-2 border-green-500' : 'border-2 border-red-500'}`}
+            >
+              <div className='flex justify-between px-36'>
+              <img 
+                src={`http://localhost:3001/Images/${order.image}`} 
+                alt={order.name} 
+                className="w-60 h-60 mt-10 object-cover rounded-md"
+              />
+<div className="mt-10 space-y-2 text-lg font-light">
+  <p>
+    <strong className='mr-3'>Order ID:</strong> {order._id}
+  </p>
+  <p>
+    <strong className='mr-3'>Name:</strong> {order.name}
+  </p>
+  <p>
+    <strong className='mr-3'>Order Quantity:</strong> {order.orderQuantity}
+  </p>
+  <p>
+    <strong className='mr-3'>Category:</strong> {order.category}
+  </p>
+  <p>
+    <strong className='mr-3'>Total Amount:</strong> ${order.totalAmount.toFixed(2)}
+  </p>
+  <p>
+    <strong className='mr-3'>Delivery Date:</strong> {new Date(order.deliveryDate).toLocaleDateString()}
+  </p>
+  <p>
+    <strong className='mr-3'>Special Note:</strong> {order.specialNote || 'None'}
+  </p>
+  <p>
+    <strong className='mr-3'>Supplier Name:</strong> {order.supplierName}
+  </p>
+  <p>
+    <strong className='mr-3'>Unit Price:</strong> ${ (order.totalAmount / order.orderQuantity).toFixed(2) }
+  </p>
+</div>
+
+
+              </div>
+
+              <div className='flex justify-end mr-10 mt-10'>
+              <button 
+                className={`px-4 py-2 mt-4 rounded 
+                            ${order.status === 'Yes' ? 'bg-white text-black' : 'bg-gray-600 text-gray-300 cursor-not-allowed'}`}
+                onClick={() => order.status === 'Yes' && handleUpdate(order.name, order.orderQuantity, order._id)}
+                disabled={order.status !== 'Yes'} // Disable button if status is not 'Yes'
+              >
+                Update Inventory
+              </button>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

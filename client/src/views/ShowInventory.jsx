@@ -4,7 +4,7 @@ import AdminNaviBar from './Components/AdminNavigationBar';
 import ToggleSlideBar from './Components/ToggleSlideBar';
 import useSidebar from './Components/useSidebar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faPlus, faPenToSquare, faTruckArrowRight, faTrashCan, faBell } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faPlus, faPenToSquare, faTruckArrowRight, faTrashCan, faBell, faFilePdf, faSync } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Loader from './Components/Loader.jsx';
@@ -154,16 +154,7 @@ const generateReport = () => {
     <div className="min-h-screen bg-custom-black">
       <AdminNaviBar selectedPage="Inventory Management" />
 
-      <div className="p-5 custom1-md:pl-[4rem]">
-        <button
-          className="text-white text-2xl focus:outline-none"
-          onClick={toggleSidebar}
-        >
-          <FontAwesomeIcon icon={faBars} />
-        </button>
-      </div>
-
-      <div className="p-2 flex items-center justify-end">
+      <div className="p-2 flex items-center justify-end mt-10">
         <div className="flex space-x-4 custom1-md:mr-[4rem]">
           {/* Search Bar */}
           <input 
@@ -171,14 +162,14 @@ const generateReport = () => {
             value={searchQuery}
             onChange={handleSearchChange}
             placeholder="Search items..."
-            className="p-5 w-[10rem] bg-custom-gray text-white h-auto rounded-3xl border border-white"
+            className="p-5 w-[21rem] bg-custom-gray text-white h-auto rounded-3xl border border-white transition-all duration-300 ease-out transform hover:scale-105"
           />
 
           {/* Category Filter */}
           <select 
             value={selectedCategory} 
             onChange={handleCategoryChange}
-            className="p-5 w-[10rem] bg-custom-gray text-white h-auto rounded-3xl border border-white"
+            className="p-5 w-[10rem] bg-custom-gray text-white h-auto rounded-3xl border border-white transition-all duration-300 ease-out transform hover:scale-105"
           >
             <option value="">All Categories</option>
             <option value="Vegetables">Vegetables</option>
@@ -189,7 +180,7 @@ const generateReport = () => {
           </select>
 
           {/* Max Quantity Filter */}
-          <div className="flex items-center space-x-4 pr-6 pl-8 bg-custom-gray text-white rounded-3xl border border-white">
+          <div className="flex items-center space-x-4 pr-6 pl-8 bg-custom-gray text-white rounded-3xl border border-white ">
             <label className="text-white">Filter By Quantity</label>
             <input 
               type="range" 
@@ -197,14 +188,14 @@ const generateReport = () => {
               max="5" 
               value={maxQuantity} 
               onChange={handleMaxQuantityChange}
-              className="w-28 h-2 bg-black rounded-lg outline-none focus:ring-1 focus:ring-white slider"
+              className="w-28 h-2 bg-black rounded-lg outline-none focus:ring-1 focus:ring-white slider transition-all duration-300 ease-out transform hover:scale-105"
             />
             <span className="text-white">{maxQuantity}</span>
           </div>
 
           <Link to='/Inventory'>
             <button 
-              className="p-3 h-16 w-[10rem] bg-custom-gray text-white rounded-3xl border border-white"
+              className="p-3 h-16 w-[10rem] bg-custom-gray text-white rounded-3xl border border-white transition-all duration-300 ease-out transform hover:scale-105"
             >
               Add Items <FontAwesomeIcon icon={faPlus} />
             </button>
@@ -212,16 +203,16 @@ const generateReport = () => {
 
           {/* Generate Report Button */}
           <button 
-            className="p-3 h-16 w-[10rem] bg-custom-gray text-white rounded-3xl border border-white"
+            className="p-3 h-16 w-[12rem] bg-custom-gray text-white rounded-3xl border border-white transition-all duration-300 ease-out transform hover:scale-105"
             onClick={generateReport}
           >
-            Generate Report
+            Generate Report <FontAwesomeIcon icon={faFilePdf} className='ml-2' />
           </button>
           <Link to='/ShowAcceptedOrders'>
             <button 
-              className="p-3 h-16 w-[10rem] text-2xl text-white border rounded-3xl bg-custom-gray border-white"
+              className="p-3 h-16 w-[5rem] text-xl text-white border rounded-3xl bg-custom-gray border-white "
             >
-              <FontAwesomeIcon icon={faBell} /> <span className='text-red-600'>{count}</span>
+              <FontAwesomeIcon icon={faBell} /> <span className='absolute top-[10.4rem] text-white text-lg'>{count}</span>
             </button>
           </Link>
 
@@ -231,7 +222,7 @@ const generateReport = () => {
       <SidebarWithOverlay />
 
       <div className="flex items-center justify-center bg-custom-black mt-10">
-        <div className="bg-white p-6 rounded shadow-md w-full max-w-[106rem]">
+        <div className="bg-custom-toolight p-6 rounded shadow-md w-full max-w-[106rem]">
           <h2 className="text-2xl text-center font-bold mb-4">{selectedCategory || "All Categories"}</h2>
 
           {/* Inventory List */}
@@ -264,22 +255,22 @@ const generateReport = () => {
                     <div>{item.quantity}kg</div>
                     <div>{item.maxQuantity}kg</div>
                     {item.quantity < 5 && item.quantity !== item.maxQuantity ? (
-                      <div className="text-white bg-red-500 rounded-md w-20 text-center h-11 font-semibold pt-2">Low</div>
+                      <div className="text-white bg-red-500 rounded-md w-20 text-center h-11 font-semibold pt-2 select-none ">Low</div>
                     ) : item.quantity === item.maxQuantity ? (
-                      <div className="text-white bg-green-700 rounded-md w-20 text-center h-11 font-semibold pt-2">Fine</div>
+                      <div className="text-white bg-green-700 rounded-md w-20 text-center h-11 font-semibold pt-2 select-none">Fine</div>
                     ) : item.quantity < item.maxQuantity && item.maxQuantity === 5 ? (
-                      <div className="text-white bg-red-500 rounded-md w-20 text-center h-11 font-semibold pt-2">Low</div>
+                      <div className="text-white bg-red-500 rounded-md w-20 text-center h-11 font-semibold pt-2 select-none">Low</div>
                     ) : (
-                      <div className="text-white bg-yellow-500 rounded-md w-20 text-center h-11 font-bold pt-2">Normal</div>
+                      <div className="text-white bg-yellow-500 rounded-md w-20 text-center h-11 font-bold pt-2 select-none">Normal</div>
                     )}
-                    <div><Link to={`/UpdateInventory/${item._id}`}><button>Update  <FontAwesomeIcon icon={faPenToSquare} /></button></Link></div>
-                    <div><Link to={`/PlaceOrderInventory/${item._id}`}><button>Order <FontAwesomeIcon icon={faTruckArrowRight} /></button></Link></div>
+                    <div><Link to={`/UpdateInventory/${item._id}`}><button className='bg-custom-light p-3 text-white hover:bg-white hover:text-black hover:border hover:border-black rounded-xl transition-all duration-300 ease-out transform hover:scale-105'>Update  <FontAwesomeIcon icon={faSync} /></button></Link></div>
+                    <div><Link to={`/PlaceOrderInventory/${item._id}`}><button className='bg-blue-600 p-3 text-white rounded-xl hover:bg-white hover:text-black hover:border hover:border-black transition-all duration-300 ease-out transform hover:scale-105 '>Order <FontAwesomeIcon icon={faTruckArrowRight} /></button></Link></div>
                     <div>
                         <button 
-                          className='text-red-500' 
+                          className='bg-red-600 text-white px-4 py-3 ml-4 rounded-xl hover:bg-red-400 hover:text-black transition-all duration-300 ease-out transform hover:scale-105' 
                           onClick={() => handleDeleteItem(item._id)}
                         >
-                          Delete <FontAwesomeIcon icon={faTrashCan} />
+                          <FontAwesomeIcon icon={faTrashCan} />
                         </button>
                     </div>
 

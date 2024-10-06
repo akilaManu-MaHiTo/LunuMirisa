@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import AdminNaviBar from './Components/AdminNavigationBar';
+import Sidebar from './Components/ToggleSlideBar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const Inventory = () => {
   const [name, setName] = useState('');
@@ -36,10 +39,11 @@ const Inventory = () => {
   return (
     <div>
       <AdminNaviBar selectedPage="Add Inventory Items" />
-      <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <Sidebar /> 
+      <div className="flex items-center justify-center min-h-screen bg-black">
         <form 
           onSubmit={handleSubmit} 
-          className="bg-white p-6 rounded shadow-md w-full max-w-sm"
+          className="bg-custom-toolight p-6 rounded shadow-md w-[35rem] "
         >
           <h2 className="text-2xl font-bold mb-4">Add Inventory Item</h2>
           <div className="mb-4">
@@ -56,18 +60,17 @@ const Inventory = () => {
               required
             />
           </div>
+
+
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="image">
-              Image
-            </label>
-            <input
-              type="file"
-              name="image"
-              id="image"
-              onChange={handleImageChange} 
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              required
-            />
+            <div class="grid w-full max-w-xs items-center gap-1.5">
+                  <label class="text-sm text-gray-400 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Picture</label>
+                  <input  
+                  type="file"
+                  name="image"
+                  id="image"
+                  onChange={handleImageChange}  class="flex h-10 w-full rounded-md border border-input bg-white px-3 py-2 text-sm text-gray-400 file:border-0 file:bg-transparent file:text-gray-600 file:text-sm file:font-medium"/>
+            </div>
           </div>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="quantity">
@@ -116,15 +119,16 @@ const Inventory = () => {
               <option value="Fisheries">Fisheries</option>
             </select>
           </div>
-          <button
-            type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
-            Add Item
-          </button>
-        </form>
+          <div className='flex justify-center'>
+            <button
+              type="submit"
+              className="bg-black hover:bg-white hover:text-black text-white  font-light mt-5 py-3 px-4 rounded focus:outline-none focus:shadow-outline transition-all duration-300 ease-out transform hover:scale-105"
+            >
+              <FontAwesomeIcon icon={faPlus} /> Add Item
+            </button>
+          </div>
 
-        <Link to="/showInventory"><button>Show Inventory</button></Link>
+        </form>
       </div>
     </div>
   );
