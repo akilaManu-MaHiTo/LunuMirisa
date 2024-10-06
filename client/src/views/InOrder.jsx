@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import EmployeeNavigation from './Components/AdminNavigationBar'
+import EmployeeNavigation from './Components/AdminNavigationBar';
 
 const ShowMenuList = () => {
   const [menuItems, setMenuItems] = useState([]);
   const [error, setError] = useState('');
   const [selectedQuantities, setSelectedQuantities] = useState({});
+  const [selectedCategory, setSelectedCategory] = useState('All Meals'); // State for selected category
   
   // Use a single useParams call
   const { id, userId, tableNum, date, ongoing } = useParams();
@@ -33,19 +34,19 @@ const ShowMenuList = () => {
     const quantity = selectedQuantities[item._id] || 1;
     const totalPrice = item.price * quantity;
 
-    console.log("Adding to cart:", id, item._id, item.category, item.type, totalPrice, quantity, userId, tableNum, date, ongoing);
     axios.post("http://localhost:3001/InOrderCreate", {
-      orderId: id,  // Include the order ID
+      orderId: id,
       itemId: item._id,
       category: item.category,
-      type: item.type,
+      title: item.title,
       price: item.price,
       quantity,
-      totalPrice,  // Include the total price
+      totalPrice,
       userId,
       tableNum,
       date,
-      ongoing
+      ongoing,
+      image: item.image
     })
     .then(response => {
       console.log("Added to cart:", response.data);
@@ -55,19 +56,47 @@ const ShowMenuList = () => {
     });
   };
 
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category);
+  };
+
+  // Filter menu items based on the selected category
+  const filteredMenuItems = selectedCategory === 'All Meals'
+    ? menuItems
+    : menuItems.filter(item => item.category === selectedCategory);
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-900">
-
       <EmployeeNavigation/>
       <div className="p-8 lg shadow-md w-full h-full max-w-7xl">
+        
+        {/* Category Buttons */}
+        <div className="flex justify-center my-10 md:mx-20 lg:mx-32 flex-wrap bg-custom-black">
+          {['All Meals', 'Appetizers', 'Main Course', 'Specials', 'Beverages'].map((category, idx) => (
+            <button 
+              key={idx}
+              onClick={() => handleCategoryClick(category)} 
+              className={`category-button p-3 w-[8rem] mx-5 md:w-[10rem] rounded-full mb-4 ${
+                selectedCategory === category ? 'bg-white text-black' : 'bg-custom-gray text-white'
+              } transition-all duration-300 ease-in-out transform hover:scale-105`}
+            >
+              {category}
+            </button>
+          ))}
+        </div>
+
         <h2 className="text-white text-3xl font-bold mb-4">Menu Items</h2>
         {error && <p className="text-red-500">{error}</p>}
-        {menuItems.length > 0 ? (
+        {filteredMenuItems.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {menuItems.map((item) => (
+            {filteredMenuItems.map((item) => (
               <div key={item._id} className="bg-gray-800 p-4 rounded-lg shadow-md flex flex-col items-center">
-                <img src={item.image} alt={item.type} className="w-32 h-32 rounded-md mb-4" />
-                <div className="text-white font-bold text-lg mb-2">{item.type}</div>
+                <img 
+                  src={`http://localhost:3001/Images/` + item.image} 
+                  alt={item.name} 
+                  className="w-32 h-32 rounded-md mb-4"
+                />
+                <div className="text-white font-bold text-lg mb-2">{item.title}</div>
                 <div className="text-white text-sm mb-4">{item.category}</div>
                 
                 <QuantitySelector 
@@ -77,7 +106,7 @@ const ShowMenuList = () => {
                 />
 
                 <button
-                  onClick={() => handleAddToCart(item)}  // Use the item directly
+                  onClick={() => handleAddToCart(item)} 
                   className="bg-green-500 text-white px-4 py-2 rounded mb-4"
                 >
                   Add to Order
@@ -101,14 +130,14 @@ const QuantitySelector = ({ initialQuantity, price, onQuantityChange }) => {
     const newQuantity = quantity + 1;
     setQuantity(newQuantity);
     setTotalPrice(newQuantity * price);
-    onQuantityChange(newQuantity); // Notify parent of quantity change
+    onQuantityChange(newQuantity);
   };
 
   const handleDecrement = () => {
     const newQuantity = Math.max(1, quantity - 1);
     setQuantity(newQuantity);
     setTotalPrice(newQuantity * price);
-    onQuantityChange(newQuantity); // Notify parent of quantity change
+    onQuantityChange(newQuantity);
   };
 
   return (

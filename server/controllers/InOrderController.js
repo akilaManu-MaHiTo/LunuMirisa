@@ -64,6 +64,15 @@ router.delete('/DeleteOrderItem/:itemId', (req, res) => {
         .catch(err => res.status(500).json({ error: err.message }));
 });
 
+router.put('/UpdateQuentity/:itemId', (req, res) => {
+    const { itemId } = req.params;
+    const { quantity } = req.body;
+
+    InOrder.updateOne({ _id: itemId }, { $set: { quantity: quantity } })
+        .then(result => res.json(result))
+        .catch(err => res.status(500).json({ error: err.message }));
+});
+
 
 
 
