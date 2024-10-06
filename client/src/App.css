@@ -131,3 +131,42 @@ body {
 
 
 
+
+/* .sidebar a {
+  display: block;
+  height: 65px;
+  width: 100%;
+  color: #353535;
+  line-height: 65px;
+  padding-left: 30px;
+  box-sizing: border-box;
+  border-left: 5px solid transparent;
+  font-family: 'Lato', sans-serif;
+  transition: color 0.3s ease, background 0.3s ease, border-left 0.3s ease;
+}
+
+a.active, a:hover {
+  border-left: 5px solid #980f0f;
+  color: #fff;
+  background: black;
+  transition: color 0.3s ease, background 0.3s ease, border-left 0.3s ease;
+}
+
+.sidebar a i {
+  font-size: 23px;
+  margin-right: 16px;
+  transition: transform 0.3s ease;
+}
+
+.sidebar a:hover i {
+  transform: scale(1.1);
+}
+
+.sidebar a span {
+  letter-spacing: 1px;
+  text-transform: uppercase;
+} */
+
+
+
+
