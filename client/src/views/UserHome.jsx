@@ -6,7 +6,8 @@ import { faStar, faStarHalfAlt, faStar as emptyStar, faCartPlus, faArrowAltCircl
 import logo from '../Images/Logo.png';
 import homePic from '../Images/home-bg.jpg';
 import bgtable from '../Images/table-bg.jpg';
-import bgReview from '../Images/review-bg.jpg';
+import bgHome from '../Images/home-scroll.jpg'
+import bgHome2 from '../Images/loginBG.jpg'
 import NavigationBar from './Components/NavigationBar.jsx';
 import Footer from './Footer.jsx';
 import food from '../Images/food.svg';
@@ -45,6 +46,7 @@ const UserHome = () => {
   const [fade, setFade] = useState(true);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -118,21 +120,13 @@ const UserHome = () => {
       <NavigationBar logo={logo} />
 
       <header>
-        <div className="relative flex w-full h-full">
+        <div className="flex w-full h-full">
           <img src={homePic} alt="Home" className="w-full h-auto rounded" style={{ filter: 'blur(1px)' }} />
           <div className="absolute select-none text-white w-[50rem] pl-[10rem] hidden md:inline text-7xl pt-32 font-spartan transition-opacity duration-1000 ease-in-out">
             Experience the Authentic Sri Lankan Foods
           </div>
-          <div className="">
-            <button class="relative border hover:border-sky-600 duration-500 group cursor-pointer text-sky-50  overflow-hidden h-14 w-56 rounded-md bg-sky-800 p-2 flex justify-center items-center font-extrabold">
-              <div class="absolute z-10 w-48 h-48 rounded-full group-hover:scale-150 transition-all  duration-500 ease-in-out bg-sky-900 delay-150 group-hover:delay-75"></div>
-              <div class="absolute z-10 w-40 h-40 rounded-full group-hover:scale-150 transition-all  duration-500 ease-in-out bg-sky-800 delay-150 group-hover:delay-100"></div>
-              <div class="absolute z-10 w-32 h-32 rounded-full group-hover:scale-150 transition-all  duration-500 ease-in-out bg-sky-700 delay-150 group-hover:delay-150"></div>
-              <div class="absolute z-10 w-24 h-24 rounded-full group-hover:scale-150 transition-all  duration-500 ease-in-out bg-sky-600 delay-150 group-hover:delay-200"></div>
-              <div class="absolute z-10 w-16 h-16 rounded-full group-hover:scale-150 transition-all  duration-500 ease-in-out bg-sky-500 delay-150 group-hover:delay-300"></div>
-              <p class="z-10">Discover More</p>
-            </button>
-          </div>
+
+
         </div>
       </header>
 
@@ -153,17 +147,28 @@ const UserHome = () => {
             ))}
           </div>
         </div>
-
-        <div className="text-white text-5xl pt-8 font-spartan font-thin pl-[10rem] select-none">Popular Meals</div>
-
-        <div className="flex justify-center gap-y-8">
-          <div className="flex flex-wrap gap-x-16 gap-y-8 pt-16 pb-10 justify-center w-[80rem]">
-            {[...Array(3)].map((_, index) => (
-              <FoodItem key={index} image={food} title="Chicken Biriyani" price="1700" percentage={0} />
-            ))}
+        
+        <div className="parallax">
+          <div 
+            className="parallax-background"
+            style={{ backgroundImage: `url(${bgHome})` }} 
+          />
+          {/* Black transparent overlay */}
+          <div className="overlay" />
+          <div className="parallax-content">
+            <div className="text-white text-5xl pt-8 font-spartan font-thin pl-[10rem] select-none">Popular Meals</div>
+            <div className="flex justify-center gap-y-8">
+              <div className="flex flex-wrap gap-x-16 gap-y-8 pt-16 pb-10 justify-center w-[80rem]">
+                {[...Array(3)].map((_, index) => (
+                  <FoodItem key={index} image={food} title="Chicken Biriyani" price="1700" percentage={0} />
+                ))}
+              </div>
+            </div>
           </div>
         </div>
-        <div className="text-white text-5xl pt-8 font-spartan font-thin pl-[10rem] select-none">Reserve Tables</div>
+
+
+        <div className="text-white text-5xl pt-8 font-spartan font-thin pl-[10rem] select-none mt-10">Reserve Tables</div>
 
         <div className="flex items-center justify-center mt-10 ">
           <div className="w-[65rem] h-[30rem] relative"
@@ -196,134 +201,92 @@ const UserHome = () => {
           </div>
         </div>
 
-        <div className="text-white text-5xl mt-16 mb-16 font-spartan font-thin pl-[10rem]">
-          What keeps you coming back to us?
-        </div>
-        {reviews.length > 0 && reviews[currentReviewIndex] ? (
-          <div
-            className={`w-full px-10 transition-all duration-700 ease-in-out transform ${
-              fade ? 'opacity-100 translate-x-0' : 'opacity-0'
-            }`}
+        <div className="parallax mt-20">
+          <div 
+            className="parallax-background"
+            style={{ backgroundImage: `url(${bgHome2})` }} 
           >
+            <div className='absolute inset-0 bg-black opacity-70'></div>
+
+            <div className="text-white text-5xl mt-16 mb-16 font-spartan font-thin pl-[10rem] z-20 relative">
+              What keeps you coming back to us?
+            </div>
+          {reviews.length > 0 && reviews[currentReviewIndex] ? (
             <div
-              key={currentReviewIndex}
-              className="p-10 mb-20 rounded my-4 w-[65rem] h-[25rem] mx-auto"
-              style={{
-                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${bgReview})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-              }}
+              className={`w-full px-10 transition-all duration-700 ease-in-out transform ${
+                fade ? 'opacity-100 translate-x-0' : 'opacity-0'
+              }`}
             >
-              <div className="flex flex-col items-start">
-                <div className="flex items-start">
-                  <img
-                    src={`http://localhost:3001/Images/${reviews[currentReviewIndex].profileImage}`}
-                    alt={`${reviews[currentReviewIndex].FirstName} ${reviews[currentReviewIndex].LastName}`}
-                    className="w-16 h-16 rounded-full mr-4"
-                  />                  
-                  <div className="flex flex-col">
-                    <h3 className="text-xl font-bold text-white">
-                      {reviews[currentReviewIndex].FirstName} {reviews[currentReviewIndex].LastName}
-                    </h3>
-                    <div className="flex flex-col mt-2">
-                      <div className="flex items-center">{renderStars(reviews[currentReviewIndex].rating)}</div>
-                      <p className="text-sm text-gray-300">{new Date(reviews[currentReviewIndex].createdAt).toLocaleDateString()}</p>
+              <div
+                key={currentReviewIndex}
+                className="p-10 mb-20 bg-custom-gray opacity-95 rounded my-4 w-[65rem] h-[25rem] mx-auto"
+              >
+                <div className="flex flex-col items-start">
+                  <div className="flex items-start">
+                    <img
+                      src={`http://localhost:3001/Images/${reviews[currentReviewIndex].profileImage}`}
+                      alt={`${reviews[currentReviewIndex].FirstName} ${reviews[currentReviewIndex].LastName}`}
+                      className="w-16 h-16 rounded-full mr-4"
+                    />                  
+                    <div className="flex flex-col">
+                      <h3 className="text-xl font-bold text-white">
+                        {reviews[currentReviewIndex].FirstName} {reviews[currentReviewIndex].LastName}
+                      </h3>
+                      <div className="flex flex-col mt-2">
+                        <div className="flex items-center">{renderStars(reviews[currentReviewIndex].rating)}</div>
+                        <p className="text-sm text-gray-300">{new Date(reviews[currentReviewIndex].createdAt).toLocaleDateString()}</p>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div>
-                <p className="text-gray-300 text-2xl font-bold mt-5">
-                  {reviews[currentReviewIndex].reviewTitle}
-                </p>
-                <div className="bg-black bg-opacity-50 text-black h-[11rem] pl-4 pr-4 pb-4 pt-1 mt-3 rounded-xl">
-                  <p className="text-white italic mt-5">{reviews[currentReviewIndex].review}</p>
+                <div>
+                  <p className="text-gray-300 text-2xl font-light mt-5 ml-2 mb-5">
+                    {reviews[currentReviewIndex].reviewTitle}
+                  </p>
+                  <div className="bg-black bg-opacity-50 text-black h-[11rem] pl-4 pr-4 pb-4 pt-1 mt-3 rounded-xl">
+                    <p className="text-white text-lg italic mt-5">{reviews[currentReviewIndex].review}</p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ) : (
-          <div
-            class="flex flex-col gap-2 dark:text-white max-w-md w-full bg-white dark:bg-neutral-900 p-5 rounded-md mt-8 shadow-md hover:scale-105 hover:duration-150 duration-150"
-          >
-            <div class="flex flex-row justify-between w-full">
+          ) : (
+            <div
+              class="flex flex-col gap-2 dark:text-white max-w-md w-full bg-white dark:bg-neutral-900 p-5 rounded-md mt-8 shadow-md hover:scale-105 hover:duration-150 duration-150"
+            >
+              <div class="flex flex-row justify-between w-full">
+                <div class="flex flex-row justify-between w-full">
+                  <div
+                    class="bg-gray-200 dark:bg-neutral-700 rounded-md w-20 h-4 animate-pulse"
+                  ></div>
+                  <div
+                    class="bg-gray-200 dark:bg-neutral-700 rounded-md w-10 animate-pulse"
+                  ></div>
+                </div>
+              </div>
               <div class="flex flex-row justify-between w-full">
                 <div
-                  class="bg-gray-200 dark:bg-neutral-700 rounded-md w-20 h-4 animate-pulse"
+                  class="bg-gray-200 dark:bg-neutral-700 rounded-md w-40 animate-pulse"
                 ></div>
-                <div
-                  class="bg-gray-200 dark:bg-neutral-700 rounded-md w-10 animate-pulse"
-                ></div>
-              </div>
-            </div>
-            <div class="flex flex-row justify-between w-full">
-              <div
-                class="bg-gray-200 dark:bg-neutral-700 rounded-md w-40 animate-pulse"
-              ></div>
 
-              <div class="text-xs">
-                <div class="flex flex-row">
-                  <svg
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    class="h-4 w-4 text-yellow-400"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M9.049 2.927c.3-.916 1.603-.916 1.902 0l1.286 3.953a1.5 1.5 0 001.421 1.033h4.171c.949 0 1.341 1.154.577 1.715l-3.38 2.458a1.5 1.5 0 00-.54 1.659l1.286 3.953c.3.916-.757 1.67-1.539 1.145l-3.38-2.458a1.5 1.5 0 00-1.76 0l-3.38 2.458c-.782.525-1.838-.229-1.539-1.145l1.286-3.953a1.5 1.5 0 00-.54-1.659l-3.38-2.458c-.764-.561-.372-1.715.577-1.715h4.171a1.5 1.5 0 001.421-1.033l1.286-3.953z"
-                    ></path>
-                  </svg>
-                  <svg
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    class="h-4 w-4 text-yellow-400"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M9.049 2.927c.3-.916 1.603-.916 1.902 0l1.286 3.953a1.5 1.5 0 001.421 1.033h4.171c.949 0 1.341 1.154.577 1.715l-3.38 2.458a1.5 1.5 0 00-.54 1.659l1.286 3.953c.3.916-.757 1.67-1.539 1.145l-3.38-2.458a1.5 1.5 0 00-1.76 0l-3.38 2.458c-.782.525-1.838-.229-1.539-1.145l1.286-3.953a1.5 1.5 0 00-.54-1.659l-3.38-2.458c-.764-.561-.372-1.715.577-1.715h4.171a1.5 1.5 0 001.421-1.033l1.286-3.953z"
-                    ></path>
-                  </svg>
-                  <svg
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    class="h-4 w-4 text-yellow-400"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M9.049 2.927c.3-.916 1.603-.916 1.902 0l1.286 3.953a1.5 1.5 0 001.421 1.033h4.171c.949 0 1.341 1.154.577 1.715l-3.38 2.458a1.5 1.5 0 00-.54 1.659l1.286 3.953c.3.916-.757 1.67-1.539 1.145l-3.38-2.458a1.5 1.5 0 00-1.76 0l-3.38 2.458c-.782.525-1.838-.229-1.539-1.145l1.286-3.953a1.5 1.5 0 00-.54-1.659l-3.38-2.458c-.764-.561-.372-1.715.577-1.715h4.171a1.5 1.5 0 001.421-1.033l1.286-3.953z"
-                    ></path>
-                  </svg>
-                  <svg
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    class="h-4 w-4 text-yellow-400"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M9.049 2.927c.3-.916 1.603-.916 1.902 0l1.286 3.953a1.5 1.5 0 001.421 1.033h4.171c.949 0 1.341 1.154.577 1.715l-3.38 2.458a1.5 1.5 0 00-.54 1.659l1.286 3.953c.3.916-.757 1.67-1.539 1.145l-3.38-2.458a1.5 1.5 0 00-1.76 0l-3.38 2.458c-.782.525-1.838-.229-1.539-1.145l1.286-3.953a1.5 1.5 0 00-.54-1.659l-3.38-2.458c-.764-.561-.372-1.715.577-1.715h4.171a1.5 1.5 0 001.421-1.033l1.286-3.953z"
-                    ></path>
-                  </svg>
-
-                  <svg
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    class="h-4 w-4 text-yellow-200"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M9.049 2.927c.3-.916 1.603-.916 1.902 0l1.286 3.953a1.5 1.5 0 001.421 1.033h4.171c.949 0 1.341 1.154.577 1.715l-3.38 2.458a1.5 1.5 0 00-.54 1.659l1.286 3.953c.3.916-.757 1.67-1.539 1.145l-3.38-2.458a1.5 1.5 0 00-1.76 0l-3.38 2.458c-.782.525-1.838-.229-1.539-1.145l1.286-3.953a1.5 1.5 0 00-.54-1.659l-3.38-2.458c-.764-.561-.372-1.715.577-1.715h4.171a1.5 1.5 0 001.421-1.033l1.286-3.953z"
-                    ></path>
-                  </svg>
+                <div class="text-xs">
+                  <div class="flex flex-row">
+                    <FontAwesomeIcon icon={faStar} />
+                    <FontAwesomeIcon icon={faStar} />
+                    <FontAwesomeIcon icon={faStar} />
+                    <FontAwesomeIcon icon={faStar} />
+                    <FontAwesomeIcon icon={faStar} />
+                  </div>
                 </div>
               </div>
+
+              <div
+                class="bg-gray-200 dark:bg-neutral-700 rounded-md w-full h-20 animate-pulse"
+              ></div>
             </div>
 
-            <div
-              class="bg-gray-200 dark:bg-neutral-700 rounded-md w-full h-20 animate-pulse"
-            ></div>
+          )}
           </div>
-
-        )}
+        </div>
 
       </section>
 
