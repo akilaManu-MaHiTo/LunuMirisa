@@ -70,7 +70,7 @@ const TableReservation = () => {
                       <p className="text-xl">{`Time: ${table.time}`}</p>
                       <p className="text-xl">{`Date: ${table.date}`}</p>
                       <div className="flex justify-center">
-                        <Link to={`/UpdateReservedTables/${table._id}`}>
+                        <Link to={`/UpdateReservedTables/${table._id}/${userId}`}>
                           <button className="bg-custom-dark text-white py-2 px-4 mt-6 w-24 hover:bg-black transition duration-300 ease-in-out">
                             Renew 
                           </button>

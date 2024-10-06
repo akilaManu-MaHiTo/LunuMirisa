@@ -16,6 +16,13 @@ const NavigationBar = () => {
           <img src={logo} alt="Logo" className="h-auto w-20 " />
         </div>
         
+        <ul className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 self-center">
+          <li><Link to={`/`} className="text-white font-spartan font-thin text-2xl ">Home</Link></li>
+          <li className="text-white hidden md:inline font-spartan font-thin text-2xl select-none">&nbsp;|&nbsp;</li>
+          <li><Link to={`/GuestMenu`} className="text-white font-spartan font-thin text-2xl">Menu</Link></li>
+          <li className="text-white hidden md:inline font-spartan font-thin text-2xl select-none">&nbsp;|&nbsp;</li>
+          <li><Link to="/" className="text-white font-spartan font-thin text-2xl">About Us</Link></li>
+        </ul>
         
         <div className="flex items-center space-x-4">
         <Link to="/login">

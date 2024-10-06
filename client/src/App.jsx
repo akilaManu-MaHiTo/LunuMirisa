@@ -59,7 +59,7 @@ import MyTableReservations from "./views/ShowMyTables"
 import UpdateReservedTables from "./views/UpdateReservedTable"
 import CheffInventory from "./views/CheffInventory"
 import UpdateInventoryByCheff from './views/UpdateInventoryByCheff'
-
+import GuestMenu from './views/GuestMenu'
 
 function App() {
   return (
@@ -120,9 +120,10 @@ function App() {
         <Route path="/ShowAdminReviews" element={<ShowAdminReviews/>} />
         <Route path="/ShowAcceptedOrders" element={<ShowAcceptedOrders/>} />
         <Route path="/MyTableReservations/:userId" element={<MyTableReservations/>} />
-        <Route path="/UpdateReservedTables/:reserveId" element={<UpdateReservedTables/>} />
+        <Route path="/UpdateReservedTables/:reserveId/:userId" element={<UpdateReservedTables/>} />
         <Route path="/CheffInventory" element={<CheffInventory/>} />
         <Route path="/UpdateInventoryByCheff/:id" element={<UpdateInventoryByCheff/>} />
+        <Route path="/GuestMenu" element={<GuestMenu/>} />
       </Routes>
     </BrowserRouter>
   );
