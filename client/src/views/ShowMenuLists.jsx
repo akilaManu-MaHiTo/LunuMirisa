@@ -246,7 +246,7 @@ const ItemCard = ({ item, onAddToCart }) => (
         className="w-full h-48 bg-cover mx-auto bg-center mt-5"
       />
       <div
-        className="group absolute right-0 bottom-0 flex h-[2em] w-[2em] items-center justify-center overflow-hidden rounded-[1.5em] border-[1px] border-[#ffffffaa] bg-[#8988885c] hover:bg-black hover:opacity-80  duration-[300ms] hover:h-[12em] hover:w-[13.8em] hover:rounded-lg"
+        className="group absolute right-0 bottom-0 flex h-[2em] w-[2em] items-center justify-center overflow-hidden rounded-[1.5em] border-[1px] border-[#ffffffaa] bg-[#8988885c] hover:bg-black hover:opacity-80  duration-[500ms] hover:h-[12.5em] hover:w-[13.8em] hover:rounded-lg"
       >
         <FontAwesomeIcon icon={faInfoCircle} className="h-[1em] w-[1em] duration-300 group-hover:opacity-0" />
         <div
@@ -290,16 +290,13 @@ const TopThreeItemCard = ({ item, onAddToCart }) => (
        HOT <FontAwesomeIcon icon={faFireFlameCurved} />
       </div>
     </div>
-  <div className="relative">
-      <img 
-        src={`http://localhost:3001/Images/` + item.image} 
-        alt={item.name} 
-        className="w-52 h-48 bg-cover mx-auto bg-center mt-5"
-      />
-      <div
-        className="group absolute right-0 bottom-0 flex h-[2em] w-[2em] items-center justify-center overflow-hidden rounded-[1.5em] border-[1px] border-[#ffffffaa] bg-[#8988885c] hover:bg-black hover:opacity-80  duration-[300ms] hover:h-[12.2em] hover:w-[13em] hover:rounded-lg"
-      >
-        <FontAwesomeIcon icon={faInfoCircle} className="h-[1em] w-[1em] duration-300 group-hover:opacity-0" />
+
+    <div className="relative">
+        <img 
+          src={`http://localhost:3001/Images/` + item.image} 
+          alt={item.name} 
+          className="w-52 h-48 bg-cover mx-auto bg-center mt-5"
+        />
         <div
           className="group absolute right-0 bottom-0 flex h-[2em] w-[2em] items-center justify-center overflow-hidden rounded-[1.5em] border-[1px] border-[#ffffffaa] bg-[#8988885c] hover:bg-black hover:opacity-80  duration-[500ms] hover:h-[12.5em] hover:w-[13.8em] hover:rounded-lg"
         >
