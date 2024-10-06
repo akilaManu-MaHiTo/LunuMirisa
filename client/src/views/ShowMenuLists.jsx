@@ -6,11 +6,12 @@ import NavigationBar from './Components/NavigationBar.jsx';
 import Footer from './Footer.jsx';
 import Loader from './Components/Loader.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBreadSlice, faMartiniGlass, faPizzaSlice, faPepperHot, faFireFlameCurved, faCartShopping, faCartPlus, faInfoCircle, faFilePdf } from '@fortawesome/free-solid-svg-icons'; // Added faFilePdf icon
+import { faBreadSlice, faMartiniGlass, faPizzaSlice, faPepperHot, faFireFlameCurved, faCartShopping, faCartPlus, faInfoCircle, faFilePdf, faDownload } from '@fortawesome/free-solid-svg-icons'; // Added faFilePdf icon
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import jsPDF from 'jspdf'; // Added jsPDF for PDF generation
 import 'jspdf-autotable';  // Import the autoTable plugin
+import { faFileLines } from '@fortawesome/free-regular-svg-icons';
 
 const ShowMenuLists = () => {
   const [menuItems, setMenuItems] = useState([]);
@@ -147,14 +148,46 @@ const ShowMenuLists = () => {
       <NavigationBar logo={logo} />
 
       {/* Search Input */}
-      <div className="flex justify-center mt-6">
+      <div className="flex justify-center mt-6 gap-10">
         <input 
           type="text"
           placeholder="Search menu items..."
-          className="p-3 w-[20rem] md:w-[30rem] rounded-md border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-white"
+          className="p-3 w-[20rem] h-16 md:w-[30rem] rounded-md border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-white"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)} // Update search term on input change
         />
+
+        <div className="flex justify-center mb-6 mt-3">
+          <div
+            class="group relative flex justify-center items-center text-zinc-600 text-sm font-bold"
+          >
+            <div
+              class="absolute opacity-0 group-hover:opacity-100 group-hover:-translate-y-[150%] -translate-y-[300%] duration-500 group-hover:delay-500 skew-y-[20deg] group-hover:skew-y-0 shadow-md"
+            >
+              <div class="bg-lime-200 flex items-center gap-1 p-2 rounded-md">
+                <FontAwesomeIcon icon={faFilePdf} />
+                <span>File Size - 13.6 KB </span>
+              </div>
+              <div
+                class="shadow-md bg-lime-200 absolute bottom-0 translate-y-1/2 left-1/2 translate-x-full rotate-45 p-1"
+              ></div>
+              <div
+                class="rounded-md bg-white group-hover:opacity-0 group-hover:scale-[115%] group-hover:delay-700 duration-500 w-full h-full absolute top-0 left-0"
+              >
+                <div
+                  class="border-b border-r border-white bg-white absolute bottom-0 translate-y-1/2 left-1/2 translate-x-full rotate-45 p-1"
+                ></div>
+              </div>
+            </div>
+
+            <div
+              class="shadow-md flex items-center group-hover:gap-2  bg-white hover:bg-custom-light text-black hover:text-white p-3 rounded-xl cursor-pointer duration-300"
+            >
+              <FontAwesomeIcon icon={faFileLines} className='text-xl' />
+                <span class="text-[0px] group-hover:text-sm duration-300" onClick={generatePDF}> Download Menu List </span>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Category Buttons */}
@@ -172,14 +205,6 @@ const ShowMenuLists = () => {
         ))}
       </div>
 
-      {/* PDF Generation Button */}
-      <div className="flex justify-center mb-6">
-        <button 
-          onClick={generatePDF} 
-          className="bg-red-600 hover:bg-red-500 text-white py-2 px-4 rounded-full flex items-center">
-          <FontAwesomeIcon icon={faFilePdf} className="mr-2" /> Generate PDF
-        </button>
-      </div>
 
       {/* Top 3 Hot Items */}
       {selectedCategory === 'All Meals' && searchTerm === '' && (  

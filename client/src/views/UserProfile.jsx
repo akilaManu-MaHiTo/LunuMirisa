@@ -5,7 +5,7 @@ import Navigation from './Components/NavigationBar.jsx';
 import logo from '../Images/Logo.png';
 import defaultProfilePic from '../Images/profile-picture.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCrown, faUser, faPenNib, faEnvelope, faPhone, faLocationDot, faPenAlt, faCircleNotch, faTrashCan, faSave } from '@fortawesome/free-solid-svg-icons';
+import { faCrown, faUser, faPenNib, faEnvelope, faPhone, faLocationDot, faPenAlt, faCircleNotch, faTrashCan, faSave, faSadCry, faFaceFrown, faSadTear } from '@fortawesome/free-solid-svg-icons';
 import bgprofile from '../Images/profileBG2.jpg';
 import Footer from './Footer.jsx';
 import Loader from './Components/Loader.jsx';
@@ -323,7 +323,7 @@ function UpdateUsers() {
                         <Link to={`/ShowUserReviews/${userId}`}>
 
                         <button class="bg-black border border-white hover:bg-white text-white font-bold py-3 px-6 shadow-lg shadow-neutral-950 hover:text-black transform transition-all duration-500 ease-in-out hover:scale-110 hover:brightness-110 hover:animate-pulse active:animate-bounce">
-                        See Reveiws
+                        My Reveiws
                         </button>
 
 
@@ -345,13 +345,35 @@ function UpdateUsers() {
 
 
                         <div className='flex justify-end mr-10 mt-14'>
+                        <div
+                            class="group relative flex justify-center items-center"
+                            >
+                            <div
+                                class="absolute opacity-0 group-hover:opacity-100 group-hover:-translate-y-[150%] -translate-y-[300%] duration-500 group-hover:delay-500 skew-y-[20deg] group-hover:skew-y-0 shadow-md"
+                            >
+                                <div class="bg-white flex items-center gap-1 p-2 rounded-md">
+                                <FontAwesomeIcon icon={faSadCry} className='mr-2 text-xl' />
+                                <span> Sorry to see you go. </span>
+                                </div>
+                                <div
+                                class="shadow-md bg-white absolute bottom-0 translate-y-1/2 left-1/2 translate-x-full rotate-45 p-1"
+                                ></div>
+                                <div
+                                class="rounded-md bg-white group-hover:opacity-0 group-hover:scale-[115%] group-hover:delay-700 duration-500 w-full h-full absolute top-0 left-0"
+                                >
+                                <div
+                                    class="border-b border-r border-white bg-white absolute bottom-0 translate-y-1/2 left-1/2 translate-x-full rotate-45 p-1"
+                                ></div>
+                                </div>
+                            </div>
                             <button
                                     onClick={handleDeleteAccount}
-                                    className=" bg-red-500 text-black px-4 py-2 rounded-lg hover:bg-red-600 hover:text-white hover:scale-105 transition-all duration-300 ease-in-out transform"
+                                    className=" bg-red-500 h-[3rem] text-black px-4 py-2 rounded-lg hover:bg-red-600 hover:text-white hover:scale-105 transition-all duration-300 ease-in-out transform"
                                 >
                                     <FontAwesomeIcon icon={faTrashCan} className='mr-2' /> Deactivate Account
 
                             </button>
+                            </div>
                         </div>
 
                     </div>

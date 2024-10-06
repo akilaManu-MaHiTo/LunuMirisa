@@ -115,6 +115,8 @@ const UserHome = () => {
     return <div className="text-red-500 text-center">{error}</div>;
   }
 
+  const topThreeDeals = hotDeals.slice(0, 3);
+
   return (
     <div className="bg-custom-black min-h-screen">
       <NavigationBar logo={logo} />
@@ -133,16 +135,16 @@ const UserHome = () => {
       <section>
         <div className="text-white text-5xl pt-20 font-spartan font-thin pl-[10rem] select-none">Today's Special</div>
 
-        <div className="flex justify-center gap-y-8">
+        <div className="flex justify-center gap-y-8 mb-10">
           <div className="flex flex-wrap gap-x-16 gap-y-8 pt-16 pb-10 justify-center w-[80rem]">
-            {hotDeals.map((hot, index) => (
+            {topThreeDeals.map((hot, index) => (
               <FoodItem
                 key={index}
                 image={`http://localhost:3001/Images/${hot.image}`}
                 title={hot.title}
                 price={hot.price}
                 percentage={hot.percentage}
-                change = {hot.price*(hot.percentage/100)}
+                change={hot.price * (hot.percentage / 100)}
               />
             ))}
           </div>
