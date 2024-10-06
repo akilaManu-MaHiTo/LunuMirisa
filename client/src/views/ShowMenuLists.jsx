@@ -214,7 +214,7 @@ const ShowMenuLists = () => {
 
 // Component to display each item card
 const ItemCard = ({ item, onAddToCart }) => (
-  <div className="bg-custom-gray p-6 rounded shadow-md w-full max-w-xs transition-transform duration-300 hover:shadow-[0_0_10px_rgba(255,255,255,0.6)]  hover:scale-105 relative">
+  <div className="bg-custom-gray p-6 rounded-lg shadow-md w-full max-w-xs transition-transform duration-300 hover:shadow-[0_0_10px_rgba(255,255,255,0.6)]  hover:scale-105 relative">
 
     <div className="relative">
       <img 
@@ -266,7 +266,7 @@ const ItemCard = ({ item, onAddToCart }) => (
 
 
 const TopThreeItemCard = ({ item, onAddToCart }) => (
-<div className="bg-custom-gray p-6 rounded shadow-md w-full max-w-xs transition-transform duration-300 hover:scale-105 hover:shadow-[0_0_10px_rgba(255,255,255,0.6)] relative">
+<div className="bg-custom-gray p-6 rounded-lg shadow-md w-full max-w-xs transition-transform duration-300 hover:scale-105 hover:shadow-[0_0_10px_rgba(255,255,255,0.6)] relative">
   {/* Ribbon for hot item */}
   <div className="absolute top-0 right-0 w-32 h-32 overflow-hidden">
     <div className="bg-red-600 text-white text-center pl-[5.5rem] text-sm font-bold px-3 py-1 absolute top-[-1rem] right-[-45px] w-48 transform rotate-45">
