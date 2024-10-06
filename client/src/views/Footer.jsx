@@ -115,78 +115,112 @@ const Footer = () => {
                             <FontAwesomeIcon icon={faWhatsapp} className="text-2xl transition-transform duration-300 ease-in-out transform hover:scale-125 hover:text-green-500 " />
                             <FontAwesomeIcon icon={faInstagram} className="text-2xl transition-transform duration-300 ease-in-out transform hover:scale-125 hover:text-purple-600 " />
                         </div>
+
+                        
+                        <div className="text-white text-2xl font-spartan font-thin mt-7 pl-10 lg:pl-40">House of Operations</div>
+                        <div className="ml-40 lg:ml-[10rem] text-white">
+                            <div className="font-light mt-3">Monday - Friday: 7:00 AM - 10:00 PM</div>
+                            <div className="font-light mt-3">Saturday - Sunday: 8:00 AM - 11:00 PM</div>
+                        </div>
                     </div>
 
                     <div className="font-spartan flex-1">
-                        <div className="text-white text-2xl pt-2 font-spartan font-thin pl-10 lg:pl-40">House of Operations</div>
-                        <div className="ml-40 lg:ml-[10rem] mt-4 text-white">
-                            <div className="font-bold mt-4">Monday - Friday: 7:00 AM - 10:00 PM</div>
-                            <div className="font-bold mt-4">Saturday - Sunday: 8:00 AM - 11:00 PM</div>
-                        </div>
 
-                        <div className="items-center p-2 lg:pl-40 mt-5">
-                            <div className="text-white text-2xl pt-2 font-spartan font-thin pl-10 lg:pl-0 mt-2">We would love to hear your thoughts!</div>
-                            <div className="flex my-3">
-                                {[...Array(5)].map((star, index) => {
-                                    const ratingValue = index + 1;
-                                    return (
-                                        <label key={index}>
-                                            <input
-                                                type="radio"
-                                                name="rating"
-                                                value={ratingValue}
-                                                className="hidden"
-                                                onClick={() => setRating(ratingValue)}
-                                            />
-                                            <FontAwesomeIcon
-                                                icon={ratingValue <= (hover || rating) ? faStar : faStarRegular}
-                                                className={`text-2xl cursor-pointer transition-transform duration-300 ease-in-out transform ${
-                                                    ratingValue <= (hover || rating) ? 'hover:scale-125 hover:drop-shadow-[0_0_10px_rgba(255,193,7,0.8)]' : ''
-                                                }`}
-                                                onMouseEnter={() => setHover(ratingValue)}
-                                                onMouseLeave={() => setHover(0)}
-                                                color={ratingValue <= (hover || rating) ? "#ffc107" : "#e4e5e9"}
-                                            />
-                                        </label>
-                                    );
-                                })}
-                            </div>
-                            <div className="flex flex-col space-y-4">
+                        <div className="items-center p-2 lg:pl-40 ">
+                            <div className="text-white text-2xl pt-2 font-spartan font-thin pl-10 lg:pl-0 mb-5">We would love to hear your thoughts!</div>
+                            
+                            <div className="flex flex-col bg-custom-light p-5 w-96 rounded-lg">
+
+                                <div class="flex flex-col-reverse mb-5">
                                 <input
+                                    placeholder="Enter Title"
+                                    class="peer outline-none border rounded bg-custom-gray p-3 duration-500 border-black focus:border-dashed relative placeholder:duration-500 placeholder:absolute focus:placeholder:pt-10 focus:rounded-md"
                                     type="text"
-                                    className="p-3 bg-custom-light w-[15rem] h-12 ml-1 focus:bg-custom-light-hover focus:transition duration-300 ease-in-out mt-3 placeholder:text-gray-400 placeholder:font-thin"
-                                    placeholder="Enter Review Title"
                                     value={reviewTitle}
                                     onChange={(e) => setReviewTitle(e.target.value)}
                                 />
+                                <span
+                                    class="pl-2 duration-500 opacity-0 peer-focus:opacity-100 -translate-y-5 peer-focus:translate-y-0"
+                                    >Enter Title</span
+                                >
+                                </div>
 
-                                <input
-                                    type="text"
-                                    className="p-3 bg-custom-light w-[15rem] h-12 ml-1 focus:bg-custom-light-hover focus:transition duration-300 ease-in-out mt-3 placeholder:text-gray-400 placeholder:font-thin"
+                                <textarea
+                                    type="textarea"
+                                    className="p-3 bg-custom-gray rounded w-full h-28 text-white"
                                     placeholder="Enter Your Review"
                                     value={review}
                                     onChange={(e) => setReview(e.target.value)}
                                 />
+
+                            <div className='flex'>
+
+                                <div className="flex mt-7 ml-3">
+                                    {[...Array(5)].map((star, index) => {
+                                        const ratingValue = index + 1;
+                                        return (
+                                            <label key={index}>
+                                                <input
+                                                    type="radio"
+                                                    name="rating"
+                                                    value={ratingValue}
+                                                    className="hidden"
+                                                    onClick={() => setRating(ratingValue)}
+                                                />
+                                                <FontAwesomeIcon
+                                                    icon={ratingValue <= (hover || rating) ? faStar : faStarRegular}
+                                                    className={`text-2xl cursor-pointer transition-transform duration-300 ease-in-out transform ${
+                                                        ratingValue <= (hover || rating) ? 'hover:scale-125 hover:drop-shadow-[0_0_10px_rgba(255,193,7,0.8)]' : ''
+                                                    }`}
+                                                    onMouseEnter={() => setHover(ratingValue)}
+                                                    onMouseLeave={() => setHover(0)}
+                                                    color={ratingValue <= (hover || rating) ? "#ffc107" : "#e4e5e9"}
+                                                />
+                                            </label>
+                                        );
+                                    })}
+                                </div>
+
+                                <div className="flex justify-end mr-3 w-[15rem] mt-5">
+                                    <button
+                                        className={`flex items-center bg-black text-white gap-1 px-4 py-2 cursor-pointer font-semibold tracking-widest rounded-md hover:bg-white duration-300 hover:gap-2 hover:translate-x-3 hover:text-black`}
+                                        onClick={handleSubmit}
+                                    >
+                                        Send
+                                        <svg
+                                            className="w-5 h-5" 
+                                            stroke="currentColor"
+                                            strokeWidth="1.5"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
+                                                strokeLinejoin="round"
+                                                strokeLinecap="round"
+                                            ></path>
+                                        </svg>
+                                    </button>
+                                </div>
+
                             </div>
 
-                            <div className="flex justify-center w-[15rem] ">
-                                <button
-                                    className="bg-white text-black h-10 mt-3 w-20 hover:bg-yellow-200 hover:text-black hover:scale-105 transition duration-300 ease-in-out"
-                                    onClick={handleSubmit}
-                                >
-                                    Submit
-                                </button>
                             </div>
+
+
+
+
+
 
                             {message && <p className="text-white mt-2">{message}</p>}
                         </div>
                     </div>
                 </div>
 
-                <div className="flex justify-start">
+                <div className="flex justify-start w-32">
                     <img src={logo} alt="Logo" className="w-24 h-auto" />
                 </div>
-                <Link to={`/MyTableReservations/${userId}`}><button className='bg-black'> My Reservations</button></Link>
                 <div className='flex justify-center'>
                 <p class="select-none text-xs ">
                     Alright, reserved for <strong>LunuMirisa</strong>
