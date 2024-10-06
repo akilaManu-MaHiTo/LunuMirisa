@@ -1,37 +1,20 @@
 import React from 'react';
-import LineGraph from './Components/UserCartStat'; // Import LineGraph component
+import LineGraph from './Components/UserCartStat'; 
 import BarGraph from './Components/InventoryStat';
 import PriceGraph from './Components/CartPriceStat';
 import AdminNaviBar from './Components/AdminNavigationBar';
-import ToggleSlideBar from './Components/ToggleSlideBar';
-import useSidebar from './Components/useSidebar';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import Sidebar from './Components/ToggleSlideBar';
 
 const AdminPage = () => {
-  const { isSidebarVisible, toggleSidebar, sidebarRef } = useSidebar();
-
-  // SidebarWithOverlay component
-  const SidebarWithOverlay = () => (
-    <div className="flex">
-      <ToggleSlideBar ref={sidebarRef} isVisible={isSidebarVisible} />
-      {isSidebarVisible && (
-        <div className="fixed inset-0 z-40 bg-gray-800 opacity-50" onClick={toggleSidebar}></div>
-      )}
-    </div>
-  );
 
   return (
     <div className="bg-black h-auto min-h-screen">
+      <Sidebar /> 
+
       <AdminNaviBar selectedPage="Admin Panel" />
 
       <div className="p-5 md:pl-[4rem]">
-        <button className="text-white text-2xl focus:outline-none" onClick={toggleSidebar}>
-          <FontAwesomeIcon icon={faBars} />
-        </button>
       </div>
-
-      <SidebarWithOverlay />
 
       <div className="p-6">
         <div className="text-white mb-6">
@@ -50,12 +33,6 @@ const AdminPage = () => {
               Inventory Stats (Bar Graph)
             </h2>
             <BarGraph />
-          </div>
-          <div className="p-4 bg-gray-800 rounded-lg shadow-lg col-span-1 md:col-span-2">
-            <h2 className="text-2xl font-semibold mb-4 text-center text-white">
-              Cart Price Stats (Price Graph)
-            </h2>
-            <PriceGraph />
           </div>
           <div className="p-4 bg-gray-800 rounded-lg shadow-lg col-span-1 md:col-span-2">
             <h2 className="text-2xl font-semibold mb-4 text-center text-white">

@@ -5,6 +5,9 @@ import NavigationBar from './Components/NavigationMenuListManager';
 import logo from '../Images/Logo.png'; 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; // Import toastify styles
+import Sidebar from './Components/ToggleSlideBar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const AddMenuList = () => {
     const [title, setTitle] = useState('');
@@ -47,12 +50,14 @@ const AddMenuList = () => {
     return (
         <div>
             <NavigationBar logo={logo} /> 
-            <div className="flex items-center justify-center min-h-screen bg-gray-100">
-                <div className="bg-white p-8 rounded-lg shadow-md">
-                    <h2 className="text-2xl font-bold mb-4">Add Menu Item</h2>
+            <Sidebar /> 
+            <div className="flex items-center justify-center min-h-screen bg-custom-maroon">
+                <h1 className=" absolute top-10 text-white text-2xl font-thin text-center">Menu List Managment</h1>
+                <div className="bg-white w-[30em] p-8 rounded-lg shadow-md mt-10">
+                    <h2 className="text-2xl font-light text-center mb-8 text-black">Add Menu Item</h2>
                     <form onSubmit={handleSubmit}>
                         <div className="mb-4">
-                            <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+                            <label htmlFor="title" className="block mb-2 text-sm font-medium text-gray-700">
                                 Title
                             </label>
                             <input
@@ -66,7 +71,7 @@ const AddMenuList = () => {
                             />
                         </div>
                         <div className="mb-4">
-                            <label htmlFor="price" className="block text-sm font-medium text-gray-700">
+                            <label htmlFor="price" className="block text-sm mb-2 font-medium text-gray-700">
                                 Price
                             </label>
                             <input
@@ -80,21 +85,24 @@ const AddMenuList = () => {
                                 required
                             />
                         </div>
+
+
+                        
                         <div className="mb-4">
-                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="image">
-                                Image
-                            </label>
-                            <input
-                                type="file"
-                                name="image"
-                                id="image"
-                                onChange={handleImageChange} 
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                required
-                            />
+                            <div class="grid w-full max-w-xs items-center gap-1.5">
+                                <label class="text-sm mb-2 text-black font-medium leading-none " htmlFor="image">Image</label>
+                                    <input 
+                                    id="picture" 
+                                    type="file" 
+                                    onChange={handleImageChange} 
+                                    className="flex h-10 w-full rounded-md border border-input bg-white px-3 py-2 text-sm text-gray-400 file:border-0 file:bg-transparent file:text-gray-600 file:text-sm file:font-medium" 
+                                    required
+                                    />
+                            
+                            </div>
                         </div>
                         <div className="mb-4">
-                            <label htmlFor="category" className="block text-sm font-medium text-gray-700">
+                            <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-700">
                                 Category
                             </label>
                             <select
@@ -112,7 +120,7 @@ const AddMenuList = () => {
                             </select>
                         </div>
                         <div className="mb-4">
-                            <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+                            <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-700">
                                 Description
                             </label>
                             <textarea
@@ -125,15 +133,16 @@ const AddMenuList = () => {
                             />
                         </div>
 
+                        
                         <button
                             type="submit"
-                            className="w-full bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
+                            className="w-full mt-5 bg-black text-white py-2 px-4 rounded-md hover:bg-white border hover:border-black hover:text-black transition-all duration-300 ease-out transform hover:scale-105"
                         >
-                            Add Menu Item
+                            <FontAwesomeIcon icon={faPlus} className='mr-2' />  Add Menu Item
                         </button>
 
                         <Link to="/ManagerMenuList">
-                            <button type="button" className="mt-4 w-full bg-gray-300 text-black py-2 px-4 rounded-md hover:bg-gray-400 focus:outline-none">
+                            <button type="button" className="w-full mt-4 bg-custom-toolight text-black py-2 px-4 rounded-md hover:bg-white border hover:border-black hover:text-black transition-all duration-300 ease-out transform hover:scale-105">
                                 Menu List
                             </button>
                         </Link>
