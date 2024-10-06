@@ -31,15 +31,25 @@ const ShowWaitorOrders = () => {
     e.preventDefault();
     try {
       await axios.put(`http://localhost:3001/UpdateStatus/${orderId}`, { status });
+      console.log('Status updated');
     } catch (err) {
       setError('Error updating order status');
+    }
+  };
+
+  const handleUpdateQuantity = async (e, itemId) => {
+    const newQuantity = e.target.value;
+    try {
+      await axios.put(`http://localhost:3001/UpdateQuentity/${itemId}`, { quantity: newQuantity });
+      setOrderItems(orderItems.map(item => item._id === itemId ? { ...item, quantity: newQuantity } : item));
+    } catch (err) {
+      setError('Error updating order quantity');
     }
   };
 
   const handleDeleteItem = async (itemId) => {
     try {
       await axios.delete(`http://localhost:3001/DeleteOrderItem/${itemId}`);
-      // Update orderItems state after deletion
       setOrderItems(orderItems.filter(item => item._id !== itemId));
     } catch (err) {
       setError('Error deleting item');
@@ -51,6 +61,8 @@ const ShowWaitorOrders = () => {
   };
 
   const generatePDF = () => {
+    if (orderItems.length === 0) return alert('No order items to generate PDF');
+
     const doc = new jsPDF();
     doc.setFontSize(18);
     doc.text('Order Bill', 14, 16);
@@ -90,9 +102,14 @@ const ShowWaitorOrders = () => {
             orderItems.map((item) => (
               <div key={item._id} className="bg-white p-4 rounded shadow-md border border-gray-200">
                 <p><strong>Category:</strong> {item.category}</p>
-                <p><strong>Type:</strong> {item.type}</p>
+                <p><strong>Type:</strong> {item.title}</p>
                 <p><strong>Price:</strong> ${item.price}</p>
-                <p><strong>Quantity:</strong> {item.quantity}</p>
+                <label>Quantity:</label>
+                <input
+                  type="number"
+                  value={item.quantity}
+                  onChange={(e) => handleUpdateQuantity(e, item._id)}
+                />
                 <p><strong>Total Price:</strong> ${item.totalPrice}</p>
                 <p><strong>Table Number:</strong> {item.tableNum}</p>
                 <button 
