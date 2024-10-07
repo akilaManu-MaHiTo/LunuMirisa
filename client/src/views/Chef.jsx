@@ -9,6 +9,7 @@ const CartInfoDisplay = () => {
   const [error, setError] = useState(null);
   const [showMessage, setShowMessage] = useState(false);
   const [messageContent, setMessageContent] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     const fetchCartInfo = async () => {
@@ -69,6 +70,27 @@ const CartInfoDisplay = () => {
     printWindow.print();
   };
 
+  // Function to filter cart items based on search query
+  const filteredCartItems = cartItems.filter((item) => {
+    // Convert the item's createdAt to YYYY-MM-DD format for comparison
+    const itemDateString = new Date(item.createdAt).toISOString().split('T')[0];
+
+    // Check if the search query is a valid date
+    const searchDate = new Date(searchQuery);
+    const isDateValid = !isNaN(searchDate.getTime()); // Check if searchQuery is a valid date
+
+    if (isDateValid) {
+      const formattedSearchDate = searchDate.toISOString().split('T')[0];
+      return itemDateString === formattedSearchDate; // Return items that match the searched date
+    }
+
+    // Otherwise, check for name or email matches
+    return (
+      item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.email.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  });
+
   if (loading) {
     return <p className="text-white text-center">Loading cart information...</p>;
   }
@@ -83,44 +105,73 @@ const CartInfoDisplay = () => {
 
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900">
         <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-4xl">
-          <h2 className="text-4xl font-bold text-white mb-6 text-center">Cart Information</h2>
+          <h2 className="text-4xl font-bold text-white mb-6 text-center">Order Information</h2>
+
+          {/* Search Input */}
+          <input
+            type="text"
+            placeholder="Search by name, email, or date (YYYY-MM-DD)..."
+            className="mb-6 px-4 py-2 rounded-md w-full max-w-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {cartItems.map((item) => (
-              <div key={item._id} className="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-200">
-                <p className="text-white mb-2"><strong>Name:</strong> {item.name}</p>
-                <p className="text-white mb-2"><strong>Address:</strong> {item.address}</p>
-                <p className="text-white mb-2"><strong>Email:</strong> {item.email}</p>
-                <p className="text-white mb-2"><strong>Payment Method:</strong> {item.paymentMethod}</p>
-                <p className="text-white mb-4"><strong>Submitted At:</strong> {new Date(item.createdAt).toLocaleString()}</p>
+            {filteredCartItems.length > 0 ? (
+              filteredCartItems.map((item) => (
+                <div
+                  key={item._id}
+                  className="bg-gray-700 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-200"
+                >
+                  <p className="text-white mb-2">
+                    <strong>Name:</strong> {item.name}
+                  </p>
+                  <p className="text-white mb-2">
+                    <strong>Address:</strong> {item.address}
+                  </p>
+                  <p className="text-white mb-2">
+                    <strong>Email:</strong> {item.email}
+                  </p>
+                  <p className="text-white mb-2">
+                    <strong>Payment Method:</strong> {item.paymentMethod}
+                  </p>
+                  <p className="text-white mb-4">
+                    <strong>Submitted At:</strong> {new Date(item.createdAt).toLocaleString()}
+                  </p>
 
-                <div className="mb-4">
-                  <p className="text-white mb-2">.............................................................</p>
-                  <h3 className="text-lg font-semibold text-white">Cart Items:</h3>
-                  <ul className="list-disc pl-5 text-white">
-                    {item.cartItems.map((cartItem) => (
-                      <li key={cartItem._id}>
-                        {cartItem.title} - Quantity: {cartItem.quantity}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                  <div className="mb-4">
+                    <p className="text-white mb-2">
+                      .............................................................
+                    </p>
+                    <h3 className="text-lg font-semibold text-white">Cart Items:</h3>
+                    <ul className="list-disc pl-5 text-white">
+                      {item.cartItems.map((cartItem) => (
+                        <li key={cartItem._id}>
+                          {cartItem.title} - Quantity: {cartItem.quantity}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
 
-                <div className="flex space-x-3 mt-auto">
-                  <button
-                    className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition-colors duration-200"
-                    onClick={() => handleDelete(item._id)}
-                  >
-                    Delete
-                  </button>
-                  <button
-                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors duration-200"
-                    onClick={() => handlePrint(item)}
-                  >
-                    Print Bill
-                  </button>
+                  <div className="flex space-x-3 mt-auto">
+                    <button
+                      className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition-colors duration-200"
+                      onClick={() => handleDelete(item._id)}
+                    >
+                      Delete
+                    </button>
+                    <button
+                      className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors duration-200"
+                      onClick={() => handlePrint(item)}
+                    >
+                      Print Bill
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <p className="text-white text-center col-span-full">No matching orders found.</p>
+            )}
           </div>
         </div>
         {showMessage && (
@@ -128,7 +179,11 @@ const CartInfoDisplay = () => {
             {messageContent}
           </div>
         )}
-        <Link to='/CheffInventory'><button className='bg-green-600 rounded-md hover:bg-green-800 p-2 mt-2 text-white' rounded >Show Inventory</button></Link>
+        <Link to='/CheffInventory'>
+          <button className='bg-green-600 rounded-md hover:bg-green-800 p-2 mt-2 text-white'>
+            Show Inventory
+          </button>
+        </Link>
       </div>
     </div>
   );
