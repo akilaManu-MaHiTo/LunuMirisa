@@ -12,7 +12,7 @@ const AdminNavigationBar = ({ selectedPage }) => {
           <img src={logo} alt="Logo" className="h-auto w-20 ml-20" />
         </div>
         <div className="flex-1 flex justify-center mr-52">
-          <span className="text-2xl text-center font-thin text-white">{selectedPage}</span>
+          <span className="text-4xl text-center font-thin text-white">{selectedPage}</span>
         </div>
       </nav>
     </div>

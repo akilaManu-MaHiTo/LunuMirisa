@@ -99,8 +99,8 @@ const AddEmployeeForm = () => {
     <div>
       <AdminNavigationBar selectedPage="Add Employee" />
       <div className="flex justify-center items-center bg-black" style={{ marginTop: '15px' }}>
-        <form className="bg-white p-6 rounded-lg shadow-lg" style={{ width: '600px' }} onSubmit={handleSubmit}>
-          <h2 className="font-bold mb-4 text-center" style={{ fontSize: '20px' }}>Add Employee</h2>
+        <form className="bg-white p-10 rounded-lg shadow-lg my-16" style={{ width: '600px' }} onSubmit={handleSubmit}>
+          <h2 className="font-light mb-10 text-3xl text-center" style={{ fontSize: '20px' }}> <strong>Add Employee</strong></h2>
 
           <div className="grid grid-cols-2 gap-3" style={{ fontSize: '15px' }}>
             {/* Employee Name */}
@@ -213,14 +213,16 @@ const AddEmployeeForm = () => {
             </div>
           </div>
 
-          {/* Submit Button */}
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white py-1 rounded-lg hover:bg-blue-600 transition duration-300"
-            style={{ marginTop: '10px' }}
-          >
-            Add Employee
-          </button>
+          <div className='flex justify-center mt-10'>
+              <button
+                type="submit"
+                className="w-56 h-12 bg-black text-white py-1 rounded-lg hover:bg-white hover:border hover:border-black hover:text-black transition duration-300"
+                style={{ marginTop: '10px' }}
+              >
+                Add Employee
+              </button>
+          </div>
+
         </form>
       </div>
     </div>
