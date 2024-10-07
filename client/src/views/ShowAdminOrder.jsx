@@ -119,7 +119,12 @@ const TotalPriceCalculator = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{ 
+      backgroundImage: `url(${bgAdmin})`, 
+      backgroundSize: 'cover', 
+      backgroundPosition: 'center', 
+    }}>
       <AdminNaviBar selectedPage="In Resturant Managment" />
       <Sidebar />  
 
