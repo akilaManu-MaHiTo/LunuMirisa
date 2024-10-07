@@ -5,6 +5,7 @@ import AdminNaviBar from './Components/AdminNavigationBar';
 import Sidebar from './Components/ToggleSlideBar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import bgAdmin from '../Images/admin-bg.jpg';
 
 const Inventory = () => {
   const [name, setName] = useState('');
@@ -40,7 +41,13 @@ const Inventory = () => {
     <div>
       <AdminNaviBar selectedPage="Add Inventory Items" />
       <Sidebar /> 
-      <div className="flex items-center justify-center min-h-screen bg-black">
+      <div className="flex items-center justify-center min-h-screen bg-black"
+                      style={{ 
+                        backgroundImage: `url(${bgAdmin})`, 
+                        backgroundSize: 'cover', 
+                        backgroundPosition: 'center', 
+                    }}
+      >
         <form 
           onSubmit={handleSubmit} 
           className="bg-custom-toolight p-6 rounded shadow-md w-[35rem] "

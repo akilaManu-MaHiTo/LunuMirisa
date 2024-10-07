@@ -217,7 +217,9 @@ const ShowMenuLists = () => {
                 <TopThreeItemCard key={item._id} item={item} onAddToCart={() => handleAddToCart(item)} />
               ))}
             </div>
+            
           ) : (
+
             <div className='flex gap-8'>
               <div
                 className="flex flex-col bg-custom-gray w-64 h-96 animate-pulse rounded-xl p-4 gap-4"

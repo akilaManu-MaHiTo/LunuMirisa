@@ -140,9 +140,9 @@ const AcceptedOrders = () => {
     <div>
       <AdminNaviBar selectedPage="Accepted Orders" />
       <Sidebar /> 
-      <div className="container mx-auto p-4 text-gray-100 bg-gray-900 min-h-screen px-40">
+      <div className="container mx-auto p-4 text-gray-100 bg-black min-h-screen px-40">
 
-        <div className='flex justify-between w-full '>
+        <div className='flex justify-between w-full mt-10 '>
 
           {/* Status Filter Dropdown */}
           <div className="mb-6">
@@ -150,7 +150,7 @@ const AcceptedOrders = () => {
             <select
               value={statusFilter}
               onChange={handleStatusFilterChange}
-              className="px-4 py-2 bg-gray-700 text-white rounded"
+              className="px-4 py-2 bg-white text-black rounded"
             >
               <option value="All">All Supplies</option>
               <option value="Yes">To Add Inventory</option>
@@ -166,7 +166,7 @@ const AcceptedOrders = () => {
               value={searchInput}
               onChange={handleSearchInputChange}
               placeholder="Search by Order Name, Supply Name, Supplier Name, or Supplier ID"
-              className="px-4 py-2 bg-gray-700 text-white rounded w-full"
+              className="px-4 py-2 bg-white text-black rounded w-full"
             />
           </div>
 
@@ -177,7 +177,7 @@ const AcceptedOrders = () => {
               type="date"
               value={deliveryDate}
               onChange={handleDeliveryDateChange}
-              className="px-4 py-2 bg-gray-700 text-white rounded"
+              className="px-4 py-2 bg-white text-black rounded"
             />
           </div>
 
@@ -187,69 +187,69 @@ const AcceptedOrders = () => {
 
 
         {/* Display Total Amount */}
-        <div className="mb-6 mt-16 text-center text-2xl text-gray-200">
-          <strong className='font-thin text-lg'>Total Amount:</strong> <p className='text-4xl font-light'>Rs.{totalAmount.toFixed(2)}</p>
+        <div className="mb-6 mt-10 text-center text-2xl text-gray-200">
+          <strong className='font-thin text-lg mb-5'>Total Amount:</strong> <p className='text-5xl font-light mt-2'>Rs.{totalAmount.toFixed(2)}</p>
         </div>
 
 
         {/* Button to generate PDF report */}
         <button 
           onClick={generatePDF}
-          className="mb-6 px-4 py-2 bg-blue-500 text-white rounded"
+          className="mb-6 px-4 py-2 bg-blue-500 text-white hover:bg-blue-400 hover:text-black rounded transition-all duration-300 ease-out transform hover:scale-105"
         >
-          Generate PDF Report
+          Generate PDF Report <FontAwesomeIcon icon={faFilePdf} className='ml-2' />
         </button>
 
         <div className="grid grid-cols-1 gap-6">
           {filteredOrders.map(order => (
             <div 
               key={order._id} 
-              className={`bg-gray-800 p-6 rounded-lg shadow-lg 
-                          ${order.status === 'Yes' ? 'border-2 border-green-500' : 'border-2 border-red-500'}`}
+              className={`bg-custom-dark h-[30rem] p-6 rounded-lg shadow-lg 
+                          ${order.status === 'Yes' ? 'border-2 border-green-500' : 'border-4 border-red-700'}`}
             >
-              <div className='flex justify-between px-36'>
+              <div className='flex gap-32 px-36'>
               <img 
                 src={`http://localhost:3001/Images/${order.image}`} 
                 alt={order.name} 
                 className="w-60 h-60 mt-10 object-cover rounded-md"
               />
-<div className="mt-10 space-y-2 text-lg font-light">
-  <p>
-    <strong className='mr-3'>Order ID:</strong> {order._id}
-  </p>
-  <p>
-    <strong className='mr-3'>Name:</strong> {order.name}
-  </p>
-  <p>
-    <strong className='mr-3'>Order Quantity:</strong> {order.orderQuantity}
-  </p>
-  <p>
-    <strong className='mr-3'>Category:</strong> {order.category}
-  </p>
-  <p>
-    <strong className='mr-3'>Total Amount:</strong> ${order.totalAmount.toFixed(2)}
-  </p>
-  <p>
-    <strong className='mr-3'>Delivery Date:</strong> {new Date(order.deliveryDate).toLocaleDateString()}
-  </p>
-  <p>
-    <strong className='mr-3'>Special Note:</strong> {order.specialNote || 'None'}
-  </p>
-  <p>
-    <strong className='mr-3'>Supplier Name:</strong> {order.supplierName}
-  </p>
-  <p>
-    <strong className='mr-3'>Unit Price:</strong> ${ (order.totalAmount / order.orderQuantity).toFixed(2) }
-  </p>
-</div>
+                <div className="mt-10 space-y-2 text-lg font-light">
+                  <p>
+                    <strong className='mr-3'>Order ID:</strong> {order._id}
+                  </p>
+                  <p>
+                    <strong className='mr-3'>Name:</strong> {order.name}
+                  </p>
+                  <p>
+                    <strong className='mr-3'>Order Quantity:</strong> {order.orderQuantity}
+                  </p>
+                  <p>
+                    <strong className='mr-3'>Category:</strong> {order.category}
+                  </p>
+                  <p>
+                    <strong className='mr-3'>Total Amount:</strong> Rs. {order.totalAmount.toFixed(2)}
+                  </p>
+                  <p>
+                    <strong className='mr-3'>Delivery Date:</strong> {new Date(order.deliveryDate).toLocaleDateString()}
+                  </p>
+                  <p>
+                    <strong className='mr-3'>Special Note:</strong> {order.specialNote || 'None'}
+                  </p>
+                  <p>
+                    <strong className='mr-3'>Supplier Name:</strong> {order.supplierName}
+                  </p>
+                  <p>
+                    <strong className='mr-3'>Unit Price:</strong> Rs. { (order.totalAmount / order.orderQuantity).toFixed(2) }
+                  </p>
+                </div>
 
 
               </div>
 
-              <div className='flex justify-end mr-10 mt-10'>
+              <div className='flex justify-end mr-10 mt-2'>
               <button 
-                className={`px-4 py-2 mt-4 rounded 
-                            ${order.status === 'Yes' ? 'bg-white text-black' : 'bg-gray-600 text-gray-300 cursor-not-allowed'}`}
+                className={`px-4 py-2 rounded h-14
+                            ${order.status === 'Yes' ? 'bg-white text-black hover:bg-black hover:text-white hover:border hover:border-white transition-all duration-300 ease-out transform hover:scale-105 ' : 'bg-gray-600 text-gray-300  cursor-not-allowed'}`}
                 onClick={() => order.status === 'Yes' && handleUpdate(order.name, order.orderQuantity, order._id)}
                 disabled={order.status !== 'Yes'} // Disable button if status is not 'Yes'
               >
