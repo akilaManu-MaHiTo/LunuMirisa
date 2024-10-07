@@ -10,7 +10,7 @@ import bgtable from '../Images/table.jpg';
 
 
 const ReservedTables = () => {
-    const { reserveId } = useParams(); // Extract the reserveId from the URL
+    const { reserveId,userId } = useParams(); // Extract the reserveId from the URL
     const navigate = useNavigate();
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedTime, setSelectedTime] = useState(null);
@@ -58,7 +58,7 @@ const ReservedTables = () => {
             setError('');
 
             // Optionally navigate to another page after success
-            navigate('/some-page'); // Uncomment and change if you want to redirect after success
+            navigate(`/MyTableReservations/${userId}`); // Uncomment and change if you want to redirect after success
         } catch (err) {
             // Handle errors
             setError(err.response?.data?.message || 'An error occurred. Please try again.');
