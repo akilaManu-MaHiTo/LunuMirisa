@@ -115,7 +115,7 @@ const handleDelete = async (itemTitle) => { // Accept itemTitle instead of itemI
           {cartItems.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {cartItems.map(item => (
-                <div key={item._id} className="bg-gray-100 p-4 rounded-lg shadow-md flex flex-col justify-between">
+                <div key={item._id} className="bg-gray-100  hover:bg-gray-300 border p-4 rounded-lg shadow-md flex flex-col justify-between transition-all duration-300 ease-out transform hover:scale-105">
                   <div>
                   <img 
                     src={`http://localhost:3001/Images/` + item.image} 

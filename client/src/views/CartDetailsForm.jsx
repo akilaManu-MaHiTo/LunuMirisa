@@ -55,8 +55,8 @@ const CartDetailsForm = () => {
         backgroundSize: 'cover', 
         backgroundPosition: 'center' 
       }}>
-      <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
-        <h2 className="text-3xl font-bold mb-4">Checkout Form</h2>
+      <div className="bg-gray-300 p-8 rounded shadow-md w-full max-w-md">
+        <h2 className="text-3xl font-bold mb-4 font-serif-black">Checkout Form</h2>
 
         {submitted ? (
           <p className="text-green-500 font-semibold">Order placed successfully!</p>
@@ -104,8 +104,9 @@ const CartDetailsForm = () => {
                 value={paymentMethod}
                 onChange={(e) => setPaymentMethod(e.target.value)}
                 className="w-full p-2 border border-gray-300 rounded"
+                
               >
-                <option value="select">--select payment method--</option>
+                
                 <option value="credit-card">Credit Card</option>
                 <option value="paypal">PayPal</option>
                 <option value="bank-transfer">Bank Transfer</option>
