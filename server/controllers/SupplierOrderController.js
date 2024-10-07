@@ -110,7 +110,24 @@ router.get('/countByCategory/:category', async (req, res) => {
 
 
 
-// axios.delete()
+router.get('/calculateByNo', async (req, res) => {
+  try {
+    // Perform aggregation to sum up totalAmount for documents with status "No"
+    const result = await SupplierOrder.aggregate([
+      { $match: { status: "No" } }, // Filter documents with status "No"
+      { $group: { _id: null, totalPrice: { $sum: "$totalAmount" } } } // Sum totalAmount
+    ]);
+
+    // Extract totalPrice from the aggregation result
+    const totalPrice = result.length > 0 ? result[0].totalPrice : 0;
+
+    // Send the total price in the response
+    res.status(200).json({ totalPrice });
+  } catch (error) {
+    console.error("Error calculating total price: ", error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 
 

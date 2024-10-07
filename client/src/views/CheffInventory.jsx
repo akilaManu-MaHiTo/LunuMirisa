@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import jsPDF from 'jspdf';
 import AdminNaviBar from './Components/AdminNavigationBar';
-import ToggleSlideBar from './Components/ToggleSlideBar';
-import useSidebar from './Components/useSidebar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faPlus, faPenToSquare, faTruckArrowRight, faTrashCan, faBell } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Loader from './Components/Loader.jsx';
 
+
 const ShowInventory = () => {
   const [count, setCount] = useState(0);
-  const { isSidebarVisible, toggleSidebar, sidebarRef } = useSidebar();
+  // const { isSidebarVisible, toggleSidebar, sidebarRef } = useSidebar();
   const [loading, setLoading] = useState(true);
   const [inventory, setInventory] = useState([]);
   const [filteredInventory, setFilteredInventory] = useState([]);
@@ -134,17 +133,17 @@ const generateReport = () => {
 };
 
 
-  const SidebarWithOverlay = () => (
-    <div className="flex">
-      <ToggleSlideBar ref={sidebarRef} isVisible={isSidebarVisible} />
-      {isSidebarVisible && (
-        <div
-          className="fixed inset-0 z-40"
-          onClick={toggleSidebar}
-        ></div>
-      )}
-    </div>
-  );
+  // const SidebarWithOverlay = () => (
+  //   <div className="flex">
+  //     <ToggleSlideBar ref={sidebarRef} isVisible={isSidebarVisible} />
+  //     {isSidebarVisible && (
+  //       <div
+  //         className="fixed inset-0 z-40"
+  //         onClick={toggleSidebar}
+  //       ></div>
+  //     )}
+  //   </div>
+  // );
 
   if (loading) {
     return <Loader />;
@@ -154,14 +153,14 @@ const generateReport = () => {
     <div className="min-h-screen bg-custom-black">
       <AdminNaviBar selectedPage="Inventory Management" />
 
-      <div className="p-5 custom1-md:pl-[4rem]">
+      {/* <div className="p-5 custom1-md:pl-[4rem]">
         <button
           className="text-white text-2xl focus:outline-none"
           onClick={toggleSidebar}
         >
           <FontAwesomeIcon icon={faBars} />
         </button>
-      </div>
+      </div> */}
 
       <div className="p-2 flex items-center justify-end">
         <div className="flex space-x-4 custom1-md:mr-[4rem]">
@@ -228,7 +227,7 @@ const generateReport = () => {
         </div>
       </div>
 
-      <SidebarWithOverlay />
+      {/* <SidebarWithOverlay /> */}
 
       <div className="flex items-center justify-center bg-custom-black mt-10">
         <div className="bg-white p-6 rounded shadow-md w-full max-w-[106rem]">

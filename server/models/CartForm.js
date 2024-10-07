@@ -40,6 +40,9 @@ const cartFormSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  totalPrice:{
+    type: String
+  }
 });
 
 // Export the Cart model

@@ -22,6 +22,7 @@ const TotalPriceCalculator = () => {
       if (Array.isArray(response.data)) {
         setOriginalData(response.data);
         setTotalPrices(response.data);
+        calculateTotalAmount(response.data); // Calculate total for initial load
       } else {
         console.error("Unexpected response structure:", response.data);
         setTotalPrices([]);
@@ -46,10 +47,18 @@ const TotalPriceCalculator = () => {
   };
 
   const filterDataByDate = (date) => {
+    if (!date) {
+      // If the date is cleared, display all data
+      setTotalPrices(originalData);
+      calculateTotalAmount(originalData);
+      return;
+    }
+
     const filteredData = originalData.filter(item => {
       const itemDate = new Date(item.date).toISOString().split('T')[0];
       return itemDate === date;
     });
+    
     console.log("Filtered Data:", filteredData);
     setTotalPrices(filteredData);
     calculateTotalAmount(filteredData);
