@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import background from '../Images/profileBG2.jpg';
 
 const CartDetailsForm = () => {
   const [name, setName] = useState('');
+  const {totalPrice} = useParams()
   const [address, setAddress] = useState('');
   const [email, setEmail] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('credit-card');
@@ -35,6 +36,7 @@ const CartDetailsForm = () => {
       email,
       paymentMethod,
       cartItems, // Include cart items from the URL
+      totalPrice
     };
 
     try {
