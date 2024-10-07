@@ -1,3 +1,7 @@
+//chef
+
+
+
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -103,20 +107,21 @@ const CartInfoDisplay = () => {
     <div>
       <AdminNaviBar selectedPage="Chefs menu" />
 
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900">
+      <div className="flex flex-col items-center justify-center min-h-screen  bg-gray-900">
         <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-4xl">
           <h2 className="text-4xl font-bold text-white mb-6 text-center">Order Information</h2>
 
+       <div className='w-full'>
           {/* Search Input */}
           <input
             type="text"
             placeholder="Search by name, email, or date (YYYY-MM-DD)..."
-            className="mb-6 px-4 py-2 rounded-md w-full max-w-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="mb-6 px-4 py-2 rounded-md w-full  focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        </div>
+          <div className="grid grid-cols-1 mt-md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredCartItems.length > 0 ? (
               filteredCartItems.map((item) => (
                 <div
