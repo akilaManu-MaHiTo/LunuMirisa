@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams, useNavigate } from 'react-router-dom'; // Import useNavigate
 import background from '../Images/profileBG2.jpg';
 
 const CartDetailsForm = () => {
@@ -12,16 +12,16 @@ const CartDetailsForm = () => {
   const [cartItems, setCartItems] = useState([]);
   const [submitted, setSubmitted] = useState(false);
 
-  const location = useLocation(); // To access the current URL
+  const location = useLocation();
+  const navigate = useNavigate(); // Initialize useNavigate
 
-  // Extract and parse the JSON from the URL when the component mounts
   useEffect(() => {
     const currentURL = location.pathname;
-    const jsonString = decodeURIComponent(currentURL.split('/').pop()); // Extract JSON part of the URL
+    const jsonString = decodeURIComponent(currentURL.split('/').pop());
 
     try {
-      const parsedData = JSON.parse(jsonString); // Parse the extracted JSON string
-      setCartItems(parsedData); // Store cart items in state
+      const parsedData = JSON.parse(jsonString);
+      setCartItems(parsedData);
     } catch (error) {
       console.error('Error parsing JSON from URL:', error);
     }
@@ -35,14 +35,20 @@ const CartDetailsForm = () => {
       address,
       email,
       paymentMethod,
-      cartItems, // Include cart items from the URL
+      cartItems,
       totalPrice
     };
 
     try {
       const response = await axios.post('http://localhost:3001/addCartInfo', formData);
-      console.log('Response:', response.data); // Log the server response
-      setSubmitted(true); // Simulate form submission
+      console.log('Response:', response.data);
+      setSubmitted(true);
+
+      
+      setTimeout(() => {
+        navigate('/'); 
+      }, 4000);
+      
     } catch (error) {
       console.error('There was an error submitting the form:', error);
     }
@@ -56,10 +62,10 @@ const CartDetailsForm = () => {
         backgroundPosition: 'center' 
       }}>
       <div className="bg-gray-300 p-8 rounded shadow-md w-full max-w-md">
-        <h2 className="text-3xl font-bold mb-4 font-serif-black">Checkout Form</h2>
+        <h2 className="text-4xl font-bold mb-4 font-serif-black ">Checkout Form</h2>
 
         {submitted ? (
-          <p className="text-green-500 font-semibold">Order placed successfully!</p>
+          <p className="text-green-500 font-semibold text-2xl">Order placed successfully! </p>
         ) : (
           <form className="pt-4" onSubmit={handleSubmit}>
             <div className="mb-4">
@@ -104,9 +110,7 @@ const CartDetailsForm = () => {
                 value={paymentMethod}
                 onChange={(e) => setPaymentMethod(e.target.value)}
                 className="w-full p-2 border border-gray-300 rounded"
-                
               >
-                
                 <option value="credit-card">Credit Card</option>
                 <option value="paypal">PayPal</option>
                 <option value="bank-transfer">Bank Transfer</option>

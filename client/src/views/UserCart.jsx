@@ -20,7 +20,7 @@ const ShowCart = () => {
         const groupedItems = groupCartItems(response.data.cartItems);
         setCartItems(groupedItems);
         setTotalPrice(response.data.totalPrice);
-        //toast.success('Cart items fetched successfully!', { autoClose: 3000 });
+        
       } catch (err) {
         setError('Failed to fetch cart items');
         console.error('Error fetching cart items:', err);
@@ -31,7 +31,7 @@ const ShowCart = () => {
     fetchCartItems();
   }, [userId]);
 
-  // Group items by title and price and calculate quantity
+ 
   const groupCartItems = (items) => {
     const groupedItems = {};
 
@@ -50,16 +50,15 @@ const ShowCart = () => {
     return Object.values(groupedItems);
   };
 
-  // Handle Delete
-  // Handle Delete
-const handleDelete = async (itemTitle) => { // Accept itemTitle instead of itemId
+ 
+const handleDelete = async (itemTitle) => { 
   try {
-      await axios.delete(`http://localhost:3001/RemoveFromCart/${itemTitle}/${userId}`); // Pass itemTitle and userId
-      // Remove all items with the matching title from the state
+      await axios.delete(`http://localhost:3001/RemoveFromCart/${itemTitle}/${userId}`); 
+    
       const updatedCartItems = cartItems.filter(item => item.title !== itemTitle);
       setCartItems(updatedCartItems);
 
-      // Update total price after deleting items
+    
       const updatedTotalPrice = updatedCartItems.reduce((total, item) => {
           return total + parseFloat(item.price) * item.quantity;
       }, 0);
@@ -74,7 +73,7 @@ const handleDelete = async (itemTitle) => { // Accept itemTitle instead of itemI
 };
 
 
-  // Handle Update Quantity
+
   const handleUpdate = async (itemId, newQuantity) => {
     try {
       await axios.put(`http://localhost:3001/UpdateCartItem/${itemId}`, { quantity: newQuantity });
@@ -138,7 +137,7 @@ const handleDelete = async (itemTitle) => { // Accept itemTitle instead of itemI
                   <div className="mt-4 flex justify-between">
                   <button 
                     className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                    onClick={() => handleDelete(item.title)} // Pass the item title to handleDelete
+                    onClick={() => handleDelete(item.title)} 
                   >
                     Delete
                   </button>
@@ -174,7 +173,7 @@ const handleDelete = async (itemTitle) => { // Accept itemTitle instead of itemI
                   <button
                     id="checkout_btn"
                     className="bg-black hover:bg-gray-700 text-white font-bold py-2 mt-6 px-4 rounded"
-                    disabled={cartItems.length === 0} // Disable button if cart is empty
+                    disabled={cartItems.length === 0} 
                   >
                     Checkout
                   </button>

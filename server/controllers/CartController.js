@@ -2,11 +2,11 @@ const express = require('express');
 const router = express.Router();
 const Cart = require('../models/Cart');
 
-// Add item to cart
+
 router.post("/Addtocarts", async (req, res) => {
     const { userId, itemId, category, title, price,image } = req.body;
 
-    // Validate input
+  
     if (!userId || !itemId || !category || !price || !image) {
         return res.status(400).json({ message: "All fields are required." });
     }
@@ -51,9 +51,9 @@ router.get("/ShowCart/:userId", async (req, res) => {
 
 
 router.delete("/RemoveFromCart/:itemtitle/:userId", async (req, res) => {
-    const { itemtitle, userId } = req.params; // Get item title and userId from parameters
+    const { itemtitle, userId } = req.params; 
     try {
-        const result = await Cart.deleteMany({ title: itemtitle, userId: userId }); // Delete items matching the title and userId
+        const result = await Cart.deleteMany({ title: itemtitle, userId: userId }); 
         if (result.deletedCount > 0) {
             res.status(200).json({ message: "Items removed from cart successfully." });
         } else {
@@ -72,25 +72,24 @@ router.get("/topThreeItemIds", async (req, res) => {
         const topItems = await Cart.aggregate([
             {
                 $group: {
-                    _id: "$itemId",  // Group by itemId
-                    totalQuantity: { $sum: "$quantity" },  // Sum the quantities for each item
+                    _id: "$itemId",  
+                    totalQuantity: { $sum: "$quantity" },  
                     title: { $first: "$title" }, 
                     category: { $first: "$category" },
                     image: { $first: "$image" },
                     price: { $first: "$price" }
                 }
             },
-            { $sort: { totalQuantity: -1 } },  // Sort by total quantity in descending order
-            { $limit: 3 },  // Limit to top 3
+            { $sort: { totalQuantity: -1 } },  
             { 
                 $project: { 
-                    _id: 0,  // Exclude the _id field
-                    itemId: "$_id",  // Return itemId (use _id from the group)
-                    totalQuantity: 1,  // Return total quantity
+                    _id: 0,  
+                    itemId: "$_id",  
+                    totalQuantity: 1,  
                     title: 1, 
                     category: 1,
                     image: 1,
-                    price: 1  // Return price
+                    price: 1  
                 } 
             }
         ]);
