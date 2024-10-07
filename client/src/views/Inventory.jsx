@@ -64,7 +64,7 @@ const Inventory = () => {
 
           <div className="mb-4">
             <div class="grid w-full max-w-xs items-center gap-1.5">
-                  <label class="text-sm text-gray-400 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Picture</label>
+                  <label class="text-sm text-black font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Picture</label>
                   <input  
                   type="file"
                   name="image"

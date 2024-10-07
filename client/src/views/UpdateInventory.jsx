@@ -5,6 +5,7 @@ import AdminNaviBar from './Components/AdminNavigationBar';
 import ToggleSlideBar from './Components/ToggleSlideBar';
 import useSidebar from './Components/useSidebar';
 import Loader from './Components/Loader';
+import bgAdmin from '../Images/admin-bg.jpg';
 
 const UpdateInventory = () => {
   const { id } = useParams(); // Get the ID from the URL params
@@ -116,7 +117,8 @@ const UpdateInventory = () => {
 
   // MainContent component
   const MainContent = () => (
-    <div className="flex items-center justify-center min-h-screen bg-black">
+    <div className="flex items-center justify-center min-h-screen"
+    >
       <form 
         onSubmit={handleSubmit} 
         className="bg-custom-toolight p-6 rounded shadow-md w-[35rem] my-10"
@@ -244,7 +246,13 @@ const UpdateInventory = () => {
   );
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-black"
+        style={{ 
+          backgroundImage: `url(${bgAdmin})`, 
+          backgroundSize: 'cover', 
+          backgroundPosition: 'center', 
+      }}
+    >
       <AdminNaviBar selectedPage="Edit Item" />
       <SidebarWithOverlay />
       <div className="container mx-auto p-4">

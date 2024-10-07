@@ -5,7 +5,8 @@ import Sidebar from './Components/ToggleSlideBar';
 import NavigationBar from './Components/NavigationMenuListManager';
 import logo from '../Images/Logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSyncAlt, faTrashCan, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'; // Importing an icon (Sync for update)
+import { faSyncAlt, faTrashCan, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'; 
+
 
 const ShowMangerMenuList = () => {
   const [menuItems, setMenuItems] = useState([]);
@@ -64,7 +65,8 @@ const ShowMangerMenuList = () => {
     <div>
       <NavigationBar logo={logo} />
       <Sidebar />
-      <div className="flex items-center justify-center min-h-screen bg-black">
+      <div className="flex items-center justify-center min-h-screen bg-black"
+      >
         <h1 className="absolute top-10 text-white text-2xl font-thin text-center">Update Menu</h1>
         <div className="bg-black lg shadow-md w-full h-full max-w-4xl">
 

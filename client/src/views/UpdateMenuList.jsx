@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import AdminNaviBar from './Components/AdminNavigationBar';
 import Sidebar from './Components/ToggleSlideBar';
+import bgAdmin from '../Images/admin-bg.jpg';
 
 const AddMenuList = () => {
   const [title, setTitle] = useState('');
@@ -58,7 +59,13 @@ const AddMenuList = () => {
     <div>
       <AdminNaviBar selectedPage="Update Menu Item" />
       <Sidebar />   
-      <div className="flex items-center justify-center min-h-screen bg-black">
+      <div className="flex items-center justify-center min-h-screen bg-black"
+                style={{ 
+                  backgroundImage: `url(${bgAdmin})`, 
+                  backgroundSize: 'cover', 
+                  backgroundPosition: 'center', 
+              }}
+      >
         <div className="bg-custom-toolight mb-32 p-8 rounded-lg shadow-md mt-10 w-[35rem] ">
           <h2 className="text-2xl text-center font-light mb-4">{id ? "Edit Menu Item" : "Add Menu Item"}</h2>
 

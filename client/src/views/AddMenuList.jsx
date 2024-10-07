@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css'; // Import toastify styles
 import Sidebar from './Components/ToggleSlideBar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import bgAdmin from '../Images/admin-bg.jpg';
 
 const AddMenuList = () => {
     const [title, setTitle] = useState('');
@@ -51,9 +52,15 @@ const AddMenuList = () => {
         <div>
             <NavigationBar logo={logo} /> 
             <Sidebar /> 
-            <div className="flex items-center justify-center min-h-screen bg-black">
+            <div className="flex items-center justify-center min-h-screen bg-custom-gray"
+                style={{ 
+                    backgroundImage: `url(${bgAdmin})`, 
+                    backgroundSize: 'cover', 
+                    backgroundPosition: 'center', 
+                }}
+            >
                 <h1 className=" absolute top-10 text-white text-2xl font-thin text-center">Menu List Managment</h1>
-                <div className="bg-custom-toolight w-[30em] p-8 rounded-lg shadow-md mt-10">
+                <div className="bg-custom-toolight w-[30em] p-8 rounded-lg shadow-md mt-10 mb-20">
                     <h2 className="text-2xl font-light text-center mb-8 text-black">Add Menu Item</h2>
                     <form onSubmit={handleSubmit}>
                         <div className="mb-4">
