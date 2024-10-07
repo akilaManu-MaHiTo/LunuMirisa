@@ -46,7 +46,7 @@ const TableReservation = () => {
         }}
       >
         <div className="bg-black bg-opacity-60 p-10 mt-16 rounded-xl shadow-lg w-[55rem] h-auto mb-40 border border-gray-500">
-          <h1 className="font-spartan font-thin text-4xl mb-16 text-center text-white">You Reserved Tables</h1>
+          <h1 className="font-spartan font-thin text-4xl mb-16 text-center text-white">Your Reserved Tables</h1>
           
 
           <ul className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-center">
