@@ -49,12 +49,22 @@ export default {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-5px)' },
         },
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        fadeOut: {
+          '0%': { opacity: '1' },
+          '100%': { opacity: '0' },
+        },
       },
       animation: {
         spin_4991: 'spin_4991 4s infinite',
         'slide-in-right': 'slideInRight 0.7s forwards',
         'slide-out-left': 'slideOutLeft 0.7s forwards',
         'bounce-custom': 'bounceCustom 0.6s ease-in-out infinite',
+        fadeIn: 'fadeIn 0.5s ease-in forwards',
+        fadeOut: 'fadeOut 0.5s ease-out forwards',
       },
     },
   },

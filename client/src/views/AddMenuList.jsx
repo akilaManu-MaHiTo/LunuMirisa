@@ -20,18 +20,19 @@ const AddMenuList = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        
         if (price >= 5000) {
             toast.error("You can't add a price over Rs. 5000.00");
             return;
         }
-
+    
         const formData = new FormData();
         formData.append("title", title);
         formData.append("price", price);
         formData.append("image", image);
         formData.append("category", category);
         formData.append("description", description);
-
+    
         axios.post("http://localhost:3001/createAddMenuList", formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
@@ -41,8 +42,17 @@ const AddMenuList = () => {
             console.log(result);
             navigate('/ManagerMenuList');
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            // Check if the error response exists and contains a message
+            if (err.response && err.response.data && err.response.data.message) {
+                toast.error(err.response.data.message); // Display the error message from the server
+            } else {
+                toast.error("An unexpected error occurred."); // Generic error message
+            }
+            console.log(err);
+        });
     };
+    
 
     const handleImageChange = (e) => {
         setImage(e.target.files[0]); 
