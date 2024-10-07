@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import * as XLSX from 'xlsx';
+import AdminNaviBar from './Components/AdminNavigationBar';
+import Sidebar from './Components/ToggleSlideBar';
+import bgAdmin from '../Images/admin-bg.jpg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFileExcel } from '@fortawesome/free-solid-svg-icons';
 
 const TotalPriceCalculator = () => {
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
@@ -114,96 +119,108 @@ const TotalPriceCalculator = () => {
   };
 
   return (
-    <div className="bg-gray-900 text-white p-6 rounded-lg shadow-md max-w-4xl mx-auto mt-10">
-      <h1 className="text-3xl font-bold mb-6 text-center">Total Price Calculator</h1>
+    <div>
+      <AdminNaviBar selectedPage="In Resturant Managment" />
+      <Sidebar />  
 
-      <div className="text-center mb-4">
-        <h2 className="text-xl">Total Amount: ${totalAmount.toFixed(2)}</h2>
-      </div>
+      <div className="bg-gray-900 text-white p-6 rounded-lg shadow-md max-w-4xl mx-auto mt-10">
+        <h1 className="text-3xl font-thin mb-6 text-center">Total Price Calculator</h1>
 
-      <div className="flex justify-center mb-6">
-        <input
-          type="date"
-          value={selectedDate}
-          onChange={(e) => setSelectedDate(e.target.value)}
-          className="bg-gray-700 border border-gray-600 text-white p-2 rounded-md"
-        />
-      </div>
+        <div className="text-center mb-4">
+          <h2 className="text-xl">Total Amount: Rs. <strong className='text-4xl font-light'>{totalAmount.toFixed(2)}</strong> </h2>
+        </div>
 
-      <div className="flex justify-center mb-6">
-        <input
-          type="text"
-          placeholder="Paste User Id"
-          value={userId}
-          onChange={(e) => setUserId(e.target.value)}
-          className="bg-gray-700 border border-gray-600 text-white p-2 rounded-md mr-2"
-        />
-        <button
-          onClick={handleUserIdSearch}
-          className="bg-blue-600 hover:bg-blue-500 text-white p-2 rounded-md"
-        >
-          Search
-        </button>
-      </div>
+        <div className='flex justify-evenly mt-10'>
 
-      {loading && <p className="text-center text-yellow-500">Loading...</p>}
-      {error && <p className="text-center text-red-500">{error}</p>}
+          <div className="flex justify-center mb-6">
+            <input
+              type="date"
+              value={selectedDate}
+              onChange={(e) => setSelectedDate(e.target.value)}
+              className="bg-gray-700 border border-gray-600 text-white p-2 rounded-md"
+            />
+          </div>
 
-      {employeeData && (
-        <div className="bg-gray-800 p-4 rounded-lg mb-6">
-          <h2 className="text-xl font-bold">Employee Details</h2>
-          <p><strong>Name:</strong> {employeeData.EmployeeName}</p>
-          <p><strong>Email:</strong> {employeeData.EmployeeEmail}</p>
-          <p><strong>Age:</strong> {employeeData.EmployeeAge}</p>
-          <p><strong>Position:</strong> {employeeData.EmployeePosition}</p>
-          <p><strong>Salary:</strong> {employeeData.Salary}</p>
-          <p><strong>Contact:</strong> {employeeData.Contact}</p>
-          <p><strong>Employee ID:</strong> {employeeData.employeeID}</p>
-          <button onClick={() => handleCopyToClipboard(employeeData.employeeID)} className="mt-2 bg-green-600 hover:bg-green-500 text-white p-2 rounded-md">
-            Copy Employee ID
+          <div className="flex justify-center mb-6">
+            <input
+              type="text"
+              placeholder="Paste User Id"
+              value={userId}
+              onChange={(e) => setUserId(e.target.value)}
+              className="bg-gray-700 border border-gray-600 text-white p-2 rounded-md mr-2"
+            />
+            <button
+              onClick={handleUserIdSearch}
+              className="bg-blue-600 hover:bg-blue-500 text-white p-2 rounded-md"
+            >
+              Search
+            </button>
+          </div>
+
+          <div className="flex justify-center mb-6 ml-3">
+          <button
+            onClick={generateExcelReport}
+            className="bg-green-600 hover:bg-green-500 text-white p-2 rounded-md"
+          >
+            Download As Xl <FontAwesomeIcon icon={faFileExcel} className='ml-2' />
           </button>
         </div>
-      )}
 
-      <div className="flex justify-center mb-6">
-        <button
-          onClick={generateExcelReport}
-          className="bg-green-600 hover:bg-green-500 text-white p-2 rounded-md"
-        >
-          Generate Excel Report
-        </button>
-      </div>
+        </div>
 
-      <div className="overflow-x-auto">
-        <table className="table-auto w-full text-left bg-gray-800 rounded-lg">
-          <thead>
-            <tr className="bg-gray-700">
-              <th className="px-4 py-2">User ID</th>
-              <th className="px-4 py-2">Table Number</th>
-              <th className="px-4 py-2">Total Amount</th>
-              <th className="px-4 py-2">Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {totalPrices.length > 0 ? (
-              totalPrices.map((item, index) => (
-                <tr key={index} className="hover:bg-gray-600">
-                  <td className="px-4 py-2">{item.userId}
-                    <button onClick={() => handleCopyToClipboard(item.userId)} className="ml-2 text-blue-500">Copy ID</button>
-                  </td>
-                  <td className="px-4 py-2">{item.tableNum}</td>
-                  <td className="px-4 py-2">${item.totalAmount.toFixed(2)}</td>
-                  <td className="px-4 py-2">{new Date(item.date).toISOString().split('T')[0]}</td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="4" className="text-center py-4">No data available for this date.</td>
+        {loading && <p className="text-center text-yellow-500">Loading...</p>}
+        {error && <p className="text-center text-red-500">{error}</p>}
+
+        {employeeData && (
+          <div className="bg-gray-800 p-4 rounded-lg mb-6">
+            <h2 className="text-xl font-bold">Employee Details</h2>
+            <p><strong>Name:</strong> {employeeData.EmployeeName}</p>
+            <p><strong>Email:</strong> {employeeData.EmployeeEmail}</p>
+            <p><strong>Age:</strong> {employeeData.EmployeeAge}</p>
+            <p><strong>Position:</strong> {employeeData.EmployeePosition}</p>
+            <p><strong>Salary:</strong> {employeeData.Salary}</p>
+            <p><strong>Contact:</strong> {employeeData.Contact}</p>
+            <p><strong>Employee ID:</strong> {employeeData.employeeID}</p>
+            <button onClick={() => handleCopyToClipboard(employeeData.employeeID)} className="mt-2 bg-green-600 hover:bg-green-500 text-white p-2 rounded-md">
+              Copy Employee ID
+            </button>
+          </div>
+        )}
+
+
+
+        <div className="overflow-x-auto">
+          <table className="table-auto w-full text-left bg-gray-800 rounded-lg">
+            <thead>
+              <tr className="bg-gray-700">
+                <th className="px-4 py-2">User ID</th>
+                <th className="px-4 py-2">Table Number</th>
+                <th className="px-4 py-2">Total Amount</th>
+                <th className="px-4 py-2">Date</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {totalPrices.length > 0 ? (
+                totalPrices.map((item, index) => (
+                  <tr key={index} className="hover:bg-gray-600">
+                    <td className="px-4 py-2">{item.userId}
+                      <button onClick={() => handleCopyToClipboard(item.userId)} className="ml-2 text-blue-500">Copy ID</button>
+                    </td>
+                    <td className="px-4 py-2">{item.tableNum}</td>
+                    <td className="px-4 py-2">${item.totalAmount.toFixed(2)}</td>
+                    <td className="px-4 py-2">{new Date(item.date).toISOString().split('T')[0]}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="4" className="text-center py-4">No data available for this date.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
+
     </div>
   );
 };
