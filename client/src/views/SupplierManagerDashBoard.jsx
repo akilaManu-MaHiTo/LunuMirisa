@@ -29,22 +29,12 @@ function SupplierManagerDashBoard() {
       >
 
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+      <div className="flex justify-center grid-cols-1 md:grid-cols-3 gap-10">
 
-
-        
-
-        <div 
-          onClick={() => handleNavigation('/ShowSupplierProfiles')} 
-          className="bg-white border border-gray-200 p-8 rounded-lg shadow-lg hover:shadow-xl hover:bg-gradient-to-br from-blue-500 to-indigo-600 text-center cursor-pointer transition-transform transform hover:scale-105"
-        >
-          <h2 className="text-2xl font-semibold text-gray-700">Supplier Profiles</h2>
-        </div>
-
-          <div className=' justify-centerw-[40rem] mt-10 bg-custom-toolight p-10 rounded-xl '>
+          <div className=' justify-centerw-[40rem]  mt-32 bg-custom-toolight p-10 rounded-xl '>
             <h1 className="text-3xl font-thin text-center text-gray-800 mb-20">Supplier Manager Dashboard</h1>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
             <div 
               onClick={() => handleNavigation('/ShowSupplierProfiles')} 
               className="bg-white border border-gray-200 hover:bg-black hover:text-white rounded-xl p-8 text-center cursor-pointer transition-transform transform hover:scale-105"

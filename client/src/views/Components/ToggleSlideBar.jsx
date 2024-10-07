@@ -23,8 +23,9 @@ const Sidebar = () => {
         </div>
       </label>
 
+
       {/* Sidebar Content */}
-      <div className={`fixed left-0 top-0 h-full w-60 bg-white transition-transform duration-500 ease-in-out z-50 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <div className={`fixed left-0 top-0 h-full w-60 bg-white transition-transform duration-500 ease-in-out z-40 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <header className="text-center mt-5 text-2xl font-bold p-4">Menu</header>
         <nav className="flex flex-col">
           <NavLink to="/AdminPage" activeClassName="border-l-4 border-[#980f0f] bg-black text-white" className="flex items-center h-16 px-6 text-[#353535] transition-colors duration-300 hover:border-l-4 hover:border-[#980f0f] hover:bg-black hover:text-white">
