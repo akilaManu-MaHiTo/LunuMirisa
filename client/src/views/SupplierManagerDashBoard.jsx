@@ -82,7 +82,6 @@ function SupplierManagerDashBoard() {
       </div>
 
     </div>
-    </div>
   );
 }
 
