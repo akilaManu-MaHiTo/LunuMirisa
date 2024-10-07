@@ -23,18 +23,31 @@ router.post("/AddInventory", upload.single('image'), (req, res) => {
     const { name, quantity, maxQuantity, category } = req.body;
     const image = req.file ? req.file.filename : null;
 
-    const newItem = new Inventory({
-        name,
-        image,
-        quantity,
-        maxQuantity,
-        category
-    });
+    // Check if an item with the same name already exists
+    Inventory.findOne({ name })
+        .then(existingItem => {
+            if (existingItem) {
+                // If an item with the same name exists, return an error response
+                return res.status(400).json({ message: "Item with the same name already exists." });
+            }
 
-    newItem.save()
-        .then(item => res.json(item))
+            // If no existing item found, create a new item
+            const newItem = new Inventory({
+                name,
+                image,
+                quantity,
+                maxQuantity,
+                category
+            });
+
+            // Save the new item to the database
+            newItem.save()
+                .then(item => res.json(item))
+                .catch(err => res.status(500).json(err));
+        })
         .catch(err => res.status(500).json(err));
 });
+
 
 // Route to show inventory items
 router.get("/ShowInventory", (req, res) => {

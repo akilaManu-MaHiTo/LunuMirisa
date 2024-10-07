@@ -101,6 +101,9 @@ const AcceptedOrders = () => {
       });
     }
 
+    // Sort orders by status, showing 'Yes' at the top, 'No' at the bottom
+    filtered.sort((a, b) => (a.status === 'Yes' ? -1 : 1));
+
     setFilteredOrders(filtered);
     calculateTotalAmount(filtered);
   };
@@ -183,14 +186,10 @@ const AcceptedOrders = () => {
 
         </div>
 
-
-
-
         {/* Display Total Amount */}
         <div className="mb-6 mt-16 text-center text-2xl text-gray-200">
           <strong className='font-thin text-lg'>Total Amount:</strong> <p className='text-4xl font-light'>Rs.{totalAmount.toFixed(2)}</p>
         </div>
-
 
         {/* Button to generate PDF report */}
         <button 
@@ -213,48 +212,28 @@ const AcceptedOrders = () => {
                 alt={order.name} 
                 className="w-60 h-60 mt-10 object-cover rounded-md"
               />
-<div className="mt-10 space-y-2 text-lg font-light">
-  <p>
-    <strong className='mr-3'>Order ID:</strong> {order._id}
-  </p>
-  <p>
-    <strong className='mr-3'>Name:</strong> {order.name}
-  </p>
-  <p>
-    <strong className='mr-3'>Order Quantity:</strong> {order.orderQuantity}
-  </p>
-  <p>
-    <strong className='mr-3'>Category:</strong> {order.category}
-  </p>
-  <p>
-    <strong className='mr-3'>Total Amount:</strong> ${order.totalAmount.toFixed(2)}
-  </p>
-  <p>
-    <strong className='mr-3'>Delivery Date:</strong> {new Date(order.deliveryDate).toLocaleDateString()}
-  </p>
-  <p>
-    <strong className='mr-3'>Special Note:</strong> {order.specialNote || 'None'}
-  </p>
-  <p>
-    <strong className='mr-3'>Supplier Name:</strong> {order.supplierName}
-  </p>
-  <p>
-    <strong className='mr-3'>Unit Price:</strong> ${ (order.totalAmount / order.orderQuantity).toFixed(2) }
-  </p>
-</div>
-
-
+              <div className="mt-10 space-y-2 text-lg font-light">
+                <p><strong className='mr-3'>Order ID:</strong> {order._id}</p>
+                <p><strong className='mr-3'>Name:</strong> {order.name}</p>
+                <p><strong className='mr-3'>Order Quantity:</strong> {order.orderQuantity}</p>
+                <p><strong className='mr-3'>Category:</strong> {order.category}</p>
+                <p><strong className='mr-3'>Total Amount:</strong> ${order.totalAmount.toFixed(2)}</p>
+                <p><strong className='mr-3'>Delivery Date:</strong> {new Date(order.deliveryDate).toLocaleDateString()}</p>
+                <p><strong className='mr-3'>Special Note:</strong> {order.specialNote || 'None'}</p>
+                <p><strong className='mr-3'>Supplier Name:</strong> {order.supplierName}</p>
+                <p><strong className='mr-3'>Unit Price:</strong> ${(order.totalAmount / order.orderQuantity).toFixed(2)}</p>
+              </div>
               </div>
 
               <div className='flex justify-end mr-10 mt-10'>
-              <button 
-                className={`px-4 py-2 mt-4 rounded 
-                            ${order.status === 'Yes' ? 'bg-white text-black' : 'bg-gray-600 text-gray-300 cursor-not-allowed'}`}
-                onClick={() => order.status === 'Yes' && handleUpdate(order.name, order.orderQuantity, order._id)}
-                disabled={order.status !== 'Yes'} // Disable button if status is not 'Yes'
-              >
-                Update Inventory
-              </button>
+                <button 
+                  className={`px-4 py-2 mt-4 rounded 
+                              ${order.status === 'Yes' ? 'bg-white text-black' : 'bg-gray-600 text-gray-300 cursor-not-allowed'}`}
+                  onClick={() => order.status === 'Yes' && handleUpdate(order.name, order.orderQuantity, order._id)}
+                  disabled={order.status !== 'Yes'} // Disable button if status is not 'Yes'
+                >
+                  Update Inventory
+                </button>
               </div>
             </div>
           ))}

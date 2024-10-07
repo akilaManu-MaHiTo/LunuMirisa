@@ -48,6 +48,7 @@ function UpdateTable() {
             required
             value={tableNum}
             onChange={(e) => setTableNum(e.target.value)}
+            readOnly
           />
         </div>
         <div className="mb-4">
@@ -58,6 +59,7 @@ function UpdateTable() {
             required
             value={quantity}
             onChange={(e) => setQuantity(e.target.value)}
+            
           />
         </div>
         <div className="mb-4">

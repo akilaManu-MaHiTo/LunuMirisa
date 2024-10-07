@@ -41,9 +41,22 @@ const UpdateInventory = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
+    // Check if both newQuantity and reduceQuantity are 0
+    if (newQuantity === 0 && reduceQuantity === 0) {
+      alert('Please update the quantity or reduce it before submitting.');
+      return; // Stop the form submission
+    }
+  
     const calculatedTotal = reduceQuantity === 0
       ? quantity + newQuantity
       : quantity - reduceQuantity;
+  
+    // Ensure calculatedTotal doesn't drop below 0 (additional safeguard)
+    if (calculatedTotal < 0) {
+      alert('Quantity cannot be less than 0.');
+      return;
+    }
   
     axios.put(`http://localhost:3001/updateInventory/${id}`, { newTotal: calculatedTotal })
       .then(response => {
@@ -52,6 +65,7 @@ const UpdateInventory = () => {
       })
       .catch(err => console.log(err));
   };
+  
   
   
 
