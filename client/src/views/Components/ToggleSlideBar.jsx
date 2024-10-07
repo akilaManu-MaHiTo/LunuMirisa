@@ -33,7 +33,7 @@ const Sidebar = () => {
             <span className="text-xs uppercase tracking-widest">Admin</span>
           </NavLink>
 
-          <NavLink to="/AddMenuList" activeClassName="border-l-4 border-[#980f0f] bg-black text-white" className="flex items-center h-16 px-6 text-[#353535] transition-colors duration-300 hover:border-l-4 hover:border-[#980f0f] hover:bg-black hover:text-white">
+          <NavLink to="/ManagerMenuList" activeClassName="border-l-4 border-[#980f0f] bg-black text-white" className="flex items-center h-16 px-6 text-[#353535] transition-colors duration-300 hover:border-l-4 hover:border-[#980f0f] hover:bg-black hover:text-white">
             <FontAwesomeIcon icon={faUtensils} className="mr-3 text-xl transition-transform duration-300 hover:scale-110" />
             <span className="text-xs uppercase tracking-widest">Menu List</span>
           </NavLink>
@@ -48,7 +48,7 @@ const Sidebar = () => {
             <span className="text-xs uppercase tracking-widest">Supplier Manager</span>
           </NavLink>
 
-          <NavLink to="/AddTables" activeClassName="border-l-4 border-[#980f0f] bg-black text-white" className="flex items-center h-16 px-6 text-[#353535] transition-colors duration-300 hover:border-l-4 hover:border-[#980f0f] hover:bg-black hover:text-white">
+          <NavLink to="/Updatetable" activeClassName="border-l-4 border-[#980f0f] bg-black text-white" className="flex items-center h-16 px-6 text-[#353535] transition-colors duration-300 hover:border-l-4 hover:border-[#980f0f] hover:bg-black hover:text-white">
             <FontAwesomeIcon icon={faTable} className="mr-3 text-xl transition-transform duration-300 hover:scale-110" />
             <span className="text-xs uppercase tracking-widest">Add Tables</span>
           </NavLink>
