@@ -1,7 +1,3 @@
-//chef
-
-
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -37,7 +33,7 @@ const CartInfoDisplay = () => {
       setMessageContent('Order deleted successfully!');
       setShowMessage(true);
 
-      // Hide the message after 3 seconds
+
       setTimeout(() => setShowMessage(false), 3000);
     } catch (err) {
       setError('Failed to delete the order.');
@@ -74,21 +70,20 @@ const CartInfoDisplay = () => {
     printWindow.print();
   };
 
-  // Function to filter cart items based on search query
+  
   const filteredCartItems = cartItems.filter((item) => {
-    // Convert the item's createdAt to YYYY-MM-DD format for comparison
+    
     const itemDateString = new Date(item.createdAt).toISOString().split('T')[0];
 
-    // Check if the search query is a valid date
+    
     const searchDate = new Date(searchQuery);
-    const isDateValid = !isNaN(searchDate.getTime()); // Check if searchQuery is a valid date
-
+    const isDateValid = !isNaN(searchDate.getTime()); 
     if (isDateValid) {
       const formattedSearchDate = searchDate.toISOString().split('T')[0];
-      return itemDateString === formattedSearchDate; // Return items that match the searched date
+      return itemDateString === formattedSearchDate; 
     }
 
-    // Otherwise, check for name or email matches
+    
     return (
       item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.email.toLowerCase().includes(searchQuery.toLowerCase())
