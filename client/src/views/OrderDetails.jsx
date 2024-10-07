@@ -101,6 +101,12 @@ const ShowWaitorOrders = () => {
           {orderItems.length > 0 ? (
             orderItems.map((item) => (
               <div key={item._id} className="bg-white p-4 rounded shadow-md border border-gray-200">
+
+                <img 
+                  src={`http://localhost:3001/Images/` + item.image} 
+                  alt={item.name} 
+                  className="w-32 h-32 rounded-md mb-4"
+                />
                 <p><strong>Category:</strong> {item.category}</p>
                 <p><strong>Type:</strong> {item.title}</p>
                 <p><strong>Price:</strong> ${item.price}</p>

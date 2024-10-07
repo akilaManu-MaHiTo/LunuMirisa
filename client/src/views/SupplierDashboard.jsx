@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate,Link } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 
 function SupplierDashboard() {
@@ -9,7 +9,7 @@ function SupplierDashboard() {
   const [acceptedOrders, setAcceptedOrders] = useState([]);
   const [filterDate, setFilterDate] = useState('');
   const [showOrderRequests, setShowOrderRequests] = useState(false);
-  const [selectedOrderId, setSelectedOrderId] = useState(null); // State to track the selected order ID
+  const [orderCount, setOrderCount] = useState(0); // State to track order count
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,14 +27,16 @@ function SupplierDashboard() {
       axios.get(`http://localhost:3001/acceptedOrders/${supplierData._id}`)
         .then(response => setAcceptedOrders(response.data))
         .catch(err => console.error("Error fetching accepted orders:", err));
+
+      // Fetch order count by category when supplier data is available
+      axios.get(`http://localhost:3001/countByCategory/${supplierData.category}`)
+        .then(response => {
+          // Set the count from the response, if data is returned
+          setOrderCount(response.data.length > 0 ? response.data[0].count : 0);
+        })
+        .catch(err => console.error("Error fetching count:", err));
     }
   }, [supplierData]);
-
-  // const handleAccept = () => {
-  //   if (selectedOrderId) {
-  //     navigate(`/SupplierConfirmOrder/${supplierData._id}/${selectedOrderId}/${supplierData.name}`);
-  //   }
-  // };
 
   const handleDecline = (orderId) => {
     axios.post(`http://localhost:3001/declineOrder/${orderId}`)
@@ -44,7 +46,7 @@ function SupplierDashboard() {
 
   const filteredAcceptedOrders = acceptedOrders.filter(order =>
     (!filterDate || new Date(order.deliveryDate).toISOString().split('T')[0] === filterDate) &&
-    order.orderQuantity > 0 // Only show orders where orderQuantity is greater than 0
+    order.orderQuantity > 0
   );
 
   return (
@@ -87,7 +89,7 @@ function SupplierDashboard() {
                 ${showOrderRequests ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-700'}`}
                 onClick={() => setShowOrderRequests(true)}
               >
-                Order Requests
+                Order Requests {orderCount} {/* Display the order count here */}
               </button>
             </div>
           </div>
@@ -99,7 +101,7 @@ function SupplierDashboard() {
                 <h2 className="text-2xl font-semibold text-green-600 mb-8 text-center">Order Requests</h2>
                 {orderRequests.length > 0 ? (
                   orderRequests
-                    .filter(order => order.orderQuantity > 0) // Only show orders with orderQuantity > 0
+                    .filter(order => order.orderQuantity > 0)
                     .map(order => (
                     <div key={order._id} className="p-6 mb-6 border-b border-gray-200">
                       <img src={`http://localhost:3001/Images/${order.image}`} alt="Order Image" className='w-20 h-20' />
@@ -110,7 +112,7 @@ function SupplierDashboard() {
                         <Link to={`/SupplierConfirmOrder/${supplierData._id}/${order._id}/${supplierData.name}/${order.image}`}>
                           <button
                             className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded transition duration-300"
-                            onClick={() => setSelectedOrderId(order._id)} // Set selectedOrderId when Accept is clicked
+                            onClick={() => setSelectedOrderId(order._id)}
                           >
                             Accept
                           </button>
@@ -127,7 +129,6 @@ function SupplierDashboard() {
                 ) : (
                   <p className="text-gray-500 text-center">No order requests available.</p>
                 )}
-
               </div>
             ) : (
               <div>
@@ -142,7 +143,7 @@ function SupplierDashboard() {
                   <table className="w-full border-collapse bg-white">
                     <thead>
                       <tr className="bg-indigo-100">
-                      <th className="border p-3 text-left">Order Id</th>
+                        <th className="border p-3 text-left">Order Id</th>
                         <th className="border p-3 text-left">Name</th>
                         <th className="border p-3 text-left">Order Quantity</th>
                         <th className="border p-3 text-left">Category</th>

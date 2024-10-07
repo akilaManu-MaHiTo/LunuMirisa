@@ -3,10 +3,24 @@ const router = express.Router();
 const Table = require('../models/Table');
 
 router.post("/createTable", (req, res) => {
-    Table.create(req.body)
-        .then(users => res.json(users))
+    const { tableNum } = req.body;
+
+    // Check if the table number already exists
+    Table.findOne({ tableNum })  // Fix the query here
+        .then(existingTable => {
+            if (existingTable) {
+                // If the table number already exists, return an error
+                return res.status(400).json({ message: "Table number already exists" });
+            }
+            // If the table number does not exist, create a new table
+            Table.create(req.body)
+                .then(newTable => res.json(newTable))
+                .catch(err => res.status(500).json(err));
+        })
         .catch(err => res.status(500).json(err));
 });
+
+
 
 router.get("/ShowTable",(req,res) => {
 

@@ -101,6 +101,9 @@ const AcceptedOrders = () => {
       });
     }
 
+    // Sort orders by status, showing 'Yes' at the top, 'No' at the bottom
+    filtered.sort((a, b) => (a.status === 'Yes' ? -1 : 1));
+
     setFilteredOrders(filtered);
     calculateTotalAmount(filtered);
   };
@@ -183,14 +186,10 @@ const AcceptedOrders = () => {
 
         </div>
 
-
-
-
         {/* Display Total Amount */}
         <div className="mb-6 mt-10 text-center text-2xl text-gray-200">
           <strong className='font-thin text-lg mb-5'>Total Amount:</strong> <p className='text-5xl font-light mt-2'>Rs.{totalAmount.toFixed(2)}</p>
         </div>
-
 
         {/* Button to generate PDF report */}
         <button 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom'; // NavLink for routing
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // FontAwesomeIcon for icons
-import { faBars, faTimes, faUserShield, faUtensils, faBoxes, faTruck, faTable, faUserFriends, faCalendarCheck, faUser, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faTimes, faUserShield, faUtensils, faBoxes, faTruck, faTable, faUserFriends, faCalendarCheck, faUser, faStar, faSpoon } from '@fortawesome/free-solid-svg-icons';
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false); // Handle sidebar state
@@ -70,6 +70,11 @@ const Sidebar = () => {
           <NavLink to="/ShowAdminReviews" activeClassName="border-l-4 border-[#980f0f] bg-black text-white" className="flex items-center h-16 px-6 text-[#353535] transition-colors duration-300 hover:border-l-4 hover:border-[#980f0f] hover:bg-black hover:text-white">
             <FontAwesomeIcon icon={faStar} className="mr-3 text-xl transition-transform duration-300 hover:scale-110" />
             <span className="text-xs uppercase tracking-widest">Review Management</span>
+          </NavLink>
+
+          <NavLink to="/ShowAdminInOrder" activeClassName="border-l-4 border-[#980f0f] bg-black text-white" className="flex items-center h-16 px-6 text-[#353535] transition-colors duration-300 hover:border-l-4 hover:border-[#980f0f] hover:bg-black hover:text-white">
+            <FontAwesomeIcon icon={faSpoon} className="mr-3 text-xl transition-transform duration-300 hover:scale-110" />
+            <span className="text-xs uppercase tracking-widest">In Restuarent</span>
           </NavLink>
         </nav>
       </div>
