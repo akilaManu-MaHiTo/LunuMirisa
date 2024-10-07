@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const AddEmployeeModel = require('../models/AddEmployee'); // Assuming your model is located here
+const AddEmployeeModel = require('../models/AddEmployee'); 
 
 // Route to add employee
 router.post('/addemployee', async (req, res) => {
