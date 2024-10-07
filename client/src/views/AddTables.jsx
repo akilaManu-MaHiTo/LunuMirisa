@@ -70,7 +70,7 @@ const AddTables = () => {
                 type="number"
                 id="price"
                 step="0.01"
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none sm:text-sm"
                 placeholder="Enter reservation price"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
@@ -85,7 +85,7 @@ const AddTables = () => {
               <input
                 type="text"
                 id="tableNum"
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none sm:text-sm"
                 placeholder="Enter table numbers"
                 value={tableNum}
                 onChange={(e) => setTableNum(e.target.value)}
@@ -105,7 +105,7 @@ const AddTables = () => {
 
               <div>
                 <Link to="/Updatetable">
-                  <button className='w-52 rounded bg-white hover:bg-black hover:text-white hover:cursor-pointer mt-2 p-3 transition-all hover:scale-105 duration-300 ease-in-out' >
+                  <button className='w-52 rounded bg-white hover:bg-black hover:text-white hover:border hover:border-white hover:cursor-pointer mt-2 p-3 transition-all hover:scale-105 duration-300 ease-in-out' >
                   <FontAwesomeIcon icon={faPlus} className='mr-2' /> Update Table
                   </button>
                 </Link>
