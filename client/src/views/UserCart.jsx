@@ -109,8 +109,8 @@ const handleDelete = async (itemTitle) => { // Accept itemTitle instead of itemI
              backgroundSize: 'cover', 
              backgroundPosition: 'center' 
            }}>
-        <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-4xl mt-6 mb-6">
-          <h2 className="text-5xl text-center font-semibold font-serif-black mb-4">Your Cart</h2>
+        <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-4xl mt-6 mb-6">
+          <h2 className="text-5xl text-center font-semibold font-serif-black mb-4 text-white pb-4 focus-">Your Cart</h2>
           {error && <p className="text-red-500 mb-4">{error}</p>}
           {cartItems.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -157,8 +157,8 @@ const handleDelete = async (itemTitle) => { // Accept itemTitle instead of itemI
             <p>Your cart is empty.</p>
           )}
           <div className="mt-4">
-            <p className="text-black pt-4 text-3xl font-serif-black">Total:</p>
-            <p className="text-black pt-4 text-4xl font-serif-black flex justify-end mt-4">Rs.{totalPrice}</p>
+            <p className="text-white pt-4 text-3xl font-serif-black">Total:</p>
+            <p className="text-white pt-4 text-4xl font-serif-black flex justify-end mt-4">Rs.{totalPrice}</p>
             <div className="flex justify-end mt-4">
             <div className="flex justify-end mt-4">
                 <Link 
