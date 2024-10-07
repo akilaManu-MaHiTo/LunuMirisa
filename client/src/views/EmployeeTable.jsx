@@ -5,6 +5,10 @@ import AddEmployeeForm from './AddEmployeeForm';
 import { useNavigate } from 'react-router-dom';
 import AdminNavigationBar from './Components/AdminNavigationBar';
 import { PencilIcon, TrashIcon, PlusIcon } from '@heroicons/react/24/outline';
+import Sidebar from './Components/ToggleSlideBar';
+import bgAdmin from '../Images/admin-bg.jpg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
 
 const EmployeeTable = () => {
   const [employees, setEmployees] = useState([]);
@@ -80,17 +84,19 @@ const EmployeeTable = () => {
     );
 
   return (
-    <div className="relative">
+    <div className="bg-custom-toolight h-screen"
+    >
       <AdminNavigationBar selectedPage="Manage Employees" />
-      {/* Search and Table Section with Conditional Blur */}
-      <div className={`${showAddForm ? 'blur-md' : ''} container mx-auto p-6`}>
+      <Sidebar />
+
+      <div className={`${showAddForm ? 'blur-md' : ''} container mx-auto p-10` }>
         
         {/* Search and Filter Section */}
         <div className="flex flex-col md:flex-row justify-between mb-6">
           {/* Search */}
           <input
             type="text"
-            placeholder="Search by name, email, or age"
+            placeholder="Search by name or age"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="p-2 border border-gray-300 rounded-lg mb-4 md:mb-0 md:mr-4"
@@ -115,7 +121,7 @@ const EmployeeTable = () => {
           {/* Add Employee Button */}
           <button
             onClick={handleAddEmployeeClick}
-            className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 flex items-center gap-2"
+            className="bg-black hover:bg-white hover:text-black text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:scale-105 transition duration-300 ease-in-out"
           >
             <PlusIcon className="h-5 w-5" />
             Add Employee
@@ -133,9 +139,9 @@ const EmployeeTable = () => {
         </div>
 
         {/* Employee Table */}
-        <table className="min-w-full text-white bg-gray-800 p-6 rounded-lg shadow-xl border border-gray-700">
+        <table className="min-w-full text-white bg-custom-dark rounded-lg shadow-xl border border-white">
           <thead>
-            <tr>
+            <tr className='border border-white'>
               <th className="px-4 py-2">Name</th>
               <th className="px-4 py-2">Email</th>
               <th className="px-4 py-2">Age</th>
@@ -158,22 +164,22 @@ const EmployeeTable = () => {
                 <td className="px-4 py-2">
                   <button
                     onClick={() => handleLeaveClick(employee._id)} // Navigate to leave list
-                    className="bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition duration-300 ease-in-out"
+                    className="bg-yellow-400 text-black  p-2 rounded-lg hover:bg-white hover:scale-105 duration-300 ease-in-out transition-all"
                   >
-                    View Leave
+                    <FontAwesomeIcon icon={faEye} /> View Leave
                   </button>
                 </td>
                 <td className="px-4 py-2">
-                  <div className="flex gap-2 mt-4">
+                  <div className="flex gap-2 mt-2 mb-2 p-3">
                     <button
                       onClick={() => handleEdit(employee)}
-                      className="bg-yellow-500 text-white p-2 rounded-lg hover:bg-yellow-600 transition duration-300 ease-in-out"
+                      className="mr-2 bg-blue-600 text-white p-2 rounded-lg hover:bg-white transition hover:scale-105 hover:text-black duration-300 ease-in-out"
                     >
                       <PencilIcon className="h-5 w-5" />
                     </button>
                     <button
                       onClick={() => handleDelete(employee._id)}
-                      className="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition duration-300 ease-in-out"
+                      className="bg-red-500 text-white p-2 rounded-lg hover:bg-white hover:text-black hover:scale-105 transition duration-300 ease-in-out"
                     >
                       <TrashIcon className="h-5 w-5" />
                     </button>

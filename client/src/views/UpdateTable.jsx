@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import AdminNaviBar from './Components/AdminNavigationBar';
+import Sidebar from './Components/ToggleSlideBar';
+import bgAdmin from '../Images/admin-bg.jpg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faSync, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 const Updatetable = () => {
   const [tables, setTables] = useState([]);
@@ -23,34 +28,64 @@ const Updatetable = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded shadow-md">
-        <h1 className="text-2xl font-bold mb-4">Table List</h1>
-        <ul>
-          {tables.map(table => (
-            <li key={table._id} className="mb-4 p-4 border rounded shadow-sm">
-              <div>
-                <p>{`ID: ${table._id}`}</p>
-                <p>{`Table Number: ${table.tableNum}`}</p>
-                <p>{`Quantity: ${table.quantity}`}</p>
-                <p>{`Price: ${table.price}`}</p>
-              </div>
-              <div className="mt-2">
-              <Link to={`/UpdateTablePage/${table._id}`}>
-                  <button className="bg-yellow-500 text-white p-2 rounded mr-2 hover:bg-yellow-600">
-                    Update
-                  </button>
-                </Link>
-                <button
-                  className="bg-red-500 text-white px-4 py-2 rounded"
-                  onClick={() => handleDelete(table._id)}
-                >
-                  Delete
+    <div>
+      <AdminNaviBar selectedPage="Add Table Details" />
+      <Sidebar />  
+      <div className="flex items-center justify-center min-h-screen bg-gray-100"
+          style={{ 
+            backgroundImage: `url(${bgAdmin})`, 
+            backgroundSize: 'cover', 
+            backgroundPosition: 'center', 
+          }}
+      >
+        <div className="bg-custom-toolight p-8 rounded shadow-md w-[35rem] my-16">
+          <div className='flex justify-between mb-10'>
+            <div>
+              <h1 className="text-3xl font-thin">Table List</h1>
+            </div>
+            <div>
+              <Link to='/AddTables'>
+                <button className='p-3 bg-black text-white hover:bg-white hover:text-black hover:border hover:border-black rounded-lg transition-all hover:scale-105 duration-300 ease-in-out'> 
+                <FontAwesomeIcon icon={faPlus} /> Add Table 
                 </button>
-              </div>
-            </li>
-          ))}
-        </ul>
+              </Link>
+            </div>            
+          </div>
+          
+          <ul>
+            {tables.map(table => (
+              <li key={table._id} className="bg-custom-light mb-4 p-4 rounded-lg shadow-sm">
+                <div className='flex justify-between'>
+
+                  <div className='text-white font-spartan font-thin text-lg mt-2'>
+                    <p> <strong>Table Number:</strong>{` ${table.tableNum}`}</p>
+                    <p> <strong>No of persons:</strong>{` ${table.quantity}`}</p>
+                    <p> <strong className='mr-3'>Price:</strong>{`Rs. ${table.price}`}</p> 
+                  </div>
+
+                  <div className="mt-2">
+                    <div>
+                      <Link to={`/UpdateTablePage/${table._id}`}>
+                          <button className="bg-blue-600 hover:bg-white hover:text-black text-white w-full py-3 px-3 rounded-lg mr-2 transition-all hover:scale-105 duration-300 ease-in-out">
+                            Update <FontAwesomeIcon icon={faSync} />
+                          </button>
+                      </Link>
+                    </div>
+                    <div>
+                      <button
+                        className="bg-red-600 hover:bg-white mt-3 hover:text-black text-white w-full py-3 px-3 rounded-lg mr-2 transition-all hover:scale-105 duration-300 ease-in-out"
+                        onClick={() => handleDelete(table._id)}
+                      >
+                        Delete <FontAwesomeIcon icon={faTrashCan} />
+                      </button>                      
+                    </div>
+                  </div>
+                </div>
+
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );
