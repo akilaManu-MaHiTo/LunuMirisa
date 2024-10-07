@@ -7,6 +7,7 @@ import useSidebar from './Components/useSidebar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import Loader from './Components/Loader';
+import bgAdmin from '../Images/admin-bg.jpg';
 
 const ShowInventory = () => {
   const { id } = useParams(); // Get the ID from the URL params
@@ -80,7 +81,8 @@ const ShowInventory = () => {
 
   // MainContent component
   const MainContent = () => (
-    <div className="flex items-center justify-center min-h-screen bg-black">
+    <div className="flex items-center justify-center min-h-screen"
+    >
       <form 
         onSubmit={handleSubmit} 
         className="bg-custom-toolight w-[35rem] p-6 rounded shadow-md mb-20"
@@ -189,7 +191,14 @@ const ShowInventory = () => {
   );
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-black"
+    
+      style={{ 
+        backgroundImage: `url(${bgAdmin})`, 
+        backgroundSize: 'cover', 
+        backgroundPosition: 'center', 
+    }}
+    >
       <AdminNaviBar selectedPage="Place Order" />
       <div className="p-5 custom1-md:pl-[4rem]">
         
