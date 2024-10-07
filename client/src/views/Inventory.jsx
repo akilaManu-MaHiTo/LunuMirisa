@@ -16,21 +16,28 @@ const Inventory = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+  
     const formData = new FormData();
     formData.append('name', name);
     formData.append('image', image);
     formData.append('quantity', quantity);
     formData.append('maxQuantity', maxQuantity);
     formData.append('category', category);
-
+  
     axios.post("http://localhost:3001/AddInventory", formData)
       .then(result => {
         console.log(result);
-        navigate('/ShowInventory');
+        navigate('/ShowInventory'); // Navigate to the inventory list if successful
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        if (err.response && err.response.status === 400) {
+          alert('Item with the same name already exists. Please choose a different name.'); // Alert for duplicate name
+        } else {
+          console.log(err); // Log other errors
+        }
+      });
   };
+  
 
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);

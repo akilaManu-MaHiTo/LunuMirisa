@@ -73,6 +73,38 @@ router.put('/UpdateQuentity/:itemId', (req, res) => {
         .catch(err => res.status(500).json({ error: err.message }));
 });
 
+router.get('/calculateByDateAndTable', async (req, res) => {
+    try {
+        // Fetch the total amounts grouped by userId and tableNum
+        const results = await InOrder.aggregate([
+            {
+                $group: {
+                    _id: {
+                        userId: "$userId",
+                        tableNum: "$tableNum"
+                    },
+                    totalAmount: { $sum: "$totalPrice" }, // Summing 'totalPrice'
+                    firstDate: { $first: "$date" } // If you want the first date in the group
+                }
+            },
+            {
+                $project: {
+                    userId: "$_id.userId",
+                    tableNum: "$_id.tableNum",
+                    totalAmount: "$totalAmount",
+                    date: "$firstDate" // Project the first date in each group
+                }
+            }
+        ]);
+
+        res.json(results);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+});
+
+
 
 
 
