@@ -81,32 +81,6 @@ router.get('/countYesSupply', async (req, res) => {
 });
 
 
-router.get('/countByCategory/:category', async (req, res) => {
-  const { category } = req.params; // Get the category from the URL parameters
-  try {
-    // Group by category and count documents where orderQuantity is not equal to 0
-    const counts = await SupplierOrder.aggregate([
-      {
-        $match: {
-          category, // Match the category from request parameters
-          orderQuantity: { $ne: 0 }  // Filter documents with orderQuantity not equal to 0
-        }
-      },
-      {
-        $group: {
-          _id: "$category",  // Group by category
-          count: { $sum: 1 } // Count the number of documents in each category
-        }
-      }
-    ]);
-
-    res.status(200).json(counts); // Respond with the counts grouped by category
-  } catch (error) {
-    console.error('Error fetching count by category:', error);
-    res.status(500).json({ error: 'Error fetching count' });
-  }
-});
-
 router.get('/calculateByNo', async (req, res) => {
   try {
     // Perform aggregation to sum up totalAmount for documents with status "No"

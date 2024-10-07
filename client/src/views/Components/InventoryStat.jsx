@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Bar } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import { Pie } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import axios from 'axios';
 
 // Register Chart.js components
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(ArcElement, Tooltip, Legend);
 
-const BarGraph = () => {
+const PieChart = () => {
   const [itemLabels, setItemLabels] = useState([]);
   const [itemQuantities, setItemQuantities] = useState([]);
+
+  // Function to get random items
+  const getRandomItems = (data, count) => {
+    const shuffled = data.sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
+  };
 
   // Fetch data from backend
   useEffect(() => {
@@ -24,9 +23,10 @@ const BarGraph = () => {
         const response = await axios.get('http://localhost:3001/ShowInventory'); // Replace with your actual endpoint
         const data = response.data;
 
-        // Set the labels (item names) and data (quantities)
-        const items = data.map(item => item.name);
-        const quantities = data.map(item => item.quantity);
+        // Get random 5 items
+        const randomItems = getRandomItems(data, 4);
+        const items = randomItems.map(item => item.name);
+        const quantities = randomItems.map(item => item.quantity);
 
         setItemLabels(items);
         setItemQuantities(quantities);
@@ -40,13 +40,27 @@ const BarGraph = () => {
 
   // Prepare data for the chart
   const chartData = {
-    labels: itemLabels, // Items on the x-axis
+    labels: itemLabels, // Item names for the pie chart
     datasets: [
       {
         label: 'Quantity',
-        data: itemQuantities, // Quantities on the y-axis
-        backgroundColor: 'rgba(255, 0, 0, 0.1)',
-        borderColor: 'rgba(255, 0, 0, 1)',
+        data: itemQuantities, // Quantities for each item
+        backgroundColor: [
+          'rgba(255, 0, 0, 0.2)', // Red
+          'rgba(0, 255, 0, 0.2)', // Green
+          'rgba(0, 0, 255, 0.2)', // Blue
+          'rgba(255, 255, 0, 0.2)', // Yellow
+          'rgba(255, 165, 0, 0.2)', // Orange
+          'rgba(128, 0, 128, 0.2)', // Purple
+        ],
+        borderColor: [
+          'rgba(255, 0, 0, 1)', // Red
+          'rgba(0, 255, 0, 1)', // Green
+          'rgba(0, 0, 255, 1)', // Blue
+          'rgba(255, 255, 0, 1)', // Yellow
+          'rgba(255, 165, 0, 1)', // Orange
+          'rgba(128, 0, 128, 1)', // Purple
+        ],
         borderWidth: 1,
       },
     ],
@@ -54,6 +68,7 @@ const BarGraph = () => {
 
   const chartOptions = {
     responsive: true,
+    cutout: '80%', // Creates a ring chart
     plugins: {
       legend: {
         display: true,
@@ -67,37 +82,16 @@ const BarGraph = () => {
         color: '#ffffff', // White text for the title
       },
     },
-    scales: {
-      x: {
-        ticks: {
-          color: '#ffffff', // White labels for the x-axis
-        },
-        title: {
-          display: true,
-          text: 'Items',
-          color: '#ffffff', // White x-axis title
-        },
-      },
-      y: {
-        ticks: {
-          color: '#ffffff', // White labels for the y-axis
-        },
-        title: {
-          display: true,
-          text: 'Quantities',
-          color: '#ffffff', // White y-axis title
-        },
-        beginAtZero: true,
-      },
-    },
   };
 
   return (
-    <div className="bg-gray-900 text-white p-6 rounded-lg shadow-lg">
-      <h2 className="text-2xl font-bold mb-4">Inventory Bar Graph</h2>
-      <Bar data={chartData} options={chartOptions} />
+    <div className="bg-gray-900 text-white pl-48 pt-7 rounded-lg shadow-lg h-[31.5rem]"> {/* Adjusted height for smaller chart */}
+      {/* <h2 className="text-2xl font-bold mb-4">Inventory Ring Chart</h2> */}
+      <div style={{ height: '25rem' }}> {/* Set the height of the ring chart */}
+        <Pie data={chartData} options={chartOptions} />
+      </div>
     </div>
   );
 };
 
-export default BarGraph;
+export default PieChart;

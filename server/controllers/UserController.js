@@ -42,4 +42,14 @@ router.delete("/deleteUser/:id",(req,res) => {
     .catch(err => res.json(err))
 
 })
+
+router.get('/countAllUsers', async (req, res) => {
+    try {
+        const userCount = await UserModel.countDocuments(); // Count all documents in the User collection
+        res.status(200).json({ count: userCount });
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to count users' });
+    }
+});
+
 module.exports = router;
