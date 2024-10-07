@@ -97,6 +97,33 @@ router.put("/UpdateReviewReply/:id", (req, res) => {
       .catch((err) => res.status(500).json({ error: err.message }));
 });
 
+router.get("/ReviewCountByRating", async (req, res) => {
+    try {
+      const reviewCounts = await Rating.aggregate([
+        {
+          $match: {
+            rating: { $gte: 1, $lte: 5 } // Filter ratings between 1 and 5
+          }
+        },
+        {
+          $group: {
+            _id: "$rating", // Group by rating
+            count: { $sum: 1 } // Count the number of reviews for each rating
+          }
+        },
+        {
+          $sort: { _id: 1 } // Sort by rating (ascending order)
+        }
+      ]);
+  
+      res.json(reviewCounts);
+    } catch (error) {
+      console.error("Error fetching review counts by rating:", error);
+      res.status(500).send("Server Error");
+    }
+  });
+  
+
 
 
 module.exports = router;

@@ -39,9 +39,17 @@ function SupplierDashboard() {
   }, [supplierData]);
 
   const handleDecline = (orderId) => {
-    axios.post(`http://localhost:3001/declineOrder/${orderId}`)
-      .then(() => setOrderRequests(orderRequests.filter(order => order._id !== orderId)))
-      .catch(err => console.error('Error declining order:', err));
+    // Retrieve any existing declined orders for this supplier from localStorage
+    const declinedOrders = JSON.parse(localStorage.getItem(`declinedOrders_${supplierId}`)) || [];
+    
+    // Add the new declined orderId to the list
+    const updatedDeclinedOrders = [...declinedOrders, orderId];
+    
+    // Update the localStorage with the new list
+    localStorage.setItem(`declinedOrders_${supplierId}`, JSON.stringify(updatedDeclinedOrders));
+    
+    // Remove the declined order from the current state
+    setOrderRequests(orderRequests.filter(order => order._id !== orderId));
   };
 
   const filteredAcceptedOrders = acceptedOrders.filter(order =>
@@ -101,7 +109,13 @@ function SupplierDashboard() {
                 <h2 className="text-2xl font-semibold text-green-600 mb-8 text-center">Order Requests</h2>
                 {orderRequests.length > 0 ? (
                   orderRequests
-                    .filter(order => order.orderQuantity > 0)
+                    .filter(order => {
+                      // Retrieve the declined orders from localStorage for this supplier
+                      const declinedOrders = JSON.parse(localStorage.getItem(`declinedOrders_${supplierId}`)) || [];
+                      
+                      // Filter out any orders that have been declined
+                      return !declinedOrders.includes(order._id) && order.orderQuantity > 0;
+                    })
                     .map(order => (
                     <div key={order._id} className="p-6 mb-6 border-b border-gray-200">
                       <img src={`http://localhost:3001/Images/${order.image}`} alt="Order Image" className='w-20 h-20' />
@@ -167,14 +181,14 @@ function SupplierDashboard() {
                     </tbody>
                   </table>
                 ) : (
-                  <p className="text-gray-500 text-center">No accepted orders available.</p>
+                  <p className="text-gray-500 text-center">No accepted orders available for the selected date.</p>
                 )}
               </div>
             )}
           </div>
         </div>
       ) : (
-        <p className="text-center text-gray-500">Loading supplier data...</p>
+        <p className="text-center text-gray-500">Loading supplier information...</p>
       )}
     </div>
   );

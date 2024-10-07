@@ -27,13 +27,26 @@ const ShowMangerMenuList = () => {
   }, []);
 
   const handleDelete = (id) => {
-    axios.delete('http://localhost:3001/deleteMenuList/' + id)
-      .then(res => {
-        console.log(res);
-        setMenuItems(menuItems.filter(item => item._id !== id)); // Update state to remove the deleted item
-      })
-      .catch(err => console.log(err));
-  };
+    // Show a confirmation dialog
+    const confirmDelete = window.confirm("Are you sure you want to delete this item?");
+    
+    if (confirmDelete) {
+        // Proceed with the delete operation if confirmed
+        axios.delete('http://localhost:3001/deleteMenuList/' + id)
+            .then(res => {
+                console.log(res);
+                setMenuItems(menuItems.filter(item => item._id !== id)); // Update state to remove the deleted item
+                toast.success("Item deleted successfully."); // Notify the user of successful deletion
+            })
+            .catch(err => {
+                console.error(err);
+                toast.error("Failed to delete item."); // Notify the user of an error
+            });
+    } else {
+        // If the user cancels the deletion
+        toast.info("Item deletion cancelled."); // Notify the user that deletion was cancelled
+    }
+};
 
   const handleHotDealsToggle = (itemId) => {
     const percentage = selectedPercentage[itemId] || 1; // Default percentage to 1 if not selected

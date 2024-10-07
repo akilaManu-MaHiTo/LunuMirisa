@@ -15,14 +15,26 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-router.post("/createAddMenuList", upload.single('image'), (req, res) => {
-    const { title, price, category,description } = req.body;
+router.post("/createAddMenuList", upload.single('image'), async (req, res) => {
+    const { title, price, category, description } = req.body;
     const image = req.file ? req.file.filename : null; // Get the image filename
 
-    Menu.create({ title, price, image, category,description })
-        .then(menuItem => res.json(menuItem))
-        .catch(err => res.status(500).json(err));
+    try {
+        // Check if a menu item with the same title already exists
+        const existingMenuItem = await Menu.findOne({ title: { title } });
+        
+        if (existingMenuItem) {
+            return res.status(400).json({ message: "Item with this title already exists." });
+        }
+
+        // If not, create the new menu item
+        const menuItem = await Menu.create({ title, price, image, category, description });
+        return res.json(menuItem);
+    } catch (err) {
+        return res.status(500).json(err);
+    }
 });
+
 
 router.get("/ShowMenuList",(req,res) => {
 
@@ -71,6 +83,22 @@ router.get("/getHotDeals", (req, res) => {
         .then(hotDealsItems => res.json(hotDealsItems))
         .catch(err => res.status(500).json(err));
 });
+
+router.get('/countAllmenulist', async (req, res) => {
+    try {
+        const userCount = await Menu.countDocuments(); // Count all documents in the User collection
+        res.status(200).json({ count: userCount });
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to count users' });
+    }
+});
+
+router.get("/getHotDealsCount", (req, res) => {
+    Menu.countDocuments({ hotDeals: "Yes" }) // Count all items where hotDeals is "Yes"
+        .then(count => res.json({ count })) // Send the count as a JSON response
+        .catch(err => res.status(500).json(err));
+});
+
 
 
 

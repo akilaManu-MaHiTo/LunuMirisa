@@ -1,117 +1,130 @@
 import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
-import axios from 'axios';
-
-// Register Chart.js components
-ChartJS.register(
+import {
+  Chart as ChartJS,
   CategoryScale,
   LinearScale,
   PointElement,
   LineElement,
-  Title,
   Tooltip,
-  Legend
-);
+  Legend,
+} from 'chart.js';
 
-const LineGraph = () => {
-  const [userLabels, setUserLabels] = useState([]);
-  const [itemData, setItemData] = useState([]);
+// Register the necessary components
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
 
-  // Shuffle array function
-  const shuffleArray = (array) => {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-  };
+const LineChart = () => {
+  const [chartData, setChartData] = useState({ labels: [], datasets: [] });
+  const [error, setError] = useState(null); // State to handle errors
 
-  // Fetch data from backend
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/itemCounts'); // Replace with your actual endpoint
-        const data = response.data;
+        const response = await fetch('http://localhost:3001/getCalculationByDay');
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error('Server error:', errorText);
+          throw new Error(`Server Error: ${errorText}`);
+        }
 
-        // Shuffle the data to randomize user selection
-        const shuffledData = shuffleArray(data);
+        const data = await response.json();
+        console.log('Fetched data:', data);
 
-        // Select two random users and their item counts
-        const selectedData = shuffledData.slice(0, 2);
-        const users = selectedData.map(item => item.userId);
-        const items = selectedData.map(item => item.items);
+        const labels = data.map(item => item.date);
+        const totals = data.map(item => item.total);
 
-        setUserLabels(users);
-        setItemData(items);
+        setChartData({
+          labels,
+          datasets: [
+            {
+              label: 'Total Price',
+              data: totals,
+              borderColor: 'rgba(75, 192, 192, 1)',
+              backgroundColor: 'rgba(75, 192, 192, 0)', // Set background to transparent
+              borderWidth: 2,
+              fill: false, // Set fill to false to remove the area fill
+            },
+          ],
+        });
       } catch (error) {
-        console.error('Error fetching data', error);
+        console.error('Error fetching data:', error.message);
+        setError(error.message); // Set the error message
       }
     };
 
     fetchData();
   }, []);
 
-  // Prepare data for the chart
-  const chartData = {
-    labels: userLabels, // Randomly selected users on the x-axis
-    datasets: [
-      {
-        label: 'Items Count',
-        data: itemData, // Corresponding item counts on the y-axis
-        borderColor: 'rgba(255, 0, 0, 1)',
-        backgroundColor: 'rgba(255, 0, 0, 0.2)',
-        fill: true,
-      },
-    ],
-  };
-
-  const chartOptions = {
-    responsive: true,
-    plugins: {
-      legend: {
-        display: true,
-        labels: {
-          color: '#ffffff', // White text for legend in dark mode
-        },
-      },
-      title: {
-        display: true,
-        text: 'Random Two Users vs Items',
-        color: '#ffffff', // White text for the title
-      },
-    },
-    scales: {
-      x: {
-        ticks: {
-          color: '#ffffff', // White text for x-axis labels
-        },
-        title: {
-          display: true,
-          text: 'Users',
-          color: '#ffffff', // White text for x-axis title
-        },
-      },
-      y: {
-        ticks: {
-          color: '#ffffff', // White text for y-axis labels
-        },
-        title: {
-          display: true,
-          text: 'Item Count',
-          color: '#ffffff', // White text for y-axis title
-        },
-        beginAtZero: true,
-      },
-    },
-  };
+  // Render error message if there's an error
+  if (error) {
+    return <div className="text-red-500 font-semibold text-center mt-4">{error}</div>;
+  }
 
   return (
-    <div className="bg-gray-900 text-white p-6 rounded-lg shadow-lg">
-      <h2 className="text-2xl font-bold mb-4">Random Two Users vs Items</h2>
-      <Line data={chartData} options={chartOptions} />
+    <div className="bg-gray-900 p-6 rounded-lg shadow-lg h-[31.5rem]">
+      {/* <h1 className="text-2xl font-bold text-white text-center mb-6">
+        Total Price by Day
+      </h1> */}
+      <div className="relative w-full h-[400px]">
+        <Line
+          data={chartData}
+          options={{
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              x: {
+                title: {
+                  display: true,
+                  text: 'Date',
+                  color: '#FFFFFF',
+                  font: {
+                    size: 16,
+                    weight: 'bold',
+                  },
+                },
+                ticks: {
+                  color: '#FFFFFF',
+                },
+              },
+              y: {
+                title: {
+                  display: true,
+                  text: 'Total Price',
+                  color: '#FFFFFF',
+                  font: {
+                    size: 16,
+                    weight: 'bold',
+                  },
+                },
+                ticks: {
+                  color: '#FFFFFF',
+                },
+                beginAtZero: true,
+              },
+            },
+            plugins: {
+              legend: {
+                display: true,
+                labels: {
+                  color: '#FFFFFF',
+                  font: {
+                    size: 14,
+                  },
+                },
+              },
+              tooltip: {
+                callbacks: {
+                  label: (context) => {
+                    return `Total: $${context.raw}`;
+                  },
+                },
+              },
+            },
+          }}
+        />
+      </div>
     </div>
   );
 };
 
-export default LineGraph;
+export default LineChart;

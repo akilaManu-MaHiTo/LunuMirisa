@@ -50,5 +50,41 @@ router.get('/CalculateAll', async (req, res) => {
     }
 });
 
+router.get('/getCalculationByDay', async (req, res) => {
+    try {
+        // Aggregation pipeline to group and sum totalPrice by createdAt date
+        const totalsByDay = await CartForm.aggregate([
+            {
+                // Grouping stage
+                $group: {
+                    _id: {
+                        $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } // Format the date to YYYY-MM-DD
+                    },
+                    total: { $sum: { $toDouble: "$totalPrice" } } // Sum the totalPrice after converting to double
+                }
+            },
+            {
+                // Projecting stage to format the output
+                $project: {
+                    date: "$_id", // Rename _id to date
+                    total: 1, // Include total
+                    _id: 0 // Exclude the _id field from the output
+                }
+            },
+            {
+                // Optional sorting stage to sort by date
+                $sort: { date: 1 }
+            }
+        ]);
+
+        res.json(totalsByDay); // Send the result as JSON
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server Error'); // Handle errors
+    }
+});
+
+
+
 
 module.exports = router;
