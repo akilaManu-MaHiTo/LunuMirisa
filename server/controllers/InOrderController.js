@@ -105,6 +105,29 @@ router.get('/calculateByDateAndTable', async (req, res) => {
     }
 });
 
+router.get('/calculateAllTotal', async (req, res) => {
+    try {
+        // Get all orders from the database
+        const orders = await InOrder.find({});
+
+        // Calculate total price across all orders, handling potential null values
+        const totalPrice = orders.reduce((acc, order) => {
+            // Ensure totalPrice is a number before adding
+            return acc + (order.totalPrice || 0); 
+        }, 0);
+
+        res.status(200).json({
+            message: 'Total price calculated successfully',
+            totalPrice: totalPrice
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: 'Error calculating total price',
+            error: error.message
+        });
+    }
+});
+
 
 
 module.exports = router;

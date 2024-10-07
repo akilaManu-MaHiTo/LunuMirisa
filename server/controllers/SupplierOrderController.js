@@ -107,9 +107,6 @@ router.get('/countByCategory/:category', async (req, res) => {
   }
 });
 
-
-
-
 router.get('/calculateByNo', async (req, res) => {
   try {
     // Perform aggregation to sum up totalAmount for documents with status "No"

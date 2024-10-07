@@ -4,6 +4,7 @@ import BarGraph from './Components/InventoryStat';
 import PriceGraph from './Components/CartPriceStat';
 import AdminNaviBar from './Components/AdminNavigationBar';
 import Sidebar from './Components/ToggleSlideBar';
+import Total from './Components/CalTotal';
 
 const AdminPage = () => {
 
@@ -21,6 +22,7 @@ const AdminPage = () => {
           <h1 className="text-4xl font-bold text-center">Welcome to Admin</h1>
         </div>
 
+        <Total/>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-16">
           <div className="p-4 bg-gray-800 rounded-lg shadow-lg">
             <h2 className="text-2xl font-semibold mb-4 text-center text-white">
