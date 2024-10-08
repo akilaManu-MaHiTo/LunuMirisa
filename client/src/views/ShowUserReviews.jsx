@@ -91,7 +91,9 @@ const UserReviews = () => {
     };
 
     return (
-        <div className='bg-custom-gray'>
+        <div className='bg-black'
+        
+        >
             <Navigation logo={logo} />
             <div className="p-4">
                 <ToastContainer />
