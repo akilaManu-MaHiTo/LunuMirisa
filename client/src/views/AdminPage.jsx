@@ -136,7 +136,7 @@ const AdminDashboard = () => {
             >
               <h2 className="text-2xl">Inventory Item</h2>
               <div className='font-bold text-green-500 text-l'>{currentInventoryItem.name}</div>
-              <p className="text-2xl font-thin mt-1">{currentInventoryItem.quantity} Kg</p>
+              <p className="text-2xl font-thin mt-1">{currentInventoryItem.quantity}/{currentInventoryItem.maxQuantity} Kg</p>
               <p className="text-sm text-red-400"><Link to='/ShowInventory'><strong>Visit</strong></Link> Inventory</p>
             </div>
           )}
@@ -174,8 +174,8 @@ const AdminDashboard = () => {
 
           <div className="p-4 bg-gray-800 text-white rounded-lg shadow-md font-spartan">
             <h2 className="text-2xl">Supplier Outgoing</h2>
-            <p className="text-4xl font-bold text-red-200 mt-2"><strong className='text-lg text-white'>Rs.</strong>{calculation}.00</p>
-            <p className="text-sm text-green-400 mt-2">Go to <Link to='/ShowAdminReviews'><strong>Orders</strong></Link></p>
+            <p className="text-4xl font-bold text-red-200 mt-2"><strong className='text-lg text-white'>Rs.</strong>{calculation.toFixed(2)}</p>
+            <p className="text-sm text-green-400 mt-2">Go to <Link to='/ShowAcceptedOrders'><strong>Orders</strong></Link></p>
           </div>
         </div>
 
@@ -205,14 +205,14 @@ const AdminDashboard = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 font-spartan">
           <div className="p-4 bg-gray-800 rounded-lg shadow-lg">
             <h2 className="text-2xl font-semibold mb-4 text-center text-white">
-            Total Price by Day
+              Inventory Graph
             </h2>
             <Inventory />
           </div>
 
           <div className="p-4 bg-gray-800 rounded-lg shadow-lg font-spartan">
             <h2 className="text-2xl font-semibold mb-4 text-center text-white">
-              Inventory Graph
+              Total Price by Day
             </h2>
             <DoughnutChart />
           </div>
