@@ -84,7 +84,24 @@ router.get('/getCalculationByDay', async (req, res) => {
     }
 });
 
+router.get('/paymentGetByUserId/:userId', async (req, res) => {
+    const userId = req.params.userId;
 
+    try {
+        // Find payments for the given userId
+        const payments = await CartForm.find({ userId });
+
+        if (payments.length === 0) {
+            return res.status(404).json({ message: 'No payments found for this user.' });
+        }
+
+        res.status(200).json(payments);
+        console.log(payments)
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+});
 
 
 module.exports = router;

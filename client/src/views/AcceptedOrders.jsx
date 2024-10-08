@@ -214,7 +214,7 @@ function AcceptedOrders() {
         <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
           <thead className="bg-green-100">
             <tr>
-              {['Order Id', 'Supplier Name', 'Order Quantity', 'Category', 'Amount', 'Delivery Date', 'Special Note', 'Price', 'Expiry Status', 'Actions'].map(header => (
+              {['Order Id', 'Supplier Name', 'Order Quantity', 'Category', 'Delivery Date', 'Special Note', 'Price', 'Expiry Status', 'Actions'].map(header => (
                 <th key={header} className="border-b p-4 text-left text-gray-600">{header}</th>
               ))}
             </tr>
@@ -226,7 +226,6 @@ function AcceptedOrders() {
                 <td className="border-b p-4">{order.supplierName}</td>
                 <td className="border-b p-4">{order.orderQuantity}</td>
                 <td className="border-b p-4">{order.category}</td>
-                <td className="border-b p-4">{order.amount}</td>
                 <td className="border-b p-4">{new Date(order.deliveryDate).toLocaleDateString()}</td>
                 <td className="border-b p-4">{order.specialNote}</td>
                 <td className="border-b p-4">Rs. {order.totalAmount}</td>

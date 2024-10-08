@@ -12,23 +12,31 @@ const TableReservation = () => {
   const [tables, setTables] = useState([]);
   const [filteredTables, setFilteredTables] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedQuantities, setSelectedQuantities] = useState([]);
+  const [paymentDetails, setPaymentDetails] = useState([]); // State for payment details
 
   useEffect(() => {
-    // Fetch reservation details by userId
-    axios.get(`http://localhost:3001/getReservationByUserId/${userId}`)
-      .then(response => {
-        setTables(response.data); // Assuming data is an array of tables
-        setFilteredTables(response.data); // Initialize with all tables
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error("Error fetching table reservations:", error);
-        setLoading(false);
-      });
-  }, [userId]);
+    const fetchData = async () => {
+      try {
+        // Fetch table reservations
+        const reservationResponse = await axios.get(`http://localhost:3001/getReservationByUserId/${userId}`);
+        setTables(reservationResponse.data); // Assuming data is an array of tables
+        setFilteredTables(reservationResponse.data); // Initialize with all tables
 
- 
+        // Fetch payment details
+        const paymentResponse = await axios.get(`http://localhost:3001/paymentGetByUserId/${userId}`);
+        setPaymentDetails(paymentResponse.data); // Assuming data is an array of payment details
+
+        console.log("Payment Details:", paymentResponse.data); // Log the payment details
+
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [userId]);
 
   if (loading) {
     return <Loader />;
@@ -47,9 +55,7 @@ const TableReservation = () => {
       >
         <div className="bg-black bg-opacity-60 p-10 mt-16 rounded-xl shadow-lg w-[55rem] h-auto mb-40 border border-gray-500">
           <h1 className="font-spartan font-thin text-4xl mb-16 text-center text-white">Your Reserved Tables</h1>
-          
-
-          <ul className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-center">
+          <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-center">
             {filteredTables.length === 0 ? (
               <p className="text-center text-white">No tables available for the selected quantity.</p>
             ) : (
@@ -84,6 +90,33 @@ const TableReservation = () => {
           </ul>
         </div>
       </div>
+      
+      {/* Payment Details Section */}
+      <div className="bg-black bg-opacity-60 p-10 mt-16 rounded-xl shadow-lg w-[55rem] mx-auto mb-20 border border-gray-500">
+        <h2 className="font-spartan font-thin text-3xl mb-8 text-center text-white">Payment Details</h2>
+        {paymentDetails.length > 0 ? (
+          paymentDetails.map(payment => (
+            <div key={payment._id} className="text-white mb-4">
+              <p>{`Name: ${payment.name}`}</p>
+              <p>{`Email: ${payment.email}`}</p>
+              <p>{`Address: ${payment.address}`}</p>
+              <p>{`Payment Method: ${payment.paymentMethod}`}</p>
+              <p>{`Total Price: ${payment.totalPrice}`}</p>
+              <p>{`Created At: ${new Date(payment.createdAt).toLocaleString()}`}</p>
+              <h4 className="font-bold">Cart Items:</h4>
+              {payment.cartItems.map(item => (
+                <div key={item._id} className="ml-4">
+                  <p>{`Title: ${item.title}`}</p>
+                  <p>{`Quantity: ${item.quantity}`}</p> {/* Adjusting for the format */}
+                </div>
+              ))}
+            </div>
+          ))
+        ) : (
+          <p className="text-center text-white">No payment details found.</p>
+        )}
+      </div>
+      
       <Footer />
     </div>
   );
