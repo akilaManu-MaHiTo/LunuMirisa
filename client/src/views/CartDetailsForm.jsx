@@ -48,7 +48,7 @@ const CartDetailsForm = () => {
 
       
       setTimeout(() => {
-        navigate('/'); 
+        navigate(`/UserHome/${userId}`);
       }, 4000);
       
     } catch (error) {
