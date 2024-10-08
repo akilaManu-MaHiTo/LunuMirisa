@@ -21,19 +21,21 @@ router.post("/createAddMenuList", upload.single('image'), async (req, res) => {
 
     try {
         // Check if a menu item with the same title already exists
-        const existingMenuItem = await Menu.findOne({ title: { title } });
+        const existingMenuItem = await Menu.findOne({ title }); // Corrected the query structure
         
         if (existingMenuItem) {
             return res.status(400).json({ message: "Item with this title already exists." });
         }
 
-        // If not, create the new menu item
+        // Create a new menu item
         const menuItem = await Menu.create({ title, price, image, category, description });
         return res.json(menuItem);
     } catch (err) {
-        return res.status(500).json(err);
+        console.error("Error creating menu item:", err); // Log the error for debugging
+        return res.status(500).json({ message: "Server error while creating menu item" });
     }
 });
+
 
 
 router.get("/ShowMenuList",(req,res) => {
