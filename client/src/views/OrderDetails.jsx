@@ -3,6 +3,11 @@ import axios from 'axios';
 import { useParams, Link, useNavigate  } from 'react-router-dom';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable'; // Optional for tables in PDF
+import AdminNaviBar from './Components/AdminNavigationBar';
+import Sidebar from './Components/ToggleSlideBar';
+import bgtable from '../Images/suppliar-bg.jpg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDownload } from '@fortawesome/free-solid-svg-icons';
 
 const ShowWaitorOrders = () => {
   const { orderId, userId } = useParams();
@@ -121,102 +126,116 @@ const ShowWaitorOrders = () => {
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-gray-900 p-6">
-      <h1 className="text-3xl font-bold text-white mb-6">Order Items - LunuMirisa</h1>
+    <div>
+      <AdminNaviBar selectedPage="Order Items" />
+      <Sidebar />  
+      <div className="flex flex-col items-center min-h-screen bg-gray-900 p-6"
+                      style={{ 
+                        backgroundImage: `url(${bgtable})`, 
+                        backgroundSize: 'cover', 
+                        backgroundPosition: 'center'
+                    }}
+      >
+        <div></div>
+        {loading && <div className="text-white">Loading...</div>}
+        {error && <div className="text-red-500 mb-4">{error}</div>}
 
-      {loading && <div className="text-white">Loading...</div>}
-      {error && <div className="text-red-500 mb-4">{error}</div>}
-
-      {!loading && !error && (
-        <div className="w-full max-w-3xl">
-          {orderItems.length > 0 ? (
-            <div className="grid grid-cols-1 gap-6">
-              {orderItems.map((item) => (
-                <div
-                  key={item._id}
-                  className="bg-gray-800 p-6 rounded-lg shadow-lg border border-gray-700 transform hover:scale-105 transition-transform duration-300"
-                >
-                  <div className="flex items-center mb-4">
-                    <img
-                      src={`http://localhost:3001/Images/` + item.image}
-                      alt={item.name}
-                      className="w-32 h-32 rounded-md mr-4"
-                    />
-                    <div>
-                      <p className="text-lg font-semibold text-white mb-1"><strong>Category:</strong> {item.category}</p>
-                      <p className="text-gray-400"><strong>Type:</strong> {item.title}</p>
-                      <p className="text-gray-400"><strong>Price:</strong> ${item.price}</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <label className="text-gray-300">Quantity:</label>
-                      <input
-                        type="number"
-                        value={item.quantity}
-                        readOnly
-                        onChange={(e) => handleUpdateQuantity(e, item._id)}
-                        className="ml-2 p-1 w-16 bg-gray-700 border border-gray-600 rounded"
-                      />
-                    </div>
-                    <p className="text-gray-300"><strong>Total Price:</strong> ${item.totalPrice}</p>
-                  </div>
-
-                  <p className="mt-2 text-gray-400"><strong>Table Number:</strong> {item.tableNum}</p>
-
-                  <button
-                    onClick={() => handleDeleteItem(item._id)}
-                    className="mt-4 bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition-colors"
+        {!loading && !error && (
+          <div className="w-full max-w-3xl">
+            {orderItems.length > 0 ? (
+              <div className="grid grid-cols-1 gap-6">
+                {orderItems.map((item) => (
+                  <div
+                    key={item._id}
+                    className="bg-gray-800 p-6 rounded-lg shadow-lg border border-gray-700 transform hover:scale-105 transition-transform duration-300"
                   >
-                    Delete Item
-                  </button>
-                </div>
-              ))}
+                    <div className="flex items-center mb-4">
+                      <img
+                        src={`http://localhost:3001/Images/` + item.image}
+                        alt={item.name}
+                        className="w-32 h-32 rounded-md mr-4"
+                      />
+                      <div>
+                        <p className="text-lg font-semibold text-white mb-1"><strong>Category:</strong> {item.category}</p>
+                        <p className="text-gray-400"><strong>Type:</strong> {item.title}</p>
+                        <p className="text-gray-400"><strong>Price:</strong> Rs. {item.price}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <label className="text-white">Quantity:</label>
+                        <input
+                          type="number"
+                          value={item.quantity}
+                          readOnly
+                          onChange={(e) => handleUpdateQuantity(e, item._id)}
+                          className="ml-2 pl-5 py-2 w-16 text-white bg-gray-700 border border-gray-600 rounded"
+                        />
+                      </div>
+                      <p className="text-gray-300"><strong>Total Price:</strong> Rs. {item.totalPrice}</p>
+                    </div>
+
+                    <p className="mt-2 text-gray-400"><strong>Table Number:</strong> {item.tableNum}</p>
+
+                    <button
+                      onClick={() => handleDeleteItem(item._id)}
+                      className="mt-4 bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition-colors"
+                    >
+                      Delete Item
+                    </button>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-gray-400">No items found for this order.</p>
+            )}
+
+            <div className="mt-6 p-4 bg-gray-800 rounded-lg shadow-md">
+              <p className="text-2xl font-semibold text-white">Total Price: Rs.{calculateTotalPrice()}</p>
+              <p className="text-xl text-gray-400">Total Quantity: {calculateTotalQuantity()}</p>
             </div>
-          ) : (
-            <p className="text-gray-400">No items found for this order.</p>
-          )}
 
-          <div className="mt-6 p-4 bg-gray-800 rounded-lg shadow-md">
-            <p className="text-2xl font-semibold text-white">Total Price: ${calculateTotalPrice()}</p>
-            <p className="text-xl text-gray-400">Total Quantity: {calculateTotalQuantity()}</p>
+            <form onSubmit={handleStatusChange} className="mt-6 flex items-center">
+              <div className='flex gap-10'>
+                <select
+                  value={status}
+                  onChange={(e) => setStatus(e.target.value)}
+                  className="p-3 bg-gray-700 border border-gray-600 rounded text-gray-100 mr-4"
+                >
+                  <option value="">Select Status</option>
+                  <option value="Ongoing">Ongoing</option>
+                  <option value="Job Over">Job Over</option>
+                </select>
+                <button
+                  type="submit"
+                  className="bg-green-500 hover:bg-white text-white hover:text-black py-2 px-4 rounded transition-all hover:scale-105 duration-500"
+                >
+                  Change Order Status
+                </button>
+
+                <button
+                  onClick={generatePDF}
+                  className=" bg-blue-500 hover:bg-white text-white hover:text-black py-2 px-4 rounded transition-all hover:scale-105 duration-500"
+                >
+                  Download PDF Bill <FontAwesomeIcon icon={faDownload} className='mr-2' />
+                </button>
+
+                {orderItems.length > 0 && (
+                  <Link to={`/InOrder/${orderId}/${userId}/${orderItems[0].tableNum}/${orderItems[0].date}/ongoing`}>
+                    <button className=" bg-black border border-white hover:bg-white text-white hover:text-black py-2 px-4 rounded transition-all hover:scale-105 duration-500">
+                      Update Order
+                    </button>
+                  </Link>
+                )}
+              </div>
+
+            </form>
+
+
           </div>
-
-          <form onSubmit={handleStatusChange} className="mt-6 flex items-center">
-            <select
-              value={status}
-              onChange={(e) => setStatus(e.target.value)}
-              className="p-3 bg-gray-700 border border-gray-600 rounded text-gray-100 mr-4"
-            >
-              <option value="">Select Status</option>
-              <option value="Ongoing">Ongoing</option>
-              <option value="Job Over">Job Over</option>
-            </select>
-            <button
-              type="submit"
-              className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded transition-colors"
-            >
-              Change Order Status
-            </button>
-          </form>
-
-          <button
-            onClick={generatePDF}
-            className="mt-6 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded transition-colors"
-          >
-            Generate PDF Bill
-          </button>
-
-          {orderItems.length > 0 && (
-            <Link to={`/InOrder/${orderId}/${userId}/${orderItems[0].tableNum}/${orderItems[0].date}/ongoing`}>
-              <button className="mt-6 bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded transition-colors">
-                Update Order
-              </button>
-            </Link>
-          )}
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };
