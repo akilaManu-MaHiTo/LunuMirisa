@@ -5,6 +5,7 @@ import background from '../Images/profileBG2.jpg';
 
 const CartDetailsForm = () => {
   const [name, setName] = useState('');
+  const { userId } = useParams();
   const {totalPrice} = useParams()
   const [address, setAddress] = useState('');
   const [email, setEmail] = useState('');
@@ -36,7 +37,8 @@ const CartDetailsForm = () => {
       email,
       paymentMethod,
       cartItems,
-      totalPrice
+      totalPrice,
+      userId:userId
     };
 
     try {

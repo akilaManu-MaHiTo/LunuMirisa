@@ -48,24 +48,40 @@ const ShowMangerMenuList = () => {
     }
 };
 
-  const handleHotDealsToggle = (itemId) => {
-    const percentage = selectedPercentage[itemId] || 1; // Default percentage to 1 if not selected
-    axios.put(`http://localhost:3001/UpdateHotDeals/${itemId}`, { percentage })
-      .then(res => {
-        // Update the state with the new hot deals status and percentage
-        setMenuItems(menuItems.map(item =>
-          item._id === itemId ? { ...item, hotDeals: res.data.hotDeals, percentage: res.data.percentage } : item
-        ));
-      })
-      .catch(err => console.log(err));
-  };
+const handleHotDealsToggle = (itemId) => {
+  const selectedPerc = selectedPercentage[itemId]; // Get the selected percentage
+  const item = menuItems.find(item => item._id === itemId); // Find the current item
 
-  const handlePercentageSelect = (itemId, percentage) => {
-    setSelectedPercentage({
+  // Check if a percentage is selected for adding hot deals
+  if (item.hotDeals === "No" && !selectedPerc) {
+    alert("Please select a Hot Deal Percentage before adding."); // Alert user to select a percentage
+    return; // Exit the function if no percentage is selected
+  }
+
+  // Determine the new hotDeals status
+  const newHotDealsStatus = item.hotDeals === "Yes" ? "No" : "Yes";
+
+  // Make the API request to toggle hot deals
+  axios.put(`http://localhost:3001/UpdateHotDeals/${itemId}`, { 
+    hotDeals: newHotDealsStatus, 
+    percentage: newHotDealsStatus === "Yes" ? selectedPerc : null // Only set percentage if adding hot deal
+  })
+  .then(res => {
+      // Update the state with the new hot deals status and percentage
+      setMenuItems(menuItems.map(item =>
+          item._id === itemId ? { ...item, hotDeals: newHotDealsStatus, percentage: newHotDealsStatus === "Yes" ? selectedPerc : null } : item
+      ));
+  })
+  .catch(err => console.log(err));
+};
+
+const handlePercentageSelect = (itemId, percentage) => {
+  setSelectedPercentage({
       ...selectedPercentage,
       [itemId]: percentage,
-    });
-  };
+  });
+};
+
 
   // Filter menu items based on search term and selected category
   const filteredItems = menuItems.filter(item => {
@@ -135,20 +151,25 @@ const ShowMangerMenuList = () => {
 
                   {/* Hot Deals Section */}
                   <div className="my-5">
-                    <label className="text-white mr-2">Hot Deal Percentage</label>
+                    <label htmlFor={`percentage-select-${item._id}`} className="text-white mr-2">
+                      Hot Deal Percentage
+                    </label>
                     <select
-                      value={selectedPercentage[item._id] || item.percentage || 1}
-                      onChange={(e) => handlePercentageSelect(item._id, e.target.value)}
-                      className="bg-gray-700 text-white p-2 rounded-md mt-2"
-                      disabled={item.hotDeals === "Yes"} // Enable when hotDeals is "No"
+                        id={`percentage-select-${item._id}`} // Associate label with select
+                        value={selectedPercentage[item._id] || item.percentage} // Set default to 10 if undefined
+                        onChange={(e) => handlePercentageSelect(item._id, e.target.value)}
+                        className="bg-gray-700 text-white p-2 rounded-md mt-2"
+                        disabled={item.hotDeals === "Yes"} // Enable when hotDeals is "No"
                     >
-                      <option value="1">1%</option>
-                      <option value="2">2%</option>
-                      <option value="3">3%</option>
-                      <option value="4">4%</option>
-                      <option value="5">5%</option>
+                        <option value="">Select Hot Percentage</option>
+                        <option value="10">10%</option>
+                        <option value="15">15%</option>
+                        <option value="16">16%</option>
+                        <option value="17">17%</option>
+                        <option value="20">20%</option>
                     </select>
                   </div>
+
                   <button
                     onClick={() => handleHotDealsToggle(item._id)}
                     className="text-black bg-white p-2 rounded-md mt-2"

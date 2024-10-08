@@ -11,6 +11,8 @@ import bgHome2 from '../Images/loginBG.jpg'
 import NavigationBar from './Components/NavigationBar.jsx';
 import Footer from './Footer.jsx';
 import food from '../Images/food.svg';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const FoodItem = ({ image, title, price, percentage, change ,handleAddToCart,item}) => (
 <div className="relative bg-custom-gray p-6 rounded-xl shadow-md w-[18rem] h-auto max-w-md mb-4 flex flex-col items-center transition-all duration-500 ease-in-out transform hover:scale-105 hover:shadow-[0_0_10px_rgba(255,255,255,0.6)]">
@@ -53,19 +55,32 @@ const UserHome = () => {
     localStorage.setItem('scrollPosition', scrollPosition);
     const total = item.price * (100 - item.percentage) / 100
     axios.post("http://localhost:3001/Addtocarts", {
-      userId,
+      userId:userId,
       itemId: item._id,
       category: item.category,
       title: item.title,
       price: total,
-      image:item.image,
+      image: item.image,
     })
     .then(() => {
-      alert(`${item.title} added to cart successfully!`);
+      toast.success(`${item.title} added to cart successfully!`);
       window.location.reload();
     })
-    .catch(() => {
-      toast.error(`Error adding ${item.title} to cart. Please try again!`);
+    .catch((error) => {
+      // Check if the error response has a status of 400
+      if (error.response && error.response.status === 400) {
+        toast.error(`Item already exists in the cart.`);
+        console.log({
+          userId,
+          itemId: item._id,
+          category: item.category,
+          title: item.title,
+          price: item.price,
+          image: item.image,
+        });
+      } else {
+        toast.error(`Error adding ${item.title} to cart. Please try again!`);
+      }
     });
   };
 
@@ -165,7 +180,7 @@ const UserHome = () => {
                 title={hot.title}
                 price={hot.price}
                 percentage={hot.percentage}
-                change={hot.price * (hot.percentage / 100)}
+                change={(hot.price * (hot.percentage / 100)).toFixed(2)}
                 handleAddToCart={handleAddToCart}
                 item={hot}
               />
@@ -314,7 +329,7 @@ const UserHome = () => {
         </div>
 
       </section>
-
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
       <Footer />
     </div>
   );
