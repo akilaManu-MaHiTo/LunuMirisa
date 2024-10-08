@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import AdminNaviBar from './Components/AdminNavigationBar';
 import Sidebar from './Components/ToggleSlideBar';
-import bgtable from '../Images/suppliar-bg.jpg';
+
 
 function UpdateTable() {
   const { id } = useParams();

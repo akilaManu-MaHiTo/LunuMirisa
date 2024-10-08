@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import AdminNaviBar from './Components/AdminNavigationBar';
+import Sidebar from './Components/ToggleSlideBar';
+import bgtable from '../Images/suppliar-bg.jpg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 function SupplierConfirmOrder() {
   const { supplierId, orderId, supplierName, image } = useParams();
@@ -100,88 +105,107 @@ function SupplierConfirmOrder() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <h1 className="text-4xl font-bold text-center mb-8">Order Confirmation</h1>
-      
-      {orderData ? (
-        <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-3xl mx-auto">
-          <img src={`http://localhost:3001/Images/${image}`} alt="" className='w-20 h-20'/>
-          <h2 className="text-2xl font-semibold text-gray-700 mb-6">Order Details</h2>
-          <p><strong>Name:</strong> {orderData.name}</p> 
-          <p><strong>Order Quantity:</strong> {orderData.orderQuantity}</p>
-          <p><strong>Category:</strong> {orderData.category}</p>
-
-          {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>}
-          {successMessage && <p className="text-green-500 mb-4">{successMessage}</p>}
-
-          <form onSubmit={handleConfirm} className="mt-8">
-            <div className="mb-4">
-              <label className="block text-gray-700 mb-2">Quantity</label>
-              <select
-                value={quantity}
-                onChange={handleQuantityChange}
-                className="border rounded w-full py-2 px-3"
-                required
-              >
-                <option value="">Select Quantity</option>
-                {[...Array(orderData.orderQuantity + 1).keys()].map(num => (
-                  <option key={num} value={num}>
-                    {num}
-                  </option>
-                ))}
-              </select>
+    <div>
+      <AdminNaviBar selectedPage="Order Confirmation" />
+      <Sidebar />  
+      <div className="min-h-screen bg-gray-100 p-6"
+                style={{ 
+                  backgroundImage: `url(${bgtable})`, 
+                  backgroundSize: 'cover', 
+                  backgroundPosition: 'center'
+              }}
+      >
+        
+        {orderData ? (
+          <div className="bg-white rounded-lg shadow-lg p-10 w-full max-w-3xl mx-auto">
+            <div className='flex'>
+              <div>
+                <img src={`http://localhost:3001/Images/${image}`} alt="" className='w-44 h-44'/>
+              </div>
+              <div className='ml-10'>
+                <h2 className="text-2xl font-semibold text-gray-700 mb-6">Order Details</h2>
+                <p><strong>Name:</strong> {orderData.name}</p> 
+                <p><strong>Order Quantity:</strong> {orderData.orderQuantity}</p>
+                <p><strong>Category:</strong> {orderData.category}</p>                
+              </div>
             </div>
 
-            <div className="mb-4">
-              <label className="block text-gray-700 mb-2">Unit Price</label>
-              <input
-                type="number"
-                value={unitPrice}
-                onChange={handleUnitPriceChange}
-                className="border rounded w-full py-2 px-3"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 mb-2">Total Price</label>
-              <input
-                type="text"
-                value={`$${totalAmount.toFixed(2)}`}
-                readOnly
-                className="border rounded w-full py-2 px-3 bg-gray-200"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 mb-2">Delivery Date</label>
-              <input
-                type="date"
-                value={deliveryDate}
-                onChange={(e) => setDeliveryDate(e.target.value)}
-                className="border rounded w-full py-2 px-3"
-                min={today} 
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 mb-2">Special Note (Optional)</label>
-              <textarea
-                value={specialNote}
-                onChange={(e) => setSpecialNote(e.target.value)}
-                className="border rounded w-full py-2 px-3"
-                rows="3"
-              />
-            </div>
-            <button
-              type="submit"
-              className="bg-blue-500 text-white font-semibold py-2 px-6 rounded hover:bg-blue-600 transition duration-200"
-            >
-              Confirm
-            </button>
-          </form>
-        </div>
-      ) : (
-        <p className="text-center text-gray-500">Loading order details...</p>
-      )}
+
+            {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>}
+            {successMessage && <p className="text-green-500 mb-4">{successMessage}</p>}
+
+            <form onSubmit={handleConfirm} className="mt-8">
+              <div className="mb-4">
+                <label className="block text-gray-700 mb-2">Quantity</label>
+                <select
+                  value={quantity}
+                  onChange={handleQuantityChange}
+                  className="border rounded w-full py-2 px-3"
+                  required
+                >
+                  <option value="">Select Quantity</option>
+                  {[...Array(orderData.orderQuantity + 1).keys()].map(num => (
+                    <option key={num} value={num}>
+                      {num}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-gray-700 mb-2">Unit Price</label>
+                <input
+                  type="number"
+                  value={unitPrice}
+                  onChange={handleUnitPriceChange}
+                  className="border rounded w-full py-2 px-3"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 mb-2">Total Price</label>
+                <input
+                  type="text"
+                  value={`$${totalAmount.toFixed(2)}`}
+                  readOnly
+                  className="border rounded w-full py-2 px-3 bg-gray-200"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 mb-2">Delivery Date</label>
+                <input
+                  type="date"
+                  value={deliveryDate}
+                  onChange={(e) => setDeliveryDate(e.target.value)}
+                  className="border rounded w-full py-2 px-3"
+                  min={today} 
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 mb-2">Special Note (Optional)</label>
+                <textarea
+                  value={specialNote}
+                  onChange={(e) => setSpecialNote(e.target.value)}
+                  className="border rounded w-full py-2 px-3"
+                  rows="3"
+                />
+              </div>
+              <div className='mx-auto'>
+                <button
+                  type="submit"
+                  className="bg-black text-white py-2 px-6 rounded hover:bg-white hover:text-black hover:border hover:border-black transition duration-200"
+                >
+                  Confirm
+                </button>
+              </div>
+
+            </form>
+          </div>
+        ) : (
+          <p className="text-center text-gray-500">Loading order details...</p>
+        )}
+      </div>
     </div>
   );
 }
