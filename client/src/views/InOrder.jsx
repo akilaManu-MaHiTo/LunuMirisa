@@ -161,10 +161,14 @@ const QuantitySelector = ({ initialQuantity, price, onQuantityChange }) => {
   };
 
   const handleDecrement = () => {
-    const newQuantity = Math.max(1, quantity - 1);
-    setQuantity(newQuantity);
-    setTotalPrice(newQuantity * price);
-    onQuantityChange(newQuantity);
+    if (quantity > 1) {
+      const newQuantity = quantity - 1;
+      setQuantity(newQuantity);
+      setTotalPrice(newQuantity * price);
+      onQuantityChange(newQuantity);
+    } else {
+      toast.error("Can't reduce quantity below 1!"); // Show toast if quantity is already 1
+    }
   };
 
   return (
