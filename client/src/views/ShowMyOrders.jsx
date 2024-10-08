@@ -63,7 +63,7 @@ const ShowWaitorOrders = () => {
                 }}
       >
         <div className="max-w-3xl w-full">
-          <div className='bg-custom-toolight rounded-lg p-10 mb-20'>
+          <div className='bg-custom-toolight rounded-lg p-10 mb-20 mt-20'>
 
           
             <h1 className="text-4xl font-thin mb-6 text-black"> <strong>Waiter Orders</strong></h1>
@@ -102,7 +102,7 @@ const ShowWaitorOrders = () => {
 
                 {selectedDate && (
                   <div className="w-full">
-                    <h2 className="text-2xl font-bold mb-4 text-indigo-300">
+                    <h2 className="text-2xl font-thin mb-4 text-black">
                       Orders for {new Date(selectedDate).toLocaleDateString()}:
                     </h2>
 
@@ -123,7 +123,7 @@ const ShowWaitorOrders = () => {
                               <strong>Status:</strong> {order.ongoing}
                             </p>
                             <Link to={`/OrderDetails/${order.orderId}`}>
-                              <button className="mt-4 w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg font-medium transition duration-200">
+                              <button className="mt-4 w-full py-2 bg-white hover:bg-black hover:border hover:border-black hover:text-white text-black rounded-lg font-medium transition duration-200">
                                 Show Details
                               </button>
                             </Link>
