@@ -87,7 +87,7 @@ const CalculateTotalsChart = () => {
       <div className="flex justify-between items-center mb-8">
         <div className="text-center text-white">
           <p className="text-lg font-semibold font-spartan">Subtotal</p>
-          <p className="text-3xl font-bold font-spartan"><strong className='text-lg font-spartan'>Rs.</strong>{subTotal}</p>
+          <p className="text-3xl font-bold font-spartan"><strong className='text-lg font-spartan'>Rs.</strong>{subTotal.toFixed(2)}</p>
         </div>
         <div className="w-full max-w-xl">
           <Bar data={data} options={options} />
@@ -96,15 +96,15 @@ const CalculateTotalsChart = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-white mt-6 font-spartan">
         <div className="bg-gray-700 p-4 rounded-md shadow-md">
           <p className="text-lg font-semibold">Online Order Total Price</p>
-          <p className="text-2xl font-bold"><strong className='text-lg font-spartan'>Rs.</strong>{calculateAll}</p>
+          <p className="text-2xl font-bold"><strong className='text-lg font-spartan'>Rs.</strong>{calculateAll.toFixed(2)}</p>
         </div>
         <div className="bg-gray-700 p-4 rounded-md shadow-md font-spartan">
           <p className="text-lg font-semibold">In-Order Restaurant Total Price</p>
-          <p className="text-2xl font-bold"><strong className='text-lg font-spartan'>Rs.</strong>{calculateAllTotal}</p>
+          <p className="text-2xl font-bold"><strong className='text-lg font-spartan'>Rs.</strong>{calculateAllTotal.toFixed(2)}</p>
         </div>
         <div className="bg-gray-700 p-4 rounded-md shadow-md font-spartan">
           <p className="text-lg font-semibold">Inventory Supplier Order Total Price</p>
-          <p className="text-2xl font-bold"><strong className='text-lg font-spartan'>Rs.</strong>{calculateByNo}</p>
+          <p className="text-2xl font-bold"><strong className='text-lg font-spartan'>Rs.</strong>{calculateByNo.toFixed(2)}</p>
         </div>
         <div className="bg-gray-700 p-4 rounded-md shadow-md font-spartan">
           <p className="text-lg font-semibold">Income Total</p>
