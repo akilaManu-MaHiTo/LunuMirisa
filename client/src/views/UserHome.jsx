@@ -12,7 +12,7 @@ import NavigationBar from './Components/NavigationBar.jsx';
 import Footer from './Footer.jsx';
 import food from '../Images/food.svg';
 
-const FoodItem = ({ image, title, price, percentage, change }) => (
+const FoodItem = ({ image, title, price, percentage, change ,handleAddToCart,item}) => (
 <div className="relative bg-custom-gray p-6 rounded-xl shadow-md w-[18rem] h-auto max-w-md mb-4 flex flex-col items-center transition-all duration-500 ease-in-out transform hover:scale-105 hover:shadow-[0_0_10px_rgba(255,255,255,0.6)]">
 {/* Red strap for Hot Deals */}
   <div className="absolute top-0 left-0 bg-red-600 text-white font-spartan text-[0.9rem] font-light py-1 px-3 rounded-tr-lg rounded-bl-lg z-10 opacity-75">
@@ -31,6 +31,7 @@ const FoodItem = ({ image, title, price, percentage, change }) => (
   <button
     type="button"
     className="flex mb-4 items-center justify-center w-[15rem] py-1 mt-16 bg-custom-light text-white hover:bg-white hover:text-black h-12 transition-all duration-300 ease-in-out transform hover:scale-105"
+    onClick={() => handleAddToCart(item)}
   >
     <FontAwesomeIcon icon={faCartPlus} className="mr-2" /> Add to Cart
   </button>
@@ -47,6 +48,26 @@ const UserHome = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   
+  const handleAddToCart = (item) => {
+    const scrollPosition = window.scrollY;
+    localStorage.setItem('scrollPosition', scrollPosition);
+    const total = item.price * (100 - item.percentage) / 100
+    axios.post("http://localhost:3001/Addtocarts", {
+      userId,
+      itemId: item._id,
+      category: item.category,
+      title: item.title,
+      price: total,
+      image:item.image,
+    })
+    .then(() => {
+      alert(`${item.title} added to cart successfully!`);
+      window.location.reload();
+    })
+    .catch(() => {
+      toast.error(`Error adding ${item.title} to cart. Please try again!`);
+    });
+  };
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -145,6 +166,8 @@ const UserHome = () => {
                 price={hot.price}
                 percentage={hot.percentage}
                 change={hot.price * (hot.percentage / 100)}
+                handleAddToCart={handleAddToCart}
+                item={hot}
               />
             ))}
           </div>
