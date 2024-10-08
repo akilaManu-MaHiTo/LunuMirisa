@@ -61,6 +61,7 @@ import CheffInventory from "./views/CheffInventory"
 import UpdateInventoryByCheff from './views/UpdateInventoryByCheff'
 import GuestMenu from './views/GuestMenu'
 import ShowAdminInOrder from './views/ShowAdminOrder'
+import MunuListWaitor from './views/MenuListWaitor'
 
 function App() {
   return (
@@ -126,6 +127,7 @@ function App() {
         <Route path="/UpdateInventoryByCheff/:id" element={<UpdateInventoryByCheff/>} />
         <Route path="/GuestMenu" element={<GuestMenu/>} />
         <Route path="/ShowAdminInOrder" element={<ShowAdminInOrder/>} />
+        <Route path="/MunuListWaitor" element={<MunuListWaitor/>} />
       </Routes>
     </BrowserRouter>
   );

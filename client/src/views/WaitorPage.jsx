@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import EmployeeNavigation from './Components/EmployeeNavigation';
+import logo from '../Images/Logo.png';
+import bgWaitor from '../Images/waitor-bg.jpg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight, faUtensils } from '@fortawesome/free-solid-svg-icons';
 
 const InOrder = () => {
   const [tables, setTables] = useState([]); // State to hold fetched tables
@@ -45,49 +49,67 @@ const InOrder = () => {
   };
 
   return (
-    <div className="bg-gray-800 min-h-screen text-gray-200">
-      <EmployeeNavigation />
-      <div className='flex flex-col md:flex-row justify-center items-center p-6'>
-        <div className='flex-1 flex flex-col justify-center items-center'>
-          <h1 className='text-white text-3xl font-bold mb-6'>Create a New Order</h1>
-          
-          <form onSubmit={handleSubmit} className='bg-gray-900 p-6 rounded-lg shadow-md w-80'>
-            <label htmlFor="tableSelect" className='text-gray-300 text-lg mb-2'>Select Table Number:</label>
-            <select
-              name="tableNumber"
-              id="tableSelect"
-              value={selectedTable}
-              onChange={(e) => setSelectedTable(e.target.value)}
-              className='block p-2 mb-4 text-lg border border-gray-700 rounded-lg bg-gray-800 text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500'
-            >
-              <option value="">Select Table</option>
-              {tables.map((table) => (
-                <option key={table._id} value={table.tableNum}>
-                  {table.tableNum}
-                </option>
-              ))}
-            </select>
+    <div>
+      <EmployeeNavigation logo={logo} selectedPage="Menu"  />
+      <div className="bg-gray-800 min-h-screen text-gray-200"
+          style={{ 
+            backgroundImage: `url(${bgWaitor})`, 
+            backgroundSize: 'cover', 
+            backgroundPosition: 'center', 
+          }}
+      >
+        <div className='flex flex-col md:flex-row justify-center items-center p-6'>
+          <div className='flex-1 flex flex-col justify-center items-center'>
+            <div className='justify-center bg-custom-light border-white mt-10 p-10 rounded-lg'>
+            <h1 className='text-white text-3xl font-thin mb-6'>Create a New Order</h1>
+            
+            <form onSubmit={handleSubmit} className='bg-custom-toolight p-10 rounded-lg shadow-md w-80'>
+              <label htmlFor="tableSelect" className='text-black text-lg mb-5'>Select Table Number:</label>
+              <select
+                name="tableNumber"
+                id="tableSelect"
+                value={selectedTable}
+                onChange={(e) => setSelectedTable(e.target.value)}
+                className='block p-2 mb-4 mt-5 text-lg border border-gray-700 rounded-lg bg-black text-gray-300 '
+              >
+                <option value="">Select Table</option>
+                {tables.map((table) => (
+                  <option key={table._id} value={table.tableNum}>
+                    {table.tableNum}
+                  </option>
+                ))}
+              </select>
 
-            <button type='submit' className='w-full bg-green-600 text-white p-2 rounded-lg hover:bg-green-700 transition duration-200'>
-              Submit
-            </button>
-          </form>
-        </div>
+              <button type='submit' className='w-full mt-10 bg-black text-white p-2 rounded-lg hover:bg-white hover:border hover:border-black hover:text-black  transition duration-500 hover:scale-105'>
+                Submit
+              </button>
+            </form>              
+            </div>
+            
+          </div>
 
-        <div className='border-l-2 border-gray-700 h-64 mx-4'></div> {/* Vertical Divider */}
+          <div className='border-l-2 border-white h-64 mx-4'></div> {/* Vertical Divider */}
 
-        <div className='flex-1 flex flex-col justify-center items-center'>
-          <h2 className='text-white text-xl mb-4'>Manage Your Orders</h2>
-          <p className='text-gray-300 mb-4'>Click below to view and manage your existing orders.</p>
-          
-          <Link to={`/ShowMyOrders/${userId}`}>
-            <button className='bg-yellow-500 text-white p-3 rounded-lg hover:bg-yellow-600 transition duration-200'>
-              Show My Orders
-            </button>
-          </Link>
-          <p className='text-gray-300 mt-2 text-sm text-center'>
-            View and manage your existing orders here.
-          </p>
+          <div className='flex-1 flex flex-col justify-center items-center'>
+            <div className='bg-custom-light rounded-lg p-10 h-80 '>
+
+              <h2 className='text-white text-3xl font-thin mb-4'>Manage Your Orders</h2>
+              <p className='text-gray-300 mb-1'>Click below to view and manage your existing orders.</p>
+              <p className='text-gray-300 text-sm'>
+                View and manage your existing orders here.
+              </p>
+              
+                <Link to={`/ShowMyOrders/${userId}`}>
+                  <button className='bg-black text-white mt-20 p-3 rounded-lg hover:bg-white hover:text-black transition duration-500'>
+                    Show My Orders <FontAwesomeIcon icon={faArrowRight} className='ml-2'/>
+                  </button>
+                </Link> 
+
+
+
+            </div>
+
+          </div>
         </div>
       </div>
     </div>
