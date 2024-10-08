@@ -108,7 +108,11 @@ const CalculateTotalsChart = () => {
         </div>
         <div className="bg-gray-700 p-4 rounded-md shadow-md font-spartan">
           <p className="text-lg font-semibold">Income Total</p>
-          <p className="text-2xl font-bold"><strong className='text-lg font-spartan'>Rs.</strong>{calculateAll + calculateByNo - calculateByNo}.00</p>
+          <p className="text-2xl font-bold">
+            <strong className='text-lg font-spartan'>Rs.</strong>
+            {(calculateAll + calculateAllTotal - calculateByNo).toFixed(2)}
+          </p>
+
         </div>
       </div>
     </div>

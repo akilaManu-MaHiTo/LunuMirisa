@@ -35,31 +35,8 @@ const ShowMenuList = () => {
   };
 
   const handleAddToCart = (item) => {
-    const quantity = selectedQuantities[item._id] || 1;
-    const totalPrice = item.price * quantity;
-
-    axios.post("http://localhost:3001/InOrderCreate", {
-      orderId: id,
-      itemId: item._id,
-      category: item.category,
-      title: item.title,
-      price: item.price,
-      quantity,
-      totalPrice,
-      userId,
-      tableNum,
-      date,
-      ongoing,
-      image: item.image
-    })
-    .then(response => {
-      console.log("Added to cart:", response.data);
-      toast.success("Item added to cart!");
-    })
-    .catch(error => {
-      console.error("There was an error adding the item to the cart!", error);
-      toast.error("There was an error adding the item to the cart!");
-    });
+    // Show a toast notification
+    toast.info("You Need To Select A Table To Add This Order");
   };
 
   const handleCategoryClick = (category) => {
