@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import AdminNaviBar from './Components/AdminNavigationBar';
-import Sidebar from './Components/ToggleSlideBar';
 
 function AddSupplierCategory() {
   const [name, setName] = useState("");
@@ -18,8 +17,7 @@ function AddSupplierCategory() {
 
   return (
     <div>
-    <AdminNaviBar selectedPage="Supplier Profile" />
-    <Sidebar/>
+    <AdminNaviBar selectedPage="Supplier Categories" />
     <div className="max-w-md mx-auto bg-white p-8 border border-gray-300 mt-10 rounded-lg shadow-lg">
       <h2 className="text-3xl font-semibold mb-8 text-center text-gray-800">Add Category</h2>
       <form onSubmit={handleSubmit}>
