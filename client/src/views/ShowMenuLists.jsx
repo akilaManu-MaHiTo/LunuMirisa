@@ -63,23 +63,38 @@ const ShowMenuLists = () => {
   const handleAddToCart = (item) => {
     const scrollPosition = window.scrollY;
     localStorage.setItem('scrollPosition', scrollPosition);
-
+  
     axios.post("http://localhost:3001/Addtocarts", {
-      userId,
+      userId:userId,
       itemId: item._id,
       category: item.category,
       title: item.title,
       price: item.price,
-      image:item.image,
+      image: item.image,
     })
     .then(() => {
       toast.success(`${item.title} added to cart successfully!`);
       window.location.reload();
     })
-    .catch(() => {
-      toast.error(`Error adding ${item.title} to cart. Please try again!`);
+    .catch((error) => {
+      // Check if the error response has a status of 400
+      if (error.response && error.response.status === 400) {
+        toast.error(`Item already exists in the cart.`);
+        console.log({
+          userId,
+          itemId: item._id,
+          category: item.category,
+          title: item.title,
+          price: item.price,
+          image: item.image,
+        });
+      } else {
+        toast.error(`Error adding ${item.title} to cart. Please try again!`);
+      }
     });
   };
+  
+
   
   const handleCategoryClick = (category) => {
     setFade(true);

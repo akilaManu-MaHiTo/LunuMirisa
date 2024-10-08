@@ -19,8 +19,9 @@ const ShowCart = () => {
         const response = await axios.get(`http://localhost:3001/ShowCart/${userId}`);
         const groupedItems = groupCartItems(response.data.cartItems);
         setCartItems(groupedItems);
-        setTotalPrice(response.data.totalPrice);
         
+        // Ensure totalPrice is a number
+        setTotalPrice(calculateTotalPrice(groupedItems));
       } catch (err) {
         setError('Failed to fetch cart items');
         console.error('Error fetching cart items:', err);
@@ -31,7 +32,6 @@ const ShowCart = () => {
     fetchCartItems();
   }, [userId]);
 
- 
   const groupCartItems = (items) => {
     const groupedItems = {};
 
@@ -50,29 +50,27 @@ const ShowCart = () => {
     return Object.values(groupedItems);
   };
 
- 
-const handleDelete = async (itemTitle) => { 
-  try {
+  const calculateTotalPrice = (items) => {
+    return items.reduce((total, item) => {
+      return total + (Number(item.price) * item.quantity);
+    }, 0);
+  };
+
+  const handleDelete = async (itemTitle) => { 
+    try {
       await axios.delete(`http://localhost:3001/RemoveFromCart/${itemTitle}/${userId}`); 
     
       const updatedCartItems = cartItems.filter(item => item.title !== itemTitle);
       setCartItems(updatedCartItems);
 
-    
-      const updatedTotalPrice = updatedCartItems.reduce((total, item) => {
-          return total + parseFloat(item.price) * item.quantity;
-      }, 0);
-      setTotalPrice(updatedTotalPrice);
-
+      setTotalPrice(calculateTotalPrice(updatedCartItems));
       toast.success('Items removed from cart', { autoClose: 3000 });
-  } catch (err) {
+    } catch (err) {
       console.error('Error deleting cart items:', err);
       setError('Failed to delete items from cart');
       toast.error('Error deleting items from cart', { autoClose: 3000 });
-  }
-};
-
-
+    }
+  };
 
   const handleUpdate = async (itemId, newQuantity) => {
     try {
@@ -86,12 +84,7 @@ const handleDelete = async (itemTitle) => {
       });
 
       setCartItems(updatedCartItems);
-
-      const updatedTotalPrice = updatedCartItems.reduce((total, item) => {
-        return total + parseFloat(item.price) * item.quantity;
-      }, 0);
-      setTotalPrice(updatedTotalPrice);
-
+      setTotalPrice(calculateTotalPrice(updatedCartItems));
       toast.success('Cart item updated successfully', { autoClose: 3000 });
     } catch (err) {
       console.error('Error updating cart item:', err);
@@ -114,14 +107,14 @@ const handleDelete = async (itemTitle) => {
           {cartItems.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {cartItems.map(item => (
-                <div key={item._id} className="bg-gray-100  hover:bg-gray-300 border p-4 rounded-lg shadow-md flex flex-col justify-between transition-all duration-300 ease-out transform hover:scale-105">
+                <div key={item._id} className="bg-gray-100 hover:bg-gray-300 border p-4 rounded-lg shadow-md flex flex-col justify-between transition-all duration-300 ease-out transform hover:scale-105">
                   <div>
-                  <img 
-                    src={`http://localhost:3001/Images/` + item.image} 
-                    alt={item.image} 
-                    className="w-[14rem] h-auto rounded mx-auto mt-3 mb-6"
-                  />
-                    <h3 className="text-xl font-semibold">Rs.{item.price}</h3>
+                    <img 
+                      src={`http://localhost:3001/Images/` + item.image} 
+                      alt={item.image} 
+                      className="w-[14rem] h-auto rounded mx-auto mt-3 mb-6"
+                    />
+                    <h3 className="text-xl font-semibold">Rs.{item.price.toFixed(2)}</h3>
                     <p className="text-gray-600">Category: {item.category}</p>
                     <p className="text-gray-600">Item Name: {item.title}</p>
                     <p className="text-gray-600">Quantity: 
@@ -135,13 +128,12 @@ const handleDelete = async (itemTitle) => {
                     </p>
                   </div>
                   <div className="mt-4 flex justify-between">
-                  <button 
-                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                    onClick={() => handleDelete(item.title)} 
-                  >
-                    Delete
-                  </button>
-
+                    <button 
+                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                      onClick={() => handleDelete(item.title)} 
+                    >
+                      Delete
+                    </button>
                     <button 
                       className="bg-black hover:bg-gray-500 text-white font-bold py-2 px-4 rounded"
                       onClick={() => handleUpdate(item._id, item.quantity)}
@@ -157,28 +149,26 @@ const handleDelete = async (itemTitle) => {
           )}
           <div className="mt-4">
             <p className="text-white pt-4 text-3xl font-serif-black">Total:</p>
-            <p className="text-white pt-4 text-4xl font-serif-black flex justify-end mt-4">Rs.{totalPrice}</p>
+            <p className="text-white pt-4 text-4xl font-serif-black flex justify-end mt-4">Rs.{totalPrice.toFixed(2)}</p>
             <div className="flex justify-end mt-4">
-            <div className="flex justify-end mt-4">
-                <Link 
-                  to={`/CartForm/${userId}/${totalPrice}/${encodeURIComponent(
-                    JSON.stringify(
-                      cartItems.map(item => ({
-                        title: item.title,
-                        quantity: item.quantity
-                      }))
-                    )
-                  )}`}
+              <Link 
+                to={`/CartForm/${userId}/${totalPrice}/${encodeURIComponent(
+                  JSON.stringify(
+                    cartItems.map(item => ({
+                      title: item.title,
+                      quantity: item.quantity
+                    }))
+                  )
+                )}`}
+              >
+                <button
+                  id="checkout_btn"
+                  className="bg-black hover:bg-gray-700 text-white font-bold py-2 mt-6 px-4 rounded"
+                  disabled={cartItems.length === 0} 
                 >
-                  <button
-                    id="checkout_btn"
-                    className="bg-black hover:bg-gray-700 text-white font-bold py-2 mt-6 px-4 rounded"
-                    disabled={cartItems.length === 0} 
-                  >
-                    Checkout
-                  </button>
-                </Link>
-              </div>
+                  Checkout
+                </button>
+              </Link>
             </div>
           </div>
         </div>
