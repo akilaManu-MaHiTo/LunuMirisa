@@ -142,6 +142,7 @@ const EmployeeTable = () => {
         <table className="min-w-full text-white bg-custom-dark rounded-lg shadow-xl border border-white">
           <thead>
             <tr className='border border-white'>
+              <th className="px-4 py-2">Employee ID</th>
               <th className="px-4 py-2">Name</th>
               <th className="px-4 py-2">Email</th>
               <th className="px-4 py-2">Age</th>
@@ -155,6 +156,7 @@ const EmployeeTable = () => {
           <tbody>
             {filteredEmployees.map((employee) => (
               <tr key={employee._id} className="border-white">
+                <td className="px-4 py-2">{employee._id}</td>
                 <td className="px-4 py-2">{employee.EmployeeName}</td>
                 <td className="px-4 py-2">{employee.EmployeeEmail}</td>
                 <td className="px-4 py-2">{employee.EmployeeAge}</td>

@@ -42,6 +42,9 @@ const cartFormSchema = new mongoose.Schema({
   },
   totalPrice:{
     type: String
+  },
+  userId:{
+    type:String
   }
 });
 
