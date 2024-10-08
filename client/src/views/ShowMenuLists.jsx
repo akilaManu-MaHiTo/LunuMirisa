@@ -93,6 +93,40 @@ const ShowMenuLists = () => {
       }
     });
   };
+
+  const handleAddToTopCart = (item) => {
+    const scrollPosition = window.scrollY;
+    localStorage.setItem('scrollPosition', scrollPosition);
+  
+    axios.post("http://localhost:3001/Addtocarts", {
+      userId:userId,
+      itemId: item.itemId,
+      category: item.category,
+      title: item.title,
+      price: item.price,
+      image: item.image,
+    })
+    .then(() => {
+      toast.success(`${item.title} added to cart successfully!`);
+      window.location.reload();
+    })
+    .catch((error) => {
+      // Check if the error response has a status of 400
+      if (error.response && error.response.status === 400) {
+        toast.error(`Item already exists in the cart.`);
+        console.log({
+          userId,
+          itemId: item.itemId,
+          category: item.category,
+          title: item.title,
+          price: item.price,
+          image: item.image,
+        });
+      } else {
+        toast.error(`Error adding ${item.title} to cart. Please try again!`);
+      }
+    });
+  };
   
 
   
@@ -229,7 +263,7 @@ const ShowMenuLists = () => {
           {topThreeItems.length > 0 ? (
             <div className=" justify-start grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12">
               {topThreeItems.map(item => (
-                <TopThreeItemCard key={item._id} item={item} onAddToCart={() => handleAddToCart(item)} />
+                <TopThreeItemCard key={item.itemId} item={item} onAddToCart={() => handleAddToTopCart(item)} />
               ))}
             </div>
             
