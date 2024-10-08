@@ -5,6 +5,8 @@ import Sidebar from './Components/ToggleSlideBar';
 import bgAdmin from '../Images/admin-bg.jpg';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faReply } from "@fortawesome/free-solid-svg-icons";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ReviewsTable = () => {
   const [reviews, setReviews] = useState([]);
@@ -48,6 +50,7 @@ const ReviewsTable = () => {
     Axios.put(`http://localhost:3001/UpdateReviewReply/${id}`, { reply })
       .then((response) => {
         console.log("Reply updated successfully");
+        toast.success("Reply updated successfully")
       })
       .catch((error) => {
         console.error("There was an error updating the reply!", error);
@@ -169,6 +172,7 @@ const ReviewsTable = () => {
           </tbody>
         </table>
       </div>
+      <ToastContainer />
     </div>
   );
 };
