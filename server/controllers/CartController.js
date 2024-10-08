@@ -4,15 +4,24 @@ const Cart = require('../models/Cart');
 
 
 router.post("/Addtocarts", async (req, res) => {
-    const { userId, itemId, category, title, price,image } = req.body;
+    const { userId, itemId, category, title, price, image } = req.body;
 
-  
     if (!userId || !itemId || !category || !price || !image) {
         return res.status(400).json({ message: "All fields are required." });
     }
 
     try {
-        
+        // Check if the item with the same userId and title already exists in the cart
+        const existingCartItem = await Cart.findOne({ 
+            userId: userId, 
+            title: title 
+        });
+
+        if (existingCartItem) {
+            return res.status(400).json({ message: "Item already exists in the cart." });
+        }
+
+        // If the item doesn't exist, add it to the cart
         const cartItem = await Cart.create({ userId, itemId, category, title, price, image });
 
         res.status(201).json({
@@ -24,6 +33,8 @@ router.post("/Addtocarts", async (req, res) => {
         res.status(500).json({ message: "An error occurred while adding the item to the cart." });
     }
 });
+
+
 
 
 router.get("/ShowCart/:userId", async (req, res) => {
@@ -80,7 +91,8 @@ router.get("/topThreeItemIds", async (req, res) => {
                     price: { $first: "$price" }
                 }
             },
-            { $sort: { totalQuantity: -1 } },  
+            { $sort: { totalQuantity: -1 } },  // Sort by totalQuantity in descending order
+            { $limit: 3 },  // Limit to the top 3 items
             { 
                 $project: { 
                     _id: 0,  
@@ -100,8 +112,6 @@ router.get("/topThreeItemIds", async (req, res) => {
         res.status(500).json({ message: "An error occurred while fetching the top three item IDs." });
     }
 });
-
-
 
 
 router.get("/countCartItems/:userId", async (req, res) => {
