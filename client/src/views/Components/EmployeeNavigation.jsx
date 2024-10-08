@@ -53,8 +53,8 @@ const NavigationBar = ({ logo, selectedPage }) => {
           <img src={logo} alt="Logo" className="h-auto w-48 md:h-24 md:w-32" />
         </div>
         <div className="flex-1 flex justify-center ">
-          <Link to='/MunuListWaitor'>
-          <span className="text-2xl text-center font-thin text-white hover:scale-110 transition-all duration-500 cursor-pointer">{selectedPage}</span>
+          <Link to={`/MunuListWaitor/${userId}`}>
+            <span className="text-2xl text-center font-thin text-white hover:scale-110 transition-all duration-500 cursor-pointer">{selectedPage}</span>
           </Link>
         </div>
         

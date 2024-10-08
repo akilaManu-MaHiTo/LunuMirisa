@@ -15,27 +15,35 @@ const TableReservation = () => {
   const [paymentDetails, setPaymentDetails] = useState([]); // State for payment details
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchTables = async () => {
       try {
         // Fetch table reservations
         const reservationResponse = await axios.get(`http://localhost:3001/getReservationByUserId/${userId}`);
         setTables(reservationResponse.data); // Assuming data is an array of tables
         setFilteredTables(reservationResponse.data); // Initialize with all tables
-
-        // Fetch payment details
-        const paymentResponse = await axios.get(`http://localhost:3001/paymentGetByUserId/${userId}`);
-        setPaymentDetails(paymentResponse.data); // Assuming data is an array of payment details
-
-        console.log("Payment Details:", paymentResponse.data); // Log the payment details
-
       } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
+        console.error("Error fetching tables:", error);
       }
     };
 
-    fetchData();
+    fetchTables();
+  }, [userId]);
+
+  useEffect(() => {
+    const fetchPaymentDetails = async () => {
+      try {
+        // Fetch payment details
+        const paymentResponse = await axios.get(`http://localhost:3001/paymentGetByUserId/${userId}`);
+        setPaymentDetails(paymentResponse.data); // Assuming data is an array of payment details
+        console.log("Payment Details:", paymentResponse.data); // Log the payment details
+      } catch (error) {
+        console.error("Error fetching payment details:", error);
+      } finally {
+        setLoading(false); // Set loading to false after fetching data
+      }
+    };
+
+    fetchPaymentDetails();
   }, [userId]);
 
   if (loading) {
@@ -91,31 +99,36 @@ const TableReservation = () => {
         </div>
       </div>
       
-      {/* Payment Details Section */}
+      {/* Payment Details Section */} 
       <div className="bg-black bg-opacity-60 p-10 mt-16 rounded-xl shadow-lg w-[55rem] mx-auto mb-20 border border-gray-500">
         <h2 className="font-spartan font-thin text-3xl mb-8 text-center text-white">Payment Details</h2>
         {paymentDetails.length > 0 ? (
           paymentDetails.map(payment => (
-            <div key={payment._id} className="text-white mb-4">
-              <p>{`Name: ${payment.name}`}</p>
-              <p>{`Email: ${payment.email}`}</p>
-              <p>{`Address: ${payment.address}`}</p>
-              <p>{`Payment Method: ${payment.paymentMethod}`}</p>
-              <p>{`Total Price: ${payment.totalPrice}`}</p>
-              <p>{`Created At: ${new Date(payment.createdAt).toLocaleString()}`}</p>
-              <h4 className="font-bold">Cart Items:</h4>
-              {payment.cartItems.map(item => (
-                <div key={item._id} className="ml-4">
-                  <p>{`Title: ${item.title}`}</p>
-                  <p>{`Quantity: ${item.quantity}`}</p> {/* Adjusting for the format */}
-                </div>
-              ))}
+            <div key={payment._id} className="text-white mb-4 flex flex-col sm:flex-row sm:justify-between">
+              <div className="flex-1">
+                <p>{`Name: ${payment.name}`}</p>
+                <p>{`Email: ${payment.email}`}</p>
+                <p>{`Address: ${payment.address}`}</p>
+                <p>{`Payment Method: ${payment.paymentMethod}`}</p>
+                <p>{`Total Price: ${payment.totalPrice}`}</p>
+                <p>{`Created At: ${new Date(payment.createdAt).toLocaleString()}`}</p>
+              </div>
+              <div className="flex-1 mt-4 sm:mt-0">
+                <h4 className="font-bold">Cart Items:</h4>
+                {payment.cartItems.map(item => (
+                  <div key={item._id} className="ml-4">
+                    <p>{`Title: ${item.title}`}</p>
+                    <p>{`Quantity: ${item.quantity}`}</p> {/* Adjusting for the format */}
+                  </div>
+                ))}
+              </div>
             </div>
           ))
         ) : (
           <p className="text-center text-white">No payment details found.</p>
         )}
       </div>
+
       
       <Footer />
     </div>
