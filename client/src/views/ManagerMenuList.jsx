@@ -123,6 +123,13 @@ const handlePercentageSelect = (itemId, percentage) => {
               <option value="Specials">Specials</option>
               <option value="Beverages">Beverages</option>
             </select>
+
+            <button
+                className="bg-white text-black font-semibold py-2 px-4 rounded hover:bg-black hover:border hover:border-white hover:text-white  transition transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg "
+            >
+                <FontAwesomeIcon icon={faPlus} className='mr-2' /> Add Item
+            </button>  
+
           </div>
 
           {filteredItems.length > 0 ? (
