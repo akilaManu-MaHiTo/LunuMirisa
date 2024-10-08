@@ -46,20 +46,20 @@ const PieChart = () => {
         label: 'Quantity',
         data: itemQuantities, // Quantities for each item
         backgroundColor: [
-          'rgba(255, 0, 0, 0.2)', // Red
-          'rgba(0, 255, 0, 0.2)', // Green
-          'rgba(0, 0, 255, 0.2)', // Blue
-          'rgba(255, 255, 0, 0.2)', // Yellow
-          'rgba(255, 165, 0, 0.2)', // Orange
-          'rgba(128, 0, 128, 0.2)', // Purple
+          'rgba(255, 99, 132, 0.2)', // Red
+          'rgba(54, 162, 235, 0.2)', // Green
+          'rgba(255, 206, 86, 0.2)', // Blue
+          'rgba(75, 192, 192, 0.2)', // Yellow
+          'rgba(153, 102, 255, 0.2)', // Orange
+          // 'rgba(128, 0, 128, 0.2)', // Purple
         ],
         borderColor: [
-          'rgba(255, 0, 0, 1)', // Red
-          'rgba(0, 255, 0, 1)', // Green
-          'rgba(0, 0, 255, 1)', // Blue
-          'rgba(255, 255, 0, 1)', // Yellow
-          'rgba(255, 165, 0, 1)', // Orange
-          'rgba(128, 0, 128, 1)', // Purple
+          'rgba(255, 99, 132, 1)', // Red
+          'rgba(54, 162, 235, 1)', // Green
+          'rgba(255, 206, 86, 1)', // Blue
+          'rgba(75, 192, 192, 1)', // Yellow
+          'rgba(153, 102, 255, 1)', // Orange
+          // 'rgba(128, 0, 128, 1)', // Purple
         ],
         borderWidth: 1,
       },
