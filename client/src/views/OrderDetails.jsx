@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, Link, useNavigate  } from 'react-router-dom';
-import jsPDF from 'jspdf';
-import 'jspdf-autotable'; // Optional for tables in PDF
 import AdminNaviBar from './Components/AdminNavigationBar';
 import Sidebar from './Components/ToggleSlideBar';
 import bgtable from '../Images/suppliar-bg.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
+import logo from '../Images/logo.png'; // Update the path according to your project structure
 
 const ShowWaitorOrders = () => {
   const { orderId, userId } = useParams();
@@ -91,39 +90,77 @@ const ShowWaitorOrders = () => {
     return orderItems.reduce((total, item) => total + item.quantity, 0);
   };
 
-  // PDF generation with grouped items
-  const generatePDF = () => {
-    if (orderItems.length === 0) return alert('No order items to generate PDF');
+  // PDF generation with grouped item
 
-    const doc = new jsPDF();
-    const today = new Date().toLocaleDateString();
-
-    doc.setFontSize(18);
-    doc.text('LunuMirisa Restaurant', 14, 16);
-    doc.setFontSize(14);
-    doc.text(`Bill Date: ${today}`, 14, 26);
-
-    const tableColumn = ['Category', 'Type', 'Price', 'Quantity', 'Total Price', 'Table Number'];
-    const tableRows = orderItems.map((item) => [
-      item.category,
-      item.type,
-      `$${item.price}`,
-      item.quantity,
-      `$${item.totalPrice}`,
-      item.tableNum,
-    ]);
-
-    doc.autoTable(tableColumn, tableRows, { startY: 40 });
-
-    const totalQuantity = calculateTotalQuantity();
-    const totalPrice = calculateTotalPrice();
-
-    doc.setFontSize(12);
-    doc.text(`Total Quantity: ${totalQuantity}`, 14, doc.autoTable.previous.finalY + 10);
-    doc.text(`Total Price: $${totalPrice}`, 14, doc.autoTable.previous.finalY + 20);
-
-    doc.save(`Order_${orderId}.pdf`);
+  const handlePrint = () => {
+    const billContent = `
+      <html>
+        <head>
+          <style>
+            body {
+              font-family: 'Courier', monospace;
+              color: #000;
+            }
+            .bill-container {
+              width: 300px;
+              margin: auto;
+              text-align: center;
+            }
+            .header-logo {
+              width: 100px;
+              filter: grayscale(100%);
+            }
+            .bill-header {
+              font-size: 20px;
+              font-weight: bold;
+            }
+            .bill-details, .bill-footer {
+              font-size: 16px;
+              margin: 15px 0;
+            }
+            hr {
+              border: none;
+              border-top: 1px dashed #000;
+              margin: 15px 0;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="bill-container">
+            <img src="${logo}" alt="Logo" class="header-logo" />
+            <div class="bill-header">LunuMirisa Restaurant</div>
+            <div class="bill-details">
+              <p>Lunumirisa, Boralasgamuwa, Colombo, Sri Lanka</p>
+              <p>Tel: 0766670918</p>
+            </div>
+            <div class="bill-details">
+              ${
+                orderItems && orderItems.length > 0
+                  ? orderItems.map(orderItem => `<p>${orderItem.title} - Quantity: ${orderItem.quantity} - Rs. ${orderItem.totalPrice}</p>`).join('')
+                  : '<p>No items in the order.</p>'
+              }
+              <hr />
+              <p><strong>Total: Rs. ${calculateTotalPrice()}</strong></p>
+            </div>
+            <div class="bill-footer">
+              <p>Paid By: ${orderItems.length > 0 ? orderItems[0].paymentMethod : 'N/A'}</p>
+              <p>Order Id: ${orderId}</p>
+              <p>Thank You For Supporting Local Business!</p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `;
+  
+    const printWindow = window.open('', '', 'width=800,height=600');
+    printWindow.document.write(billContent);
+    printWindow.document.close();
+    printWindow.print();
   };
+  
+  
+  
+
 
   return (
     <div>
@@ -215,7 +252,8 @@ const ShowWaitorOrders = () => {
                 </button>
 
                 <button
-                  onClick={generatePDF}
+                  onClick={handlePrint
+                  }
                   className=" bg-blue-500 hover:bg-white text-white hover:text-black py-2 px-4 rounded transition-all hover:scale-105 duration-500"
                 >
                   Download PDF Bill <FontAwesomeIcon icon={faDownload} className='mr-2' />

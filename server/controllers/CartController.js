@@ -169,5 +169,23 @@ router.put("/UpdateCartItem/:itemId", async (req, res) => {
     }
 });
 
+router.delete("/deleteAllFromCart/:userId", async (req, res) => {
+    const { userId } = req.params;
+
+    try {
+        // Delete all cart items for the specified userId
+        const result = await Cart.deleteMany({ userId });
+
+        if (result.deletedCount > 0) {
+            res.status(200).json({ message: `All items deleted from ${userId}'s cart successfully.` });
+        } else {
+            res.status(404).json({ message: `No items found for user ${userId}.` });
+        }
+    } catch (err) {
+        console.error("Error deleting all items from cart:", err);
+        res.status(500).json({ message: "An error occurred while deleting items from the cart." });
+    }
+});
+
   
 module.exports = router;
