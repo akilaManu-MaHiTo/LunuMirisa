@@ -93,6 +93,8 @@ const ShowWaitorOrders = () => {
   // PDF generation with grouped item
 
   const handlePrint = () => {
+    const orderDate = orderItems.length > 0 ? new Date(orderItems[0].date).toLocaleDateString() : 'N/A'; // Format the date
+  
     const billContent = `
       <html>
         <head>
@@ -134,6 +136,7 @@ const ShowWaitorOrders = () => {
               <p>Tel: 0766670918</p>
             </div>
             <div class="bill-details">
+              <p><strong>Date:</strong> ${orderDate}</p> <!-- Add the date here -->
               ${
                 orderItems && orderItems.length > 0
                   ? orderItems.map(orderItem => `<p>${orderItem.title} - Quantity: ${orderItem.quantity} - Rs. ${orderItem.totalPrice}</p>`).join('')
@@ -158,10 +161,6 @@ const ShowWaitorOrders = () => {
     printWindow.print();
   };
   
-  
-  
-
-
   return (
     <div>
       <AdminNaviBar selectedPage="Order Items" />
