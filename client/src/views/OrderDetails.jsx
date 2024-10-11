@@ -94,6 +94,8 @@ const ShowWaitorOrders = () => {
 
   const handlePrint = () => {
     const orderDate = orderItems.length > 0 ? new Date(orderItems[0].date).toLocaleDateString() : 'N/A'; // Format the date
+    const totalPrice = calculateTotalPrice();
+    const formattedTotalPrice = typeof totalPrice === 'number' ? totalPrice.toFixed(2) : '0.00';
   
     const billContent = `
       <html>
@@ -139,16 +141,15 @@ const ShowWaitorOrders = () => {
               <p><strong>Date:</strong> ${orderDate}</p> <!-- Add the date here -->
               ${
                 orderItems && orderItems.length > 0
-                  ? orderItems.map(orderItem => `<p>${orderItem.title} - Quantity: ${orderItem.quantity} - Rs. ${orderItem.totalPrice}</p>`).join('')
+                  ? orderItems.map(orderItem => `<p>${orderItem.title} - ${orderItem.quantity} - Rs. ${orderItem.totalPrice.toFixed(2)}</p>`).join('')
                   : '<p>No items in the order.</p>'
               }
               <hr />
               <p><strong>Total: Rs. ${calculateTotalPrice()}</strong></p>
             </div>
             <div class="bill-footer">
-              <p>Paid By: ${orderItems.length > 0 ? orderItems[0].paymentMethod : 'N/A'}</p>
               <p>Order Id: ${orderId}</p>
-              <p>Thank You For Supporting Local Business!</p>
+              <p>Thank You Come Again!</p>
             </div>
           </div>
         </body>
