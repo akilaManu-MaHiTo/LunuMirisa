@@ -42,18 +42,27 @@ const CartDetailsForm = () => {
     };
 
     try {
+      // Attempt to submit the form
       const response = await axios.post('http://localhost:3001/addCartInfo', formData);
       console.log('Response:', response.data);
-      setSubmitted(true);
-
       
+      // If form submission is successful, mark it as submitted
+      setSubmitted(true);
+      
+      // Now proceed to delete cart items
+      await axios.delete(`http://localhost:3001/deleteAllFromCart/${userId}`);
+      console.log("Cart items deleted successfully");
+      
+      // Navigate to the user's home page after a 4-second delay
       setTimeout(() => {
         navigate(`/UserHome/${userId}`);
       }, 4000);
       
     } catch (error) {
-      console.error('There was an error submitting the form:', error);
+      // Log any errors encountered during form submission or cart deletion
+      console.error('There was an error:', error);
     }
+    
   };
 
   return (

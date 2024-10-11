@@ -6,6 +6,9 @@ import AdminNaviBar from './Components/AdminNavigationBar';
 import Sidebar from './Components/ToggleSlideBar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileLines, faFilePdf } from '@fortawesome/free-solid-svg-icons';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';  // Import the CSS styles for toast notifications
+
 
 const AcceptedOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -118,7 +121,7 @@ const AcceptedOrders = () => {
     axios.put(`http://localhost:3001/updateBySupply/${name}`, { orderQuantity })
       .then(response => {
         console.log("Inventory updated successfully!", response.data);
-
+        toast.success("Inventory updated successfully!")
         axios.put(`http://localhost:3001/OrdersToNo/${orderId}`)
           .then(() => {
             console.log("Order deleted successfully!");
@@ -127,10 +130,12 @@ const AcceptedOrders = () => {
             calculateTotalAmount(prevOrders);
           })
           .catch(err => {
+            
             console.error("Failed to delete the order", err);
           });
       })
       .catch(err => {
+        toast.warn("No " + name + " Found In Inventory Please Add it")
         console.error("Failed to update inventory", err);
       });
   };
@@ -259,6 +264,7 @@ const AcceptedOrders = () => {
           ))}
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

@@ -26,8 +26,9 @@ const TotalPriceCalculator = () => {
 
       if (Array.isArray(response.data)) {
         setOriginalData(response.data);
-        setTotalPrices(response.data);
-        calculateTotalAmount(response.data); // Calculate total for initial load
+        const sortedData = response.data.sort((a, b) => b.totalAmount - a.totalAmount);
+        setTotalPrices(sortedData);
+        calculateTotalAmount(sortedData); // Calculate total for initial load
       } else {
         console.error("Unexpected response structure:", response.data);
         setTotalPrices([]);
@@ -118,6 +119,9 @@ const TotalPriceCalculator = () => {
     XLSX.writeFile(workbook, 'total_prices_report.xlsx');
   };
 
+  // Find the row with the highest total amount
+  const highestTotalAmount = totalPrices.length > 0 ? Math.max(...totalPrices.map(item => item.totalAmount)) : null;
+
   return (
     <div
     style={{ 
@@ -125,7 +129,7 @@ const TotalPriceCalculator = () => {
       backgroundSize: 'cover', 
       backgroundPosition: 'center', 
     }}>
-      <AdminNaviBar selectedPage="In Resturant Managment" />
+      <AdminNaviBar selectedPage="In Restaurant Management" />
       <Sidebar />  
 
       <div className="bg-gray-900 text-white p-6 rounded-lg shadow-md max-w-4xl mx-auto mt-10">
@@ -192,8 +196,6 @@ const TotalPriceCalculator = () => {
           </div>
         )}
 
-
-
         <div className="overflow-x-auto">
           <table className="table-auto w-full text-left bg-gray-800 rounded-lg">
             <thead>
@@ -207,12 +209,19 @@ const TotalPriceCalculator = () => {
             <tbody>
               {totalPrices.length > 0 ? (
                 totalPrices.map((item, index) => (
-                  <tr key={index} className="hover:bg-gray-600">
-                    <td className="px-4 py-2">{item.userId}
+                  <tr 
+                    key={index} 
+                    className={`hover:bg-gray-600 ${item.totalAmount === highestTotalAmount ? 'bg-yellow-900 border border-yellow-700' : ''}`}>
+                    <td className="px-4 py-2">
+                      {item.userId} 
+                      {item.totalAmount === highestTotalAmount && ' ⭐ MVP'}
                       <button onClick={() => handleCopyToClipboard(item.userId)} className="ml-2 text-blue-500">Copy ID</button>
                     </td>
                     <td className="px-4 py-2">{item.tableNum}</td>
-                    <td className="px-4 py-2">${item.totalAmount.toFixed(2)}</td>
+                    <td className="px-4 py-2">
+                      Rs.{item.totalAmount.toFixed(2)} 
+                      {item.totalAmount === highestTotalAmount && ' ⭐'}
+                    </td>
                     <td className="px-4 py-2">{new Date(item.date).toISOString().split('T')[0]}</td>
                   </tr>
                 ))

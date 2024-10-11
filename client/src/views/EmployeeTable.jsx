@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { jsPDF } from 'jspdf';
+import 'jspdf-autotable';
 import EditEmployeeForm from './EditEmployeeForm';
 import AddEmployeeForm from './AddEmployeeForm';
 import { useNavigate } from 'react-router-dom';
@@ -8,7 +10,8 @@ import { PencilIcon, TrashIcon, PlusIcon } from '@heroicons/react/24/outline';
 import Sidebar from './Components/ToggleSlideBar';
 import bgAdmin from '../Images/admin-bg.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faDownload } from '@fortawesome/free-solid-svg-icons';
+import logo from '../Images/Logo.png'
 
 const EmployeeTable = () => {
   const [employees, setEmployees] = useState([]);
@@ -83,13 +86,74 @@ const EmployeeTable = () => {
       filterPosition === '' || employee.EmployeePosition === filterPosition
     );
 
+  // PDF generation function
+  const downloadPDF = () => {
+    const doc = new jsPDF();
+  
+    // Add logo to the top-left corner
+    const img = new Image();
+    img.src = logo; // Path to your logo image
+    doc.addImage(img, 'PNG', 10, 10, 25, 20); // Adjust logo size and position
+  
+    // Centered title for the report
+    doc.setFontSize(16);
+    doc.text('Accepted Orders Report', doc.internal.pageSize.getWidth() / 2, 30, { align: 'center' }); // Adjust Y position
+  
+    // Right corner contact info with smaller font size
+    doc.setFontSize(7); // Smaller font size for the contact info
+    const todayDate = new Date().toLocaleDateString(); // Get today's date
+    doc.text([
+        'Email: lunumirisasrilanka@gmail.com',
+        'Tel: 0766670918',
+        'Facebook: lunumirisa',
+        `Date: ${todayDate}`
+    ], doc.internal.pageSize.getWidth() - 50, 20); // Adjust the X position
+  
+    // Add a line below the header to separate content
+    doc.line(10, 35, doc.internal.pageSize.getWidth() - 10, 35); // Adjust Y position of the line
+  
+    // Table headers and rows
+    const headers = [['Employee ID', 'Name', 'Email', 'Age', 'Position', 'Salary', 'Contact']];
+    const rows = filteredEmployees.map((employee) => [
+      employee._id,
+      employee.EmployeeName,
+      employee.EmployeeEmail,
+      employee.EmployeeAge,
+      employee.EmployeePosition,
+      employee.Salary,
+      employee.Contact
+    ]);
+  
+    // Add table after the header, with adjusted margin
+    doc.autoTable({
+      head: headers,
+      body: rows,
+      startY: 40, // Ensure the table starts after the header and line
+      headStyles: {
+        fillColor: [4, 73, 71], // Your custom header color
+        textColor: [255, 255, 255], // White text for the header
+        halign: 'center',
+        fontSize: 10,
+      },
+      bodyStyles: {
+        halign: 'center',
+        fontSize: 8, // Smaller text for the body
+      },
+      alternateRowStyles: {
+        fillColor: [255, 244, 181], // Alternate row fill color
+      },
+    });
+  
+    doc.save('employee_report.pdf');
+  };
+  
+
   return (
-    <div className="bg-custom-toolight h-screen"
-    >
+    <div className="bg-custom-toolight h-screen">
       <AdminNavigationBar selectedPage="Manage Employees" />
       <Sidebar />
 
-      <div className={`${showAddForm ? 'blur-md' : ''} container mx-auto p-10` }>
+      <div className={`${showAddForm ? 'blur-md' : ''} container mx-auto p-10`}>
         
         {/* Search and Filter Section */}
         <div className="flex flex-col md:flex-row justify-between mb-6">
@@ -126,16 +190,15 @@ const EmployeeTable = () => {
             <PlusIcon className="h-5 w-5" />
             Add Employee
           </button>
-        </div>
 
-        <div style={{width: '700px', marginLeft: '150px'}}>
-          {editEmployee && (
-            <EditEmployeeForm
-              employee={editEmployee}
-              onSave={handleSaveEdit}
-              onCancel={() => setEditEmployee(null)}
-            />
-          )}
+          {/* PDF Download Button */}
+          <button
+            onClick={downloadPDF}
+            className="bg-blue-500 hover:bg-white hover:text-black text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:scale-105 transition duration-300 ease-in-out"
+          >
+            <FontAwesomeIcon icon={faDownload} className="h-5 w-5" />
+            Download Report
+          </button>
         </div>
 
         {/* Employee Table */}

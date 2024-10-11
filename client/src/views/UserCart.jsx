@@ -112,7 +112,7 @@ const ShowCart = () => {
                     <img 
                       src={`http://localhost:3001/Images/` + item.image} 
                       alt={item.image} 
-                      className="w-[14rem] h-auto rounded mx-auto mt-3 mb-6"
+                      className="w-full h-48 bg-cover mx-auto bg-center mt-5"
                     />
                     <h3 className="text-xl font-semibold">Rs.{item.price.toFixed(2)}</h3>
                     <p className="text-gray-600">Category: {item.category}</p>

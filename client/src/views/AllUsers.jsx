@@ -7,6 +7,7 @@ import Sidebar from './Components/ToggleSlideBar';
 import bgAdmin from '../Images/admin-bg.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faTrashCan, faUser } from '@fortawesome/free-solid-svg-icons';
+import logo from '../Images/Logo.png'
 
 const AllUsers = () => {
     const [users, setUsers] = useState([]);
@@ -50,23 +51,67 @@ const AllUsers = () => {
 
     const generateReport = () => {
         const doc = new jsPDF();
+      
+        // Add logo to the top-left corner
+        const img = new Image();
+        img.src = logo; // Path to your logo image
+        doc.addImage(img, 'PNG', 10, 10, 25, 20); // Adjust logo size and position
+      
+        // Centered title for the report
+        doc.setFontSize(16);
+        doc.text('User Report', doc.internal.pageSize.getWidth() / 2, 30, { align: 'center' }); // Adjust Y position
+      
+        // Right corner contact info with smaller font size
+        doc.setFontSize(7); // Smaller font size for the contact info
+        const todayDate = new Date().toLocaleDateString(); // Get today's date
+        doc.text([
+            'Email: lunumirisasrilanka@gmail.com',
+            'Tel: 0766670918',
+            'Facebook: lunumirisa',
+            `Date: ${todayDate}`
+        ], doc.internal.pageSize.getWidth() - 50, 20); // Adjust the X position for contact info
+      
+        // Add a line below the header to separate content
+        doc.line(10, 35, doc.internal.pageSize.getWidth() - 10, 35); // Adjust Y position of the line
+      
+        // Table headers and rows
         const tableColumn = ["First Name", "Last Name", "Email", "Verified"];
         const tableRows = [];
-
+      
         filteredUsers.forEach(user => {
-            const userData = [
-                user.firstName,
-                user.lastName,
-                user.email,
-                user.verified ? 'Yes' : 'No'
-            ];
-            tableRows.push(userData);
+          const userData = [
+            user.firstName,
+            user.lastName,
+            user.email,
+            user.verified ? 'Yes' : 'No'
+          ];
+          tableRows.push(userData);
         });
-
-        doc.autoTable(tableColumn, tableRows, { startY: 20 });
-        //doc.text("User Report", 14, 15);
-        doc.save("User_Report.pdf");
-    };
+      
+        // Add table after the header, with adjusted margin
+        doc.autoTable({
+          head: [tableColumn], // Table column headers
+          body: tableRows, // Table rows
+          startY: 40, // Ensure the table starts after the header
+          headStyles: {
+            fillColor: [4, 73, 71], // Your custom header color
+            textColor: [255, 255, 255], // White text for the header
+            halign: 'center',
+            fontSize: 10,
+          },
+          bodyStyles: {
+            halign: 'center',
+            fontSize: 8, // Smaller text for the body
+          },
+          alternateRowStyles: {
+            fillColor: [255, 244, 181], // Alternate row fill color
+          },
+        });
+      
+        // Save the PDF
+        doc.save('User_Report.pdf');
+      };
+      
 
     if (loading) {
         return <div className="text-center text-lg text-gray-400">Loading...</div>;
