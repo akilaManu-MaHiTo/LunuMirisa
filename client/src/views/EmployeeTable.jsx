@@ -39,6 +39,18 @@ const EmployeeTable = () => {
     }
   };
 
+  // Validate age function
+  const isValidAge = (age) => {
+    const ageNumber = parseInt(age, 10);
+    return ageNumber >= 18 && ageNumber <= 70;
+  };
+
+  // Validate mobile number function
+  const isValidMobileNumber = (number) => {
+    const mobileRegex = /^\d{10}$/; // Regex to check for exactly 10 digits
+    return mobileRegex.test(number);
+  };
+
   // Delete an employee
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this employee?')) {
@@ -61,6 +73,19 @@ const EmployeeTable = () => {
 
   // Save edited employee
   const handleSaveEdit = async (updatedEmployee) => {
+    const { EmployeeAge, Contact } = updatedEmployee;
+
+    // Validate age and contact
+    if (!isValidAge(EmployeeAge)) {
+      alert('Age must be between 18 and 70.');
+      return;
+    }
+
+    if (!isValidMobileNumber(Contact)) {
+      alert('Mobile number must be exactly 10 digits.');
+      return;
+    }
+
     try {
       await axios.put(`http://localhost:3001/employee/${updatedEmployee._id}`, updatedEmployee);
       setEditEmployee(null); // Close the edit form after saving
@@ -102,7 +127,7 @@ const EmployeeTable = () => {
     // Right corner contact info with smaller font size
     doc.setFontSize(7); // Smaller font size for the contact info
     const todayDate = new Date().toLocaleDateString(); // Get today's date
-    doc.text([
+    doc.text([  
         'Email: lunumirisasrilanka@gmail.com',
         'Tel: 0766670918',
         'Facebook: lunumirisa',
@@ -146,7 +171,6 @@ const EmployeeTable = () => {
   
     doc.save('employee_report.pdf');
   };
-  
 
   return (
     <div className="bg-custom-toolight h-screen">
@@ -201,6 +225,17 @@ const EmployeeTable = () => {
           </button>
         </div>
 
+        {/* Render Edit Form Below the Search Bar */}
+        {editEmployee && (
+          <EditEmployeeForm
+            employee={editEmployee}
+            onSave={handleSaveEdit}
+            onCancel={() => {
+              setEditEmployee(null); // Reset the selected employee
+            }}
+          />
+        )}
+
         {/* Employee Table */}
         <table className="min-w-full text-white bg-custom-dark rounded-lg shadow-xl border border-white">
           <thead>
@@ -212,13 +247,13 @@ const EmployeeTable = () => {
               <th className="px-4 py-2">Position</th>
               <th className="px-4 py-2">Salary</th>
               <th className="px-4 py-2">Contact</th>
-              <th className="px-4 py-2">Leave</th> {/* New Leave Column */}
+              <th className="px-4 py-2">Leave</th>
               <th className="px-4 py-2">Actions</th>
             </tr>
           </thead>
           <tbody>
             {filteredEmployees.map((employee) => (
-              <tr key={employee._id} className="border-white">
+              <tr key={employee._id} className='border border-white'>
                 <td className="px-4 py-2">{employee._id}</td>
                 <td className="px-4 py-2">{employee.EmployeeName}</td>
                 <td className="px-4 py-2">{employee.EmployeeEmail}</td>
@@ -227,45 +262,21 @@ const EmployeeTable = () => {
                 <td className="px-4 py-2">{employee.Salary}</td>
                 <td className="px-4 py-2">{employee.Contact}</td>
                 <td className="px-4 py-2">
-                  <button
-                    onClick={() => handleLeaveClick(employee._id)} // Navigate to leave list
-                    className="bg-yellow-400 text-black  p-2 rounded-lg hover:bg-white hover:scale-105 duration-300 ease-in-out transition-all"
-                  >
-                    <FontAwesomeIcon icon={faEye} /> View Leave
-                  </button>
+                  <button onClick={() => handleLeaveClick(employee._id)}>View Leaves</button>
                 </td>
-                <td className="px-4 py-2">
-                  <div className="flex gap-2 mt-2 mb-2 p-3">
-                    <button
-                      onClick={() => handleEdit(employee)}
-                      className="mr-2 bg-blue-600 text-white p-2 rounded-lg hover:bg-white transition hover:scale-105 hover:text-black duration-300 ease-in-out"
-                    >
-                      <PencilIcon className="h-5 w-5" />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(employee._id)}
-                      className="bg-red-500 text-white p-2 rounded-lg hover:bg-white hover:text-black hover:scale-105 transition duration-300 ease-in-out"
-                    >
-                      <TrashIcon className="h-5 w-5" />
-                    </button>
-                  </div>
+                <td className="px-4 py-2 flex gap-2">
+                  <button onClick={() => handleEdit(employee)}>
+                    <PencilIcon className="h-5 w-5 text-green-500" />
+                  </button>
+                  <button onClick={() => handleDelete(employee._id)}>
+                    <TrashIcon className="h-5 w-5 text-red-500" />
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-
-      {/* Conditionally render add employee form with overlay */}
-      {showAddForm && (
-        <div className="inset-0 flex justify-center items-center bg-black bg-opacity-50" style={{marginTop: '0px'}}>
-          <div className="rounded-lg shadow-lg" style={{marginTop: '0px'}}>
-            <AddEmployeeForm
-              onCancel={() => setShowAddForm(false)}
-            />
-          </div>
-        </div>
-      )}
     </div>
   );
 };
