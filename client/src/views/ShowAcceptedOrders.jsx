@@ -225,7 +225,7 @@ const AcceptedOrders = () => {
                     <strong className='mr-3'>Name:</strong> {order.name}
                   </p>
                   <p>
-                    <strong className='mr-3'>Order Quantity:</strong> {order.orderQuantity}
+                    <strong className='mr-3'>Order Quantity:</strong> {order.orderQuantity} Kg
                   </p>
                   <p>
                     <strong className='mr-3'>Category:</strong> {order.category}
