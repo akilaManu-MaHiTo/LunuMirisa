@@ -43,6 +43,14 @@ const CartInfoDisplay = () => {
   };
 
   const handlePrint = (item) => {
+    const orderDate = item?.createdAt ? new Date(item.createdAt).toLocaleDateString() : 'N/A'; // Corrected order date access
+
+    // Map over cartItems to generate HTML for each item
+    const cartItemsHtml = item.cartItems.map(cartItem => `
+      <p>${cartItem.title} - Quantity: ${cartItem.quantity}</p>
+    `).join(''); // Join to avoid commas between items
+
+    // Bill content HTML
     const billContent = `
       <html>
         <head>
@@ -82,20 +90,22 @@ const CartInfoDisplay = () => {
             <div class="bill-details">
               <p>Lunumirisa, Boralasgamuwa, Colombo, Sri Lanka</p>
               <p>Tel: 0766670918</p>
+              <p><strong>Date:</strong> ${orderDate}</p>
             </div>
             <div class="bill-details">
-              ${item.cartItems.map(cartItem => `<p>${cartItem.title} - Quantity: ${cartItem.quantity}</p>`).join('')}
+              ${cartItemsHtml}
               <hr />
             </div>
             <div class="bill-footer">
-              <p>Paid By: ${item.paymentMethod}</p>
-              <p>Order Id:${item._id}</p>
+              <p>Paid By: ${item.paymentMethod || 'N/A'}</p>
+              <p>Order Id: ${item._id || 'N/A'}</p>
             </div>
           </div>
         </body>
       </html>
     `;
 
+    // Open a new window and print the content
     const printWindow = window.open('', '', 'width=800,height=600');
     printWindow.document.write(billContent);
     printWindow.document.close();
