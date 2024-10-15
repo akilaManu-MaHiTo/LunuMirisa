@@ -4,9 +4,12 @@ import AdminNaviBar from './Components/AdminNavigationBar';
 import Sidebar from './Components/ToggleSlideBar';
 import bgAdmin from '../Images/admin-bg.jpg';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faReply } from "@fortawesome/free-solid-svg-icons";
+import { faReply, faFilePdf } from "@fortawesome/free-solid-svg-icons";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import jsPDF from 'jspdf'; // Import jsPDF
+import 'jspdf-autotable'; // Import jsPDF autotable plugin
+import logo from '../Images/Logo.png'
 
 const ReviewsTable = () => {
   const [reviews, setReviews] = useState([]);
@@ -60,6 +63,8 @@ const ReviewsTable = () => {
   // Filter reviews based on search term, selected rating, and minimum rating
   const filteredReviews = reviews.filter((review) => {
     const matchesSearch = 
+      review.FirstName.toLowerCase().includes(searchTerm.toLowerCase()) || // Include first name
+      review.LastName.toLowerCase().includes(searchTerm.toLowerCase()) || // Include last name
       review.reviewTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
       review.review.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (review.reply && review.reply.toLowerCase().includes(searchTerm.toLowerCase()));
@@ -76,15 +81,83 @@ const ReviewsTable = () => {
   // Sort filtered reviews by rating in ascending order
   const sortedReviews = filteredReviews.sort((a, b) => a.rating - b.rating);
 
+  // Report generation function
+  const generateReport = () => {
+    const doc = new jsPDF();
+  
+    // Add logo to the top-left corner
+    const img = new Image();
+    img.src = logo; // Path to your logo image
+    doc.addImage(img, 'PNG', 10, 10, 25, 20); // Adjust logo size and position
+  
+    // Centered title for the report
+    doc.setFontSize(16);
+    doc.text('Reviews Report', doc.internal.pageSize.getWidth() / 2, 30, { align: 'center' }); // Centered title, adjust Y position
+  
+    // Right corner contact info with smaller font size
+    doc.setFontSize(7); // Smaller font size for the contact info
+    const todayDate = new Date().toLocaleDateString(); // Get today's date
+    doc.text([
+      'Email: your-email@example.com',
+      'Tel: 123-456-7890',
+      'Website: www.example.com',
+      `Date: ${todayDate}`
+    ], doc.internal.pageSize.getWidth() - 50, 20); // Adjust the X position for contact info
+  
+    // Add a line below the header to separate content
+    doc.line(10, 35, doc.internal.pageSize.getWidth() - 10, 35); // Horizontal line to separate header from content
+  
+    // Table headers and rows for reviews
+    const tableColumn = ["First Name", "Last Name", "Rating", "Review Title", "Review", "Status", "Reply"];
+    const tableRows = [];
+  
+    sortedReviews.forEach(review => {
+      const reviewData = [
+        review.FirstName,
+        review.LastName,
+        review.rating,
+        review.reviewTitle,
+        review.review,
+        review.Status,
+        review.reply || "N/A"
+      ];
+      tableRows.push(reviewData);
+    });
+  
+    // Add table after the header, with adjusted margin and custom styles
+    doc.autoTable({
+      head: [tableColumn], // Table column headers
+      body: tableRows, // Table rows
+      startY: 40, // Ensure the table starts after the header
+      headStyles: {
+        fillColor: [4, 73, 71], // Custom header color (dark green)
+        textColor: [255, 255, 255], // White text for the header
+        halign: 'center', // Center align header text
+        fontSize: 10, // Font size for the header
+      },
+      bodyStyles: {
+        halign: 'center', // Center align body text
+        fontSize: 8, // Smaller text for the body
+      },
+      alternateRowStyles: {
+        fillColor: [255, 244, 181], // Alternate row fill color (light yellow)
+      },
+    });
+  
+    // Save the PDF
+    doc.save('reviews_report.pdf');
+  };
+  
+
   return (
     <div>
-      <AdminNaviBar selectedPage="User Managment" />
-      <Sidebar />  
+      <AdminNaviBar selectedPage="Review Management" />
+      <Sidebar />
       <div className="container mx-auto mt-5 p-10 bg-gray-900 rounded-lg text-gray-200">
         <div className="mb-4 flex justify-between items-center">
           <input
             type="text"
-            placeholder="Search by title, review or reply"
+            placeholder="Search by name, title, review or reply"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="px-4 py-2 border border-gray-600 bg-gray-800 text-gray-200 rounded-lg w-1/3"
@@ -114,6 +187,14 @@ const ReviewsTable = () => {
               <option value="4">4 Stars</option>
               <option value="5">5 Stars</option>
             </select>
+
+            {/* Button to generate the PDF report */}
+            <button
+              onClick={generateReport}
+              className="bg-blue-500 text-black font-semibold py-2 px-4 rounded hover:bg-blue-700 hover:text-white  transition transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg "
+            >
+              Download Report <FontAwesomeIcon icon={faFilePdf} />
+            </button>
           </div>
         </div>
 
@@ -126,7 +207,6 @@ const ReviewsTable = () => {
               <th className="px-4 py-2">Review Title</th>
               <th className="px-4 py-2">Review</th>
               <th className="px-4 py-2">Status</th>
-              {/* <th className="px-4 py-2">Actions</th> */}
               <th className="px-4 py-2 text-center">Admin Reply</th>
             </tr>
           </thead>
