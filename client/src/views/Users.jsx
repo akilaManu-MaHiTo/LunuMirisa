@@ -17,7 +17,7 @@ function Users() {
 
 
     useEffect(() => {
-        axios.get('lunu-mirisa-4kkb87wm8-akilamanu-mahitos-projects.vercel.app')
+        axios.get('lunu-mirisa.vercel.app')
             .then(result => setUsers(result.data))
             .catch(err => console.log(err));
     }, []);
