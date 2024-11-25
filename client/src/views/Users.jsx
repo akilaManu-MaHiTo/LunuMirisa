@@ -17,7 +17,7 @@ function Users() {
 
 
     useEffect(() => {
-        axios.get('lunu-mirisa.vercel.app')
+        axios.get('https://lunu-mirisa.vercel.app')
             .then(result => setUsers(result.data))
             .catch(err => console.log(err));
     }, []);
