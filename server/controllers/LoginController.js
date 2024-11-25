@@ -3,7 +3,7 @@ const { UserModel } = require('../models/Users'); // Adjust the path to your Use
 const router = express.Router();
 const AddEmployee = require('../models/AddEmployee'); // Adjust the path to AddEmployee model
 const { SupplierProfile } = require("../models/SupplierProfile"); // Adjust path to SupplierProfile model
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 require('dotenv').config();
 
 router.post('/loginUser', async (req, res) => {
