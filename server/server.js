@@ -1,7 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const multer = require('multer');
 const path = require('path');
 
 // Local imports
@@ -28,12 +27,15 @@ const CARTFORM = require('./controllers/CartFormController');
 const RATINGS = require('./controllers/ReviewController');
 const Leave = require('./controllers/leaveRoutes');
 
+// Initialize Express app
 const app = express();
+
+// Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Handle routing
+// Routes
 app.use('/', USER);
 app.use('/', EMPLOYEE);
 app.use('/', IMAGE);
@@ -56,20 +58,27 @@ app.use('/', CARTFORM);
 app.use('/', RATINGS);
 app.use('/', Leave);
 
-// Database connection and server start
+// Default route for root
+app.get('/', (req, res) => {
+    res.send('Welcome to the backend API!');
+});
+
+// Handle unmatched routes
+app.use((req, res) => {
+    res.status(404).send('Route not found');
+});
+
+// Connect to database and start server
+const PORT = process.env.PORT || 3001;
+
 conDatabase()
     .then(() => {
-        console.log('Database Connected...');
-        const server = app.listen(3001, () => {
-            console.log('Server Started at 3001');
-        }).on('error', err => {
-            console.log('Server not started', err);
+        console.log('Database connected successfully');
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
         });
-
-        // Export the server for use in other files
-        module.exports = server;
     })
     .catch(err => {
         console.error('Database connection error:', err);
-        process.exit(1); // Exit process on DB failure for Vercel to restart
+        process.exit(1); // Exit process on DB connection failure
     });
