@@ -3,7 +3,7 @@ const router = express.Router();
 const crypto = require("crypto");
 const sendEmail = require("../util/Email");
 require('dotenv').config();
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const { SupplierProfile, validate } = require("../models/SupplierProfile");
 
 

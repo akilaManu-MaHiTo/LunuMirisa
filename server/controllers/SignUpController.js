@@ -3,7 +3,7 @@ const router = require("express").Router();
 const Token = require("../models/Token"); // Ensure correct path
 const crypto = require("crypto");
 const sendEmail = require("../util/Email");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 require('dotenv').config();
 
 // Route to create a user
