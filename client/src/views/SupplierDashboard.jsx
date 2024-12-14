@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import AdminNaviBar from './Components/AdminNavigationBar';
-import bgSuppliar from '../Images/Suppliar-bg.jpg';
+import bgSuppliar from '../Images/suppliar-bg.jpg';
 
 function SupplierDashboard() {
   const { supplierId } = useParams();
