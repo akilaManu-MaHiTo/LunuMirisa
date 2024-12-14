@@ -22,7 +22,7 @@ const LoginUser = () => {
     e.preventDefault();
     setLoading(true); // Start loading animation
     try {
-      const response = await axios.post('http://localhost:3001/loginUser', { email, password });
+      const response = await axios.post('https://lunu-mirisa.vercel.app/loginUser', { email, password });
       
       console.log('Response Data:', response.data); // Debugging log
 
