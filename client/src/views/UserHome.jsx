@@ -176,7 +176,7 @@ const UserHome = () => {
             {topThreeDeals.map((hot, index) => (
               <FoodItem
                 key={index}
-                image={`http://localhost:3001/Images/${hot.image}`}
+                image={`https://lunu-mirisa.vercel.app/Images/${hot.image}`}
                 title={hot.title}
                 price={hot.price}
                 percentage={hot.percentage}
@@ -264,7 +264,7 @@ const UserHome = () => {
                 <div className="flex flex-col items-start">
                   <div className="flex items-start">
                     <img
-                      src={`http://localhost:3001/Images/${reviews[currentReviewIndex].profileImage}`}
+                      src={`https://lunu-mirisa.vercel.app/Images/${reviews[currentReviewIndex].profileImage}`}
                       alt={`${reviews[currentReviewIndex].FirstName} ${reviews[currentReviewIndex].LastName}`}
                       className="w-16 h-16 rounded-full mr-4"
                     />                  
