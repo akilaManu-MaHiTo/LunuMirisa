@@ -31,7 +31,12 @@ const Leave = require('./controllers/leaveRoutes');
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: "https://lunu-mirisalk.vercel.app/",
+    methods: ["POST", "GET"],
+    credentials: true
+}));
+
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
