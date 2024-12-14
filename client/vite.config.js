@@ -1,24 +1,18 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
 
-  server: {
-    port: 5173, // Specifies the port for the dev server
-    open: true, // Automatically opens the app in the browser on start
-  },
-
   build: {
-    outDir: 'dist', // Specifies the build output directory
+    outDir: 'dist', // Specifies the output directory for the build
   },
 
   resolve: {
     alias: {
-      '@': '/src', // Simplifies import paths by aliasing "src" to "@"
+      '@': '/src', // Alias for cleaner imports
     },
   },
 
-  base: process.env.NODE_ENV === 'production' ? './' : '/', // Ensures correct asset paths
+  base: './', // Ensures correct asset paths for production builds
 });
