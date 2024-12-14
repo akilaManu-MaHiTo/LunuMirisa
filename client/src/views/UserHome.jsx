@@ -54,7 +54,7 @@ const UserHome = () => {
     const scrollPosition = window.scrollY;
     localStorage.setItem('scrollPosition', scrollPosition);
     const total = item.price * (100 - item.percentage) / 100
-    axios.post("http://localhost:3001/Addtocarts", {
+    axios.post("https://lunu-mirisa.vercel.app/Addtocarts", {
       userId:userId,
       itemId: item._id,
       category: item.category,
@@ -87,7 +87,7 @@ const UserHome = () => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/GetAllReviews');
+        const response = await axios.get('https://lunu-mirisa.vercel.app/GetAllReviews');
         setReviews(response.data);
       } catch (error) {
         setError('Failed to load reviews. Please try again later.');
@@ -98,7 +98,7 @@ const UserHome = () => {
 
     const fetchHotDeals = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/getHotDeals');
+        const response = await axios.get('https://lunu-mirisa.vercel.app/getHotDeals');
         setHotDeals(response.data);
       } catch (error) {
         setError('Failed to load hot deals. Please try again later.');
