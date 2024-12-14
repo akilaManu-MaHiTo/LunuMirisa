@@ -32,7 +32,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-    origin: "https://lunu-mirisalk.vercel.app/",
+    origin: "https://lunu-mirisalk.vercel.app",
     methods: ["POST", "GET"],
     credentials: true
 }));
