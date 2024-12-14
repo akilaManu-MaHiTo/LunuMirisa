@@ -6,7 +6,7 @@ import Sidebar from './Components/ToggleSlideBar';
 import bgtable from '../Images/suppliar-bg.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
-import logo from '../Images/logo.png'; // Update the path according to your project structure
+import logo from '../Images/Logo.png'; // Update the path according to your project structure
 
 const ShowWaitorOrders = () => {
   const { orderId, userId } = useParams();
