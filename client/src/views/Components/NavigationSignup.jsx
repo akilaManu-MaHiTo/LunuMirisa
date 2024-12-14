@@ -21,7 +21,7 @@ const NavigationBar = () => {
           <li className="text-white hidden md:inline font-spartan font-thin text-2xl select-none">&nbsp;|&nbsp;</li>
           <li><Link to={`/GuestMenu`} className="text-white font-spartan font-thin text-2xl">Menu</Link></li>
           <li className="text-white hidden md:inline font-spartan font-thin text-2xl select-none">&nbsp;|&nbsp;</li>
-          <li><Link to="/" className="text-white font-spartan font-thin text-2xl">About Us</Link></li>
+          <li><Link to="/AdminPage" className="text-white font-spartan font-thin text-2xl">About Us</Link></li>
         </ul>
         
         <div className="flex items-center space-x-4">
