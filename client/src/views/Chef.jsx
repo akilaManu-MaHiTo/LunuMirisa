@@ -15,7 +15,7 @@ const CartInfoDisplay = () => {
   useEffect(() => {
     const fetchCartInfo = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/getCartInfo');
+        const response = await axios.get('https://lunu-mirisa.vercel.app/getCartInfo');
         setCartItems(response.data);
       } catch (err) {
         setError(err.message);
@@ -29,7 +29,7 @@ const CartInfoDisplay = () => {
 
   const handleDelete = async (itemId) => {
     try {
-      await axios.delete(`http://localhost:3001/deleteOrder/${itemId}`);
+      await axios.delete(`https://lunu-mirisa.vercel.app/deleteOrder/${itemId}`);
       setCartItems(cartItems.filter((item) => item._id !== itemId));
       setMessageContent('Order deleted successfully!');
       setShowMessage(true);

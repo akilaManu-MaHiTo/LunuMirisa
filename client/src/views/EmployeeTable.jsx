@@ -32,7 +32,7 @@ const EmployeeTable = () => {
 
   const fetchEmployees = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/employees');
+      const response = await axios.get('https://lunu-mirisa.vercel.app/employees');
       setEmployees(response.data);
     } catch (error) {
       console.error('Error fetching employees:', error);
@@ -55,7 +55,7 @@ const EmployeeTable = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this employee?')) {
       try {
-        const response = await axios.delete(`http://localhost:3001/employee/${id}`);
+        const response = await axios.delete(`https://lunu-mirisa.vercel.app/employee/${id}`);
         if (response.status === 200) {
           alert('Employee deleted successfully');
           fetchEmployees(); // Refresh the list after deletion
@@ -87,7 +87,7 @@ const EmployeeTable = () => {
     }
 
     try {
-      await axios.put(`http://localhost:3001/employee/${updatedEmployee._id}`, updatedEmployee);
+      await axios.put(`https://lunu-mirisa.vercel.app/employee/${updatedEmployee._id}`, updatedEmployee);
       setEditEmployee(null); // Close the edit form after saving
       fetchEmployees(); // Refresh the list after editing
     } catch (error) {

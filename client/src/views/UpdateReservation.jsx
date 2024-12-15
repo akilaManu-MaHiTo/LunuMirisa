@@ -17,7 +17,7 @@ const UpdateReservation = () => {
 
     useEffect(() => {
         // Fetch the current reservation details
-        axios.get(`http://localhost:3001/reservations/${id}`)
+        axios.get(`https://lunu-mirisa.vercel.app/reservations/${id}`)
             .then(result => {
                 setReservation(result.data);
             })
@@ -32,7 +32,7 @@ const UpdateReservation = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         // Update the reservation
-        axios.put(`http://localhost:3001/reservations/${id}`, reservation)
+        axios.put(`https://lunu-mirisa.vercel.app/reservations/${id}`, reservation)
             .then(() => {
                 navigate('/reservations'); // Navigate back to the reservations page
             })
