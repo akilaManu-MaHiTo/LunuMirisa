@@ -187,6 +187,8 @@ const UserHome = () => {
             ))}
           </div>
         </div>
+
+
         
         <div className="parallax">
           <div 
@@ -196,11 +198,26 @@ const UserHome = () => {
           {/* Black transparent overlay */}
           <div className="overlay" />
           <div className="parallax-content">
-            <div className="text-white text-5xl pt-8 font-spartan font-thin pl-[10rem] select-none">Popular Meals</div>
-            <div className="flex justify-center gap-y-8">
-              <div className="flex flex-wrap gap-x-16 gap-y-8 pt-16 pb-10 justify-center w-[80rem]">
+            {/* Section Title */}
+            <div className="text-white text-3xl sm:text-4xl md:text-5xl pt-4 sm:pt-6 md:pt-8 font-spartan font-thin px-4 sm:pl-[5rem] md:pl-[10rem] select-none">
+              Popular Meals
+            </div>
+
+            {/* Scrollable Container */}
+            <div className="flex justify-center mt-6">
+              <div className="flex gap-x-36 sm:gap-x-24 p-10 sm:p-10  overflow-x-auto w-full px-4 sm:px-0 scrollbar-hide md:justify-center">
                 {[...Array(3)].map((_, index) => (
-                  <FoodItem key={index} image={food} title="Chicken Biriyani" price="1700" percentage={0} />
+                  <div 
+                    key={index}
+                    className="flex-shrink-0 w-48 sm:w-64"
+                  >
+                    <FoodItem 
+                      image={food} 
+                      title="Chicken Biriyani" 
+                      price="1700" 
+                      percentage={0} 
+                    />
+                  </div>
                 ))}
               </div>
             </div>
@@ -208,108 +225,112 @@ const UserHome = () => {
         </div>
 
 
-        <div className="text-white text-5xl pt-8 font-spartan font-thin pl-[10rem] select-none mt-10">Reserve Tables</div>
 
-        <div className="flex items-center justify-center mt-10 ">
-          <div className="w-[65rem] h-[30rem] relative"
-              style={{ 
-                  backgroundImage: `url(${bgtable})`, 
-                  backgroundSize: 'cover', 
-                  backgroundPosition: 'center' 
-              }}>
 
-            
-            <div className="absolute inset-0 bg-black opacity-60 z-90 border border-white"></div>
-            
-            
-            <div className="absolute inset-0 flex flex-col justify-center items-start z-20 px-12">
-              <h1 className="text-white text-4xl font-spartan font-semibold mb-10 select-none">
+
+
+
+        <div className="text-white text-3xl sm:text-4xl md:text-5xl pt-8 font-spartan font-thin px-10 sm:px-8 md:pl-[10rem] select-none mt-10 text-center md:text-left">
+          Reserve Tables
+        </div>
+
+        <div className="flex items-center justify-center mt-10 px-4">
+          <div 
+            className="w-[70rem] max-w-[70rem] h-[40rem] sm:h-[45rem] relative"
+            style={{ 
+              backgroundImage: `url(${bgtable})`, 
+              backgroundSize: 'cover', 
+              backgroundPosition: 'center' 
+            }}
+          >
+            {/* Dark overlay */}
+            <div className="absolute inset-0  bg-black opacity-60 z-90 border border-white"></div>
+
+            {/* Content container */}
+            <div className="absolute inset-0 flex flex-col justify-center items-start z-20 px-6 sm:px-8 md:px-12">
+              <h1 className="text-white text-2xl sm:text-3xl md:text-4xl mt-10 font-spartan font-semibold mb-6 sm:mb-8 select-none">
                 Reserve Your Table for an Unforgettable Dining Experience
               </h1>
-              <p className="text-white w-[40rem] ml-5 text-xl font-spartan font-light leading-relaxed select-none">
+              <p className="text-white w-full max-w-2xl text-sm sm:text-base md:text-xl font-spartan font-light leading-relaxed select-none mb-8">
                 Enjoy the finest flavors of authentic Sri Lankan cuisine at Lunumirisa. Whether you’re planning a special night out, a family gathering, or simply wish to savor an exquisite meal, reserving a table guarantees that you’ll be part of a culinary journey unlike any other. Our cozy, elegant ambiance and carefully crafted dishes ensure that every moment is a delight. Reserve your table today and let us take care of the rest—your unforgettable dining experience awaits!
               </p>
 
               <Link to={`/TableReservationPage/${userId}`}>
-              <button className="absolute bottom-10 right-10 w-auto h-12 px-5 text-black bg-white transition-all ease-in-out transform hover:scale-105 flex items-center justify-center gap-2
-              tracking-widest rounded-md mr-10 hover:bg-black hover:text-white duration-300 hover:gap-2 hover:translate-x-3 hover:shadow-[0_0_10px_rgba(255,255,255,0.6)]">
-                Book Now
-                <FontAwesomeIcon icon={faArrowRight} />        
-              </button>
+                <button className="mt-6 w-auto h-10 sm:h-12 px-4 sm:px-5 text-black bg-white transition-all ease-in-out transform hover:scale-105 flex items-center justify-center gap-2
+                tracking-widest rounded-md hover:bg-black hover:text-white duration-300 hover:shadow-[0_0_10px_rgba(255,255,255,0.6)]">
+                  Book Now
+                  <FontAwesomeIcon icon={faArrowRight} />        
+                </button>
               </Link>
             </div>
           </div>
         </div>
 
-        <div className="parallax mt-20">
-          <div 
-            className="parallax-background"
-            style={{ backgroundImage: `url(${bgHome2})` }} 
-          >
-            <div className='absolute inset-0 bg-black opacity-70'></div>
+        <div className="parallax-review mt-20">
+        <div
+          className="parallax-background"
+          style={{ backgroundImage: `url(${bgHome2})` }}
+        >
+          <div className="absolute inset-0 bg-black opacity-70"></div>
 
-            <div className="text-white text-5xl mt-16 mb-16 font-spartan font-thin pl-[10rem] z-20 relative">
-              What keeps you coming back to us?
-            </div>
+          <div className="text-white text-3xl sm:text-4xl md:text-5xl mt-8 sm:mt-12 md:mt-16 mb-8 sm:mb-12 md:mb-16 font-spartan font-thin pl-4 sm:pl-8 md:pl-16 z-20 relative">
+            What keeps you coming back to us?
+          </div>
+
           {reviews.length > 0 && reviews[currentReviewIndex] ? (
             <div
-              className={`w-full px-10 transition-all duration-700 ease-in-out transform ${
+              className={`w-full px-4 sm:px-6 md:px-10 transition-all duration-700 ease-in-out transform ${
                 fade ? 'opacity-100 translate-x-0' : 'opacity-0'
               }`}
             >
               <div
                 key={currentReviewIndex}
-                className="p-10 mb-20 bg-custom-gray opacity-95 rounded my-4 w-[65rem] h-[25rem] mx-auto"
+                className="p-6 sm:p-8 md:p-10 mb-8 sm:mb-12 md:mb-20 bg-custom-gray opacity-95 rounded my-4 w-full sm:w-[40rem] md:w-[50rem] lg:w-[65rem] h-auto mx-auto"
               >
-                <div className="flex flex-col items-start">
-                  <div className="flex items-start">
-                    <img
-                      src={`http://localhost:3001/Images/${reviews[currentReviewIndex].profileImage}`}
-                      alt={`${reviews[currentReviewIndex].FirstName} ${reviews[currentReviewIndex].LastName}`}
-                      className="w-16 h-16 rounded-full mr-4"
-                    />                  
-                    <div className="flex flex-col">
-                      <h3 className="text-xl font-bold text-white">
-                        {reviews[currentReviewIndex].FirstName} {reviews[currentReviewIndex].LastName}
-                      </h3>
-                      <div className="flex flex-col mt-2">
-                        <div className="flex items-center">{renderStars(reviews[currentReviewIndex].rating)}</div>
-                        <p className="text-sm text-gray-300">{new Date(reviews[currentReviewIndex].createdAt).toLocaleDateString()}</p>
+                <div className="flex flex-col sm:flex-row items-start">
+                  <img
+                    src={`http://localhost:3001/Images/${reviews[currentReviewIndex].profileImage}`}
+                    alt={`${reviews[currentReviewIndex].FirstName} ${reviews[currentReviewIndex].LastName}`}
+                    className="w-12 sm:w-14 md:w-16 h-12 sm:h-14 md:h-16 rounded-full mr-4"
+                  />
+                  <div className="flex flex-col">
+                    <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
+                      {reviews[currentReviewIndex].FirstName} {reviews[currentReviewIndex].LastName}
+                    </h3>
+                    <div className="flex flex-col mt-2">
+                      <div className="flex items-center">
+                        {renderStars(reviews[currentReviewIndex].rating)}
                       </div>
+                      <p className="text-sm sm:text-base md:text-lg text-gray-300">
+                        {new Date(reviews[currentReviewIndex].createdAt).toLocaleDateString()}
+                      </p>
                     </div>
                   </div>
                 </div>
                 <div>
-                  <p className="text-gray-300 text-2xl font-light mt-5 ml-2 mb-5">
+                  <p className="text-gray-300 text-xl sm:text-2xl md:text-3xl font-light mt-5 ml-2 mb-5">
                     {reviews[currentReviewIndex].reviewTitle}
                   </p>
-                  <div className="bg-black bg-opacity-50 text-black h-[11rem] pl-4 pr-4 pb-4 pt-1 mt-3 rounded-xl">
-                    <p className="text-white text-lg italic mt-5">{reviews[currentReviewIndex].review}</p>
+                  <div className="bg-black bg-opacity-50 text-black h-auto sm:h-[11rem] md:h-[15rem] pl-4 pr-4 pb-4 pt-1 mt-3 rounded-xl">
+                    <p className="text-white text-lg sm:text-xl md:text-2xl italic mt-5">
+                      {reviews[currentReviewIndex].review}
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
           ) : (
-            <div
-              class="flex flex-col gap-2 dark:text-white max-w-md w-full bg-white dark:bg-neutral-900 p-5 rounded-md mt-8 shadow-md hover:scale-105 hover:duration-150 duration-150"
-            >
-              <div class="flex flex-row justify-between w-full">
-                <div class="flex flex-row justify-between w-full">
-                  <div
-                    class="bg-gray-200 dark:bg-neutral-700 rounded-md w-20 h-4 animate-pulse"
-                  ></div>
-                  <div
-                    class="bg-gray-200 dark:bg-neutral-700 rounded-md w-10 animate-pulse"
-                  ></div>
+            <div className="flex flex-col gap-2 dark:text-white max-w-md w-full bg-white dark:bg-neutral-900 p-5 rounded-md mt-8 shadow-md hover:scale-105 hover:duration-150 duration-150">
+              <div className="flex flex-row justify-between w-full">
+                <div className="flex flex-row justify-between w-full">
+                  <div className="bg-gray-200 dark:bg-neutral-700 rounded-md w-20 h-4 animate-pulse"></div>
+                  <div className="bg-gray-200 dark:bg-neutral-700 rounded-md w-10 animate-pulse"></div>
                 </div>
               </div>
-              <div class="flex flex-row justify-between w-full">
-                <div
-                  class="bg-gray-200 dark:bg-neutral-700 rounded-md w-40 animate-pulse"
-                ></div>
-
-                <div class="text-xs">
-                  <div class="flex flex-row">
+              <div className="flex flex-row justify-between w-full">
+                <div className="bg-gray-200 dark:bg-neutral-700 rounded-md w-40 animate-pulse"></div>
+                <div className="text-xs">
+                  <div className="flex flex-row">
                     <FontAwesomeIcon icon={faStar} />
                     <FontAwesomeIcon icon={faStar} />
                     <FontAwesomeIcon icon={faStar} />
@@ -318,15 +339,12 @@ const UserHome = () => {
                   </div>
                 </div>
               </div>
-
-              <div
-                class="bg-gray-200 dark:bg-neutral-700 rounded-md w-full h-20 animate-pulse"
-              ></div>
+              <div className="bg-gray-200 dark:bg-neutral-700 rounded-md w-full h-20 animate-pulse"></div>
             </div>
-
           )}
-          </div>
         </div>
+      </div>
+
 
       </section>
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
