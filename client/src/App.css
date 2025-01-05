@@ -90,12 +90,45 @@ body {
   background-color: transparent;
 }
 
+/* Review  */
+.parallax-review {
+  position: relative;
+  height: 110vh; /* Full viewport height for larger screens */
+  overflow: hidden; /* Hide overflow */
+}
+
+/* Adjust height for mobile screens */
+@media (max-width: 768px) {
+  .parallax-review {
+    height: 98vh; /* Set to 60% of viewport height for tablets and smaller devices */
+  }
+}
+
+@media (max-width: 480px) {
+  .parallax-review {
+    height: 98vh; /* Set to 50% of viewport height for very small screens */
+  }
+}
+
 
 /* Parallax container */
 .parallax {
   position: relative;
-  height: 100vh; /* Full viewport height */
+  height: 110vh; /* Full viewport height for larger screens */
   overflow: hidden; /* Hide overflow */
+}
+
+/* Adjust height for mobile screens */
+@media (max-width: 768px) {
+  .parallax {
+    height: 130vh; /* Set to 60% of viewport height for tablets and smaller devices */
+  }
+}
+
+@media (max-width: 480px) {
+  .parallax {
+    height: 130vh; /* Set to 50% of viewport height for very small screens */
+  }
 }
 
 /* Background image styles */
@@ -116,7 +149,7 @@ body {
   position: relative;
   z-index: 1; /* In front of the background */
   color: white; /* Text color */
-  padding: 2rem; /* Optional padding */
+  padding: 4rem; /* Optional padding */
 }
 
 .overlay {
@@ -128,6 +161,22 @@ body {
   background-color: rgba(0, 0, 0, 0.5); /* Black with 50% transparency */
   z-index: 1; /* Behind the content */
 }
+
+/* Container hides overflow */
+.scroll-container {
+  display: flex;
+  overflow: hidden;
+}
+
+/* Hide scrollbar */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
 
 
 
@@ -167,6 +216,29 @@ a.active, a:hover {
   text-transform: uppercase;
 } */
 
+/* Hide the hamburger icon when the menu is open */
+.hamburger-icon {
+  transition: transform 0.3s ease-in-out;
+}
 
+/* Rotate the hamburger icon when the menu is open */
+.hamburger-icon.open {
+  transform: rotate(90deg);
+}
+
+/* Mobile menu animation */
+.mobile-menu {
+  transform: translateX(100%); /* Initially off-screen */
+  transition: transform 0.3s ease-in-out;
+}
+
+.mobile-menu.open {
+  transform: translateX(0); /* Slide in */
+}
+
+/* Hide hamburger icon when the sidebar is open */
+.hamburger-icon.hide {
+  display: none;
+}
 
 
