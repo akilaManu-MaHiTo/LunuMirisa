@@ -20,7 +20,7 @@ const LineChart = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3001/getCalculationByDay');
+        const response = await fetch('https://lunu-mirisa.vercel.app/getCalculationByDay');
         if (!response.ok) {
           const errorText = await response.text();
           console.error('Server error:', errorText);

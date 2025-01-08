@@ -10,7 +10,7 @@ function AddSupplierCategory() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:3001/AddSupplierCategory", { name, description })
+    axios.post("https://lunu-mirisa.vercel.app/AddSupplierCategory", { name, description })
       .then(() => navigate('/ShowSupplierCategory'))
       .catch(err => console.log(err));
   };

@@ -19,7 +19,7 @@ const ReviewsTable = () => {
 
   // Fetch all reviews on component mount
   useEffect(() => {
-    Axios.get("http://localhost:3001/GetAllReviews")
+    Axios.get("https://lunu-mirisa.vercel.app/GetAllReviews")
       .then((response) => {
         setReviews(response.data);
       })
@@ -30,7 +30,7 @@ const ReviewsTable = () => {
 
   // Handle status update (Show/Hide)
   const handleStatusChange = (id, status) => {
-    Axios.put(`http://localhost:3001/UpdateReviewStatus/${id}`, { Status: status })
+    Axios.put(`https://lunu-mirisa.vercel.app/UpdateReviewStatus/${id}`, { Status: status })
       .then((response) => {
         setReviews(reviews.map((review) =>
           review._id === id ? { ...review, Status: status } : review
@@ -50,7 +50,7 @@ const ReviewsTable = () => {
 
   // Handle admin reply submission
   const handleReply = (id, reply) => {
-    Axios.put(`http://localhost:3001/UpdateReviewReply/${id}`, { reply })
+    Axios.put(`https://lunu-mirisa.vercel.app/UpdateReviewReply/${id}`, { reply })
       .then((response) => {
         console.log("Reply updated successfully");
         toast.success("Reply updated successfully")

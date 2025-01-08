@@ -54,7 +54,7 @@ const UserHome = () => {
     const scrollPosition = window.scrollY;
     localStorage.setItem('scrollPosition', scrollPosition);
     const total = item.price * (100 - item.percentage) / 100
-    axios.post("http://localhost:3001/Addtocarts", {
+    axios.post("https://lunu-mirisa.vercel.app/Addtocarts", {
       userId:userId,
       itemId: item._id,
       category: item.category,
@@ -87,7 +87,7 @@ const UserHome = () => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/GetAllReviews');
+        const response = await axios.get('https://lunu-mirisa.vercel.app/GetAllReviews');
         setReviews(response.data);
       } catch (error) {
         setError('Failed to load reviews. Please try again later.');
@@ -98,7 +98,7 @@ const UserHome = () => {
 
     const fetchHotDeals = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/getHotDeals');
+        const response = await axios.get('https://lunu-mirisa.vercel.app/getHotDeals');
         setHotDeals(response.data);
       } catch (error) {
         setError('Failed to load hot deals. Please try again later.');
@@ -176,7 +176,7 @@ const UserHome = () => {
             {topThreeDeals.map((hot, index) => (
               <FoodItem
                 key={index}
-                image={`http://localhost:3001/Images/${hot.image}`}
+                image={`https://lunu-mirisa.vercel.app/Images/${hot.image}`}
                 title={hot.title}
                 price={hot.price}
                 percentage={hot.percentage}
@@ -289,7 +289,7 @@ const UserHome = () => {
               >
                 <div className="flex flex-col sm:flex-row items-start">
                   <img
-                    src={`http://localhost:3001/Images/${reviews[currentReviewIndex].profileImage}`}
+                    src={`https://lunu-mirisa.vercel.app/Images/${reviews[currentReviewIndex].profileImage}`}
                     alt={`${reviews[currentReviewIndex].FirstName} ${reviews[currentReviewIndex].LastName}`}
                     className="w-12 sm:w-14 md:w-16 h-12 sm:h-14 md:h-16 rounded-full mr-4"
                   />
