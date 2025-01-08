@@ -1,48 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShoppingCart, faUser, faSignOutAlt, faUserCog } from '@fortawesome/free-solid-svg-icons';
+import { faShoppingCart, faUser, faBars, faCalendarCheck, faTimes, faHome, faUtensils, faTag } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
-import { faCalendarCheck } from '@fortawesome/free-regular-svg-icons';
 
 const NavigationBar = ({ logo }) => {
-  const [showSearchBar, setShowSearchBar] = useState(false);
-  const [showUserOption, setShowUserOption] = useState(false);
-  const [cartItemCount, setCartItemCount] = useState(0); // State for cart item count
-  const searchRef = useRef(null);
-  const userRef = useRef(null);
-  const { userId } = useParams(); // Extract userId from URL
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (searchRef.current && !searchRef.current.contains(event.target)) {
-        setShowSearchBar(false);
-      }
-      if (userRef.current && !userRef.current.contains(event.target)) {
-        setShowUserOption(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
-  const toggleSearchBar = () => {
-    setShowSearchBar(!showSearchBar);
-    if (showUserOption) {
-      setShowUserOption(false);
-    }
-  };
-
-  const toggleUserOption = () => {
-    setShowUserOption(!showUserOption);
-    if (showSearchBar) {
-      setShowSearchBar(false);
-    }
-  };
+  const [cartItemCount, setCartItemCount] = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);  // State for menu bar toggle
+  const { userId } = useParams();
 
   useEffect(() => {
     axios.get(`http://localhost:3001/countCartItems/${userId}`)
@@ -52,36 +17,66 @@ const NavigationBar = ({ logo }) => {
       .catch(error => {
         console.error('Error fetching cart item count:', error);
       });
-  }, [userId]); 
+  }, [userId]);
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
 
   return (
     <div className='custom1-md:pr-[10rem] custom1-md:pl-[10rem] bg-custom-gray'>
       <nav className="flex items-center justify-between px-4">
         <div className="flex items-center h-36 w-32">
-          <img src={logo} alt="Logo" className="h-auto w-48 md:h-24 md:w-32" />
+          <img 
+            src={logo} 
+            alt="Logo" 
+            className="h-auto w-20 ml-5 md:h-24 md:w-32 sm:h-16 sm:w-24" 
+          />
         </div>
 
-        <ul className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 self-center">
-          <li><Link to={`/UserHome/${userId}`} className="text-white font-spartan font-thin text-2xl ">Home</Link></li>
-          <li className="text-white hidden md:inline font-spartan font-thin text-2xl select-none">&nbsp;|&nbsp;</li>
+        {/* Desktop Navigation Links */}
+        <ul className="flex space-x-4 self-center hidden md:flex">
+          <li><Link to={`/UserHome/${userId}`} className="text-white font-spartan font-thin text-2xl">Home</Link></li>
           <li><Link to={`/ShowMenuList/${userId}`} className="text-white font-spartan font-thin text-2xl">Menu</Link></li>
-          <li className="text-white hidden md:inline font-spartan font-thin text-2xl select-none">&nbsp;|&nbsp;</li>
           <li><Link to="/" className="text-white font-spartan font-thin text-2xl">Offers</Link></li>
         </ul>
-        
-        
-        <div className="flex items-center space-x-4">
-        <Link to={`/MyTableReservations/${userId}`}>
-          <FontAwesomeIcon 
-            icon={faCalendarCheck} 
-            className="text-white cursor-pointer hidden md:inline text-[1.6rem] p-3 transition-transform duration-300 ease-in-out transform hover:scale-110  "            
-          />
+
+        {/* Mobile View Navigation Links (Icons Only) */}
+        <ul className={`flex space-x-10 mr-10 mt-4 self-center md:hidden ${menuOpen ? 'hidden' : 'flex'}`}>
+          <li className="flex flex-col items-center">
+            <Link to={`/UserHome/${userId}`} className="text-white">
+              <FontAwesomeIcon icon={faHome} className="text-3xl" />
+            </Link>
+            <span className="text-xs text-white mt-1">Home</span> {/* Small text below icon */}
+          </li>
+          <li className="flex flex-col items-center">
+            <Link to={`/ShowMenuList/${userId}`} className="text-white">
+              <FontAwesomeIcon icon={faUtensils} className="text-3xl" />
+            </Link>
+            <span className="text-xs text-white mt-1">Menu</span> {/* Small text below icon */}
+          </li>
+          <li className="flex flex-col items-center">
+            <Link to="/" className="text-white">
+              <FontAwesomeIcon icon={faTag} className="text-3xl" />
+            </Link>
+            <span className="text-xs text-white mt-1">Offers</span> {/* Small text below icon */}
+          </li>
+        </ul>
+
+
+        {/* Icons for Cart, Calendar, User, etc. */}
+        <div className="flex items-center space-x-4 hidden md:flex">
+          <Link to={`/MyTableReservations/${userId}`}>
+            <FontAwesomeIcon 
+              icon={faCalendarCheck} 
+              className="text-white cursor-pointer inline text-[1.6rem] p-3 transition-transform duration-300 ease-in-out transform hover:scale-110"
+            />
           </Link>
-          
+
           <Link to={`/UserCart/${userId}`} className="relative inline-block">
             <FontAwesomeIcon 
               icon={faShoppingCart} 
-              className="text-white cursor-pointer hidden md:inline text-2xl p-3 mt-1 transition-transform duration-300 ease-in-out transform hover:scale-110 hover:text-gray-300"
+              className="text-white cursor-pointer inline text-2xl p-3 mt-1 transition-transform duration-300 ease-in-out transform hover:scale-110 hover:text-gray-300"
               aria-label="Shopping Cart"
             />
             {cartItemCount > 0 && (
@@ -94,51 +89,36 @@ const NavigationBar = ({ logo }) => {
           <FontAwesomeIcon 
             icon={faUser} 
             className="text-white cursor-pointer text-2xl p-3 transition-transform duration-300 ease-in-out transform hover:scale-110 hover:text-gray-300"
-            onClick={toggleUserOption} 
             aria-label="User Options"
           />
         </div>
 
-        {showSearchBar && (
-          <div
-            ref={searchRef}
-            className="absolute top-0.5 right-60 mt-2 mr-4 p-2 rounded-md shadow-lg hidden md:inline h-15.5 transform transition-transform duration-300 ease-in-out scale-95 translate-y-[-10px]"
-            style={{ maxWidth: '600px' }}
-          >
-            <input
-              type="text"
-              placeholder="Search..."
-              className="text-white px-3 py-1 border border-black focus:outline-none focus:border-black w-full md:max-w-96 bg-gray-700"
-            />
-          </div>
-        )}
-
-        {showUserOption && (
-          <div 
-            ref={userRef} 
-            className="absolute top-10 right-20 mt-14 p-4 rounded-lg bg-custom-dark shadow-lg border border-white transform transition-transform duration-300 ease-in-out scale-95 translate-y-[-10px] z-50"
-          >
-            <ul className="space-y-2">
-              <li>
-                <Link to={`/UserProfile/${userId}`}>
-                  <button className="w-full text-white text-left font-semibold hover:bg-white hover:text-black py-2 px-3 rounded-md transition-colors duration-300 flex items-center">
-                    <FontAwesomeIcon icon={faUserCog} className="mr-2" />
-                    Profile Settings
-                  </button>
-                </Link>
-              </li>
-              <li>
-                <Link to={`/Login`}>
-                  <button className="w-full text-red-500 font-semibold hover:bg-red-500 hover:text-black py-2 px-3 rounded-md transition-colors duration-300 flex items-center">
-                    <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
-                    Logout
-                  </button>
-                </Link>
-              </li>
-            </ul>
-          </div>
-        )}
+        {/* Mobile Hamburger Menu */}
+        <FontAwesomeIcon 
+          icon={faBars} 
+          className={`text-white cursor-pointer text-3xl mr-5 md:hidden hamburger-icon ${menuOpen ? 'hide' : ''}`} 
+          onClick={toggleMenu} 
+        />
       </nav>
+
+      {/* Mobile View Additional Links - visible when menu is open */}
+      <div className={`mobile-menu fixed inset-0 bg-black bg-opacity-50 z-50 md:hidden ${menuOpen ? 'open' : ''}`}>
+        <div className="flex justify-end p-4">
+          <FontAwesomeIcon 
+            icon={faTimes} 
+            className="text-white cursor-pointer text-2xl" 
+            onClick={toggleMenu} 
+          />
+        </div>
+        
+        {/* Additional Links inside the Mobile Menu */}
+        <div className="flex flex-col items-center space-y-4 text-white">
+          <Link to={`/MyTableReservations/${userId}`} className="text-2xl">Reservations</Link>
+          <Link to={`/UserCart/${userId}`} className="text-2xl">Shopping Cart</Link>
+          <Link to={`/UserProfile/${userId}`} className="text-2xl">Profile Settings</Link>
+          <Link to={`/Login`} className="text-2xl text-red-500">Logout</Link>
+        </div>
+      </div>
     </div>
   );
 };
