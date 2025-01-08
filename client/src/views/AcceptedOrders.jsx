@@ -21,7 +21,7 @@ function AcceptedOrders() {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await fetch('http://localhost:3001/acceptedOrders');
+        const response = await fetch('https://lunu-mirisa.vercel.app/acceptedOrders');
         const data = await response.json();
         setOrders(data);
         setFilteredOrders(data);
@@ -68,7 +68,7 @@ function AcceptedOrders() {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this order?")) {
       try {
-        await fetch(`http://localhost:3001/acceptedOrders/${id}`, { method: 'DELETE' });
+        await fetch(`https://lunu-mirisa.vercel.app/acceptedOrders/${id}`, { method: 'DELETE' });
         setOrders(orders.filter(order => order._id !== id));
       } catch (error) {
         console.error('Error deleting order:', error);
@@ -89,7 +89,7 @@ function AcceptedOrders() {
   const handleUpdateSubmit = async (e) => {
     e.preventDefault();
     try {
-      await fetch(`http://localhost:3001/acceptedOrders/${updatedOrder._id}`, {
+      await fetch(`https://lunu-mirisa.vercel.app/acceptedOrders/${updatedOrder._id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedOrder),

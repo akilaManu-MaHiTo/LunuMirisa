@@ -16,7 +16,7 @@ const ShowMangerMenuList = () => {
   const [selectedCategory, setSelectedCategory] = useState(''); // For category filter
 
   useEffect(() => {
-    axios.get("http://localhost:3001/ShowMenuList")
+    axios.get("https://lunu-mirisa.vercel.app/ShowMenuList")
       .then(response => {
         setMenuItems(response.data);
       })
@@ -32,7 +32,7 @@ const ShowMangerMenuList = () => {
     
     if (confirmDelete) {
         // Proceed with the delete operation if confirmed
-        axios.delete('http://localhost:3001/deleteMenuList/' + id)
+        axios.delete('https://lunu-mirisa.vercel.app/deleteMenuList/' + id)
             .then(res => {
                 console.log(res);
                 setMenuItems(menuItems.filter(item => item._id !== id)); // Update state to remove the deleted item
@@ -62,7 +62,7 @@ const handleHotDealsToggle = (itemId) => {
   const newHotDealsStatus = item.hotDeals === "Yes" ? "No" : "Yes";
 
   // Make the API request to toggle hot deals
-  axios.put(`http://localhost:3001/UpdateHotDeals/${itemId}`, { 
+  axios.put(`https://lunu-mirisa.vercel.app/UpdateHotDeals/${itemId}`, { 
     hotDeals: newHotDealsStatus, 
     percentage: newHotDealsStatus === "Yes" ? selectedPerc : null // Only set percentage if adding hot deal
   })
@@ -137,7 +137,7 @@ const handlePercentageSelect = (itemId, percentage) => {
               {filteredItems.map((item) => (
                 <div key={item._id} className="bg-custom-dark p-6 rounded shadow-md">
                   <img
-                    src={`http://localhost:3001/Images/${item.image}`}
+                    src={`https://lunu-mirisa.vercel.app/Images/${item.image}`}
                     alt={item.title}
                     className="w-full h-64 object-cover rounded shadow-md"
                   />

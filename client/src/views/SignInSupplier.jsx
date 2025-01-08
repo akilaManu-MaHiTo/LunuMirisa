@@ -10,7 +10,7 @@ function SignInSupplier() {
 
   const handleSignIn = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:3001/SignInSupplier", { email, password })
+    axios.post("https://lunu-mirisa.vercel.app/SignInSupplier", { email, password })
       .then((response) => {
         // Store the JWT token in localStorage
         localStorage.setItem("token", response.data.token);

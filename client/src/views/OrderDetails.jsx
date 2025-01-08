@@ -34,7 +34,7 @@ const ShowWaitorOrders = () => {
     const fetchOrderItems = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`http://localhost:3001/OrderItems/${orderId}`);
+        const response = await axios.get(`https://lunu-mirisa.vercel.app/OrderItems/${orderId}`);
         const groupedData = groupItemsByTitle(response.data); // Group the items by title
         setOrderItems(groupedData);
       } catch (err) {
@@ -50,7 +50,7 @@ const ShowWaitorOrders = () => {
   const handleStatusChange = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:3001/UpdateStatus/${orderId}`, { status });
+      await axios.put(`https://lunu-mirisa.vercel.app/UpdateStatus/${orderId}`, { status });
       console.log('Status updated');
     } catch (err) {
       setError('Error updating order status');
@@ -60,7 +60,7 @@ const ShowWaitorOrders = () => {
   const handleUpdateQuantity = async (e, itemId) => {
     const newQuantity = e.target.value;
     try {
-      await axios.put(`http://localhost:3001/UpdateQuentity/${itemId}`, { quantity: newQuantity });
+      await axios.put(`https://lunu-mirisa.vercel.app/UpdateQuentity/${itemId}`, { quantity: newQuantity });
       setOrderItems(orderItems.map(item => item._id === itemId ? { ...item, quantity: newQuantity } : item));
     } catch (err) {
       setError('Error updating order quantity');
@@ -70,7 +70,7 @@ const ShowWaitorOrders = () => {
   const handleDeleteItem = async (itemId) => {
     setLoading(true);  // Show loader when deletion starts
     try {
-      await axios.delete(`http://localhost:3001/DeleteOrderItem/${itemId}`);
+      await axios.delete(`https://lunu-mirisa.vercel.app/DeleteOrderItem/${itemId}`);
       setOrderItems(orderItems.filter(item => item._id !== itemId));
       window.location.reload();  // Refresh the page
     } catch (err) {
@@ -188,7 +188,7 @@ const ShowWaitorOrders = () => {
                   >
                     <div className="flex items-center mb-4">
                       <img
-                        src={`http://localhost:3001/Images/` + item.image}
+                        src={`https://lunu-mirisa.vercel.app/Images/` + item.image}
                         alt={item.name}
                         className="w-32 h-32 rounded-md mr-4"
                       />
