@@ -10,7 +10,7 @@ const NavigationBar = ({ logo }) => {
   const { userId } = useParams();
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/countCartItems/${userId}`)
+    axios.get(`https://lunu-mirisa.vercel.app/countCartItems/${userId}`)
       .then(response => {
         setCartItemCount(response.data.count); 
       })
@@ -35,7 +35,7 @@ const NavigationBar = ({ logo }) => {
         </div>
 
         {/* Desktop Navigation Links */}
-        <ul className="flex space-x-4 self-center hidden md:flex">
+        <ul className="space-x-4 self-center hidden md:flex">
           <li><Link to={`/UserHome/${userId}`} className="text-white font-spartan font-thin text-2xl">Home</Link></li>
           <li><Link to={`/ShowMenuList/${userId}`} className="text-white font-spartan font-thin text-2xl">Menu</Link></li>
           <li><Link to="/" className="text-white font-spartan font-thin text-2xl">Offers</Link></li>
@@ -65,7 +65,7 @@ const NavigationBar = ({ logo }) => {
 
 
         {/* Icons for Cart, Calendar, User, etc. */}
-        <div className="flex items-center space-x-4 hidden md:flex">
+        <div className="items-center space-x-4 hidden md:flex">
           <Link to={`/MyTableReservations/${userId}`}>
             <FontAwesomeIcon 
               icon={faCalendarCheck} 

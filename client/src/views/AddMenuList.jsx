@@ -33,7 +33,7 @@ const AddMenuList = () => {
         formData.append("category", category);
         formData.append("description", description);
     
-        axios.post("http://localhost:3001/createAddMenuList", formData, {
+        axios.post("https://lunu-mirisa.vercel.app/createAddMenuList", formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             }

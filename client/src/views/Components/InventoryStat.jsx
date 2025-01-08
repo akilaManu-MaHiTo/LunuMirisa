@@ -20,7 +20,7 @@ const PieChart = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/ShowInventory'); // Replace with your actual endpoint
+        const response = await axios.get('https://lunu-mirisa.vercel.app/ShowInventory'); // Replace with your actual endpoint
         const data = response.data;
 
         // Get random 5 items

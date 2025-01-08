@@ -14,7 +14,7 @@ function AddSupplier() {
   const [emailerror, setemailError] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:3001/ShowSupplierCategory")
+    axios.get("https://lunu-mirisa.vercel.app/ShowSupplierCategory")
       .then(response => setCategories(response.data))
       .catch(err => console.log(err));
   }, []);
@@ -36,7 +36,7 @@ function AddSupplier() {
 
     setErrors({});
 
-    axios.post("http://localhost:3001/AddSupplier", { name, address, contact, email, category })
+    axios.post("https://lunu-mirisa.vercel.app/AddSupplier", { name, address, contact, email, category })
       .then(result => navigate('/ShowSupplierProfiles'))
       .catch(err => setemailError(err.response.data.message || "An error occurred during sign-up."));
   }

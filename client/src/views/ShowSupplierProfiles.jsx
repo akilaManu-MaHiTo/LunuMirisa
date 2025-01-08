@@ -13,7 +13,7 @@ function ShowSupplierProfiles() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("http://localhost:3001/ShowSupplierProfiles")
+    axios.get("https://lunu-mirisa.vercel.app/ShowSupplierProfiles")
       .then(response => {
         setSuppliers(response.data);
       })
@@ -21,7 +21,7 @@ function ShowSupplierProfiles() {
   }, []);
 
   const handleDelete = (id) => {
-    axios.delete(`http://localhost:3001/DeleteSupplierProfile/${id}`)
+    axios.delete(`https://lunu-mirisa.vercel.app/DeleteSupplierProfile/${id}`)
       .then(() => {
         setSuppliers(suppliers.filter(supplier => supplier._id !== id));
       })

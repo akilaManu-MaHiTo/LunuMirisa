@@ -22,7 +22,7 @@ const ReservedTables = () => {
 
     // Fetch user's email
     useEffect(() => {
-        axios.get(`http://localhost:3001/getUser/${userId}`)
+        axios.get(`https://lunu-mirisa.vercel.app/getUser/${userId}`)
             .then((response) => {
                 setEmail(response.data.email);
                 console.log(response.data.email);
@@ -35,7 +35,7 @@ const ReservedTables = () => {
 
     // Fetch table details
     useEffect(() => {
-        axios.get(`http://localhost:3001/getTable/${id}`)
+        axios.get(`https://lunu-mirisa.vercel.app/getTable/${id}`)
             .then(result => {
                 setTableNum(result.data.tableNum);
                 setQuantity(result.data.quantity);
@@ -70,7 +70,7 @@ const ReservedTables = () => {
         const formattedTime = selectedTime.toTimeString().split(' ')[0];
     
         // Check for existing reservation
-        axios.post("http://localhost:3001/checkReservation", {
+        axios.post("https://lunu-mirisa.vercel.app/checkReservation", {
             date: formattedDate, // Use formatted date
             time: formattedTime, // Use formatted time
             tableNum
@@ -80,7 +80,7 @@ const ReservedTables = () => {
                 setError("This table is already reserved for the selected date and time. Please choose another time or date.");
             } else {
                 // Proceed with reservation
-                axios.post("http://localhost:3001/reservedtables", {
+                axios.post("https://lunu-mirisa.vercel.app/reservedtables", {
                     quantity,
                     price,
                     tableNum,

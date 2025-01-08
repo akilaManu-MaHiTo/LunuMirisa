@@ -17,10 +17,10 @@ function SupplierDashboard() {
   const displayOrderCount = orderCount - declinedOrders.length;
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/ShowSupplierProfile/${supplierId}`)
+    axios.get(`https://lunu-mirisa.vercel.app/ShowSupplierProfile/${supplierId}`)
       .then(response => {
         setSupplierData(response.data);
-        return axios.get(`http://localhost:3001/orders/${response.data.category}`);
+        return axios.get(`https://lunu-mirisa.vercel.app/orders/${response.data.category}`);
       })
       .then(res => setOrderRequests(res.data))
       .catch(err => console.error("Error fetching data:", err));
@@ -28,11 +28,11 @@ function SupplierDashboard() {
 
   useEffect(() => {
     if (supplierData) {
-      axios.get(`http://localhost:3001/acceptedOrders/${supplierData._id}`)
+      axios.get(`https://lunu-mirisa.vercel.app/acceptedOrders/${supplierData._id}`)
         .then(response => setAcceptedOrders(response.data))
         .catch(err => console.error("Error fetching accepted orders:", err));
 
-      axios.get(`http://localhost:3001/countByCategory/${supplierData.category}`)
+      axios.get(`https://lunu-mirisa.vercel.app/countByCategory/${supplierData.category}`)
         .then(response => {
           setOrderCount(response.data.length > 0 ? response.data[0].count : 0);
         })
@@ -111,7 +111,7 @@ function SupplierDashboard() {
                           })
                           .map(order => (
                             <div key={order._id} className="p-6 mb-6 border-b border-gray-600">
-                              <img src={`http://localhost:3001/Images/${order.image}`} alt="Order Image" className='w-20 h-20 rounded' />
+                              <img src={`https://lunu-mirisa.vercel.app/Images/${order.image}`} alt="Order Image" className='w-20 h-20 rounded' />
                               <h3 className="text-xl font-bold mb-2 text-gray-200">{order.name}</h3>
                               <p className="text-gray-400">Order Quantity: {order.orderQuantity}</p>
                               <p className="text-gray-400">Category: {order.category}</p>

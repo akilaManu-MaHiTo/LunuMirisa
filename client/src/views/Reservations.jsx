@@ -21,7 +21,7 @@ const Reservations = () => {
     
     useEffect(() => {
         // Fetch all reservations
-        axios.get('http://localhost:3001/reservations')
+        axios.get('https://lunu-mirisa.vercel.app/reservations')
             .then(result => {
                 setReservations(result.data);
             })
@@ -30,7 +30,7 @@ const Reservations = () => {
 
     const handleDelete = (id) => {
         // Delete reservation
-        axios.delete(`http://localhost:3001/reservations/${id}`)
+        axios.delete(`https://lunu-mirisa.vercel.app/reservations/${id}`)
             .then(() => {
                 setReservations(reservations.filter(reservation => reservation._id !== id));
             })

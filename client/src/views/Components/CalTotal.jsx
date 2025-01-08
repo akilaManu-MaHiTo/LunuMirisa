@@ -9,7 +9,7 @@ const CalculateTotals = () => {
 
   useEffect(() => {
     // Fetch calculateAllTotal
-    axios.get('http://localhost:3001/calculateAllTotal')
+    axios.get('https://lunu-mirisa.vercel.app/calculateAllTotal')
       .then(response => {
         setCalculateAllTotal(response.data.totalPrice); // Assuming your API returns { total: ... }
         console.log(response.data.totalPrice)
@@ -17,7 +17,7 @@ const CalculateTotals = () => {
       .catch(error => console.error('Error fetching calculateAllTotal:', error));
 
     // Fetch calculateAll
-    axios.get('http://localhost:3001/CalculateAll')
+    axios.get('https://lunu-mirisa.vercel.app/CalculateAll')
       .then(response => {
         setCalculateAll(response.data.totalPrice); // Assuming your API returns { total: ... }
         console.log(response.data.totalPrice)
@@ -25,7 +25,7 @@ const CalculateTotals = () => {
       .catch(error => console.error('Error fetching CalculateAll:', error));
 
     // Fetch calculateByNo
-    axios.get('http://localhost:3001/calculateByNo')
+    axios.get('https://lunu-mirisa.vercel.app/calculateByNo')
       .then(response => {
         setCalculateByNo(response.data.totalPrice); // Assuming your API returns { total: ... }
       })

@@ -25,7 +25,7 @@ const Inventory = () => {
     formData.append('maxQuantity', maxQuantity);
     formData.append('category', category);
   
-    axios.post("http://localhost:3001/AddInventory", formData)
+    axios.post("https://lunu-mirisa.vercel.app/AddInventory", formData)
       .then(result => {
         console.log(result);
         navigate('/ShowInventory'); // Navigate to the inventory list if successful

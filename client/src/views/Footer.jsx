@@ -23,7 +23,7 @@ const Footer = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const result = await axios.get(`http://localhost:3001/getUser/${userId}`);
+                const result = await axios.get(`https://lunu-mirisa.vercel.app/getUser/${userId}`);
                 setFirstName(result.data.firstName || '');
                 setLastName(result.data.lastName || '');
             } catch (err) {
@@ -40,7 +40,7 @@ const Footer = () => {
     useEffect(() => {
         const fetchProfilePic = async () => {
             try {
-                const response = await axios.get(`http://localhost:3001/ShowProfilePic/${userId}`);
+                const response = await axios.get(`https://lunu-mirisa.vercel.app/ShowProfilePic/${userId}`);
                 setProfileImage(response.data.image);
                 console.log("Profile picture data:", response.data); // Add this line
             } catch (error) {
@@ -73,7 +73,7 @@ const Footer = () => {
         setLoading(true);
     
         try {
-            await axios.post('http://localhost:3001/PlaceReview', data);
+            await axios.post('https://lunu-mirisa.vercel.app/PlaceReview', data);
             setMessage("Thank you for your review!");
             setRating(0);
             setReview("");

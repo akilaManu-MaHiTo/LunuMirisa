@@ -48,7 +48,7 @@ const ReservedTables = () => {
 
         try {
             // Make an API call to update the reservation
-            await axios.put(`http://localhost:3001/updateReservedTable/${reserveId}`, {
+            await axios.put(`https://lunu-mirisa.vercel.app/updateReservedTable/${reserveId}`, {
                 date: formattedDate,  // Send the formatted date
                 time: formattedTime,  // Send the formatted time
                 tableNum,             // Include the table number

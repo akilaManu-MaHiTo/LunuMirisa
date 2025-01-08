@@ -17,7 +17,7 @@ const ShowWaitorOrders = () => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`http://localhost:3001/ShowMyOrders/${userId}`)
+      .get(`https://lunu-mirisa.vercel.app/ShowMyOrders/${userId}`)
       .then((response) => {
         const uniqueDates = Array.from(
           new Set(response.data.map((date) => new Date(date).toISOString().split('T')[0]))
@@ -36,7 +36,7 @@ const ShowWaitorOrders = () => {
     setSelectedDate(date);
     setLoading(true);
     axios
-      .get(`http://localhost:3001/orders/${userId}/${date}`)
+      .get(`https://lunu-mirisa.vercel.app/orders/${userId}/${date}`)
       .then((response) => {
         // Remove duplicate orders based on orderId
         const uniqueOrders = Array.from(
