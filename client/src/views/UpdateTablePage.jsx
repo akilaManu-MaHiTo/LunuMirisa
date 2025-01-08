@@ -14,7 +14,7 @@ function UpdateTable() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/getTable/${id}`)
+    axios.get(`https://lunu-mirisa.vercel.app/getTable/${id}`)
       .then(result => {
         setTableNum(result.data.tableNum);
         setQuantity(result.data.quantity);
@@ -25,7 +25,7 @@ function UpdateTable() {
 
   const updateTable = (e) => {
     e.preventDefault();
-    axios.put(`http://localhost:3001/updateTable/${id}`, { tableNum, quantity, price })
+    axios.put(`https://lunu-mirisa.vercel.app/updateTable/${id}`, { tableNum, quantity, price })
       .then(result => {
         navigate('/Updatetable');
       })

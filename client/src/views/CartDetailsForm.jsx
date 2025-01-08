@@ -43,14 +43,14 @@ const CartDetailsForm = () => {
 
     try {
       // Attempt to submit the form
-      const response = await axios.post('http://localhost:3001/addCartInfo', formData);
+      const response = await axios.post('https://lunu-mirisa.vercel.app/addCartInfo', formData);
       console.log('Response:', response.data);
       
       // If form submission is successful, mark it as submitted
       setSubmitted(true);
       
       // Now proceed to delete cart items
-      await axios.delete(`http://localhost:3001/deleteAllFromCart/${userId}`);
+      await axios.delete(`https://lunu-mirisa.vercel.app/deleteAllFromCart/${userId}`);
       console.log("Cart items deleted successfully");
       
       // Navigate to the user's home page after a 4-second delay

@@ -21,7 +21,7 @@ const TotalPriceCalculator = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.get(`http://localhost:3001/calculateByDateAndTable`);
+      const response = await axios.get(`https://lunu-mirisa.vercel.app/calculateByDateAndTable`);
       console.log("API Response:", response.data);
 
       if (Array.isArray(response.data)) {
@@ -44,7 +44,7 @@ const TotalPriceCalculator = () => {
 
   const fetchEmployeeDetails = async (id) => {
     try {
-      const response = await axios.get(`http://localhost:3001/employee/${id}`);
+      const response = await axios.get(`https://lunu-mirisa.vercel.app/employee/${id}`);
       setEmployeeData(response.data);
     } catch (err) {
       setError(err.response ? err.response.data.message : 'Error fetching employee data');

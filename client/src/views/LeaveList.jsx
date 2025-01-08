@@ -39,7 +39,7 @@ const LeaveList = () => {
 
   const fetchLeaves = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/leaves/${employeeId}`);
+      const response = await axios.get(`https://lunu-mirisa.vercel.app/leaves/${employeeId}`);
       setLeaves(response.data);
       setFilteredLeaves(response.data); // Set initial filtered leaves
     } catch (error) {
@@ -51,7 +51,7 @@ const LeaveList = () => {
   // Handle approving a leave
   const handleApprove = async (leaveId) => {
     try {
-      await axios.put(`http://localhost:3001/leaves/approve/${leaveId}`);
+      await axios.put(`https://lunu-mirisa.vercel.app/leaves/approve/${leaveId}`);
       alert('Leave approved successfully');
       fetchLeaves(); // Refresh the list after approval
     } catch (error) {
@@ -62,7 +62,7 @@ const LeaveList = () => {
   // Handle rejecting a leave
   const handleReject = async (leaveId) => {
     try {
-      await axios.put(`http://localhost:3001/leaves/reject/${leaveId}`);
+      await axios.put(`https://lunu-mirisa.vercel.app/leaves/reject/${leaveId}`);
       alert('Leave rejected successfully');
       fetchLeaves(); // Refresh the list after rejection
     } catch (error) {

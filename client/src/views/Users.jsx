@@ -17,14 +17,14 @@ function Users() {
 
 
     useEffect(() => {
-        axios.get('http://localhost:3001')
+        axios.get('https://lunu-mirisa.vercel.app')
             .then(result => setUsers(result.data))
             .catch(err => console.log(err));
     }, []);
 
     const handleDelete = (id) => {
 
-      axios.delete('http://localhost:3001/deleteUser/'+id)
+      axios.delete('https://lunu-mirisa.vercel.app/deleteUser/'+id)
       .then(res => {console.log(res)
 
         window.location.reload()

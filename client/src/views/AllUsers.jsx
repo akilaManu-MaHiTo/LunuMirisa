@@ -17,7 +17,7 @@ const AllUsers = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await axios.get("http://localhost:3001/allUsers");
+                const response = await axios.get("https://lunu-mirisa.vercel.app/allUsers");
                 setUsers(response.data.users);
             } catch (error) {
                 console.error("Error fetching users:", error);
@@ -30,7 +30,7 @@ const AllUsers = () => {
 
     const handleDelete = async (userId) => {
         try {
-            await axios.delete(`http://localhost:3001/deleteSiteUsers/${userId}`);
+            await axios.delete(`https://lunu-mirisa.vercel.app/deleteSiteUsers/${userId}`);
             setUsers(users.filter(user => user._id !== userId));
         } catch (error) {
             console.error("Error deleting user:", error);

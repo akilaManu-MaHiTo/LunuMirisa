@@ -15,7 +15,7 @@ const ShowMenuList = () => {
   const { id, userId, tableNum, date, ongoing } = useParams();
 
   useEffect(() => {
-    axios.get("http://localhost:3001/ShowMenuList")
+    axios.get("https://lunu-mirisa.vercel.app/ShowMenuList")
       .then(response => {
         setMenuItems(response.data);
         toast.success("Menu items loaded successfully!");
@@ -38,7 +38,7 @@ const ShowMenuList = () => {
     const quantity = selectedQuantities[item._id] || 1;
     const totalPrice = item.price * quantity;
 
-    axios.post("http://localhost:3001/InOrderCreate", {
+    axios.post("https://lunu-mirisa.vercel.app/InOrderCreate", {
       orderId: id,
       itemId: item._id,
       category: item.category,
@@ -117,7 +117,7 @@ const ShowMenuList = () => {
               {filteredMenuItems.map((item) => (
                 <div key={item._id} className="bg-gray-700 p-4 rounded-lg shadow-lg flex flex-col items-center transition-transform duration-300 hover:scale-105">
                   <img 
-                    src={`http://localhost:3001/Images/${item.image}`} 
+                    src={`https://lunu-mirisa.vercel.app/Images/${item.image}`} 
                     alt={item.title} 
                     className="w-32 h-32 rounded-md mb-4 object-cover"
                   />

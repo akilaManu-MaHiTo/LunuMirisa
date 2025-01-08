@@ -18,7 +18,7 @@ const TableReservation = () => {
     const fetchTables = async () => {
       try {
         // Fetch table reservations
-        const reservationResponse = await axios.get(`http://localhost:3001/getReservationByUserId/${userId}`);
+        const reservationResponse = await axios.get(`https://lunu-mirisa.vercel.app/getReservationByUserId/${userId}`);
         setTables(reservationResponse.data); // Assuming data is an array of tables
         setFilteredTables(reservationResponse.data); // Initialize with all tables
       } catch (error) {
@@ -33,7 +33,7 @@ const TableReservation = () => {
     const fetchPaymentDetails = async () => {
       try {
         // Fetch payment details
-        const paymentResponse = await axios.get(`http://localhost:3001/paymentGetByUserId/${userId}`);
+        const paymentResponse = await axios.get(`https://lunu-mirisa.vercel.app/paymentGetByUserId/${userId}`);
         setPaymentDetails(paymentResponse.data); // Assuming data is an array of payment details
         console.log("Payment Details:", paymentResponse.data); // Log the payment details
       } catch (error) {

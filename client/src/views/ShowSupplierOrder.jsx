@@ -6,13 +6,13 @@ function ShowSupplier() {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:3001/ShowSupplierOrder')
+    axios.get('https://lunu-mirisa.vercel.app/ShowSupplierOrder')
       .then(result => setOrders(result.data))
       .catch(err => console.log(err));
   }, []);
 
   const handleDelete = (id) => {
-    axios.delete(`http://localhost:3001/deleteSupplierOrder/${id}`)
+    axios.delete(`https://lunu-mirisa.vercel.app/deleteSupplierOrder/${id}`)
       .then(() => {
         // Remove the deleted order from the state
         setOrders(orders.filter(order => order._id !== id));

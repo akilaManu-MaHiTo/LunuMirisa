@@ -45,7 +45,7 @@ const Create = () => {
 		}); // Log data being sent to server
 
 		try {
-			const url = "http://localhost:3001/createUser";
+			const url = "https://lunu-mirisa.vercel.app/createUser";
 			const response = await axios.post(url, {
 				firstName: data.firstName,
 				lastName: data.lastName,

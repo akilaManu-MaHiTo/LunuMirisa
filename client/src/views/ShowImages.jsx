@@ -5,7 +5,7 @@ const ImageShow = () => {
     const [images, setImages] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:3001/showImages')
+        axios.get('https://lunu-mirisa.vercel.app/showImages')
             .then(response => setImages(response.data))
             .catch(error => console.error('Error fetching images:', error));
     }, []);

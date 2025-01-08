@@ -76,7 +76,7 @@ const AddEmployeeForm = () => {
 
     if (validateForm()) {
       try {
-        const response = await axios.post('http://localhost:3001/addemployee', formData);
+        const response = await axios.post('https://lunu-mirisa.vercel.app/addemployee', formData);
         console.log(response.data);
         alert('Employee added successfully!');
         setFormData({

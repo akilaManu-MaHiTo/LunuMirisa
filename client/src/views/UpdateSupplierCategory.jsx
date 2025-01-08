@@ -10,7 +10,7 @@ function UpdateSupplierCategory() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/getSupplierCategory/${id}`)
+    axios.get(`https://lunu-mirisa.vercel.app/getSupplierCategory/${id}`)
       .then(result => {
         setName(result.data.name);
         setDescription(result.data.description);
@@ -20,7 +20,7 @@ function UpdateSupplierCategory() {
 
   const updateCategory = (e) => {
     e.preventDefault();
-    axios.put(`http://localhost:3001/updateSupplierCategory/${id}`, { name, description })
+    axios.put(`https://lunu-mirisa.vercel.app/updateSupplierCategory/${id}`, { name, description })
       .then(() => navigate('/ShowSupplierCategory'))
       .catch(err => setError("Error updating category."));
   };

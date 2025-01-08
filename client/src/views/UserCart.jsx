@@ -16,7 +16,7 @@ const ShowCart = () => {
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/ShowCart/${userId}`);
+        const response = await axios.get(`https://lunu-mirisa.vercel.app/ShowCart/${userId}`);
         const groupedItems = groupCartItems(response.data.cartItems);
         setCartItems(groupedItems);
         
@@ -58,7 +58,7 @@ const ShowCart = () => {
 
   const handleDelete = async (itemTitle) => { 
     try {
-      await axios.delete(`http://localhost:3001/RemoveFromCart/${itemTitle}/${userId}`); 
+      await axios.delete(`https://lunu-mirisa.vercel.app/RemoveFromCart/${itemTitle}/${userId}`); 
     
       const updatedCartItems = cartItems.filter(item => item.title !== itemTitle);
       setCartItems(updatedCartItems);
@@ -74,7 +74,7 @@ const ShowCart = () => {
 
   const handleUpdate = async (itemId, newQuantity) => {
     try {
-      await axios.put(`http://localhost:3001/UpdateCartItem/${itemId}`, { quantity: newQuantity });
+      await axios.put(`https://lunu-mirisa.vercel.app/UpdateCartItem/${itemId}`, { quantity: newQuantity });
 
       const updatedCartItems = cartItems.map(item => {
         if (item._id === itemId) {
@@ -110,7 +110,7 @@ const ShowCart = () => {
                 <div key={item._id} className="bg-gray-100 hover:bg-gray-300 border p-4 rounded-lg shadow-md flex flex-col justify-between transition-all duration-300 ease-out transform hover:scale-105">
                   <div>
                     <img 
-                      src={`http://localhost:3001/Images/` + item.image} 
+                      src={`https://lunu-mirisa.vercel.app/Images/` + item.image} 
                       alt={item.image} 
                       className="w-full h-48 bg-cover mx-auto bg-center mt-5"
                     />

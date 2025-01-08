@@ -27,7 +27,7 @@ function UpdateUsers() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/getUser/${userId}`)
+        axios.get(`https://lunu-mirisa.vercel.app/getUser/${userId}`)
             .then(result => {
                 setFirstName(result.data.firstName || '');
                 setLastName(result.data.lastName || '');
@@ -44,7 +44,7 @@ function UpdateUsers() {
     }, [userId]);
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/ShowProfilePic/${userId}`)
+        axios.get(`https://lunu-mirisa.vercel.app/ShowProfilePic/${userId}`)
             .then(response => {
                 setProfile(response.data);
             })
@@ -55,7 +55,7 @@ function UpdateUsers() {
     }, [userId]);
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/GetAllReviewsbyId/${userId}`)
+        axios.get(`https://lunu-mirisa.vercel.app/GetAllReviewsbyId/${userId}`)
             .then(response => {
                 setReviews(response.data);
             })
@@ -118,14 +118,14 @@ function UpdateUsers() {
         }
         formData.append('userId', userId);
 
-        axios.post("http://localhost:3001/ProfileImage", formData)
+        axios.post("https://lunu-mirisa.vercel.app/ProfileImage", formData)
             .then(result => {
                 if (result.data.alreadyExists) {
-                    return axios.put("http://localhost:3001/ProfileImage", formData);
+                    return axios.put("https://lunu-mirisa.vercel.app/ProfileImage", formData);
                 }
             })
             .then(() => {
-                return axios.put(`http://localhost:3001/updateUser/${userId}`, updatedUserData);
+                return axios.put(`https://lunu-mirisa.vercel.app/updateUser/${userId}`, updatedUserData);
             })
             .then(() => {
                 navigate(`/UserHome/${userId}`);
@@ -142,7 +142,7 @@ function UpdateUsers() {
     const handleDeleteAccount = () => {
         const confirmDelete = window.confirm('Are you sure you want to delete your account? This action cannot be undone.');
         if (confirmDelete) {
-            axios.delete(`http://localhost:3001/deleteUser/${userId}`)
+            axios.delete(`https://lunu-mirisa.vercel.app/deleteUser/${userId}`)
                 .then(() => {
                     navigate('/');
                 })
@@ -175,7 +175,7 @@ function UpdateUsers() {
                                 <div className="flex items-center justify-center w-30">
                                     <div className="relative w-40 h-40">
                                         <img 
-                                            src={previewImage || (profile.image ? `http://localhost:3001/Images/${profile.image}` : defaultProfilePic)} 
+                                            src={previewImage || (profile.image ? `https://lunu-mirisa.vercel.app/Images/${profile.image}` : defaultProfilePic)} 
                                             alt="Profile" 
                                             className="w-full h-full bg-cover bg-center rounded-full transition-all duration-500 ease-in-out transform hover:scale-110 hover:shadow-2xl"
                                         />

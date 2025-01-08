@@ -16,7 +16,7 @@ const InOrder = () => {
 
   useEffect(() => {
     // Fetch table data from the API
-    axios.get('http://localhost:3001/ShowTable')
+    axios.get('https://lunu-mirisa.vercel.app/ShowTable')
       .then(response => {
         setTables(response.data); // Set the response data to state
       })
@@ -30,7 +30,7 @@ const InOrder = () => {
 
     if (selectedTable) {
       // Send the POST request to create an order with the selected table number
-      axios.post('http://localhost:3001/createOrderTable', { tableNum: selectedTable })
+      axios.post('https://lunu-mirisa.vercel.app/createOrderTable', { tableNum: selectedTable })
         .then(response => {
           console.log("Order created successfully!", response.data);
           const orderId = response.data.order.id; // Use the returned order ID directly
