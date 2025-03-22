@@ -128,6 +128,7 @@ function App() {
         <Route path="/GuestMenu" element={<GuestMenu/>} />
         <Route path="/ShowAdminInOrder" element={<ShowAdminInOrder/>} />
         <Route path="/MunuListWaitor/:userId" element={<MunuListWaitor/>} />
+        <Route path="/MunuListWaitor/:userId" element={<MunuListWaitor/>} />
       </Routes>
     </BrowserRouter>
   );
