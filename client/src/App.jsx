@@ -129,6 +129,7 @@ function App() {
         <Route path="/ShowAdminInOrder" element={<ShowAdminInOrder/>} />
         <Route path="/MunuListWaitor/:userId" element={<MunuListWaitor/>} />
         <Route path="/UpdateReservedTables/:reserveId/:userId" element={<UpdateReservedTables/>} />
+        <Route path="/MunuListWaitor/:userId" element={<MunuListWaitor/>} />
       </Routes>
     </BrowserRouter>
   );
