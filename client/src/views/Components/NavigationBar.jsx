@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart, faUser, faBars, faCalendarCheck, faTimes, faHome, faUtensils, faTag } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
+import { countCartItems } from '../../api/cartApi';
+import useCurrentUser from '../../utils/useCurrentUser';
 
 const NavigationBar = ({ logo }) => {
+  const { user: currentUser } = useCurrentUser();
+  const userId = currentUser?.id;
   const [cartItemCount, setCartItemCount] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);  // State for menu bar toggle
-  const { userId } = useParams();
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/countCartItems/${userId}`)
-      .then(response => {
-        setCartItemCount(response.data.count); 
+    countCartItems()
+      .then(count => {
+        setCartItemCount(count);
       })
       .catch(error => {
         console.error('Error fetching cart item count:', error);
       });
-  }, [userId]);
+  }, []);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -36,7 +38,7 @@ const NavigationBar = ({ logo }) => {
 
         {/* Desktop Navigation Links */}
         <ul className="space-x-4 self-center hidden md:flex">
-          <li><Link to={`/UserHome/${userId}`} className="text-white font-spartan font-thin text-2xl">Home</Link></li>
+          <li><Link to={`/UserHome`} className="text-white font-spartan font-thin text-2xl">Home</Link></li>
           <li><Link to={`/ShowMenuList/${userId}`} className="text-white font-spartan font-thin text-2xl">Menu</Link></li>
           <li><Link to="/" className="text-white font-spartan font-thin text-2xl">Offers</Link></li>
         </ul>
@@ -44,7 +46,7 @@ const NavigationBar = ({ logo }) => {
         {/* Mobile View Navigation Links (Icons Only) */}
         <ul className={`flex space-x-10 mr-10 mt-4 self-center md:hidden ${menuOpen ? 'hidden' : 'flex'}`}>
           <li className="flex flex-col items-center">
-            <Link to={`/UserHome/${userId}`} className="text-white">
+            <Link to={`/UserHome`} className="text-white">
               <FontAwesomeIcon icon={faHome} className="text-3xl" />
             </Link>
             <span className="text-xs text-white mt-1">Home</span> {/* Small text below icon */}
@@ -73,7 +75,7 @@ const NavigationBar = ({ logo }) => {
             />
           </Link>
 
-          <Link to={`/UserCart/${userId}`} className="relative inline-block">
+          <Link to={`/UserCart`} className="relative inline-block">
             <FontAwesomeIcon 
               icon={faShoppingCart} 
               className="text-white cursor-pointer inline text-2xl p-3 mt-1 transition-transform duration-300 ease-in-out transform hover:scale-110 hover:text-gray-300"
@@ -114,7 +116,7 @@ const NavigationBar = ({ logo }) => {
         {/* Additional Links inside the Mobile Menu */}
         <div className="flex flex-col items-center space-y-4 text-white">
           <Link to={`/MyTableReservations/${userId}`} className="text-2xl">Reservations</Link>
-          <Link to={`/UserCart/${userId}`} className="text-2xl">Shopping Cart</Link>
+          <Link to={`/UserCart`} className="text-2xl">Shopping Cart</Link>
           <Link to={`/UserProfile/${userId}`} className="text-2xl">Profile Settings</Link>
           <Link to={`/Login`} className="text-2xl text-red-500">Logout</Link>
         </div>

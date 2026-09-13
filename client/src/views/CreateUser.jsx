@@ -1,12 +1,14 @@
 import { useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-import Footer from './Footer.jsx'; 
-import NavigationBar from './Components/NavigationSignup.jsx'; 
-import logo from '../Images/Logo.png'; 
+import { Link, useNavigate, Navigate } from "react-router-dom";
+import Footer from './Footer.jsx';
+import NavigationBar from './Components/NavigationSignup.jsx';
+import logo from '../Images/Logo.png';
 import signinBG from '../Images/signinBG.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import useCurrentUser from '../utils/useCurrentUser';
+import Loader from './Components/Loader';
 
 const Create = () => {
 	const [data, setData] = useState({
@@ -21,6 +23,7 @@ const Create = () => {
 	const [passwordVisible, setPasswordVisible] = useState(false);
 	const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
 	const navigate = useNavigate();
+	const { user, loading: checkingAuth } = useCurrentUser();
 
 	const handleChange = ({ currentTarget: input }) => {
 		setData({ ...data, [input.name]: input.value });
@@ -74,6 +77,14 @@ const Create = () => {
 	const toggleConfirmPasswordVisibility = () => {
 		setConfirmPasswordVisible(!confirmPasswordVisible);
 	};
+
+	if (checkingAuth) {
+		return <Loader />;
+	}
+
+	if (user) {
+		return <Navigate to="/UserHome" replace />;
+	}
 
 	return (
 		<div className="bg-custom-maroon min-h-screen ">

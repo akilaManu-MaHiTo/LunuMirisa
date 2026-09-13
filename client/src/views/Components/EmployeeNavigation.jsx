@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faSignOutAlt, faUserCog } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
+import { countCartItems } from '../../api/cartApi';
 
 const NavigationBar = ({ logo, selectedPage }) => {
   const [showSearchBar, setShowSearchBar] = useState(false);
@@ -37,14 +37,14 @@ const NavigationBar = ({ logo, selectedPage }) => {
   };
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/countCartItems/${userId}`)
-      .then(response => {
-        setCartItemCount(response.data.count); // Store the count in state
+    countCartItems()
+      .then(count => {
+        setCartItemCount(count); // Store the count in state
       })
       .catch(error => {
         console.error('Error fetching cart item count:', error);
       });
-  }, [userId]); // Add userId as a dependency to re-fetch when it changes
+  }, []);
 
   return (
     <div className='custom1-md:pr-[10rem] custom1-md:pl-[10rem] bg-custom-maroon'>

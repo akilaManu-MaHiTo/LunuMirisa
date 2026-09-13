@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams, Link } from 'react-router-dom';
-import NavigationBar from './Components/NavigationBar.jsx'; 
+import { Link } from 'react-router-dom';
+import NavigationBar from './Components/NavigationBar.jsx';
 import logo from '../Images/Logo.png';
 import background from '../Images/profileBG2.jpg';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { showCart, removeFromCart } from '../api/cartApi';
+import useCurrentUser from '../utils/useCurrentUser';
 
 const ShowCart = () => {
-  const { userId } = useParams();
+  const { user: currentUser } = useCurrentUser();
+  const userId = currentUser?.id;
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [error, setError] = useState('');
@@ -16,10 +19,10 @@ const ShowCart = () => {
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/ShowCart/${userId}`);
-        const groupedItems = groupCartItems(response.data.cartItems);
+        const data = await showCart();
+        const groupedItems = groupCartItems(data.cartItems);
         setCartItems(groupedItems);
-        
+
         // Ensure totalPrice is a number
         setTotalPrice(calculateTotalPrice(groupedItems));
       } catch (err) {
@@ -30,7 +33,7 @@ const ShowCart = () => {
     };
 
     fetchCartItems();
-  }, [userId]);
+  }, []);
 
   const groupCartItems = (items) => {
     const groupedItems = {};
@@ -56,10 +59,10 @@ const ShowCart = () => {
     }, 0);
   };
 
-  const handleDelete = async (itemTitle) => { 
+  const handleDelete = async (itemTitle) => {
     try {
-      await axios.delete(`http://localhost:3000/RemoveFromCart/${itemTitle}/${userId}`); 
-    
+      await removeFromCart(itemTitle);
+
       const updatedCartItems = cartItems.filter(item => item.title !== itemTitle);
       setCartItems(updatedCartItems);
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, Navigate } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -20,6 +20,8 @@ import NavigationBar from "./Components/NavigationBar.jsx";
 import Footer from "./Footer.jsx";
 import food from "../Images/food.svg";
 import { validateUser } from "../api/userApi";
+import { addToCart } from "../api/cartApi";
+import useCurrentUser from "../utils/useCurrentUser";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -66,21 +68,22 @@ const FoodItem = ({
 
 const UserHome = () => {
   const { userId } = useParams();
+  const { user: currentUser } = useCurrentUser();
   const [reviews, setReviews] = useState([]);
   const [hotDeals, setHotDeals] = useState([]);
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
   const [fade, setFade] = useState(true);
   const [loading, setLoading] = useState(true);
   const [authLoading, setAuthLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState(null);
 
   const handleAddToCart = (item) => {
     const scrollPosition = window.scrollY;
     localStorage.setItem("scrollPosition", scrollPosition);
     const total = (item.price * (100 - item.percentage)) / 100;
-    axios
-      .post("http://localhost:3000/Addtocarts", {
-        userId: userId,
+    addToCart({
+        userId: currentUser?.id,
         itemId: item._id,
         category: item.category,
         title: item.title,
@@ -96,7 +99,7 @@ const UserHome = () => {
         if (error.response && error.response.status === 400) {
           toast.error(`Item already exists in the cart.`);
           console.log({
-            userId,
+            userId: currentUser?.id,
             itemId: item._id,
             category: item.category,
             title: item.title,
@@ -114,8 +117,9 @@ const UserHome = () => {
       try {
         const user = await validateUser();
         console.log("Authenticated user ID:", user.id);
+        setIsAuthenticated(true);
       } catch (error) {
-        setError("Your session is invalid or has expired. Please sign in again.");
+        setIsAuthenticated(false);
       } finally {
         setAuthLoading(false);
       }
@@ -194,8 +198,12 @@ const UserHome = () => {
     );
   };
 
-  if (loading || authLoading) {
+  if (authLoading || loading) {
     return <div>Loading...</div>;
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
   }
 
   if (error) {

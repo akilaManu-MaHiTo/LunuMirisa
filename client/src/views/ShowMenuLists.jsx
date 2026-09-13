@@ -12,6 +12,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import jsPDF from 'jspdf'; // Added jsPDF for PDF generation
 import 'jspdf-autotable';  // Import the autoTable plugin
 import { faFileLines } from '@fortawesome/free-regular-svg-icons';
+import { addToCart } from '../api/cartApi';
+import useCurrentUser from '../utils/useCurrentUser';
 
 const ShowMenuLists = () => {
   const [menuItems, setMenuItems] = useState([]);
@@ -23,6 +25,7 @@ const ShowMenuLists = () => {
   const [selectedCategory, setSelectedCategory] = useState('All Meals');
   const [fade, setFade] = useState(false);
   const { userId } = useParams();
+  const { user: currentUser } = useCurrentUser();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -63,9 +66,9 @@ const ShowMenuLists = () => {
   const handleAddToCart = (item) => {
     const scrollPosition = window.scrollY;
     localStorage.setItem('scrollPosition', scrollPosition);
-  
-    axios.post("http://localhost:3000/Addtocarts", {
-      userId:userId,
+
+    addToCart({
+      userId: currentUser?.id,
       itemId: item._id,
       category: item.category,
       title: item.title,
@@ -81,7 +84,7 @@ const ShowMenuLists = () => {
       if (error.response && error.response.status === 400) {
         toast.error(`Item already exists in the cart.`);
         console.log({
-          userId,
+          userId: currentUser?.id,
           itemId: item._id,
           category: item.category,
           title: item.title,
@@ -97,9 +100,9 @@ const ShowMenuLists = () => {
   const handleAddToTopCart = (item) => {
     const scrollPosition = window.scrollY;
     localStorage.setItem('scrollPosition', scrollPosition);
-  
-    axios.post("http://localhost:3000/Addtocarts", {
-      userId:userId,
+
+    addToCart({
+      userId: currentUser?.id,
       itemId: item.itemId,
       category: item.category,
       title: item.title,
@@ -115,7 +118,7 @@ const ShowMenuLists = () => {
       if (error.response && error.response.status === 400) {
         toast.error(`Item already exists in the cart.`);
         console.log({
-          userId,
+          userId: currentUser?.id,
           itemId: item.itemId,
           category: item.category,
           title: item.title,
