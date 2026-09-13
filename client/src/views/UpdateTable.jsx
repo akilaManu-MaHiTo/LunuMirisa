@@ -11,7 +11,7 @@ const Updatetable = () => {
   const [tables, setTables] = useState([]);
 
   useEffect(() => {
-    axios.get('https://lunu-mirisa.vercel.app/ShowTable')
+    axios.get('http://localhost:3000/ShowTable')
       .then(result => setTables(result.data))
       .catch(err => console.log(err));
   }, []);
@@ -19,7 +19,7 @@ const Updatetable = () => {
  
 
   const handleDelete = (id) => {
-    axios.delete(`https://lunu-mirisa.vercel.app/DeleteTable/${id}`)
+    axios.delete(`http://localhost:3000/DeleteTable/${id}`)
       .then(() => {
         setTables(tables.filter(table => table._id !== id));
         console.log(`Deleted table with id: ${id}`);

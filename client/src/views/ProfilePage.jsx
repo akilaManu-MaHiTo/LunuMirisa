@@ -20,7 +20,7 @@ const ProfilePage = () => {
 
   useEffect(() => {
     // Fetch employee details by userId
-    axios.get(`https://lunu-mirisa.vercel.app/employee/${userId}`)
+    axios.get(`http://localhost:3000/employee/${userId}`)
       .then(response => {
         const employeeData = response.data;
         setEmployee(employeeData);
@@ -46,7 +46,7 @@ const ProfilePage = () => {
   };
 
   const fetchAppliedLeaves = () => {
-    axios.get(`https://lunu-mirisa.vercel.app/leaves/${userId}`) 
+    axios.get(`http://localhost:3000/leaves/${userId}`) 
       .then(response => {
         setAppliedLeaves(response.data);
       })
@@ -84,7 +84,7 @@ const ProfilePage = () => {
         leaveEndDate: formattedLeaveEndDate, 
     };
 
-    axios.post('https://lunu-mirisa.vercel.app/applyleave', leaveData)
+    axios.post('http://localhost:3000/applyleave', leaveData)
         .then(response => {
             setLeaveSuccess('Leave applied successfully!');
             setLeaveError(null);

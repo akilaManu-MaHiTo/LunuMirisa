@@ -18,14 +18,14 @@ const ShowInventory = () => {
   useEffect(() => {
     if (id) {
       // Fetch the inventory item by ID
-      axios.get(`https://lunu-mirisa.vercel.app/GetInventory/${id}`)
+      axios.get(`http://localhost:3000/GetInventory/${id}`)
         .then(response => {
           const item = response.data;
           setName(item.name);
           setQuantity(item.quantity);
           setMaxQuantity(item.maxQuantity);
           setCategory(item.category);
-          setImageURL(`https://lunu-mirisa.vercel.app/Images/${item.image}`); // Set the image URL
+          setImageURL(`http://localhost:3000/Images/${item.image}`); // Set the image URL
         })
         .catch(err => console.log(err));
     }
@@ -42,7 +42,7 @@ const ShowInventory = () => {
     formData.append('category', category);
 
     // Update the existing inventory item
-    axios.post(`https://lunu-mirisa.vercel.app/PlaceOrder/${category}/${id}`, formData)
+    axios.post(`http://localhost:3000/PlaceOrder/${category}/${id}`, formData)
       .then(result => {
         console.log(category)
         console.log(result);

@@ -23,7 +23,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchUserCount = async () => {
       try {
-        const response = await axios.get('https://lunu-mirisa.vercel.app/countAllUsers');
+        const response = await axios.get('http://localhost:3000/countAllUsers');
         setUserCount(response.data.count);
       } catch (error) {
         console.error('Error fetching user count:', error);
@@ -36,7 +36,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchMenuCount = async () => {
       try {
-        const response = await axios.get('https://lunu-mirisa.vercel.app/countAllmenulist');
+        const response = await axios.get('http://localhost:3000/countAllmenulist');
         setMenuCount(response.data.count);
       } catch (error) {
         console.error('Error fetching menu count:', error);
@@ -49,7 +49,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchHotCount = async () => {
       try {
-        const response = await axios.get('https://lunu-mirisa.vercel.app/getHotDealsCount');
+        const response = await axios.get('http://localhost:3000/getHotDealsCount');
         setHotCount(response.data.count);
       } catch (error) {
         console.error('Error fetching hot count:', error);
@@ -60,7 +60,7 @@ const AdminDashboard = () => {
   }, []);
 
   useEffect(() => {
-    axios.get("https://lunu-mirisa.vercel.app/ShowInventory")
+    axios.get("http://localhost:3000/ShowInventory")
       .then(response => {
         setInventory(response.data);
       })
@@ -86,7 +86,7 @@ const AdminDashboard = () => {
     // Fetch data from your API
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://lunu-mirisa.vercel.app/ReviewCountByRating');
+        const response = await axios.get('http://localhost:3000/ReviewCountByRating');
         setReviewCounts(response.data);
       } catch (error) {
         console.error('Error fetching review counts:', error);
@@ -95,7 +95,7 @@ const AdminDashboard = () => {
     fetchData();
   }, []);
 
-  axios.get('https://lunu-mirisa.vercel.app/calculateByNo')
+  axios.get('http://localhost:3000/calculateByNo')
       .then(response => {
         setCalculateByNo(response.data.totalPrice); // Assuming your API returns { total: ... }
       })

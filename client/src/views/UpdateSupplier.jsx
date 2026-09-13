@@ -18,7 +18,7 @@ function UpdateSupplier() {
 
   // Fetch supplier details to populate the form
   useEffect(() => {
-    axios.get(`https://lunu-mirisa.vercel.app/ShowSupplierProfile/${id}`)
+    axios.get(`http://localhost:3000/ShowSupplierProfile/${id}`)
       .then(response => setSupplier(response.data))
       .catch(err => setError('Error fetching supplier details'));
   }, [id]);
@@ -35,7 +35,7 @@ function UpdateSupplier() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    axios.put(`https://lunu-mirisa.vercel.app/UpdateSupplierProfile/${id}`, supplier)
+    axios.put(`http://localhost:3000/UpdateSupplierProfile/${id}`, supplier)
       .then(() => {
         navigate('/ShowSupplierProfiles'); 
       })

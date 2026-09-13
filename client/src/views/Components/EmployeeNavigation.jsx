@@ -37,7 +37,7 @@ const NavigationBar = ({ logo, selectedPage }) => {
   };
 
   useEffect(() => {
-    axios.get(`https://lunu-mirisa.vercel.app/countCartItems/${userId}`)
+    axios.get(`http://localhost:3000/countCartItems/${userId}`)
       .then(response => {
         setCartItemCount(response.data.count); // Store the count in state
       })

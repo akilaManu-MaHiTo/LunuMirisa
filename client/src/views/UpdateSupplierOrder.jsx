@@ -12,7 +12,7 @@ function UpdateSupplier() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(`https://lunu-mirisa.vercel.app/getSupplierOrder/${id}`)
+    axios.get(`http://localhost:3000/getSupplierOrder/${id}`)
       .then(result => {
         setAmount(result.data.amount);
         setPrice(result.data.price);
@@ -24,7 +24,7 @@ function UpdateSupplier() {
 
   const updateOrder = (e) => {
     e.preventDefault();
-    axios.put(`https://lunu-mirisa.vercel.app/updateSupplierOrder/${id}`, { amount, price, deliveryDate, specialNote })
+    axios.put(`http://localhost:3000/updateSupplierOrder/${id}`, { amount, price, deliveryDate, specialNote })
       .then(result => {
         navigate('/ShowSupplierOrder');
       })

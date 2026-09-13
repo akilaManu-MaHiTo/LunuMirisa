@@ -15,7 +15,7 @@ const TableReservation = () => {
   const [selectedQuantities, setSelectedQuantities] = useState([]);
 
   useEffect(() => {
-    axios.get('https://lunu-mirisa.vercel.app/ShowTable')
+    axios.get('http://localhost:3000/ShowTable')
       .then(result => {
         setTables(result.data);
         setFilteredTables(result.data); // Initialize with all tables
@@ -28,7 +28,7 @@ const TableReservation = () => {
   }, []);
 
   const handleDelete = (id) => {
-    axios.delete(`https://lunu-mirisa.vercel.app/DeleteTable/${id}`)
+    axios.delete(`http://localhost:3000/DeleteTable/${id}`)
       .then(() => {
         const updatedTables = tables.filter(table => table._id !== id);
         setTables(updatedTables);

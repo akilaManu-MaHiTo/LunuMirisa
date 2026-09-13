@@ -10,13 +10,13 @@ function ShowSupplierCategory() {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    axios.get('https://lunu-mirisa.vercel.app/ShowSupplierCategory')
+    axios.get('http://localhost:3000/ShowSupplierCategory')
       .then(result => setCategories(result.data))
       .catch(err => console.log(err));
   }, []);
 
   const handleDelete = (id) => {
-    axios.delete(`https://lunu-mirisa.vercel.app/DeleteSupplierCategory/${id}`)
+    axios.delete(`http://localhost:3000/DeleteSupplierCategory/${id}`)
       .then(() => {
         setCategories(categories.filter(category => category._id !== id));
       })

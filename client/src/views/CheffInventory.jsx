@@ -20,7 +20,7 @@ const ShowInventory = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    axios.get("https://lunu-mirisa.vercel.app/ShowInventory")
+    axios.get("http://localhost:3000/ShowInventory")
       .then(response => {
         setInventory(response.data);
         setFilteredInventory(response.data);
@@ -34,7 +34,7 @@ const ShowInventory = () => {
   }, []);
 
   const handleDeleteItem = (itemId) => {
-    axios.delete(`https://lunu-mirisa.vercel.app/DeleteInventoryItem/${itemId}`)
+    axios.delete(`http://localhost:3000/DeleteInventoryItem/${itemId}`)
       .then(response => {
         // After successful deletion, remove the item from the state
         setFilteredInventory(prevInventory => prevInventory.filter(item => item._id !== itemId));
@@ -46,7 +46,7 @@ const ShowInventory = () => {
 
   useEffect(() => {
     // Fetch the count of inventory items with status "Yes"
-    axios.get('https://lunu-mirisa.vercel.app/countYesSupply')
+    axios.get('http://localhost:3000/countYesSupply')
       .then(response => {
         setCount(response.data.count);
       })
@@ -255,7 +255,7 @@ const generateReport = () => {
                 {filteredInventory.map((item) => (
                   <li key={item._id} className="bg-slate-200 grid grid-cols-6 mb-4 p-4 border rounded items-center space-x-6 border-custom-black">
                     <img 
-                      src={`https://lunu-mirisa.vercel.app/Images/` + item.image} 
+                      src={`http://localhost:3000/Images/` + item.image} 
                       alt={item.name} 
                       className="w-32 h-32 object-cover rounded-md"
                     />

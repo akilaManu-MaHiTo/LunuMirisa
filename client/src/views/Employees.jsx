@@ -15,7 +15,7 @@ const createEmployees = () => {
     const Submit = (e) => {
 
         e.preventDefault();
-        axios.post("https://lunu-mirisa.vercel.app/createEmployee",{EmName,email,EmAge,EmPassword,EmType})
+        axios.post("http://localhost:3000/createEmployee",{EmName,email,EmAge,EmPassword,EmType})
         .then(result => {
 
             console.log(result)
