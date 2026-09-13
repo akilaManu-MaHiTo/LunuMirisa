@@ -1,4 +1,5 @@
 const { OAuth2Client } = require('google-auth-library');
+const { UserModel } = require('../models/Users');
 require('dotenv').config();
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
@@ -33,4 +34,14 @@ const protect = async (req, res, next) => {
   }
 };
 
+async function resolveUserId(req) {
+  const user = await UserModel.findOne({ email: req.user.email })
+    .select('_id')
+    .lean();
+
+  return user?._id ?? null;
+}
+
 module.exports = protect;
+module.exports.protect = protect;
+module.exports.resolveUserId = resolveUserId;

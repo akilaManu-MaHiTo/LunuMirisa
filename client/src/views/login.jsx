@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import axios from "axios";
 import { GoogleLogin } from "@react-oauth/google";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, Navigate } from "react-router-dom";
 import Navigation from "./Components/NavigationSignup.jsx";
 import Footer from "./Components/FooterStartPage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,6 +14,8 @@ import logo from "../Images/Logo.png";
 import at from "../Images/at.svg";
 import lock from "../Images/lock.svg";
 import loginBG from "../Images/loginBG.jpg";
+import useCurrentUser from "../utils/useCurrentUser";
+import Loader from "./Components/Loader";
 
 const API_BASE_URL = (
   import.meta.env.VITE_API_BASE_URL || "http://localhost:3000"
@@ -26,12 +28,13 @@ const LoginUser = () => {
   const [loading, setLoading] = useState(false); // Loading state
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { user, loading: checkingAuth } = useCurrentUser();
 
   const navigateAfterLogin = useCallback(
     (response) => {
       switch (response.status) {
         case 200:
-          navigate(`/UserHome/${response.data.userId}`);
+          navigate(`/UserHome`);
           break;
         case 201:
           navigate("/AdminPage");
@@ -121,6 +124,14 @@ const LoginUser = () => {
   const togglePasswordVisibility = useCallback(() => {
     setShowPassword(!showPassword);
   }, [showPassword]);
+
+  if (checkingAuth) {
+    return <Loader />;
+  }
+
+  if (user) {
+    return <Navigate to="/UserHome" replace />;
+  }
 
   return (
     <div>
