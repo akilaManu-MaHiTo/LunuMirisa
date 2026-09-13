@@ -1,5 +1,4 @@
-import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link, Navigate } from "react-router-dom";
 import NavigationBar from "./Components/NavigationSignup";
 import logo from "../Images/Logo.png";
@@ -17,26 +16,7 @@ import useCurrentUser from "../utils/useCurrentUser";
 import Loader from "./Components/Loader";
 
 function Users() {
-  const [users, setUsers] = useState([]);
   const { user, loading: checkingAuth } = useCurrentUser();
-
-  useEffect(() => {
-    axios
-      .get("https://lunu-mirisa.vercel.app")
-      .then((result) => setUsers(result.data))
-      .catch((err) => console.log(err));
-  }, []);
-
-  const handleDelete = (id) => {
-    axios
-      .delete("http://localhost:3000/deleteUser/" + id)
-      .then((res) => {
-        console.log(res);
-
-        window.location.reload();
-      })
-      .catch((err) => console.log(err));
-  };
 
   if (checkingAuth) {
     return <Loader />;
