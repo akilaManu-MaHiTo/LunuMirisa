@@ -24,7 +24,7 @@ function Users() {
 
     const handleDelete = (id) => {
 
-      axios.delete('http://localhost:3000/deleteUser/'+id)
+      axios.delete('https://lunu-mirisa.vercel.app/deleteUser/'+id)
       .then(res => {console.log(res)
 
         window.location.reload()

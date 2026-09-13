@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 // Use environment variable for database URL (don't hardcode credentials)
-const URL = process.env.MONGO_URI || 'mongodb+srv://akilamanujith_db_user:akilamanu@cluster0.chwffhr.mongodb.net/?appName=Cluster0';
+const URL = process.env.MONGO_URI || 'mongodb+srv://akilamanujith:akila@cluster0.bfcnm3b.mongodb.net/crud?retryWrites=true&w=majority&appName=Cluster0';
 
 // Export connection function
 module.exports = () => {

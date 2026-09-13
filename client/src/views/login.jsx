@@ -1,40 +1,37 @@
-import { useState, useCallback } from "react";
-import axios from "axios";
-import { GoogleLogin } from "@react-oauth/google";
-import { useNavigate, Link } from "react-router-dom";
-import Navigation from "./Components/NavigationSignup.jsx";
-import Footer from "./Components/FooterStartPage";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCircleNotch,
-  faEye,
-  faEyeSlash,
-} from "@fortawesome/free-solid-svg-icons";
-import logo from "../Images/Logo.png";
-import at from "../Images/at.svg";
-import lock from "../Images/lock.svg";
-import loginBG from "../Images/loginBG.jpg";
-
-const API_BASE_URL = (
-  import.meta.env.VITE_API_BASE_URL || "http://localhost:3000"
-).replace(/\/$/, "");
+import React, { useState, useCallback } from 'react';
+import axios from 'axios';
+import { useNavigate, Link } from 'react-router-dom';
+import Navigation from './Components/NavigationSignup.jsx';
+import Footer from './Components/FooterStartPage'; 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleNotch, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import logo from '../Images/Logo.png';
+import at from '../Images/at.svg';
+import lock from '../Images/lock.svg';
+import loginBG from '../Images/loginBG.jpg';
 
 const LoginUser = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false); // Loading state
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const navigateAfterLogin = useCallback(
-    (response) => {
+  const Submit = useCallback(async (e) => {
+    e.preventDefault();
+    setLoading(true); // Start loading animation
+    try {
+      const response = await axios.post('https://lunu-mirisa.vercel.app/loginUser', { email, password });
+      
+      console.log('Response Data:', response.data); // Debugging log
+
       switch (response.status) {
         case 200:
           navigate(`/UserHome/${response.data.userId}`);
           break;
         case 201:
-          navigate("/AdminPage");
+          navigate('/AdminPage');
           break;
         case 202:
           navigate(`/WaitorPage/${response.data.userId}`);
@@ -43,81 +40,27 @@ const LoginUser = () => {
           navigate(`/ChefPage/${response.data.userId}`);
           break;
         case 204:
-          alert("Employee login successful");
+          alert('Employee login successful');
           break;
         case 206:
-          navigate(`/SupplierDashboard/${response.data.SupplierId}`);
+          console.log(response.data.SupplierId)
+          navigate(`/SupplierDashboard/${response.data.SupplierId}`); // Updated navigation
           break;
         default:
-          alert("Unexpected response from server");
+          alert('Unexpected response from server');
       }
-    },
-    [navigate],
-  );
-
-  const Submit = useCallback(
-    async (e) => {
-      e.preventDefault();
-      setLoading(true); // Start loading animation
-      try {
-        const response = await axios.post(`${API_BASE_URL}/loginUser`, {
-          email,
-          password,
-        });
-
-        console.log("Response Data:", response.data); // Debugging log
-
-        if (response.data.token)
-          localStorage.setItem("token", response.data.token);
-        navigateAfterLogin(response);
-      } catch (error) {
-        console.error("Error:", error);
-        if (error.response && error.response.data) {
-          setError(error.response.data.message);
-        } else {
-          setError("An error occurred. Please try again.");
-        }
-      } finally {
-        setLoading(false); // Stop loading animation
+    } catch (error) {
+      console.error('Error:', error);
+      if (error.response && error.response.data) {
+        setError(error.response.data.message);
+      } else {
+        setError('An error occurred. Please try again.');
       }
-    },
-    [email, password, navigateAfterLogin],
-  );
-
-  const handleGoogleSuccess = useCallback(
-    async ({ credential }) => {
-      if (!credential) {
-        setError(
-          "Google sign-in did not return a credential. Please try again.",
-        );
-        return;
-      }
-
-      setLoading(true);
-      setError("");
-      try {
-        const response = await axios.post(`${API_BASE_URL}/google-login`, {
-          credential,
-        });
-        localStorage.setItem("googleToken", credential);
-        localStorage.setItem("token", response.data.token);
-        navigateAfterLogin(response);
-      } catch (error) {
-        setError(
-          error.response?.data?.message ||
-            "Google sign-in failed. Please try again.",
-        );
-      } finally {
-        setLoading(false);
-      }
-    },
-    [navigateAfterLogin],
-  );
-
-  const handleGoogleError = useCallback(() => {
-    setError("Google sign-in failed. Please try again.");
-  }, []);
-
+    } finally {
+      setLoading(false); // Stop loading animation
+    }
+  }, [email, password, navigate]);
+  
   const togglePasswordVisibility = useCallback(() => {
     setShowPassword(!showPassword);
   }, [showPassword]);
@@ -125,24 +68,16 @@ const LoginUser = () => {
   return (
     <div>
       <Navigation logo={logo} />
-      <div className="flex justify-center items-center min-h-screen bg-[#1A0E0E] w-screen">
-        <div className="flex w-full sm:w-3/4 bg-white shadow-md mt-10 mb-40">
-          <div className="w-full sm:w-1/2 p-6 sm:p-8 mt-10">
+      <div className='flex justify-center items-center min-h-screen bg-[#1A0E0E] w-screen'>
+        <div className='flex w-full sm:w-3/4 bg-white shadow-md mt-10 mb-40'>
+          <div className='w-full sm:w-1/2 p-6 sm:p-8 mt-10'>
             <form onSubmit={Submit}>
-              <h2 className="text-center text-black font-spartan font-semibold text-[4rem] mb-10">
-                Login
-              </h2>
-              <div className="mb-4">
+              <h2 className='text-center text-black font-spartan font-semibold text-[4rem] mb-10'>Login</h2>
+              <div className='mb-4'>
                 <div className="flex flex-col mb-4">
-                  <label className="text-gray-700 mb-2" htmlFor="email">
-                    Email
-                  </label>
+                  <label className="text-gray-700 mb-2" htmlFor="email">Email</label>
                   <div className="flex items-center border border-gray-300 rounded-md p-2 transition-colors duration-300 hover:border-black">
-                    <img
-                      src={at}
-                      alt="Email Icon"
-                      className="text-gray-500 mr-2 ml-2 w-5 h-5"
-                    />
+                    <img src={at} alt="Email Icon" className="text-gray-500 mr-2 ml-2 w-5 h-5" />
                     <input
                       id="email"
                       placeholder="Enter your Email"
@@ -155,33 +90,25 @@ const LoginUser = () => {
                 </div>
               </div>
               <div className="flex flex-col mb-4">
-                <label className="text-gray-700 mb-2" htmlFor="password">
-                  Password
-                </label>
+                <label className="text-gray-700 mb-2" htmlFor="password">Password</label>
                 <div className="flex items-center border border-gray-300 rounded-md p-2 transition-colors duration-300 hover:border-black">
-                  <img
-                    src={lock}
-                    alt="Password Icon"
-                    className="text-gray-500 mr-2 ml-2 w-5 h-5"
-                  />
+                  <img src={lock} alt="Password Icon" className="text-gray-500 mr-2 ml-2 w-5 h-5" />
                   <input
                     id="password"
                     placeholder="Enter your Password"
                     className="flex-1 border-none outline-none px-2 py-1 text-gray-800"
-                    type={showPassword ? "text" : "password"}
+                    type={showPassword ? 'text' : 'password'}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    aria-describedby={error ? "password-error" : null}
-                    aria-invalid={error ? "true" : "false"}
+                    aria-describedby={error ? 'password-error' : null}
+                    aria-invalid={error ? 'true' : 'false'}
                   />
                   <button
                     type="button"
                     className="ml-2"
                     onClick={togglePasswordVisibility}
-                    aria-label={
-                      showPassword ? "Hide password" : "Show password"
-                    }
+                    aria-label={showPassword ? 'Hide password' : 'Show password'}
                   >
                     <FontAwesomeIcon
                       icon={showPassword ? faEyeSlash : faEye}
@@ -190,11 +117,7 @@ const LoginUser = () => {
                   </button>
                 </div>
               </div>
-              {error && (
-                <div id="password-error" className="text-red-500 text-sm mb-4">
-                  {error}
-                </div>
-              )}
+              {error && <div id="password-error" className="text-red-500 text-sm mb-4">{error}</div>}
               <div className="flex justify-center items-center">
                 <button
                   type="submit"
@@ -202,45 +125,35 @@ const LoginUser = () => {
                   disabled={loading} // Disable button while loading
                 >
                   {loading ? (
-                    <FontAwesomeIcon
-                      icon={faCircleNotch}
-                      spin
-                      className="w-5 h-5"
-                    />
+                    <FontAwesomeIcon icon={faCircleNotch} spin className="w-5 h-5" />
                   ) : (
-                    "Log In"
+                    'Log In'
                   )}
                 </button>
               </div>
             </form>
-            <div className="flex flex-col items-center gap-4 mt-6">
-              <div className="text-sm text-gray-500">or continue with</div>
-              <GoogleLogin
-                onSuccess={handleGoogleSuccess}
-                onError={handleGoogleError}
-                useOneTap
-              />
-            </div>
             <div className="flex justify-center text-gray-700 pt-4 font-spartan items-center">
               <div className="font-thin text-center">
-                Do not have an account?&nbsp;&nbsp;
+                Don't have an account?&nbsp;&nbsp;
               </div>
               <Link to="/create">
-                <button className="font-bold hover:underline">Sign Up</button>
+                <button className="font-bold hover:underline">
+                  Sign Up
+                </button>
               </Link>
             </div>
           </div>
           <div
-            className="hidden sm:block w-8/12 h-screen relative"
-            style={{
-              backgroundImage: `url(${loginBG})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
+            className='hidden sm:block w-8/12 h-screen relative'
+            style={{ 
+              backgroundImage: `url(${loginBG})`, 
+              backgroundSize: 'cover', 
+              backgroundPosition: 'center' 
             }}
           >
-            <div className="absolute inset-0 bg-black opacity-70"></div>
-            <div className="relative flex justify-center items-center h-full">
-              <h2 className="text-white font-spartan font-thin text-5xl text-center px-20">
+            <div className='absolute inset-0 bg-black opacity-70'></div>
+            <div className='relative flex justify-center items-center h-full'>
+              <h2 className='text-white font-spartan font-thin text-5xl text-center px-20'>
                 Ready for something delicious? Log in now.
               </h2>
             </div>
