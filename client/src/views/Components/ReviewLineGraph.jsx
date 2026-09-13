@@ -14,7 +14,7 @@ const ReviewChart = () => {
     // Fetch data from your API
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://lunu-mirisa.vercel.app/ReviewCountByRating');
+        const response = await axios.get('http://localhost:3000/ReviewCountByRating');
         setReviewCounts(response.data);
         console.log(response.data);
       } catch (error) {

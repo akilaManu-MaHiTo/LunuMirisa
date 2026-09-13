@@ -18,7 +18,7 @@ const AddMenuList = () => {
   // Fetch data when there's an ID (for editing an existing item)
   useEffect(() => {
     if (id) {
-      axios.get(`https://lunu-mirisa.vercel.app/showMenu/${id}`)
+      axios.get(`http://localhost:3000/showMenu/${id}`)
         .then(result => {
           const { title, price, image, type, category, description } = result.data;
           setTitle(title);
@@ -39,14 +39,14 @@ const AddMenuList = () => {
 
     // If there's an ID, update the menu item; otherwise, create a new one
     if (id) {
-      axios.put(`https://lunu-mirisa.vercel.app/updateMenu/${id}`, menuItem)
+      axios.put(`http://localhost:3000/updateMenu/${id}`, menuItem)
         .then(result => {
           console.log(result);
           navigate('/ManagerMenuList');
         })
         .catch(err => console.log(err));
     } else {
-      axios.post("https://lunu-mirisa.vercel.app/createAddMenuList", menuItem)
+      axios.post("http://localhost:3000/createAddMenuList", menuItem)
         .then(result => {
           console.log(result);
           navigate('/ManagerMenuList');
@@ -71,7 +71,7 @@ const AddMenuList = () => {
 
           <div className='flex justify-center my-5'>
             <img 
-                src={`https://lunu-mirisa.vercel.app/Images/` + image} 
+                src={`http://localhost:3000/Images/` + image} 
                 alt={image} 
                 className="w-32 h-32 object-cover rounded-md"
               />
