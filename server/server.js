@@ -33,7 +33,7 @@ const app = express();
 // Middleware
 // app.use(cors());
 app.use(cors({
-    origin: "*",
+    origin: "https://lunu-mirisalk.vercel.app",
     methods: ["POST", "GET", "PUT", "DELETE"],
     credentials: true
 }));
@@ -41,7 +41,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
-app.use('/api', USER);
+app.use('/', USER);
 app.use('/', EMPLOYEE);
 app.use('/', IMAGE);
 app.use('/', LOGIN);
@@ -74,7 +74,7 @@ app.use((req, res) => {
 });
 
 // Connect to database and start server
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 conDatabase()
     .then(() => {
