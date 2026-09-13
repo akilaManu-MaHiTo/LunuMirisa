@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { UserModel } = require('../models/Users');
+const protect = require('../middleware/AuthMiddleware');
 
 // router.post("/createUserb", (req, res) => {
 //     User.create(req.body)
@@ -49,6 +50,28 @@ router.get('/countAllUsers', async (req, res) => {
         res.status(200).json({ count: userCount });
     } catch (err) {
         res.status(500).json({ error: 'Failed to count users' });
+    }
+});
+
+router.get('/user', protect, async (req, res) => {
+    try {
+        const user = await UserModel.findOne({ email: req.user.email })
+            .select('_id firstName lastName phone address')
+            .lean();
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        return res.status(200).json({
+            id: user._id,
+            firstname: user.firstName,
+            lastname: user.lastName,
+            phone: user.phone,
+            address: user.address,
+        });
+    } catch (error) {
+        return res.status(500).json({ message: 'Failed to retrieve user' });
     }
 });
 

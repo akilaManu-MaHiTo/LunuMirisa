@@ -21,7 +21,7 @@ const AcceptedOrders = () => {
 
   useEffect(() => {
     // Fetching data from the server
-    axios.get('https://lunu-mirisa.vercel.app/acceptedOrders')
+    axios.get('http://localhost:3000/acceptedOrders')
       .then(response => {
         setOrders(response.data);
         setFilteredOrders(response.data); // Initially show all orders
@@ -118,11 +118,11 @@ const AcceptedOrders = () => {
   };
 
   const handleUpdate = (name, orderQuantity, orderId) => {
-    axios.put(`https://lunu-mirisa.vercel.app/updateBySupply/${name}`, { orderQuantity })
+    axios.put(`http://localhost:3000/updateBySupply/${name}`, { orderQuantity })
       .then(response => {
         console.log("Inventory updated successfully!", response.data);
         toast.success("Inventory updated successfully!")
-        axios.put(`https://lunu-mirisa.vercel.app/OrdersToNo/${orderId}`)
+        axios.put(`http://localhost:3000/OrdersToNo/${orderId}`)
           .then(() => {
             console.log("Order deleted successfully!");
             setOrders(prevOrders => prevOrders.filter(order => order._id !== orderId));
@@ -213,7 +213,7 @@ const AcceptedOrders = () => {
             >
               <div className='flex gap-32 px-36'>
               <img 
-                src={`https://lunu-mirisa.vercel.app/Images/${order.image}`} 
+                src={`http://localhost:3000/Images/${order.image}`} 
                 alt={order.name} 
                 className="w-60 h-60 mt-10 object-cover rounded-md"
               />

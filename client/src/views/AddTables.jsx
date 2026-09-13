@@ -16,7 +16,7 @@ const AddTables = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post("https://lunu-mirisa.vercel.app/createTable", { quantity, price, tableNum })
+    axios.post("http://localhost:3000/createTable", { quantity, price, tableNum })
         .then(result => {
             console.log(result);
             navigate('/Updatetable');

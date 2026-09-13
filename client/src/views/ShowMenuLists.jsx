@@ -38,7 +38,7 @@ const ShowMenuLists = () => {
   }, []);
 
   const fetchMenuItems = () => {
-    axios.get("https://lunu-mirisa.vercel.app/ShowMenuList")
+    axios.get("http://localhost:3000/ShowMenuList")
       .then(response => {
         setMenuItems(response.data);
         setFilteredItems(response.data);
@@ -52,7 +52,7 @@ const ShowMenuLists = () => {
   };
 
   const fetchTopThreeItems = () => {
-    axios.get("https://lunu-mirisa.vercel.app/topThreeItemIds")
+    axios.get("http://localhost:3000/topThreeItemIds")
       .then(response => {
         setTopThreeItems(response.data);
         console.log("Top three items: ", response.data);  // Correctly logging the top three items
@@ -64,7 +64,7 @@ const ShowMenuLists = () => {
     const scrollPosition = window.scrollY;
     localStorage.setItem('scrollPosition', scrollPosition);
   
-    axios.post("https://lunu-mirisa.vercel.app/Addtocarts", {
+    axios.post("http://localhost:3000/Addtocarts", {
       userId:userId,
       itemId: item._id,
       category: item.category,
@@ -98,7 +98,7 @@ const ShowMenuLists = () => {
     const scrollPosition = window.scrollY;
     localStorage.setItem('scrollPosition', scrollPosition);
   
-    axios.post("https://lunu-mirisa.vercel.app/Addtocarts", {
+    axios.post("http://localhost:3000/Addtocarts", {
       userId:userId,
       itemId: item.itemId,
       category: item.category,
@@ -339,7 +339,7 @@ const ItemCard = ({ item, onAddToCart }) => (
   <div className="bg-custom-gray p-6 rounded-lg shadow-md w-full max-w-xs transition-transform duration-300 hover:shadow-[0_0_10px_rgba(255,255,255,0.6)]  hover:scale-105 relative">
     <div className="relative">
       <img 
-        src={`https://lunu-mirisa.vercel.app/Images/` + item.image} 
+        src={`http://localhost:3000/Images/` + item.image} 
         alt={item.name} 
         className="w-full h-48 bg-cover mx-auto bg-center mt-5"
       />
@@ -391,7 +391,7 @@ const TopThreeItemCard = ({ item, onAddToCart }) => (
 
     <div className="relative">
         <img 
-          src={`https://lunu-mirisa.vercel.app/Images/` + item.image} 
+          src={`http://localhost:3000/Images/` + item.image} 
           alt={item.name} 
           className="w-52 h-48 bg-cover mx-auto bg-center mt-5"
         />

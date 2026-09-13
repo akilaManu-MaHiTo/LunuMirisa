@@ -18,7 +18,7 @@ const UserReviews = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        axios.get(`https://lunu-mirisa.vercel.app/GetAllReviewsbyId/${userId}`)
+        axios.get(`http://localhost:3000/GetAllReviewsbyId/${userId}`)
             .then((response) => {
                 setReviews(response.data);
             })
@@ -29,7 +29,7 @@ const UserReviews = () => {
     }, [userId]);
 
     useEffect(() => {
-        axios.get(`https://lunu-mirisa.vercel.app/ShowProfilePic/${userId}`)
+        axios.get(`http://localhost:3000/ShowProfilePic/${userId}`)
             .then(response => {
                 setProfile(response.data);
             })
@@ -65,7 +65,7 @@ const UserReviews = () => {
                 review: reviewToUpdate.review
             };
 
-            axios.put(`https://lunu-mirisa.vercel.app/updateReview/${reviewToUpdate._id}`, updatedFields)
+            axios.put(`http://localhost:3000/updateReview/${reviewToUpdate._id}`, updatedFields)
                 .then((response) => {
                     toast.success('Review updated successfully!', { autoClose: 2000 });
                     console.log('Review updated:', response.data);
@@ -78,7 +78,7 @@ const UserReviews = () => {
     };
 
     const handleDelete = (reviewId) => {
-        axios.delete(`https://lunu-mirisa.vercel.app/deleteReview/${reviewId}`)
+        axios.delete(`http://localhost:3000/deleteReview/${reviewId}`)
             .then((response) => {
                 toast.success('Review deleted successfully!', { autoClose: 2000 });
                 setReviews((prevReviews) => prevReviews.filter((review) => review._id !== reviewId));
@@ -115,7 +115,7 @@ const UserReviews = () => {
                             <div className="flex items-center">
                                 {profile && profile.image && (
                                     <img
-                                        src={`https://lunu-mirisa.vercel.app/Images/${profile.image}`}
+                                        src={`http://localhost:3000/Images/${profile.image}`}
                                         alt={`${review.FirstName} ${review.LastName}`}
                                         className="w-12 h-12 rounded-full mr-4"
                                     />

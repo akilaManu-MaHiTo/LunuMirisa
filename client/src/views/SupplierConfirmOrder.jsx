@@ -24,7 +24,7 @@ function SupplierConfirmOrder() {
   const today = new Date().toISOString().split('T')[0];
 
   useEffect(() => {
-    axios.get(`https://lunu-mirisa.vercel.app/order/${orderId}`)
+    axios.get(`http://localhost:3000/order/${orderId}`)
       .then(res => {
         setOrderData(res.data);
         setUnitPrice(res.data.unitPrice || 0); 
@@ -78,7 +78,7 @@ function SupplierConfirmOrder() {
       image: image,
     };
 
-    axios.post('https://lunu-mirisa.vercel.app/AddSupplierOrder', confirmationData)
+    axios.post('http://localhost:3000/AddSupplierOrder', confirmationData)
       .then(response => {
         setSuccessMessage('Order confirmed successfully!');
         setErrorMessage('');
@@ -93,7 +93,7 @@ function SupplierConfirmOrder() {
 
         // Update order quantity after confirming
         const updateQuantity = orderData.orderQuantity - quantity;
-        axios.put(`https://lunu-mirisa.vercel.app/UpdateOrderInventory/${orderId}`, { orderQuantity: updateQuantity })
+        axios.put(`http://localhost:3000/UpdateOrderInventory/${orderId}`, { orderQuantity: updateQuantity })
           .then(() => console.log('Order quantity updated successfully'))
           .catch(err => console.error('Error updating order quantity:', err));
       })
@@ -120,7 +120,7 @@ function SupplierConfirmOrder() {
           <div className="bg-white rounded-lg shadow-lg p-10 w-full max-w-3xl mx-auto">
             <div className='flex'>
               <div>
-                <img src={`https://lunu-mirisa.vercel.app/Images/${image}`} alt="" className='w-44 h-44'/>
+                <img src={`http://localhost:3000/Images/${image}`} alt="" className='w-44 h-44'/>
               </div>
               <div className='ml-10'>
                 <h2 className="text-2xl font-semibold text-gray-700 mb-6">Order Details</h2>
