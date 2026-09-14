@@ -1,10 +1,16 @@
 const mongoose = require('mongoose');
 
-// Use environment variable for database URL (don't hardcode credentials)
-const URL = process.env.MONGO_URI || 'mongodb+srv://akilamanujith_db_user:akilamanu@cluster0.chwffhr.mongodb.net/?appName=Cluster0';
+// Fail-fast if MONGO_URI is not configured - prevents accidental fallback to hardcoded creds (OWASP A01/A02)
+const URL = process.env.MONGO_URI;
+if (!URL) {
+    console.error('FATAL: MONGO_URI is not set. Set it in server/.env (see .env.example)');
+}
 
 // Export connection function
 module.exports = () => {
+    if (!URL) {
+        return Promise.reject(new Error('MONGO_URI not configured - aborting DB connection'));
+    }
     return mongoose.connect(URL, { 
         useNewUrlParser: true, 
         useUnifiedTopology: true 

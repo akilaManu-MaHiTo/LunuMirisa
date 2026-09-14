@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -31,13 +32,19 @@ const Leave = require('./controllers/leaveRoutes');
 const app = express();
 
 // Middleware
-// app.use(cors());
+const allowedOrigins = (process.env.CLIENT_URL || process.env.BASE_URL || 'http://localhost:5173').split(',').map(s => s.trim()).filter(Boolean);
 app.use(cors({
-    origin: "*",
+    origin: (origin, cb) => {
+        // Allow non-browser requests (no origin) and whitelisted origins
+        if (!origin || allowedOrigins.includes(origin) || allowedOrigins.includes('*')) {
+            return cb(null, true);
+        }
+        return cb(new Error(`CORS blocked for origin: ${origin}`));
+    },
     methods: ["POST", "GET", "PUT", "DELETE"],
     credentials: true
 }));
-app.use(express.json());
+app.use(express.json({ limit: '100kb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
