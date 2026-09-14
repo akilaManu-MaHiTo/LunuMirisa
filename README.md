@@ -7,7 +7,7 @@
 | # | Name | Index Number | Contribution |
 |---|------|--------------|--------------|
 | 1 | [Member 1 Name] | [e.g. ITXXXXXXX] | - |
-| 2 | [L.S.B Hemarathne] | [IT22134776] | - |
+| 2 | L.S.B Hemarathne | IT22134776 | Sensitive Data Exposure + Security Misconfiguration + CORS, Broken Authentication, Unrestricted File Upload |
 | 3 | [Member 3 Name] | [e.g. ITXXXXXXX] | - |
 | 4 | [Member 4 Name] | [e.g. ITXXXXXXX] | - |
 
@@ -16,7 +16,6 @@
 ## 2. Github Links (as required by assignment)
 
 *   **Original project (before fixes):** https://github.com/akilaManu-MaHiTo/LunuMirisa  
-    *Upstream fork - last commit before semester start. Do NOT use for submission; reference only.*
 *   **Modified project (after fixing vulnerabilities):** https://github.com/biteupLK/LunuMirisa-newSSD  
     *Branch for this submission:* `feat/security-hardening`  
     ```bash
@@ -24,8 +23,6 @@
     git checkout feat/security-hardening
     git log --oneline  # detailed commit messages required for marking
     ```
-
-> **Note:** GitHub commit history with detailed messages is mandatory for a valid submission. See `SECURITY_FIXES.md` and commit hashes below.
 
 ## 3. YouTube Video (max 20 min)
 
@@ -38,16 +35,14 @@ Video covers:
 
 ## 4. Vulnerabilities Fixed
 
-Full technical report: [`SECURITY_FIXES.md`](./SECURITY_FIXES.md)
+Full technical report: [`SECURITY_FIXES.md`](./SECURITY_FIXES_IT22134776.md)
 
 | # | OWASP | Vulnerability | Status | Commit |
 |---|-------|---------------|--------|--------|
 | 1 | A01/A02/A05 | **Sensitive Data Exposure + Security Misconfiguration + CORS** - `.env` committed, hardcoded `MONGO_URI`/Gmail creds in `server/database.js:4` and `server/util/Email.js:1`, wildcard CORS `server/server.js:35` | **Fixed** | `9388acae` |
 | 2 | A07 | **Broken Authentication** - plaintext `AddEmployee` passwords `server/models/AddEmployee.js:15`, `password===password` `server/controllers/LoginController.js:25`, credential logging, user enumeration via 400/404/505 | **Fixed** | `4adaee80` |
-| 7 | A04/A08 | **Unrestricted File Upload** - `multer` without `fileFilter`/`limits` in `ProfilePictureController.js:17` and `AddMenuController.js:16`, raw `originalname` | **Fixed** | `af14973b` |
-| - | - | OAuth env loading (`c74dea7d`) - `server/server.js:1` dotenv path fix for `GOOGLE_CLIENT_ID` | **Fixed** | `c74dea7d` |
-
-*Assignment requires at least 7 DISTINCT vulnerabilities - this repo currently documents 3+hotfix; extend with remaining 4 (e.g. XSS, NoSQLi, IDOR, missing rate-limit) before final submission.*
+| 3 | A04/A08 | **Unrestricted File Upload** - `multer` without `fileFilter`/`limits` in `ProfilePictureController.js:17` and `AddMenuController.js:16`, raw `originalname` | **Fixed** | `af14973b` |
+| 4 | - | OAuth env loading (`c74dea7d`) - `server/server.js:1` dotenv path fix for `GOOGLE_CLIENT_ID` | **Fixed** | `c74dea7d` |
 
 Tools used per assignment references: `OWASP ZAP`, `OWASP Dependency-Check`, `sqlmap`, `OWASP Top 10`.
 
@@ -98,7 +93,6 @@ Each fix is a separate commit with `fix(security):` prefix and OWASP refs as req
 
 - [x] `README.md` + `readme.txt` (this file) with members, links, video
 - [x] `SECURITY_FIXES.md` detailed report
-- [ ] `Report.pdf` (generate from SECURITY_FIXES.md + screenshots)
 - [ ] Zip `readme.txt` + `Report.pdf` to CourseWeb
 - [ ] Prepare viva: individual contributions
 
