@@ -3,35 +3,66 @@ const router = express.Router();
 const Menu = require('../models/Menu');
 const multer = require('multer');
 const path = require('path');
+const crypto = require('crypto');
+const fs = require('fs');
+
+const ALLOWED_MIME = new Set(['image/jpeg', 'image/png', 'image/jpg', 'image/webp']);
+const ALLOWED_EXT = new Set(['.jpg', '.jpeg', '.png', '.webp']);
+const MAX_SIZE = 2 * 1024 * 1024;
+
+const uploadDir = path.join(__dirname, '..', 'public', 'Images');
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+}
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'public/Images'); // Ensure this directory exists
+        cb(null, uploadDir);
     },
     filename: (req, file, cb) => {
-        cb(null, file.fieldname + "_" + Date.now() + path.extname(file.originalname));
+        const ext = path.extname(file.originalname).toLowerCase();
+        const safeExt = ALLOWED_EXT.has(ext) ? ext : '.jpg';
+        const safeName = `${file.fieldname}_${Date.now()}_${crypto.randomBytes(8).toString('hex')}${safeExt}`;
+        cb(null, safeName);
     }
 });
 
-const upload = multer({ storage: storage });
+function fileFilter(req, file, cb) {
+    const ext = path.extname(file.originalname).toLowerCase();
+    if (!ALLOWED_MIME.has(file.mimetype) || !ALLOWED_EXT.has(ext)) {
+        return cb(new Error('Only image files (jpg, jpeg, png, webp) are allowed'), false);
+    }
+    cb(null, true);
+}
 
-router.post("/createAddMenuList", upload.single('image'), async (req, res) => {
+const upload = multer({ storage, limits: { fileSize: MAX_SIZE }, fileFilter });
+
+router.post("/createAddMenuList", (req, res, next) => {
+    upload.single('image')(req, res, (err) => {
+        if (err) {
+            if (err.code === 'LIMIT_FILE_SIZE') {
+                return res.status(400).json({ message: 'Image too large (max 2MB)' });
+            }
+            return res.status(400).json({ message: err.message });
+        }
+        next();
+    });
+}, async (req, res) => {
     const { title, price, category, description } = req.body;
-    const image = req.file ? req.file.filename : null; // Get the image filename
+    if (!req.file) {
+        return res.status(400).json({ message: 'Image file is required (jpg, jpeg, png, webp, max 2MB)' });
+    }
+    const image = req.file.filename;
 
     try {
-        // Check if a menu item with the same title already exists
-        const existingMenuItem = await Menu.findOne({ title }); // Corrected the query structure
-        
+        const existingMenuItem = await Menu.findOne({ title });
         if (existingMenuItem) {
             return res.status(400).json({ message: "Item with this title already exists." });
         }
-
-        // Create a new menu item
         const menuItem = await Menu.create({ title, price, image, category, description });
         return res.json(menuItem);
     } catch (err) {
-        console.error("Error creating menu item:", err); // Log the error for debugging
+        console.error("Error creating menu item:", err.message);
         return res.status(500).json({ message: "Server error while creating menu item" });
     }
 });
