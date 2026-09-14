@@ -35,7 +35,7 @@ Video covers:
 
 ## 4. Vulnerabilities Fixed
 
-Full technical report: [`SECURITY_FIXES.md`](./SECURITY_FIXES_IT22134776.md)
+Full technical report: [`SECURITY_FIXES.md`](./SECURITY_FIXES.md)
 
 | # | OWASP | Vulnerability | Status | Commit |
 |---|-------|---------------|--------|--------|
