@@ -7,7 +7,7 @@
 | # | Name | Index Number | Contribution |
 |---|------|--------------|--------------|
 | 1 | [Member 1 Name] | [e.g. ITXXXXXXX] | - |
-| 2 | [Member 2 Name] | [e.g. ITXXXXXXX] | - |
+| 2 | [L.S.B Hemarathne] | [IT22134776] | - |
 | 3 | [Member 3 Name] | [e.g. ITXXXXXXX] | - |
 | 4 | [Member 4 Name] | [e.g. ITXXXXXXX] | - |
 
