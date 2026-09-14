@@ -2,7 +2,6 @@
 
 **Branch:** `feat/security-hardening`  
 **App:** LunuMirisa-newSSD (MERN - `client/` Vite+React, `server/` Express+Mongoose)  
-**Fixes covered:** 1, 2, 7 (distinct OWASP Top 10 2021) + OAuth hotfix  
 **Date:** 2026-05-11
 
 ---
@@ -318,11 +317,4 @@ git push origin feat/security-hardening
 ```
 
 ---
-
-## Recommendations for remaining assignment
-
-- Apply same pattern to remaining OWASP items (helmet, rate-limit, `express-mongo-sanitize`, `xss-clean`, input validation with `joi`).
-- Enable `protect` middleware on all `/updateUser`, `/allUsers`, etc.
-- Record ZAP scan before/after screenshots and `npm audit` diff for report PDF.
-- Record YouTube demo showing enumeration blocked and upload rejection.
 
