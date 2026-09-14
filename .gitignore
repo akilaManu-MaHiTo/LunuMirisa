@@ -11,8 +11,6 @@ client/.env
 !.env.example
 !*.env.example
 
-# Security documentation - kept tracked (do NOT ignore)
-!SECURITY_FIXES.md
 
 # OS / temp
 config.bat
