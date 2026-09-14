@@ -13,7 +13,7 @@
 
 > Replace placeholders above before submission. Individual contribution will be assessed in viva.
 
-## 2. Github Links (as required by assignment)
+## 2. Github Links
 
 *   **Original project (before fixes):** https://github.com/akilaManu-MaHiTo/LunuMirisa  
 *   **Modified project (after fixing vulnerabilities):** https://github.com/biteupLK/LunuMirisa-newSSD  
