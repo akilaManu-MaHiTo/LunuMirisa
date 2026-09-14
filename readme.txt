@@ -4,7 +4,7 @@ LunuMirisa-newSSD
 Member names and index numbers:
 1. [Member 1 Name] - [ITXXXXXXX]
 2. [L.S.B Hemarathne] - [IT22134776]
-3. [Member 3 Name] - [ITXXXXXXX]
+3. [Member 3 Name] - [IT22557056]
 4. [Member 4 Name] - [ITXXXXXXX]
 
 Github link to the original project:
