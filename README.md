@@ -104,4 +104,3 @@ Each fix is a separate commit with `fix(security):` prefix and OWASP refs as req
 4. https://owasp.org/www-project-java-encoder/
 
 ---
-*This README satisfies SE4030 deliverable 1. Replace placeholders and generate PDF before final upload.*
