@@ -1,15 +1,18 @@
 const express = require('express');
+const bcrypt = require('bcryptjs');
 const router = express.Router();
 const AddEmployeeModel = require('../models/AddEmployee'); 
 
-// Route to add employee
+// Route to add employee - password hashing handled by model pre-save hook
 router.post('/addemployee', async (req, res) => {
     try {
         const newEmployee = new AddEmployeeModel(req.body);
         const savedEmployee = await newEmployee.save();
-        res.status(201).json(savedEmployee);
+        const safe = savedEmployee.toObject();
+        delete safe.password;
+        res.status(201).json(safe);
     } catch (error) {
-        res.status(500).json({ message: 'Error adding employee', error });
+        res.status(500).json({ message: 'Error adding employee', error: error.message });
     }
 });
 
@@ -39,21 +42,28 @@ router.get('/employee/:userId', async (req, res) => {
 });
 
 
-// Update an employee
+// Update an employee - handle password hashing on update (findByIdAndUpdate bypasses pre-save)
 router.put('/employee/:id', async (req, res) => {
     try {
+        const update = { ...req.body };
+        if (update.password && !(update.password.startsWith('$2a$') || update.password.startsWith('$2b$'))) {
+            const saltRounds = Number(process.env.SALT) || 10;
+            update.password = await bcrypt.hash(update.password, saltRounds);
+        }
         const updatedEmployee = await AddEmployeeModel.findByIdAndUpdate(
             req.params.id, 
-            req.body, 
+            update, 
             { new: true }  // Return the updated document
         );
         if (updatedEmployee) {
-            res.status(200).json(updatedEmployee);
+            const safe = updatedEmployee.toObject();
+            delete safe.password;
+            res.status(200).json(safe);
         } else {
             res.status(404).json({ message: 'Employee not found' });
         }
     } catch (error) {
-        res.status(500).json({ message: 'Error updating employee', error });
+        res.status(500).json({ message: 'Error updating employee', error: error.message });
     }
 });
 

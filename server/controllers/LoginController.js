@@ -13,72 +13,81 @@ const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 router.post('/loginUser', async (req, res) => {
   const { email, password } = req.body;
 
-  console.log('Login attempt:', { email, password });
+  if (!email || !password) {
+    return res.status(400).json({ message: 'Email and password are required' });
+  }
 
   try {
     // Check if AddEmployee exists using EmployeeEmail
     const addEmployee = await AddEmployee.findOne({ EmployeeEmail: email });
     if (addEmployee) {
-      console.log('AddEmployee found:', addEmployee);
+      let isMatch = false;
+      const stored = addEmployee.password || '';
+      const isHashed = stored.startsWith('$2a$') || stored.startsWith('$2b$');
+      if (isHashed) {
+        isMatch = await bcrypt.compare(password, stored);
+      } else {
+        // Legacy plaintext accounts: compare directly then migrate to hash
+        isMatch = stored === password;
+        if (isMatch) {
+          const saltRounds = Number(process.env.SALT) || 10;
+          addEmployee.password = await bcrypt.hash(password, saltRounds);
+          await addEmployee.save();
+        }
+      }
 
-      // Direct string comparison for AddEmployee
-      if (addEmployee.password === password) {
+      if (isMatch) {
         const statusCode = {
           'Manager': 201,
           'Waiter': 202,
           'Chef': 203
         }[addEmployee.EmployeePosition] || 204;
 
-        console.log('AddEmployee login successful:', addEmployee);
-        return res.status(statusCode).json({ message: 'Login successful', user: addEmployee, userId: addEmployee._id });
+        // Return minimal safe payload without password hash
+        const safeEmployee = addEmployee.toObject();
+        delete safeEmployee.password;
+        return res.status(statusCode).json({ message: 'Login successful', user: safeEmployee, userId: safeEmployee._id });
       } else {
-        console.log('Invalid credentials for AddEmployee');
-        return res.status(400).json({ message: 'Invalid credentials' });
+        // Generic message to prevent user enumeration/timing oracle
+        return res.status(401).json({ message: 'Invalid email or password' });
       }
     }
 
     // Check if user exists
     const user = await UserModel.findOne({ email });
     if (user) {
-      console.log('User found:', user);
-
-      // Use bcrypt to compare the password for users
       const isMatch = await bcrypt.compare(password, user.password);
       if (isMatch) {
         if (user.verified === true) {
-          console.log('User login successful:', user);
-          return res.status(200).json({ message: 'Login successful', user, userId: user._id });
+          const safeUser = user.toObject();
+          delete safeUser.password;
+          return res.status(200).json({ message: 'Login successful', user: safeUser, userId: safeUser._id });
         } else {
-          console.log('User not verified:', user);
-          return res.status(505).json({ message: 'User not verified' });
+          // Do not reveal 'not verified' distinctly via different status; use 401 with generic message
+          return res.status(401).json({ message: 'Account not verified. Please verify your email.' });
         }
       } else {
-        console.log('Invalid credentials for user');
-        return res.status(400).json({ message: 'Invalid credentials' });
+        return res.status(401).json({ message: 'Invalid email or password' });
       }
     }
 
     // Check if supplier exists
     const supplier = await SupplierProfile.findOne({ email });
     if (supplier) {
-      console.log('Supplier found:', supplier);
-
-      // Use bcrypt to compare the password for suppliers
       const isMatch = await bcrypt.compare(password, supplier.password);
       if (isMatch) {
-        console.log('Supplier ID:', supplier._id); // Debugging log
-
-        return res.status(206).json({ message: 'Login successful', user: supplier, SupplierId: supplier._id });
+        const safeSupplier = supplier.toObject();
+        delete safeSupplier.password;
+        return res.status(206).json({ message: 'Login successful', user: safeSupplier, SupplierId: safeSupplier._id });
       } else {
-        console.log('Invalid credentials for supplier');
-        return res.status(400).json({ message: 'Invalid credentials' });
+        return res.status(401).json({ message: 'Invalid email or password' });
       }
     }
 
-    // If no user, addEmployee, or supplier found
-    return res.status(404).json({ message: 'User not found' });
+    // Generic not-found to prevent enumeration
+    return res.status(401).json({ message: 'Invalid email or password' });
   } catch (error) {
-    console.error('Error during login:', error);
+    console.error('Error during login:', error.message);
     res.status(500).json({ message: 'Server error' });
   }
 });
