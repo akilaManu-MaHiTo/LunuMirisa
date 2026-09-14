@@ -43,7 +43,8 @@ Full technical report: [`SECURITY_FIXES_IT22134776.md`](./SECURITY_FIXES_IT22134
 | 2 | A07 | **Broken Authentication** - plaintext `AddEmployee` passwords `server/models/AddEmployee.js:15`, `password===password` `server/controllers/LoginController.js:25`, credential logging, user enumeration via 400/404/505 | **Fixed** | `4adaee80` |
 | 3 | A04/A08 | **Unrestricted File Upload** - `multer` without `fileFilter`/`limits` in `ProfilePictureController.js:17` and `AddMenuController.js:16`, raw `originalname` | **Fixed** | `af14973b` |
 | 4 | - | OAuth env loading (`c74dea7d`) - `server/server.js:1` dotenv path fix for `GOOGLE_CLIENT_ID` | **Fixed** | `c74dea7d` |
-| 5 | A01/A07 | **Broken Access Control and Authentication in cart operations** - cart endpoints accepted client-supplied user IDs and lacked consistent authentication; user identity was not resolved from a verified token | **Fixed** | `92ab0199`, `a27d265c` |
+| 5 | A01 | **Broken Access Control in cart operations** - cart endpoints accepted client-supplied user IDs, allowing users to access or modify cart data without reliable ownership checks | **Fixed** | `92ab0199` |
+| 6 | A07 | **Authentication and user identity verification** - cart routes lacked consistent authentication and did not resolve the application user from a verified Google token; unused client-side user-fetching logic was also removed | **Fixed** | `92ab0199`, `a27d265c` |
 
 Tools used per assignment references: `OWASP ZAP`, `OWASP Dependency-Check`, `sqlmap`, `OWASP Top 10`.
 
